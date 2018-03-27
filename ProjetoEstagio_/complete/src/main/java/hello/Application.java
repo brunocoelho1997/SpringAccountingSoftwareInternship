@@ -27,7 +27,7 @@ public class Application{
         ReloadableResourceBundleMessageSource msgSrc = new ReloadableResourceBundleMessageSource();
         msgSrc.setDefaultEncoding("UTF-8");
         //diretorio de onde as mensagens estarao
-        msgSrc.setBasename("classpath:i18n/messages");
+        msgSrc.setBasename("classpath:/messages");
         return msgSrc;
     }
 }
