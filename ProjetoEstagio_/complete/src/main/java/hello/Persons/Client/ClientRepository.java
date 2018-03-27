@@ -1,4 +1,4 @@
-package hello.Persons;
+package hello.Persons.Client;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
