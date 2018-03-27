@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+    <!-- Navigation -->
+    <nav th:fragment="navbar" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="home.html">
+                <img src="../../static/img/logo.png">
+            </a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="config_user.html"><i class="fa fa-gear fa-fw"></i> Definições</a></li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+
+                    <li>
+                        <a href="home.html"><i class="fa fa-dashboard fa-fw"></i> Home </a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="glyphicon-plus"></i>  Receitas</a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="receitas_projetos.html">Projetos</a>
+                            </li>
+                            <li>
+                                <a href="receitas_vendas.html">Vendas</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="glyphicon-minus  "></i>  Despesas<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="despesas_gerais.html">Geral</a>
+                            </li>
+                            <li>
+                                <a href="despesas_funcionarios.html">Funcionários / Folha</a>
+                            </li>
+                            <li>
+                                <a href="despesas_fornecedores.html">Fornecedores</a>
+                            </li>
+                            <li>
+                                <a href="despesas_projetos.html">Projetos</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Previsões<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="previsoes_despesas.html">Despesas Previstas</a>
+                            </li>
+                            <li>
+                                <a href="previsoes_receitas.html">Entradas Monetárias</a>
+                            </li>
+                            <li>
+                                <a href="previsoes_resumo.html">Resumo</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="projetos.html"><i class="glyphicon glyphicon-briefcase"></i>   Projetos</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-group"></i>   Entidades<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="funcionarios.html">Funcionários</a>
+                            </li>
+                            <li>
+                                <a href="fornecedores.html">Fornecedores</a>
+                            </li>
+                            <li>
+                                <a href="clientes.html">Clientes</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="glyphicon glyphicon-wrench"></i> Configurações<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="flot.html">Permissões</a>
+                            </li>
+                            <li>
+                                <a href="config_tipos.html">Gerir Tipos</a>
+                            </li>
+                            <li>
+                                <a href="utilizadores.html">Gerir Utilizadores</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <!--
+
+        ISTO E O QUE faz diminuir as cenas do menu! Sem isto o menu fica todo "open"
+
+    ->
+    <!-- Custom Theme JavaScript -->
+    <script src="../../static/assets/dist/js/sb-admin-2.js"></script>
+</html>
