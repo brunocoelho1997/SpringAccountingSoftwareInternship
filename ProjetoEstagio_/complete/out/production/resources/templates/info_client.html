@@ -83,6 +83,12 @@
                                 <span th:text="#{Person.NumberPhone}" th:remove="tag">title</span>:
                                 <label th:text="${client.getNumberPhone()}"/></span>
                             </div>
+
+                            <div align="right">
+                                <a th:href="@{/client/}">
+                                    <input class="btn btn-default" th:value="#{System.Back}" />
+                                </a>
+                            </div>
                         </div>
                         <!-- /.panel-body -->
                     </div>

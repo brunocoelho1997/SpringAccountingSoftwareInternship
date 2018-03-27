@@ -64,13 +64,6 @@
                     <div class="panel-body">
                         <form th:action="@{/client/add_submit}" th:object="${client}" method="post">
                             <div class="form-horizontal">
-
-                                <!-- ver:
-                                https://stackoverflow.com/questions/22948257/thymeleaf-not-displaying-spring-form-error-messages
-                                -->
-                                <div th:if="${#fields.hasErrors('*')}">errors</div>
-
-
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Person.Name}"></label>
                                     <div class="col-sm-6">

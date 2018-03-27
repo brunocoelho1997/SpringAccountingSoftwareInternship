@@ -58,16 +58,25 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" th:text="#{Person.Client.Add}"> Adicionar Cliente
+                    <div class="panel-heading" th:text="#{Person.Client.Edit}"> Adicionar Cliente
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <form th:action="@{/client/add_submit}" th:object="${client}" method="post">
+                        <form th:action="@{/client/edit_submit}" th:object="${client}" method="post">
+                            <input class="form-control" th:field="*{id}" th:value="${client.getId()}" type="hidden">
+
                             <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Entity.Uuid}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{uuid}" th:value="${client.getUuid()}" disabled>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Person.Name}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{name}">
+                                        <input class="form-control" th:field="*{name}" th:value="${client.getName()}">
                                         <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -75,7 +84,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3" th:text="#{Person.Adress}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{adress}">
+                                        <input class="form-control" th:field="*{adress}" th:value="${client.getAdress()}">
                                         <td th:if="${#fields.hasErrors('adress')}" th:errors="*{adress}">Adress Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -83,7 +92,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3" th:text="#{Person.Email}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{email}">
+                                        <input class="form-control" th:field="*{email}" th:value="${client.getEmail()}">
                                         <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -91,14 +100,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3" th:text="#{Person.NumberPhone}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{numberPhone}">
+                                        <input class="form-control" th:field="*{numberPhone}" th:value="${client.getNumberPhone()}">
                                         <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group" align="right">
-                                    <input type="submit"  class="btn btn-default" th:value="#{Person.Client.Add}" />
-                                    <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
+                                    <input type="submit"  class="btn btn-default" th:value="#{Person.Client.Edit}" />
                                     <a th:href="@{/client/}">
                                         <input class="btn btn-default" th:value="#{System.Back}" />
                                     </a>

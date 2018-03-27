@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.persistence.EntityManagerFactory;
 import javax.validation.Valid;
 
 @Controller
@@ -35,7 +36,7 @@ public class ClientController implements WebMvcConfigurer {
 
 
     @PostMapping("/add_submit")
-    public String greetingSubmit(@Valid Client client, BindingResult bindingResult) {
+    public String addSubmit(@Valid Client client, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "add_client";
@@ -55,4 +56,32 @@ public class ClientController implements WebMvcConfigurer {
         return "info_client";
     }
 
+    @RequestMapping("/editclient")
+    public String editClient(@RequestParam("id") Long id, Model model) {
+
+        Client c = clientRepository.getOne(id);
+
+        model.addAttribute("client", c);
+        return "edit_client";
+    }
+
+    @PostMapping("/edit_submit")
+    public String editSubmit(@Valid Client client, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "edit_client";
+        }
+
+        //EntityManagerFactory xptop;
+
+        Client c = clientRepository.getOne(client.getId());
+        c.setEmail(client.getEmail());
+        c.setName(client.getName());
+        c.setAdress(client.getAdress());
+        c.setNumberPhone(client.getNumberPhone());
+
+        clientRepository.save(c);
+
+        return "redirect:/client/";
+    }
 }

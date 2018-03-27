@@ -101,7 +101,7 @@
                                 <td href="#" th:text="${c.email}"></td>
                                 <td class="center">
                                     <a class="btn btn-default pull-right" data-toggle="modal" data-target="#removeModal"><i class="glyphicon glyphicon-remove"></i></a>
-                                    <a class="btn btn-default pull-right" data-toggle="modal" data-target="#editModal"><i class="fa fa-gear fa-fw"></i></a>
+                                    <a class="btn btn-default pull-right" th:href="@{/client/editclient(id=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                     <a class="btn btn-default pull-right" th:href="@{/client/infoclient(id=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                 </td>
                             </tr>
