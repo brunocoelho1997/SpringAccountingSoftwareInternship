@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(path="/client")
@@ -97,4 +99,26 @@ public class ClientController implements WebMvcConfigurer {
 
         return "redirect:/client/";
     }
+
+    @GetMapping("/search_submit")
+    public String searchSubmit(@RequestParam(name="value_filter", required=false) String value, Model model) {
+
+        List<Client> clientList;
+
+        if(value.isEmpty()){
+            model.addAttribute("listClients", clientRepository.findAll());
+            return "Client/clients_index";
+        }
+
+        clientList = clientRepository.findByNameContaining(value);
+        if(!clientList.isEmpty()){
+            model.addAttribute("listClients", clientList);
+            return "Client/clients_index";
+        }
+
+        clientList = clientRepository.findByEmail(value);
+        model.addAttribute("listClients", clientList);
+        return "Client/clients_index";
+    }
+
 }

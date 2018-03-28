@@ -58,11 +58,13 @@
         <div class = "container-fluid">
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" th:text="#{Filter.Search}"></span>
-                        <input id="msg" type="text" class="form-control" name="msg" th:placeholder="#{Filter.Person.Search}">
-                        <span class="input-group-addon"><a href="#"><i class="glyphicon glyphicon-search"></i></a></span>
-                    </div>
+                    <form th:action="@{/client/search_submit}" method="get" id="form">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{Filter.Search}"></span>
+                            <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Person.Search}">
+                            <span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-sm-8"></div>
             </div>
