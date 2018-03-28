@@ -3,11 +3,9 @@ package hello.Transaction;
 import hello.Entity;
 import hello.Frequency;
 import hello.Genre;
+import hello.Type.Type;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -40,6 +38,11 @@ public class Transaction extends Entity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Genre genre;
+
+    @NotNull
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Type type;
 
     public String getName() {
         return name;
@@ -79,5 +82,13 @@ public class Transaction extends Entity {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

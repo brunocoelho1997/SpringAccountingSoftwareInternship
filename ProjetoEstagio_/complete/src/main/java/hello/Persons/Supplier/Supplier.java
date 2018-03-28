@@ -1,13 +1,13 @@
-package hello.Persons.Suplier;
+package hello.Persons.Supplier;
 
 import hello.Persons.Person;
 
 import javax.persistence.Entity;
 
 @Entity(name = "suplier")
-public class Suplier extends Person {
+public class Supplier extends Person {
 
-    public Suplier() {
+    public Supplier() {
     }
 
 }

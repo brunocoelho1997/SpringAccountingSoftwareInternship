@@ -10,7 +10,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@javax.persistence.Entity(name = "project")
+@javax.persistence.Entity(name="type")
 public class Type extends Entity {
 
 

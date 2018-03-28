@@ -33,6 +33,12 @@ public class Project extends Entity {
     @Column(nullable = false)
     private float balance;
 
+
+    /*
+        No DC nao esta' representado... mas a meu ver a ligacao de Projeto para ProjectTransaction devia ser bidirecional. O mesmo acontece parra EmployeeTransaction
+        o projeto tbm deve ter uma var de cliente. Falta a direcao da seta
+     */
+
     public String getName() {
         return name;
     }
