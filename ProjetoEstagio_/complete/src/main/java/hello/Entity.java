@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class MyEntity {
+public abstract class Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +26,7 @@ public abstract class MyEntity {
     )
     private UUID uuid;
 
-    public MyEntity() {
+    public Entity() {
         //ISTO NAO DEVE SER ASSIM....
         uuid = uuid.randomUUID();
     }

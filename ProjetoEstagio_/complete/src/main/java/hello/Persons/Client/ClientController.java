@@ -21,23 +21,22 @@ public class ClientController implements WebMvcConfigurer {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("listClients", clientRepository.findAll());
-        return "clients_index";
+        return "Client/clients_index";
     }
 
 
     @GetMapping("/add_client")
     public String addClient(Model model) {
         model.addAttribute("client", new Client());
-        return "add_client";
+        return "Client/add_client";
     }
-
 
 
     @PostMapping("/add_submit")
     public String addSubmit(@Valid Client client, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "add_client";
+            return "Client/add_client";
         }
 
         clientRepository.save(client);
@@ -51,7 +50,7 @@ public class ClientController implements WebMvcConfigurer {
         Client c = clientRepository.getOne(id);
 
         model.addAttribute("client", c);
-        return "info_client";
+        return "Client/info_client";
     }
 
     @RequestMapping("/editclient")
@@ -60,7 +59,7 @@ public class ClientController implements WebMvcConfigurer {
         Client c = clientRepository.getOne(id);
 
         model.addAttribute("client", c);
-        return "edit_client";
+        return "Client/edit_client";
     }
 
     @PostMapping("/edit_submit")

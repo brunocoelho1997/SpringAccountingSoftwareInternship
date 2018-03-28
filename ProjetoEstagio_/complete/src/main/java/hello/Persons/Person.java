@@ -1,6 +1,6 @@
 package hello.Persons;
 
-import hello.MyEntity;
+import hello.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -9,22 +9,27 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
-public class Person extends MyEntity {
+public class Person extends Entity {
 
-    @Column
+    public static final int MAX_NAME_LENGHT = 30;
+    public static final int MAX_ADRESS_LENGHT = 255;
+    public static final int MAX_EMAIL_LENGHT = 255;
+    public static final int MAX_NUMBERPHONE_LENGHT = 12;
+
     @NotNull
-    @Size(min=2, max = 30)
+    @Size(min=1, max = MAX_NAME_LENGHT)
+    @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
-    @Column
     @NotNull
     @Email
+    @Column(length = MAX_EMAIL_LENGHT)
     private String email;
 
-    @Column
+    @Column(length = MAX_ADRESS_LENGHT)
     private String adress;
 
-    @Column
+    @Column(length = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
 
     public String getName() {
