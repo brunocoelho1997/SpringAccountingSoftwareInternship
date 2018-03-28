@@ -62,6 +62,22 @@ public class ClientController implements WebMvcConfigurer {
         return "Client/edit_client";
     }
 
+    @RequestMapping("/removeclient")
+    public String removeClient(@RequestParam("id") Long id, Model model) {
+
+        Client c = clientRepository.getOne(id);
+
+        model.addAttribute("client", c);
+        return "Client/remove_client";
+    }
+    @RequestMapping("/removeclientid")
+    public String removeClientId(@RequestParam("id") Long id, Model model) {
+
+        Client c = clientRepository.getOne(id);
+        clientRepository.delete(c);
+        return "Client/clients_index";
+    }
+
     @PostMapping("/edit_submit")
     public String editSubmit(@Valid Client client, BindingResult bindingResult) {
 
