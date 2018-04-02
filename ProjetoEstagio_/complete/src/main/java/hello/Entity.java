@@ -15,22 +15,6 @@ public abstract class Entity {
     @Column(name = "id", updatable = false, nullable = false)
     protected Long id;
 
-
-    /*
-    isto nao esta' a funcionar! Esta' a mandar exception
-     */
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private UUID uuid;
-
-    public Entity() {
-        //ISTO NAO DEVE SER ASSIM....
-        uuid = uuid.randomUUID();
-    }
-
     public Long getId() {
         return id;
     }
@@ -39,11 +23,4 @@ public abstract class Entity {
         this.id = id;
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
 }

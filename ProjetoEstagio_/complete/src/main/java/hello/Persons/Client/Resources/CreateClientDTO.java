@@ -1,19 +1,21 @@
-package hello.Persons.Client;
+package hello.Persons.Client.Resources;
 
-import hello.Persons.Person;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "client")
-public class Client extends hello.Entity {
+public class CreateClientDTO {
+
 
     public static final int MAX_NAME_LENGHT = 30;
     public static final int MAX_REGISTRATIONCODE_LENGHT = 30;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
 
+
+    /*
+        The ID is the one who does not need to be valid
+     */
 
     @NotNull
     @Length(min=1, max = MAX_REGISTRATIONCODE_LENGHT)

@@ -67,13 +67,6 @@
 
                             <div class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Entity.Uuid}"></label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{uuid}" th:value="${client.getUuid()}" disabled>
-                                    </div>
-                                    <div class="col-sm-3"></div>
-                                </div>
-                                <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Person.Name}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{name}" th:value="${client.getName()}">

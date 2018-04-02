@@ -11,7 +11,7 @@ public class SupplierTransaction extends Transaction {
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_SupplierTransaction_Supplier"), nullable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Supplier supplier;
 
     public SupplierTransaction() {

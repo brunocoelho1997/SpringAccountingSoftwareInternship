@@ -1,6 +1,7 @@
 package hello.Persons;
 
 import hello.Entity;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -17,11 +18,10 @@ public class Person extends Entity {
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
 
     @NotNull
-    @Size(min=1, max = MAX_NAME_LENGHT)
+    @Length(min=1, max = MAX_NAME_LENGHT)
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
-    @NotNull
     @Email
     @Column(length = MAX_EMAIL_LENGHT)
     private String email;

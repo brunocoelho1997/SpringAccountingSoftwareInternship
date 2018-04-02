@@ -11,7 +11,7 @@ public class CompanyTransaction extends Transaction {
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_CompanyTransaction_Company"), nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Company company;
 
     public CompanyTransaction() {
