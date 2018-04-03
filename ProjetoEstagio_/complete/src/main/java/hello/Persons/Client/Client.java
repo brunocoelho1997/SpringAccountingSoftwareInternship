@@ -3,9 +3,10 @@ package hello.Persons.Client;
 import hello.Persons.Person;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "client")
 public class Client extends hello.Entity {
@@ -26,8 +27,14 @@ public class Client extends hello.Entity {
     private String name;
 
     @NotNull
+    @Length(min=1, max = MAX_NUMBERPHONE_LENGHT)
     @Column(nullable = false, length = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
+
+    @NotNull
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_ContactPerson"), nullable = false)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<ContactPerson> contactPerson;
 
     public String getRegistrationCode() {
         return registrationCode;
@@ -51,5 +58,13 @@ public class Client extends hello.Entity {
 
     public void setNumberPhone(String numberPhone) {
         this.numberPhone = numberPhone;
+    }
+
+    public List<ContactPerson> getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(List<ContactPerson> contactPerson) {
+        this.contactPerson = contactPerson;
     }
 }

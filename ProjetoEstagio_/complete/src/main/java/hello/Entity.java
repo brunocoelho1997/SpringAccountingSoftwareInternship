@@ -13,7 +13,7 @@ public abstract class Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
-    protected Long id;
+    private Long id;
 
     public Long getId() {
         return id;

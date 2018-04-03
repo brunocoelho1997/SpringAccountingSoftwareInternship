@@ -1,4 +1,4 @@
-package hello.Persons.Client.Resources;
+package hello.Persons.Client.Resources.Input;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -28,6 +28,7 @@ public class CreateClientDTO {
     private String name;
 
     @NotNull
+    @Length(min=1, max = MAX_NAME_LENGHT)
     @Column(nullable = false, length = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
 

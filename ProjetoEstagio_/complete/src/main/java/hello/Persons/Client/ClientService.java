@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +20,15 @@ public class ClientService {
 
     public void addClient(Client client) {
 
+        ContactPerson temp = new ContactPerson();
+        temp.setName("Almerinda");
+        temp.setAdress("asdsad");
+        temp.setNumberPhone("123123");
+
+        if(client.getContactPerson() == null)
+            client.setContactPerson(new ArrayList<>());
+        client.getContactPerson().add(temp);
+        
         clientRepository.save(client);
     }
 

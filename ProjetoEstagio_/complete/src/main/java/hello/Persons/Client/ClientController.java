@@ -1,8 +1,11 @@
 package hello.Persons.Client;
 
 
-import hello.Persons.Client.Resources.CreateClientDTO;
+import hello.Persons.Client.Resources.Input.CreateClientDTO;
+import hello.Persons.Client.Resources.Output.InfoClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,12 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping(path="/client")
-public class ClientController implements WebMvcConfigurer {
+public class ClientController implements WebMvcConfigurer{
 
     @Autowired
     private ClientRepository clientRepository;
@@ -41,7 +42,7 @@ public class ClientController implements WebMvcConfigurer {
 
 
     @PostMapping("/add_submit")
-    public String addSubmit(@Valid CreateClientDTO clientDTO, BindingResult bindingResult) {
+    public String addSubmit(Model model, @Valid @ModelAttribute("clientDTO") CreateClientDTO clientDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "Client/add_client";
@@ -53,22 +54,23 @@ public class ClientController implements WebMvcConfigurer {
         return "redirect:/client/";
     }
 
-    private Client dtoToEntity(@Valid CreateClientDTO clientDTO) {
-        Client client = new Client();
-        client.setNumberPhone(clientDTO.getNumberPhone());
-        client.setName(clientDTO.getName());
-        client.setRegistrationCode(clientDTO.getRegistrationCode());
-        return client;
+    @RequestMapping("/infoclient")
+    public String infoClient(@RequestParam("id") Long id, Model model) {
+
+        Client c = clientService.getClient(id);
+
+        if(c == null)
+            return "Client/";
+        //convert entity to DTO
+        InfoClientDTO infoClientDTO = new InfoClientDTO();
+        infoClientDTO.setName(c.getName());
+        infoClientDTO.setNumberPhone(c.getNumberPhone());
+        infoClientDTO.setRegistrationCode(c.getRegistrationCode());
+        infoClientDTO.setId(c.getId());
+
+        model.addAttribute("clientDTO", infoClientDTO);
+        return "Client/info_client";
     }
-//
-//    @RequestMapping("/infoclient")
-//    public String infoClient(@RequestParam("id") Long id, Model model) {
-//
-//        Client c = clientService.getClient(id);
-//
-//        model.addAttribute("client", c);
-//        return "Client/info_client";
-//    }
 //
 //    @RequestMapping("/editclient")
 //    public String editClient(@RequestParam("id") Long id, Model model) {
@@ -128,5 +130,16 @@ public class ClientController implements WebMvcConfigurer {
 //        model.addAttribute("listClients", clientList);
 //        return "Client/clients_index";
 //    }
+
+
+
+    private Client dtoToEntity(@Valid CreateClientDTO clientDTO) {
+        Client client = new Client();
+        client.setNumberPhone(clientDTO.getNumberPhone());
+        client.setName(clientDTO.getName());
+        client.setRegistrationCode(clientDTO.getRegistrationCode());
+        return client;
+    }
+
 
 }

@@ -51,11 +51,11 @@
     <div id="page-wrapper">
 
 
-        <div th:object="${client}">
+        <div th:object="${clientDTO}">
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Cliente <label th:text="${client.getName()}"/></h1>
+                    <h1 class="page-header" > <label th:text="${clientDTO.getName()}"/></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -64,22 +64,17 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div>
-                                <span th:text="#{Person.Name}" th:remove="tag">title</span>:
-                                <label th:text="${client.getName()}"/></span>
+                                <span th:text="#{Client.Id}" th:remove="tag">title</span>:
+                                <label th:text="${clientDTO.getId()}"/></span>
                             </div>
                             <div>
-                                <span th:text="#{Person.Adress}" th:remove="tag">title</span>:
-                                <label th:text="${client.getAdress()}"/></span>
+                                <span th:text="#{Client.RegistrationCode}" th:remove="tag">title</span>:
+                                <label th:text="${clientDTO.getRegistrationCode()}"/></span>
                             </div>
                             <div>
-                                <span th:text="#{Person.Email}" th:remove="tag">title</span>:
-                                <label th:text="${client.getEmail()}"/></span>
+                                <span th:text="#{Client.Name}" th:remove="tag">title</span>:
+                                <label th:text="${clientDTO.getName()}"/></span>
                             </div>
-                            <div>
-                                <span th:text="#{Person.NumberPhone}" th:remove="tag">title</span>:
-                                <label th:text="${client.getNumberPhone()}"/></span>
-                            </div>
-
                             <div align="right">
                                 <a th:href="@{/client/}">
                                     <input class="btn btn-default" th:value="#{System.Back}" />
