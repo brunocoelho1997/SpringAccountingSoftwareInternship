@@ -47,4 +47,15 @@ public class ClientService {
 //        c.setAdress(client.getAdress());
         c.setNumberPhone(client.getNumberPhone());
     }
+
+    public ContactPerson getContactPerson(Long clientId, Long contactId)
+    {
+        Client c = getClient(clientId);
+        for(ContactPerson cc : c.getContactPerson())
+        {
+            if(cc.getId().equals(contactId))
+                return cc;
+        }
+        return null;
+    }
 }

@@ -1,6 +1,10 @@
 package hello.Persons.Client.Resources.Output;
 
 
+import hello.Persons.Client.ContactPerson;
+
+import java.util.List;
+
 public class InfoClientDTO {
 
 
@@ -12,6 +16,7 @@ public class InfoClientDTO {
     private String registrationCode;
     private String name;
     private String numberPhone;
+    private List<ContactPerson> contactPerson;
 
     public Long getId() {
         return id;
@@ -43,5 +48,13 @@ public class InfoClientDTO {
 
     public void setNumberPhone(String numberPhone) {
         this.numberPhone = numberPhone;
+    }
+
+    public List<ContactPerson> getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(List<ContactPerson> contactPerson) {
+        this.contactPerson = contactPerson;
     }
 }

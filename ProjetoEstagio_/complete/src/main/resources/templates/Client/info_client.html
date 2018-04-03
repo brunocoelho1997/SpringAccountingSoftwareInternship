@@ -33,6 +33,24 @@
                                 <span th:text="#{Client.Name}" th:remove="tag">title</span>:
                                 <label th:text="${clientDTO.getName()}"/></span>
                             </div>
+                            <table width="100%" class="table table-striped table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th th:text="#{Person.Name}"></th>
+                                    <th th:text="#{Person.Email}"></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="c : ${clientDTO.getContactPerson()}">
+                                    <td href="#" th:text="${c.getName()}"></td>
+                                    <td th:text="${c.getEmail()}">1</td>
+                                    <td class="center">
+                                        <a class="btn btn-default pull-right" th:href="@{/client/info_contact_client(id_client=${clientDTO.getId()},id_contact=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                             <div align="right">
                                 <a th:href="@{/client/}">
                                     <input class="btn btn-default" th:value="#{System.Back}" />

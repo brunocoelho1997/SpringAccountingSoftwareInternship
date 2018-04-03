@@ -17,6 +17,10 @@ public class Person extends Entity {
     public static final int MAX_EMAIL_LENGHT = 255;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
 
+    /*
+        TODO: todos estes campos deverao ser not null acho
+     */
+
     @NotNull
     @Length(min=1, max = MAX_NAME_LENGHT)
     @Column(nullable = false, length = MAX_NAME_LENGHT)

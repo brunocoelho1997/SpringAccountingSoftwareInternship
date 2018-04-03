@@ -3,6 +3,7 @@ package hello.Persons.Client;
 
 import hello.Persons.Client.Resources.Input.CreateClientDTO;
 import hello.Persons.Client.Resources.Output.InfoClientDTO;
+import hello.Persons.Client.Resources.Output.InfoContactPersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -54,23 +55,44 @@ public class ClientController implements WebMvcConfigurer{
         return "redirect:/client/";
     }
 
-    @RequestMapping("/infoclient")
+    @RequestMapping("/info_client")
     public String infoClient(@RequestParam("id") Long id, Model model) {
 
         Client c = clientService.getClient(id);
 
-        if(c == null)
-            return "Client/";
         //convert entity to DTO
         InfoClientDTO infoClientDTO = new InfoClientDTO();
         infoClientDTO.setName(c.getName());
         infoClientDTO.setNumberPhone(c.getNumberPhone());
         infoClientDTO.setRegistrationCode(c.getRegistrationCode());
         infoClientDTO.setId(c.getId());
-
+        infoClientDTO.setContactPerson(c.getContactPerson());
         model.addAttribute("clientDTO", infoClientDTO);
         return "Client/info_client";
     }
+
+    @RequestMapping("/info_contact_client")
+    public String infoContactClient(@RequestParam("id_client") Long clientId,@RequestParam("id_contact") Long contactId, Model model) {
+
+        ContactPerson cp = clientService.getContactPerson(clientId, contactId);
+
+
+        //convert entity to DTO
+        InfoContactPersonDTO infoContactDTO = new InfoContactPersonDTO();
+        infoContactDTO.setAdress(cp.getAdress());
+        infoContactDTO.setEmail(cp.getEmail());
+        infoContactDTO.setId(cp.getId());
+        infoContactDTO.setClientId(clientId);
+        infoContactDTO.setName(cp.getName());
+        infoContactDTO.setNumberPhone(cp.getNumberPhone());
+        model.addAttribute("contactDTO", infoContactDTO);
+
+
+
+        return "Client/Contact/info_contact";
+    }
+
+
 //
 //    @RequestMapping("/editclient")
 //    public String editClient(@RequestParam("id") Long id, Model model) {
