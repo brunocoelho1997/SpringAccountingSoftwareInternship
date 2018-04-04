@@ -1,43 +1,39 @@
-package hello.Persons;
+package hello.Persons.Client.Resources.Input;
 
-import hello.Entity;
+import hello.Persons.Client.ContactPerson;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.List;
 
-@MappedSuperclass
-public class Person extends Entity {
+public class CreateContactDTO {
 
     public static final int MAX_NAME_LENGHT = 30;
     public static final int MAX_ADRESS_LENGHT = 255;
     public static final int MAX_EMAIL_LENGHT = 255;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
 
-
+    private Long clientId;
     @NotNull
     @Length(min=1, max = MAX_NAME_LENGHT)
-    @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
     @NotNull
     @Email
     @Length(min=1, max = MAX_EMAIL_LENGHT)
-    @Column(nullable = false, length = MAX_EMAIL_LENGHT)
     private String email;
 
     @NotNull
     @Length(min=1, max = MAX_ADRESS_LENGHT)
-    @Column(nullable = false, length = MAX_ADRESS_LENGHT)
     private String adress;
 
     @NotNull
     @Length(min=1, max = MAX_NUMBERPHONE_LENGHT)
-    @Column(nullable = false, length = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
+
+    private List<ContactPerson> contacts;
 
     public String getName() {
         return name;
@@ -70,5 +66,20 @@ public class Person extends Entity {
     public void setNumberPhone(String numberPhone) {
         this.numberPhone = numberPhone;
     }
-}
 
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public List<ContactPerson> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<ContactPerson> contacts) {
+        this.contacts = contacts;
+    }
+}

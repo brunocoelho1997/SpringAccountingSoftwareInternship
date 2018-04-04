@@ -2,6 +2,7 @@ package hello.Persons.Client;
 
 
 import hello.Persons.Client.Resources.Input.CreateClientDTO;
+import hello.Persons.Client.Resources.Input.CreateContactDTO;
 import hello.Persons.Client.Resources.Output.InfoClientDTO;
 import hello.Persons.Client.Resources.Output.InfoContactPersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping(path="/client")
@@ -28,6 +32,9 @@ public class ClientController implements WebMvcConfigurer{
 
     @GetMapping("/")
     public String index(Model model) {
+        /*
+        TODO: APLICAR DTO AQUI
+         */
         model.addAttribute("listClients", clientService.getAllClients());
         return "Client/clients_index";
     }
@@ -36,28 +43,64 @@ public class ClientController implements WebMvcConfigurer{
     @GetMapping("/add_client")
     public String addClient(Model model) {
 
-        //isto esta' mal. Esta' a criar um ID novo
+        /*
+        TODO: sera' q necessita mesmo de mandar o cliente?
+         */
         model.addAttribute("clientDTO", new CreateClientDTO());
         return "Client/add_client";
     }
 
 
     @PostMapping("/add_submit")
-    public String addSubmit(Model model, @Valid @ModelAttribute("clientDTO") CreateClientDTO clientDTO, BindingResult bindingResult) {
+    public String addSubmit(Model model, @Valid @ModelAttribute("clientDTO") CreateClientDTO clientDTO, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             return "Client/add_client";
         }
 
-        Client client = dtoToEntity(clientDTO);
+        Client aux = clientService.addClient(clientDTO);
 
-        clientService.addClient(client);
-        return "redirect:/client/";
+        attributes.addAttribute("client_id", aux.getId());
+        return "redirect:/client/add_contact";
+    }
+
+    @GetMapping("/add_contact")
+    public String addContact(@RequestParam("client_id") Long clientId, Model model) {
+
+        CreateContactDTO createContactDTO = new CreateContactDTO();
+        createContactDTO.setClientId(clientId);
+
+        /*
+            TODO: verificar se isto e' a melhor maneira... provavelmente n devia devolver lista de contactos.. mas sim um DTO
+         */
+        List<ContactPerson> listaContactos = clientService.getClient(clientId).getContactPerson();
+        createContactDTO.setContacts(listaContactos);
+
+        model.addAttribute("contactDTO", createContactDTO);
+        return "Client/Contact/add_contact";
+    }
+    @PostMapping("/add_contact_submit")
+    public String addContactSubmit(Model model, @Valid @ModelAttribute("contactDTO") CreateContactDTO contactDTO, BindingResult bindingResult, RedirectAttributes attributes) {
+
+
+        if (bindingResult.hasErrors()) {
+
+
+            return "Client/Contact/add_contact";
+        }
+
+        clientService.addContact(contactDTO);
+
+        attributes.addAttribute("client_id", contactDTO.getClientId());
+        return "redirect:/client/add_contact";
     }
 
     @RequestMapping("/info_client")
     public String infoClient(@RequestParam("id") Long id, Model model) {
 
+        /*
+        TODO: fazer validacoes aqui. Imagina q n existe o id? tem de retornar p um pagina q indicara' isso
+         */
         Client c = clientService.getClient(id);
 
         //convert entity to DTO
@@ -76,7 +119,6 @@ public class ClientController implements WebMvcConfigurer{
 
         ContactPerson cp = clientService.getContactPerson(clientId, contactId);
 
-
         //convert entity to DTO
         InfoContactPersonDTO infoContactDTO = new InfoContactPersonDTO();
         infoContactDTO.setAdress(cp.getAdress());
@@ -87,13 +129,11 @@ public class ClientController implements WebMvcConfigurer{
         infoContactDTO.setNumberPhone(cp.getNumberPhone());
         model.addAttribute("contactDTO", infoContactDTO);
 
-
-
         return "Client/Contact/info_contact";
     }
 
 
-//
+
 //    @RequestMapping("/editclient")
 //    public String editClient(@RequestParam("id") Long id, Model model) {
 //
@@ -103,6 +143,19 @@ public class ClientController implements WebMvcConfigurer{
 //        return "Client/edit_client";
 //    }
 //
+//
+//    @PostMapping("/edit_submit")
+//    public String editSubmit(@Valid Client client, BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "edit_client";
+//        }
+//
+//        clientService.editClient(client);
+//
+//        return "redirect:/client/";
+//    }
+
 //    @RequestMapping("/removeclient")
 //    public String removeClient(@RequestParam("id") Long id, Model model) {
 //
@@ -119,18 +172,7 @@ public class ClientController implements WebMvcConfigurer{
 //        clientService.deleteClient(c);
 //        return "redirect:/client/";
 //    }
-//
-//    @PostMapping("/edit_submit")
-//    public String editSubmit(@Valid Client client, BindingResult bindingResult) {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "edit_client";
-//        }
-//
-//        clientService.editClient(client);
-//
-//        return "redirect:/client/";
-//    }
+
 //
 //    @GetMapping("/search_submit")
 //    public String searchSubmit(@RequestParam(name="value_filter", required=false) String value, Model model) {
@@ -154,14 +196,6 @@ public class ClientController implements WebMvcConfigurer{
 //    }
 
 
-
-    private Client dtoToEntity(@Valid CreateClientDTO clientDTO) {
-        Client client = new Client();
-        client.setNumberPhone(clientDTO.getNumberPhone());
-        client.setName(clientDTO.getName());
-        client.setRegistrationCode(clientDTO.getRegistrationCode());
-        return client;
-    }
 
 
 }

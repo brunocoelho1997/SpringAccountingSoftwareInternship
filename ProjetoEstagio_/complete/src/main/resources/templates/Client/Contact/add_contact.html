@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title th:text="#{System.Title}">Titulo</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../assets/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../assets/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="../assets/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="../assets/vendor/datatables-responsive/dataTables.responsive.css">
+
+    <!-- slider -->
+    <script src="../assets/mycode/myjs.js"></script>
+    <link href="../assets/mycode/mycss.css" rel="stylesheet">
+
+    <script src="../assets/slider/multirange.js"></script>
+    <link href="../assets/slider/multirange.css" rel="stylesheet">
+
+</head>
+<body>
+<div id="wrapper">
+
+    <div th:insert="~{fragments/navbar :: navbar}">...</div>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Clientes</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" th:text="#{Client.Contact.Add}"> Adicionar
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form th:action="@{/client/add_contact_submit}" th:object="${contactDTO}" method="post">
+                            <input th:type="hidden" th:field="*{clientId}"/>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Client.Contact.Name}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{name}"/>
+                                        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Client.Contact.Email}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{email}"/>
+                                        <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Client.Contact.Adress}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{adress}"/>
+                                        <td th:if="${#fields.hasErrors('adress')}" th:errors="*{adress}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Client.Contact.NumberPhone}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{numberPhone}"/>
+                                        <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+
+                                <div class="form-group" align="right">
+                                    <input type="submit"  class="btn btn-default" th:value="#{Client.Add}" />
+                                    <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
+                                    <a th:href="@{/client/}">
+                                        <input class="btn btn-default" th:value="#{System.Back}" />
+                                    </a>
+                                </div>
+                            </div>
+                            <table width="100%" class="table table-striped table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th th:text="#{Person.Name}"></th>
+                                    <th th:text="#{Person.Email}"></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="c : ${contactDTO.getContacts()}">
+                                    <td href="#" th:text="${c.getName()}"></td>
+                                    <td th:text="${c.getEmail()}">1</td>
+                                    <td class="center">
+                                        <!--<a class="btn btn-default pull-right" th:href="@{/client/info_contact_client(id_client=${clientDTO.getId()},id_contact=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+</div>
+<!-- /#wrapper -->
+<!-- Modals -->
+<!-- jQuery -->
+<script src="../assets/vendor/jquery/jquery.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../assets/vendor/metisMenu/metisMenu.min.js"></script>
+<script src="../assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../assets/dist/js/sb-admin-2.js"></script>
+
+</body>
+</html>
