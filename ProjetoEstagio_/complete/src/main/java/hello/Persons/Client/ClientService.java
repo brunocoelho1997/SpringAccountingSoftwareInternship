@@ -72,7 +72,7 @@ public class ClientService {
         return null;
     }
 
-    public void addContact(@Valid CreateContactDTO contactDTO) {
+    public void addContact(CreateContactDTO contactDTO) {
 
         Client c = getClient(contactDTO.getClientId());
         ContactPerson cp = new ContactPerson();

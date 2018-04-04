@@ -1,6 +1,7 @@
 package hello.Persons.Client;
 
 
+import hello.JsonResponse;
 import hello.Persons.Client.Resources.Input.CreateClientDTO;
 import hello.Persons.Client.Resources.Input.CreateContactDTO;
 import hello.Persons.Client.Resources.Output.InfoClientDTO;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -51,6 +53,9 @@ public class ClientController implements WebMvcConfigurer{
     }
 
 
+    /*
+        TODO: mudar isto do add_submit... meter igual ao de cima... "add_client" e nome do metodo tbm
+     */
     @PostMapping("/add_submit")
     public String addSubmit(Model model, @Valid @ModelAttribute("clientDTO") CreateClientDTO clientDTO, BindingResult bindingResult, RedirectAttributes attributes) {
 
@@ -79,20 +84,26 @@ public class ClientController implements WebMvcConfigurer{
         model.addAttribute("contactDTO", createContactDTO);
         return "Client/Contact/add_contact";
     }
-    @PostMapping("/add_contact_submit")
-    public String addContactSubmit(Model model, @Valid @ModelAttribute("contactDTO") CreateContactDTO contactDTO, BindingResult bindingResult, RedirectAttributes attributes) {
+
+    @RequestMapping(value = "add_contact", method = RequestMethod.POST)
+    public String addContact(@Valid @RequestBody CreateContactDTO contactDTO, BindingResult bindingResult, Model model) {
 
 
         if (bindingResult.hasErrors()) {
-
-
+//            model.addAttribute("contactDTO", contactDTO);
+//            return "Client/Contact/add_contact_form :: form";
             return "Client/Contact/add_contact";
         }
 
         clientService.addContact(contactDTO);
 
-        attributes.addAttribute("client_id", contactDTO.getClientId());
-        return "redirect:/client/add_contact";
+//        ModelAndView mav = new ModelAndView("Client/Contact/add_contact_line :: line");
+        //ModelAndView mav = new ModelAndView("Client/Contact/add_contact_line :: line");
+        //mav.addObject("contactDTO", contactDTO);
+
+        model.addAttribute("contactDTO", contactDTO);
+
+        return "Client/Contact/add_contact_line :: line";
     }
 
     @RequestMapping("/info_client")

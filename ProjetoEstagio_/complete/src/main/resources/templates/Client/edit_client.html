@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:substituteby="fragments/head :: copy"></head>
+<head th:replace="fragments/head :: copy"></head>
 <body>
 <div id="wrapper">
     <div th:insert="~{fragments/navbar :: navbar}">...</div>
@@ -72,6 +72,6 @@
         </div>
     </div>
 </div>
-<div th:substituteby="fragments/footer :: copy"></div>
+<div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

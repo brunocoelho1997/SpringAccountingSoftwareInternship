@@ -15,6 +15,7 @@ public class CreateContactDTO {
     public static final int MAX_EMAIL_LENGHT = 255;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
 
+    @NotNull
     private Long clientId;
     @NotNull
     @Length(min=1, max = MAX_NAME_LENGHT)
