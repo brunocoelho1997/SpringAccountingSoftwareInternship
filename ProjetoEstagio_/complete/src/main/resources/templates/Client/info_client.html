@@ -23,15 +23,15 @@
                         <div class="panel-body">
                             <div>
                                 <span th:text="#{Client.Id}" th:remove="tag">title</span>:
-                                <label th:text="${clientDTO.getId()}"/></span>
+                                <span id = "id_value" th:text="${clientDTO.getId()}"/></span>
                             </div>
                             <div>
                                 <span th:text="#{Client.RegistrationCode}" th:remove="tag">title</span>:
-                                <label th:text="${clientDTO.getRegistrationCode()}"/></span>
+                                <span th:text="${clientDTO.getRegistrationCode()}"/></span>
                             </div>
                             <div>
                                 <span th:text="#{Client.Name}" th:remove="tag">title</span>:
-                                <label th:text="${clientDTO.getName()}"/></span>
+                                <span th:text="${clientDTO.getName()}"/></span>
                             </div>
                             <br>
                             <div class="panel panel-default">
@@ -49,7 +49,8 @@
                                         <td href="#" th:text="${c.getName()}"></td>
                                         <td th:text="${c.getEmail()}">1</td>
                                         <td class="center">
-                                            <a class="btn btn-default pull-right" th:href="@{/client/info_contact_client(id_client=${clientDTO.getId()},id_contact=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                            <button class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></button>
+
                                         </td>
                                     </tr>
                                     </tbody>
@@ -71,6 +72,29 @@
         </div>
     </div>
 </div>
+
+<div id="modal-content"></div>
+
+<script>
+    $( document ).ready(function () {
+        $('button.info').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/client/info_contact_client?id_client=' + $(this).attr('client-id') + '&id_contact=' + $(this).attr('contact-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#info-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
+    });
+</script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

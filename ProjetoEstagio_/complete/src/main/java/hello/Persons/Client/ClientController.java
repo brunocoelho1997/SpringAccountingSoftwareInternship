@@ -5,7 +5,7 @@ import hello.Persons.Client.Resources.Input.CreateClientDTO;
 import hello.Persons.Client.Resources.Input.CreateContactDTO;
 import hello.Persons.Client.Resources.Input.EditClientDTO;
 import hello.Persons.Client.Resources.Output.InfoClientDTO;
-import hello.Persons.Client.Resources.Output.InfoContactPersonDTO;
+import hello.Persons.Client.Resources.Output.InfoContactDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,23 +114,22 @@ public class ClientController implements WebMvcConfigurer{
 
     @RequestMapping("/info_contact_client")
     public String infoContactClient(@RequestParam("id_client") Long clientId,@RequestParam("id_contact") Long contactId, Model model) {
-
         Contact cp = clientService.getContactPerson(clientId, contactId);
 
         /*
         TODO: estas conversoes nao deverao ja vir feitas do servico?
          */
         //convert entity to DTO
-        InfoContactPersonDTO infoContactDTO = new InfoContactPersonDTO();
+        InfoContactDTO infoContactDTO = new InfoContactDTO();
         infoContactDTO.setAdress(cp.getAdress());
         infoContactDTO.setEmail(cp.getEmail());
         infoContactDTO.setId(cp.getId());
         infoContactDTO.setClientId(clientId);
         infoContactDTO.setName(cp.getName());
         infoContactDTO.setNumberPhone(cp.getNumberPhone());
-        model.addAttribute("contactDTO", infoContactDTO);
 
-        return "Client/Contact/info_contact";
+        model.addAttribute("contactDTO", infoContactDTO);
+        return "Client/Contact/info_contact :: modal";
     }
 
     @RequestMapping("/edit_client")
@@ -147,23 +146,58 @@ public class ClientController implements WebMvcConfigurer{
         clientDTO.setName(c.getName());
         clientDTO.setNumberPhone(c.getNumberPhone());
         clientDTO.setRegistrationCode(c.getRegistrationCode());
-
+        clientDTO.setContacts(c.getContacts());
         model.addAttribute("clientDTO", clientDTO);
         return "Client/edit_client";
     }
-//
-//
-//    @PostMapping("/edit_client")
-//    public String editClient(@Valid Client client, BindingResult bindingResult) {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "edit_client";
-//        }
-//
-//        clientService.editClient(client);
-//
-//        return "redirect:/client/";
-//    }
+
+    @PostMapping("/edit_client")
+    public String editClient(@Valid EditClientDTO clientDTO, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "edit_client";
+        }
+        clientService.editClient(clientDTO);
+
+        return "redirect:/client/";
+    }
+
+    @RequestMapping("/edit_contact")
+    public String editContact(@RequestParam("id_client") Long clientId,@RequestParam("id_contact") Long contactId, Model model) {
+
+        Contact cp = clientService.getContactPerson(clientId, contactId);
+
+        /*
+        TODO: estas conversoes nao deverao ja vir feitas do servico?
+         */
+
+        /*
+        TODO: infoContactDTO também funciona com edit?? Averiguar
+         */
+        //convert entity to DTO
+        InfoContactDTO infoContactDTO = new InfoContactDTO();
+        infoContactDTO.setAdress(cp.getAdress());
+        infoContactDTO.setEmail(cp.getEmail());
+        infoContactDTO.setId(cp.getId());
+        infoContactDTO.setClientId(clientId);
+        infoContactDTO.setName(cp.getName());
+        infoContactDTO.setNumberPhone(cp.getNumberPhone());
+
+        model.addAttribute("contactDTO", infoContactDTO);
+        return "Client/Contact/edit_contact";
+    }
+    @PostMapping("/edit_contact")
+    public String editContact(@Valid InfoContactDTO contactDTO, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
+
+        if (bindingResult.hasErrors()) {
+            return "edit_contact";
+        }
+        clientService.editContact(contactDTO);
+
+        redirectAttrs.addAttribute("id", contactDTO.getClientId());
+
+        return "redirect:/client/edit_client";
+    }
 
 //    @RequestMapping("/removeclient")
 //    public String removeClient(@RequestParam("id") Long id, Model model) {

@@ -17,12 +17,20 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" th:text="#{Client.Edit}"> Edit</div>
                     <div class="panel-body">
-                        <form th:action="@{/client/add_contact}" th:object="${clientDTO}" method="post">
+                        <form th:action="@{/client/edit_client}" th:object="${clientDTO}" method="post">
                             <div class="form-horizontal">
+                                <div class="form-group" align="right">
+                                    <input type="submit"  class="btn btn-default" th:value="#{System.Save}" />
+                                    <!--<button class="btn btn-default add"><i class="fa fa-plus"></i></button>-->
+                                    <a th:href="@{/client/}">
+                                        <input class="btn btn-default" th:value="#{System.Back}" />
+                                    </a>
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.Id}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{id}" disabled/>
+                                        <p th:text="*{id}"></p>
+                                        <input class="form-control" th:type="hidden" th:field="*{id}" />
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -50,16 +58,36 @@
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
-                                <div class="form-group" align="right">
-                                    <input type="submit"  class="btn btn-default" th:value="#{System.Save}" />
-                                    <!--<button class="btn btn-default add"><i class="fa fa-plus"></i></button>-->
-                                    <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
-                                    <a th:href="@{/client/}">
-                                        <input class="btn btn-default" th:value="#{System.Back}" />
-                                    </a>
-                                </div>
                             </div>
                         </form>
+
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" th:text="#{Client.Contact.PanelHeading}"></div>
+                            <table width="100%" class="table table-striped table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th th:text="#{Person.Name}"></th>
+                                    <th th:text="#{Person.Email}"></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="c : ${clientDTO.getContacts()}">
+                                    <td href="#" th:text="${c.getName()}"></td>
+                                    <td th:text="${c.getEmail()}">1</td>
+                                    <td class="center">
+                                        <a class="btn btn-default pull-right" th:href="@{/client/edit_contact(id_client=${clientDTO.getId()}, id_contact=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
+                                        <button class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></button>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div align="right">
+                            <a class="btn btn-default pull-right" th:href="@{/client/add_contact(client_id=${clientDTO.getId()})}" th:text="#{Client.Contact.Add}"></a>
+                        </div>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -69,6 +97,28 @@
         </div>
     </div>
 </div>
+
+<div id="modal-content"></div>
+<script>
+    $( document ).ready(function () {
+        $('button.info').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/client/info_contact_client?id_client=' + $(this).attr('client-id') + '&id_contact=' + $(this).attr('contact-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#info-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
+    });
+</script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

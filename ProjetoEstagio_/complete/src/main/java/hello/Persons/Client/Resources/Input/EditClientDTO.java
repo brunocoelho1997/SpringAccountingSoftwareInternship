@@ -1,9 +1,11 @@
 package hello.Persons.Client.Resources.Input;
 
+import hello.Persons.Client.Contact;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class EditClientDTO {
 
@@ -29,6 +31,8 @@ public class EditClientDTO {
     @Column(nullable = false, length = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
 
+    private List<Contact> contacts;
+
     public String getRegistrationCode() {
         return registrationCode;
     }
@@ -53,11 +57,15 @@ public class EditClientDTO {
         this.numberPhone = numberPhone;
     }
 
-    public Long getId() {
-        return id;
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 }

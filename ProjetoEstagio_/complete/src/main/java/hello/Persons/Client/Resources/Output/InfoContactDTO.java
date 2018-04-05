@@ -1,6 +1,6 @@
 package hello.Persons.Client.Resources.Output;
 
-public class InfoContactPersonDTO {
+public class InfoContactDTO {
 
 
     private Long id;
@@ -56,5 +56,17 @@ public class InfoContactPersonDTO {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
+    }
+
+    @Override
+    public String toString() {
+        return "InfoContactDTO{" +
+                "id=" + id +
+                ", clientId=" + clientId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", adress='" + adress + '\'' +
+                ", numberPhone='" + numberPhone + '\'' +
+                '}';
     }
 }
