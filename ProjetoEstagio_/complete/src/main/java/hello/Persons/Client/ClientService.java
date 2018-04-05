@@ -30,14 +30,14 @@ public class ClientService {
         
         
         //para apagar
-//        ContactPerson temp = new ContactPerson();
+//        Contact temp = new Contact();
 //        temp.setName("Almerinda");
 //        temp.setAdress("asd");
 //        temp.setNumberPhone("123123");
 //        temp.setEmail("asdsad@gmail.com");
-        if(client.getContactPerson() == null)
-            client.setContactPerson(new ArrayList<>());
-//        client.getContactPerson().add(temp);
+        if(client.getContacts() == null)
+            client.setContacts(new ArrayList<>());
+//        client.getContacts().add(temp);
         
         
         clientRepository.save(client);
@@ -61,10 +61,10 @@ public class ClientService {
         c.setNumberPhone(client.getNumberPhone());
     }
 
-    public ContactPerson getContactPerson(Long clientId, Long contactId)
+    public Contact getContactPerson(Long clientId, Long contactId)
     {
         Client c = getClient(clientId);
-        for(ContactPerson cc : c.getContactPerson())
+        for(Contact cc : c.getContacts())
         {
             if(cc.getId().equals(contactId))
                 return cc;
@@ -75,18 +75,18 @@ public class ClientService {
     public void addContact(CreateContactDTO contactDTO) {
 
         Client c = getClient(contactDTO.getClientId());
-        ContactPerson cp = new ContactPerson();
+        Contact cp = new Contact();
 
         cp.setEmail(contactDTO.getEmail());
         cp.setNumberPhone(contactDTO.getNumberPhone());
         cp.setAdress(contactDTO.getAdress());
         cp.setName(contactDTO.getName());
-        c.getContactPerson().add(cp);
+        c.getContacts().add(cp);
         clientRepository.saveAndFlush(c);
     }
 
-    public List<ContactPerson> getContacts(Long id){
+    public List<Contact> getContacts(Long id){
         Client c = getClient(id);
-        return c.getContactPerson();
+        return c.getContacts();
     }
 }

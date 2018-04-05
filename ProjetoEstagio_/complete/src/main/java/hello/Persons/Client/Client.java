@@ -1,11 +1,9 @@
 package hello.Persons.Client;
 
-import hello.Persons.Person;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "client")
@@ -32,9 +30,9 @@ public class Client extends hello.Entity {
     private String numberPhone;
 
     @NotNull
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_ContactPerson"), nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_Contact"), nullable = false)
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<ContactPerson> contactPerson;
+    private List<Contact> contacts;
 
     public String getRegistrationCode() {
         return registrationCode;
@@ -60,11 +58,11 @@ public class Client extends hello.Entity {
         this.numberPhone = numberPhone;
     }
 
-    public List<ContactPerson> getContactPerson() {
-        return contactPerson;
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
-    public void setContactPerson(List<ContactPerson> contactPerson) {
-        this.contactPerson = contactPerson;
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 }

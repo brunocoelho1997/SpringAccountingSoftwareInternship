@@ -3,6 +3,7 @@ package hello.Persons.Client;
 
 import hello.Persons.Client.Resources.Input.CreateClientDTO;
 import hello.Persons.Client.Resources.Input.CreateContactDTO;
+import hello.Persons.Client.Resources.Input.EditClientDTO;
 import hello.Persons.Client.Resources.Output.InfoClientDTO;
 import hello.Persons.Client.Resources.Output.InfoContactPersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ClientController implements WebMvcConfigurer{
     @GetMapping("/")
     public String index(Model model) {
         /*
-        TODO: APLICAR DTO AQUI
+        TODO: APLICAR DTO AQUI. Sera? Ter de criar um array list de listClientDTO? para isso e' necessario preencher...
          */
         model.addAttribute("listClients", clientService.getAllClients());
         return "Client/clients_index";
@@ -48,17 +49,14 @@ public class ClientController implements WebMvcConfigurer{
         return "Client/add_client";
     }
 
-
-    /*
-        TODO: mudar isto do add_submit... meter igual ao de cima... "add_client" e nome do metodo tbm
-     */
-    @PostMapping("/add_submit")
-    public String addSubmit(Model model, @Valid @ModelAttribute("clientDTO") CreateClientDTO clientDTO, BindingResult bindingResult, RedirectAttributes attributes) {
+    @PostMapping("/add_client")
+    public String addClient(Model model, @Valid @ModelAttribute("clientDTO") CreateClientDTO clientDTO, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             return "Client/add_client";
         }
 
+        //we receive the client to get is new id to add contacts
         Client aux = clientService.addClient(clientDTO);
 
         attributes.addAttribute("client_id", aux.getId());
@@ -80,9 +78,6 @@ public class ClientController implements WebMvcConfigurer{
             return "Client/Contact/add_contact";
         }
 
-        /*
-        TODO: tratar das validacoes (coloca-las por msg)
-         */
         clientService.addContact(contactDTO);
         attributes.addAttribute("client_id", contactDTO.getClientId());
         return "redirect:/client/add_contact";
@@ -90,10 +85,10 @@ public class ClientController implements WebMvcConfigurer{
 
     @RequestMapping(value = "get_contacts/{id}", method = RequestMethod.GET)
     public String getContacts(@PathVariable long id, Model model) {
-        List<ContactPerson>contactList = clientService.getContacts(id);
+        List<Contact>contactList = clientService.getContacts(id);
         Collections.reverse(contactList);
         model.addAttribute("contactList", contactList);
-        return "Client/Contact/lista_contatos :: lista";
+        return "Client/Contact/list_contacts :: list";
     }
 
 
@@ -112,7 +107,7 @@ public class ClientController implements WebMvcConfigurer{
         infoClientDTO.setNumberPhone(c.getNumberPhone());
         infoClientDTO.setRegistrationCode(c.getRegistrationCode());
         infoClientDTO.setId(c.getId());
-        infoClientDTO.setContactPerson(c.getContactPerson());
+        infoClientDTO.setContacts(c.getContacts());
         model.addAttribute("clientDTO", infoClientDTO);
         return "Client/info_client";
     }
@@ -120,8 +115,11 @@ public class ClientController implements WebMvcConfigurer{
     @RequestMapping("/info_contact_client")
     public String infoContactClient(@RequestParam("id_client") Long clientId,@RequestParam("id_contact") Long contactId, Model model) {
 
-        ContactPerson cp = clientService.getContactPerson(clientId, contactId);
+        Contact cp = clientService.getContactPerson(clientId, contactId);
 
+        /*
+        TODO: estas conversoes nao deverao ja vir feitas do servico?
+         */
         //convert entity to DTO
         InfoContactPersonDTO infoContactDTO = new InfoContactPersonDTO();
         infoContactDTO.setAdress(cp.getAdress());
@@ -135,20 +133,28 @@ public class ClientController implements WebMvcConfigurer{
         return "Client/Contact/info_contact";
     }
 
+    @RequestMapping("/edit_client")
+    public String editClient(@RequestParam("id") Long id, Model model) {
 
+        Client c = clientService.getClient(id);
 
-//    @RequestMapping("/editclient")
-//    public String editClient(@RequestParam("id") Long id, Model model) {
+        /*
+        TODO: estas conversoes nao deverao ja vir feitas do servico?
+         */
+        //client to DTO
+        EditClientDTO clientDTO = new EditClientDTO();
+        clientDTO.setId(c.getId());
+        clientDTO.setName(c.getName());
+        clientDTO.setNumberPhone(c.getNumberPhone());
+        clientDTO.setRegistrationCode(c.getRegistrationCode());
+
+        model.addAttribute("clientDTO", clientDTO);
+        return "Client/edit_client";
+    }
 //
-//        Client c = clientService.getClient(id);
 //
-//        model.addAttribute("client", c);
-//        return "Client/edit_client";
-//    }
-//
-//
-//    @PostMapping("/edit_submit")
-//    public String editSubmit(@Valid Client client, BindingResult bindingResult) {
+//    @PostMapping("/edit_client")
+//    public String editClient(@Valid Client client, BindingResult bindingResult) {
 //
 //        if (bindingResult.hasErrors()) {
 //            return "edit_client";

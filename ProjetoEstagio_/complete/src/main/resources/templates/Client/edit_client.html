@@ -8,55 +8,52 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Clientes</h1>
+                <h1 class="page-header" th:text="#{Client.Edit}">Clientes</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" th:text="#{Person.Client.Edit}"> Adicionar
-                    </div>
-                    <!-- /.panel-heading -->
+                    <div class="panel-heading" th:text="#{Client.Edit}"> Edit</div>
                     <div class="panel-body">
-                        <form th:action="@{/client/edit_submit}" th:object="${client}" method="post">
-                            <input class="form-control" th:field="*{id}" th:value="${client.getId()}" type="hidden">
-
+                        <form th:action="@{/client/add_contact}" th:object="${clientDTO}" method="post">
                             <div class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Person.Name}"></label>
+                                    <label class="control-label col-sm-3"  th:text="#{Client.Id}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{name}" th:value="${client.getName()}">
+                                        <input class="form-control" th:field="*{id}" disabled/>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Client.RegistrationCode}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{registrationCode}"/>
+                                        <td th:if="${#fields.hasErrors('registrationCode')}" th:errors="*{registrationCode}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Client.Name}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{name}"/>
                                         <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3" th:text="#{Person.Adress}"></label>
+                                    <label class="control-label col-sm-3"  th:text="#{Client.NumberPhone}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{adress}" th:value="${client.getAdress()}">
-                                        <td th:if="${#fields.hasErrors('adress')}" th:errors="*{adress}">Adress Error</td>
-                                    </div>
-                                    <div class="col-sm-3"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3" th:text="#{Person.Email}"></label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{email}" th:value="${client.getEmail()}">
-                                        <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
-                                    </div>
-                                    <div class="col-sm-3"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3" th:text="#{Person.NumberPhone}"></label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{numberPhone}" th:value="${client.getNumberPhone()}">
+                                        <input class="form-control" th:field="*{numberPhone}"/>
                                         <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group" align="right">
-                                    <input type="submit"  class="btn btn-default" th:value="#{Person.Client.Edit}" />
+                                    <input type="submit"  class="btn btn-default" th:value="#{System.Save}" />
+                                    <!--<button class="btn btn-default add"><i class="fa fa-plus"></i></button>-->
+                                    <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
                                     <a th:href="@{/client/}">
                                         <input class="btn btn-default" th:value="#{System.Back}" />
                                     </a>

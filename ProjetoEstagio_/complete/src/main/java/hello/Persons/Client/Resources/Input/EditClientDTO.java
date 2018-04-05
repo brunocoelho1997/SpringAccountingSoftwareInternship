@@ -11,10 +11,8 @@ public class EditClientDTO {
     public static final int MAX_REGISTRATIONCODE_LENGHT = 30;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
 
-
-    /*
-        The ID is the one who does not need to be valid
-     */
+    //Just to show the Identification
+    private Long id;
 
     @NotNull
     @Length(min=1, max = MAX_REGISTRATIONCODE_LENGHT)
@@ -55,4 +53,11 @@ public class EditClientDTO {
         this.numberPhone = numberPhone;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

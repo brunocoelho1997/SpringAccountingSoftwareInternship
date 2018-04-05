@@ -1,12 +1,9 @@
 package hello.Persons.Client.Resources.Input;
 
-import hello.Persons.Client.ContactPerson;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 public class CreateContactDTO {
 
