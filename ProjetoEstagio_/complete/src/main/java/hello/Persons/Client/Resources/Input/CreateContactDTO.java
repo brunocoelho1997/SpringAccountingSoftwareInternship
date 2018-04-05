@@ -34,8 +34,6 @@ public class CreateContactDTO {
     @Length(min=1, max = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
 
-    private List<ContactPerson> contacts;
-
     public String getName() {
         return name;
     }
@@ -74,13 +72,5 @@ public class CreateContactDTO {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
-    }
-
-    public List<ContactPerson> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(List<ContactPerson> contacts) {
-        this.contacts = contacts;
     }
 }

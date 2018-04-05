@@ -1,24 +1,20 @@
 package hello.Persons.Client;
 
 
-import hello.JsonResponse;
 import hello.Persons.Client.Resources.Input.CreateClientDTO;
 import hello.Persons.Client.Resources.Input.CreateContactDTO;
 import hello.Persons.Client.Resources.Output.InfoClientDTO;
 import hello.Persons.Client.Resources.Output.InfoContactPersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -75,36 +71,32 @@ public class ClientController implements WebMvcConfigurer{
         CreateContactDTO createContactDTO = new CreateContactDTO();
         createContactDTO.setClientId(clientId);
 
-        /*
-            TODO: verificar se isto e' a melhor maneira... provavelmente n devia devolver lista de contactos.. mas sim um DTO
-         */
-        List<ContactPerson> listaContactos = clientService.getClient(clientId).getContactPerson();
-        createContactDTO.setContacts(listaContactos);
-
         model.addAttribute("contactDTO", createContactDTO);
         return "Client/Contact/add_contact";
     }
-
-    @RequestMapping(value = "add_contact", method = RequestMethod.POST)
-    public String addContact(@Valid @RequestBody CreateContactDTO contactDTO, BindingResult bindingResult, Model model) {
-
-
+    @PostMapping("/add_contact")
+    public String addContact(Model model, @Valid @ModelAttribute("contactDTO") CreateContactDTO contactDTO, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-//            model.addAttribute("contactDTO", contactDTO);
-//            return "Client/Contact/add_contact_form :: form";
             return "Client/Contact/add_contact";
         }
 
+        /*
+        TODO: tratar das validacoes (coloca-las por msg)
+         */
         clientService.addContact(contactDTO);
-
-//        ModelAndView mav = new ModelAndView("Client/Contact/add_contact_line :: line");
-        //ModelAndView mav = new ModelAndView("Client/Contact/add_contact_line :: line");
-        //mav.addObject("contactDTO", contactDTO);
-
-        model.addAttribute("contactDTO", contactDTO);
-
-        return "Client/Contact/add_contact_line :: line";
+        attributes.addAttribute("client_id", contactDTO.getClientId());
+        return "redirect:/client/add_contact";
     }
+
+    @RequestMapping(value = "get_contacts/{id}", method = RequestMethod.GET)
+    public String getContacts(@PathVariable long id, Model model) {
+        List<ContactPerson>contactList = clientService.getContacts(id);
+        Collections.reverse(contactList);
+        model.addAttribute("contactList", contactList);
+        return "Client/Contact/lista_contatos :: lista";
+    }
+
+
 
     @RequestMapping("/info_client")
     public String infoClient(@RequestParam("id") Long id, Model model) {

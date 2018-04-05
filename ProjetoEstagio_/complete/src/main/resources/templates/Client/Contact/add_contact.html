@@ -19,7 +19,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <div th:object="${contactDTO}" class ="form">
+                        <form th:action="@{/client/add_contact}" th:object="${contactDTO}" method="post">
                             <div class="form-horizontal">
                                 <input th:type="hidden" th:name="*{clientId}" th:field="*{clientId}"/>
                                 <div class="form-group">
@@ -56,15 +56,17 @@
                                 </div>
 
                                 <div class="form-group" align="right">
-                                    <!--<input type="submit"  class="btn btn-default" th:value="#{Client.Add}" />-->
-                                    <button class="btn btn-default add"><i class="fa fa-plus"></i></button>
+                                    <input type="submit"  class="btn btn-default" th:value="#{Client.Add}" />
+                                    <!--<button class="btn btn-default add"><i class="fa fa-plus"></i></button>-->
                                     <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
                                     <a th:href="@{/client/}">
                                         <input class="btn btn-default" th:value="#{System.Back}" />
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </form>
+
+
                         <table width="100%" class="table table-striped table-hover" id="dataTables-example">
                             <thead>
                             <tr>
@@ -74,13 +76,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="c : ${contactDTO.getContacts()}">
-                                <td href="#" th:text="${c.getName()}"></td>
-                                <td th:text="${c.getEmail()}">1</td>
-                                <td class="center">
-                                    <!--<a class="btn btn-default pull-right" th:href="@{/client/info_contact_client(id_client=${clientDTO.getId()},id_contact=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>-->
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -94,28 +89,18 @@
 </div>
 <script>
     $( document ).ready(function () {
-        $('button.add').click(function (e) {
-            var data = {
-                clientId : $("input[name='clientId']").val(),
-                name : $("input[name='name']").val(),
-                email : $("input[name='email']").val(),
-                adress : $("input[name='adress']").val(),
-                numberPhone : $("input[name='numberPhone']").val()
-            };
-
-            $.ajax({
-                type: 'POST',
-                contentType: "application/json",
-                url: '/client/add_contact',
-                data: JSON.stringify(data)
-            }).done(function (result) {
-                $("table > tbody tr:first-child").before(result);
-            }).fail(function (jqXHR, textStatus) {
-                alert(jqXHR.status);
-                $(".form").html(result);
-            });
+        $.ajax({
+            type: 'GET',
+            contentType: "application/json",
+            url: '/client/get_contacts/' + $('input#clientId').val()
+        }).done(function (result) {
+            $("table").html(result);
+        }).fail(function (jqXHR, textStatus) {
+            alert('/client/get_contacts/' + $('input#clientId').val());
+            alert(jqXHR.status);
         });
     });
+
 </script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>

@@ -84,4 +84,9 @@ public class ClientService {
         c.getContactPerson().add(cp);
         clientRepository.saveAndFlush(c);
     }
+
+    public List<ContactPerson> getContacts(Long id){
+        Client c = getClient(id);
+        return c.getContactPerson();
+    }
 }
