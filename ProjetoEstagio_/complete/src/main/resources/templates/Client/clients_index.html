@@ -74,6 +74,22 @@
         </div>
     </div>
 </div>
+
+<div id="modal-content"></div>
+<script>
+    function deleteClient(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/client/delete_client?id=' + id
+
+        }).done(function (result) {
+            $('button[contact-id=' + id_contact + ']').closest('tr').remove();
+        }).fail(function (jqXHR, textStatus) {
+            ;
+        });
+
+    }
+</script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

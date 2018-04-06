@@ -199,15 +199,43 @@ public class ClientController implements WebMvcConfigurer{
         return "redirect:/client/edit_client";
     }
 
-//    @RequestMapping("/removeclient")
-//    public String removeClient(@RequestParam("id") Long id, Model model) {
-//
-//        Client c = clientRepository.getOne(id);
-//
-//        model.addAttribute("client", c);
-//        return "Client/remove_client";
-//    }
-//    @RequestMapping("/removeclientid")
+    @RequestMapping("/remove_contact")
+    public String removeContact(@RequestParam("id_client") Long clientId,@RequestParam("id_contact") Long contactId, Model model) {
+
+        Contact cp = clientService.getContactPerson(clientId, contactId);
+
+        //convert entity to DTO
+        InfoContactDTO infoContactDTO = new InfoContactDTO();
+        infoContactDTO.setAdress(cp.getAdress());
+        infoContactDTO.setEmail(cp.getEmail());
+        infoContactDTO.setId(cp.getId());
+        infoContactDTO.setClientId(clientId);
+        infoContactDTO.setName(cp.getName());
+        infoContactDTO.setNumberPhone(cp.getNumberPhone());
+
+        model.addAttribute("contactDTO", infoContactDTO);
+        return "Client/Contact/remove_contact :: modal";
+    }
+
+    @DeleteMapping("/remove_contact")
+    public String removeContact(@RequestParam("id_client") Long clientId,@RequestParam("id_contact") Long contactId, RedirectAttributes redirectAttrs) {
+
+        clientService.removeContact(clientId, contactId);
+
+        redirectAttrs.addAttribute("id", clientId);
+
+        return "redirect:/client/edit_client";
+    }
+
+    @RequestMapping("/remove_client")
+    public String removeClient(@RequestParam("id") Long id, Model model) {
+
+
+        clientService.removeClient(id);
+        model.addAttribute("clientDTO", infoContactDTO);
+        return "Client/Contact/remove_contact :: modal";
+    }
+//    @RequestMapping("/remove_client")
 //    public String removeClientId(@RequestParam("id") Long id, Model model) {
 //
 //        Client c = clientService.getClient(id);

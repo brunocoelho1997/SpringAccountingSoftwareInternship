@@ -100,4 +100,12 @@ public class ClientService {
 
         clientRepository.save(c);
     }
+
+    public void removeContact(Long clientId, Long contactId) {
+
+        Client c = getClient(clientId);
+        Contact cp = getContactPerson(clientId, contactId);
+        c.getContacts().remove(cp);
+        clientRepository.save(c);
+    }
 }

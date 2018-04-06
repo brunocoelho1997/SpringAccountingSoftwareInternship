@@ -31,7 +31,7 @@ public class Client extends hello.Entity {
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_Contact"), nullable = false)
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval=true)
     private List<Contact> contacts;
 
     public String getRegistrationCode() {

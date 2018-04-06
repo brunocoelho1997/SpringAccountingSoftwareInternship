@@ -77,9 +77,10 @@
                                     <td href="#" th:text="${c.getName()}"></td>
                                     <td th:text="${c.getEmail()}">1</td>
                                     <td class="center">
+                                        <button class="btn btn-default trash pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-remove"></i></button>
+                                        <!--TODO: converter isto tambem para botao...-->
                                         <a class="btn btn-default pull-right" th:href="@{/client/edit_contact(id_client=${clientDTO.getId()}, id_contact=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                         <button class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></button>
-
                                     </td>
                                 </tr>
                                 </tbody>
@@ -97,8 +98,8 @@
         </div>
     </div>
 </div>
-
 <div id="modal-content"></div>
+
 <script>
     $( document ).ready(function () {
         $('button.info').click(function (e) {
@@ -117,7 +118,39 @@
                 alert(textStatus);
             });
         });
+
+        $('button.trash').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/client/remove_contact?id_client=' + $(this).attr('client-id') + '&id_contact=' + $(this).attr('contact-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#remove-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
+
     });
+
+    function deleteContact(id_client, id_contact) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/client/remove_contact?id_client=' + id_client + '&id_contact=' + id_contact
+
+        }).done(function (result) {
+            $('button[contact-id=' + id_contact + ']').closest('tr').remove();
+        }).fail(function (jqXHR, textStatus) {
+            ;
+        });
+
+    }
+
 </script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
