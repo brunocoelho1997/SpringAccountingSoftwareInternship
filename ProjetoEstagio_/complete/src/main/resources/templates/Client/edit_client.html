@@ -77,10 +77,9 @@
                                     <td href="#" th:text="${c.getName()}"></td>
                                     <td th:text="${c.getEmail()}">1</td>
                                     <td class="center">
-                                        <button class="btn btn-default trash pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-remove"></i></button>
-                                        <!--TODO: converter isto tambem para botao...-->
+                                        <a class="btn btn-default trash pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-remove"></i></a>
                                         <a class="btn btn-default pull-right" th:href="@{/client/edit_contact(id_client=${clientDTO.getId()}, id_contact=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
-                                        <button class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></button>
+                                        <a class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -102,7 +101,7 @@
 
 <script>
     $( document ).ready(function () {
-        $('button.info').click(function (e) {
+        $('a.info').click(function (e) {
 
             var opt = {
                 type: 'GET',
@@ -119,7 +118,7 @@
             });
         });
 
-        $('button.trash').click(function (e) {
+        $('a.trash').click(function (e) {
 
             var opt = {
                 type: 'GET',

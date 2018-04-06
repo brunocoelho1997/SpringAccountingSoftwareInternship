@@ -19,8 +19,20 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    List<Client> getAllClients(){
-        return clientRepository.findAll();
+    List<InfoClientDTO> getAllClients(){
+        List<Client> aux = clientRepository.findAll();
+        List<InfoClientDTO> allClientes = new ArrayList<>();
+        for(Client c : aux)
+        {
+            InfoClientDTO infoClientDTO = new InfoClientDTO();
+            infoClientDTO.setName(c.getName());
+            infoClientDTO.setNumberPhone(c.getNumberPhone());
+            infoClientDTO.setRegistrationCode(c.getRegistrationCode());
+            infoClientDTO.setId(c.getId());
+            infoClientDTO.setContacts(c.getContacts());
+            allClientes.add(infoClientDTO);
+        }
+        return allClientes;
     }
 
     public Client addClient(SaveClientDTO clientDTO) {

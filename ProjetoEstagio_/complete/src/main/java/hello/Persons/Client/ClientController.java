@@ -27,9 +27,6 @@ public class ClientController implements WebMvcConfigurer{
 
     @GetMapping("/")
     public String index(Model model) {
-        /*
-        TODO: APLICAR DTO AQUI. Sera? Ter de criar um array list de listClientDTO? para isso e' necessario preencher...
-         */
         model.addAttribute("listClients", clientService.getAllClients());
         return "Client/clients_index";
     }
@@ -55,7 +52,7 @@ public class ClientController implements WebMvcConfigurer{
     @RequestMapping("/info_client")
     public String infoClient(@RequestParam("id") Long id, Model model) {
         /*
-        TODO: fazer validacoes aqui. Imagina q n existe o id? tem de retornar p um pagina q indicara' isso
+        TODO: validacoes aqui feitas.... Mas falta no resto dos controladores
          */
         InfoClientDTO infoClientDTO = clientService.getInfoClientDTO(id);
         model.addAttribute("clientDTO", infoClientDTO);
