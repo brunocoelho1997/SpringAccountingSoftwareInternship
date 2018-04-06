@@ -230,10 +230,28 @@ public class ClientController implements WebMvcConfigurer{
     @RequestMapping("/remove_client")
     public String removeClient(@RequestParam("id") Long id, Model model) {
 
+        Client c = clientService.getClient(id);
+
+        /*
+        TODO: infoClientDTO? Usada no info tbm... provavelmente podemos definir um DTO global
+         */
+        //convert entity to DTO
+        InfoClientDTO infoClientDTO = new InfoClientDTO();
+        infoClientDTO.setName(c.getName());
+        infoClientDTO.setNumberPhone(c.getNumberPhone());
+        infoClientDTO.setRegistrationCode(c.getRegistrationCode());
+        infoClientDTO.setId(c.getId());
+        infoClientDTO.setContacts(c.getContacts());
+
+        model.addAttribute("clientDTO", infoClientDTO);
+        return "Client/remove_client :: modal";
+    }
+    @DeleteMapping("/remove_client")
+    public @ResponseBody String removeClient(@RequestParam("id") Long id) {
 
         clientService.removeClient(id);
-        model.addAttribute("clientDTO", infoContactDTO);
-        return "Client/Contact/remove_contact :: modal";
+
+        return "redirect:/client/";
     }
 //    @RequestMapping("/remove_client")
 //    public String removeClientId(@RequestParam("id") Long id, Model model) {

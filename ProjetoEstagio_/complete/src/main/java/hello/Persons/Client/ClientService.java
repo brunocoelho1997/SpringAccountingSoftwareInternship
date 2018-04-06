@@ -108,4 +108,9 @@ public class ClientService {
         c.getContacts().remove(cp);
         clientRepository.save(c);
     }
+
+    public void removeClient(Long id) {
+        Client c = getClient(id);
+        clientRepository.delete(c);
+    }
 }

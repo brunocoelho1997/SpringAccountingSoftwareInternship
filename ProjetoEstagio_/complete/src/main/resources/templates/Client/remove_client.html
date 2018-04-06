@@ -1,64 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="fragments/head :: copy"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
 <body>
-<div id="wrapper">
 
-    <div th:insert="~{fragments/navbar :: navbar}"></div>
-    <div id="page-wrapper">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="remove-modal" th:fragment="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
 
-
-        <div th:object="${client}">
-
-            <div class="row">
-                <div class="col-lg-12">
-
-                    <h1 class="page-header">
-                        <span th:text="#{Person.Client.AskRemove}" th:remove="tag">title</span>:
-                        <label th:text="${client.getName()}"/> ?
-                    </h1>
-                </div>
-                <!-- /.col-lg-12 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2" th:text="#{System.Details}"></h4>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div>
-                                <span th:text="#{Person.Name}" th:remove="tag">title</span>:
-                                <label th:text="${client.getName()}"/></span>
-                            </div>
-                            <div>
-                                <span th:text="#{Person.Adress}" th:remove="tag">title</span>:
-                                <label th:text="${client.getAdress()}"/></span>
-                            </div>
-                            <div>
-                                <span th:text="#{Person.Email}" th:remove="tag">title</span>:
-                                <label th:text="${client.getEmail()}"/></span>
-                            </div>
-                            <div>
-                                <span th:text="#{Person.NumberPhone}" th:remove="tag">title</span>:
-                                <label th:text="${client.getNumberPhone()}"/></span>
-                            </div>
-                            <div align="right">
-                                <a th:href="@{/client/removeclientid(id=${client.getId()})}">
-                                    <input class="btn btn-default" th:value="#{Person.Client.Remove}" />
-                                </a>
-                                <a th:href="@{/client/}">
-                                    <input class="btn btn-default" th:value="#{System.Back}" />
-                                </a>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+            <div class="modal-body">
+                <div>
+                    <span th:text="#{Client.Contact.Remove}" th:remove="tag">title</span>:
+                    <label th:text="${clientDTO.getId()}"/></span> -
+                    <label th:text="${clientDTO.getName()}"/></span>
+                    ?
                 </div>
-                <!-- /.col-lg-12 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{System.Close}"></button>
+                <button class="btn btn-default trash-confirm pull-right" data-dismiss="modal" th:onclick="'deleteClient(' + ${clientDTO.getId()} + ')'" th:text="#{System.Delete}"></button>
             </div>
         </div>
     </div>
 </div>
-<div th:replace="fragments/footer :: copy"></div>
+
 </body>
 </html>

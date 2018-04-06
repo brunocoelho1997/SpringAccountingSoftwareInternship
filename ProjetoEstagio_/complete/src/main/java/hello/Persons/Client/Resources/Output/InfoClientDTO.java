@@ -7,11 +7,6 @@ import java.util.List;
 
 public class InfoClientDTO {
 
-
-    /*
-        Dados do cliente e todos os seus contactos tambem!
-     */
-
     private Long id;
     private String registrationCode;
     private String name;
