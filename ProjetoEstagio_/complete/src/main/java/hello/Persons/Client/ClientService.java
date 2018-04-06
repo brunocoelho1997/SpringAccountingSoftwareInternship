@@ -1,12 +1,13 @@
 package hello.Persons.Client;
 
-import hello.Persons.Client.Resources.Input.CreateClientDTO;
-import hello.Persons.Client.Resources.Input.CreateContactDTO;
-import hello.Persons.Client.Resources.Input.EditClientDTO;
+import hello.Persons.Client.Resources.Input.SaveContactDTO;
+import hello.Persons.Client.Resources.Input.SaveClientDTO;
+import hello.Persons.Client.Resources.Output.InfoClientDTO;
 import hello.Persons.Client.Resources.Output.InfoContactDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client addClient(CreateClientDTO clientDTO) {
+    public Client addClient(SaveClientDTO clientDTO) {
 
         //DTO to Entity
         Client client = new Client();
@@ -45,14 +46,55 @@ public class ClientService {
         clientRepository.delete(c);
     }
 
-    public void editClient(EditClientDTO clientDTO) {
+    public void editClient(SaveClientDTO clientDTO) {
         Client c = clientRepository.getOne(clientDTO.getId());
         c.setName(clientDTO.getName());
         c.setRegistrationCode(clientDTO.getRegistrationCode());
         c.setNumberPhone(clientDTO.getNumberPhone());
         clientRepository.save(c);
     }
+    public void removeClient(Long id) {
+        Client c = getClient(id);
+        clientRepository.delete(c);
+    }
 
+    public InfoClientDTO getInfoClientDTO(Long id) {
+
+        try
+        {
+            Client c = getClient(id);
+            //convert entity to DTO
+            InfoClientDTO infoClientDTO = new InfoClientDTO();
+            infoClientDTO.setName(c.getName());
+            infoClientDTO.setNumberPhone(c.getNumberPhone());
+            infoClientDTO.setRegistrationCode(c.getRegistrationCode());
+            infoClientDTO.setId(c.getId());
+            infoClientDTO.setContacts(c.getContacts());
+
+            return infoClientDTO;
+
+        }catch (EntityNotFoundException ex)
+        {
+            return new InfoClientDTO();
+        }
+    }
+
+    public SaveClientDTO getSaveClientDTO(Long id) {
+        Client c = getClient(id);
+        //client to DTO
+        SaveClientDTO clientDTO = new SaveClientDTO();
+        clientDTO.setId(c.getId());
+        clientDTO.setName(c.getName());
+        clientDTO.setNumberPhone(c.getNumberPhone());
+        clientDTO.setRegistrationCode(c.getRegistrationCode());
+        clientDTO.setContacts(c.getContacts());
+        return clientDTO;
+    }
+
+    /*
+    ------------------------------------------
+    CONTACTS
+     */
 
     public Contact getContactPerson(Long clientId, Long contactId)
     {
@@ -65,7 +107,7 @@ public class ClientService {
         return null;
     }
 
-    public void addContact(CreateContactDTO contactDTO) {
+    public void addContact(SaveContactDTO contactDTO) {
 
         Client c = getClient(contactDTO.getClientId());
         Contact cp = new Contact();
@@ -82,7 +124,6 @@ public class ClientService {
         Client c = getClient(id);
         return c.getContacts();
     }
-
 
     public void editContact(@Valid InfoContactDTO contactDTO) {
 
@@ -109,8 +150,30 @@ public class ClientService {
         clientRepository.save(c);
     }
 
-    public void removeClient(Long id) {
-        Client c = getClient(id);
-        clientRepository.delete(c);
+
+    public InfoContactDTO getInfoContactDTO(Long clientId, Long contactId) {
+        Contact cp = getContactPerson(clientId, contactId);
+        //convert entity to DTO
+        InfoContactDTO infoContactDTO = new InfoContactDTO();
+        infoContactDTO.setAdress(cp.getAdress());
+        infoContactDTO.setEmail(cp.getEmail());
+        infoContactDTO.setId(cp.getId());
+        infoContactDTO.setClientId(clientId);
+        infoContactDTO.setName(cp.getName());
+        infoContactDTO.setNumberPhone(cp.getNumberPhone());
+        return infoContactDTO;
+    }
+
+    public SaveContactDTO getSaveContactDTO(Long clientId, Long contactId) {
+        Contact cp = getContactPerson(clientId, contactId);
+        //convert entity to DTO
+        SaveContactDTO contactDTO = new SaveContactDTO();
+        contactDTO.setAdress(cp.getAdress());
+        contactDTO.setEmail(cp.getEmail());
+        contactDTO.setId(cp.getId());
+        contactDTO.setClientId(clientId);
+        contactDTO.setName(cp.getName());
+        contactDTO.setNumberPhone(cp.getNumberPhone());
+        return contactDTO;
     }
 }

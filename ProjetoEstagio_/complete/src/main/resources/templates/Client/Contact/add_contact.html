@@ -93,7 +93,7 @@
         $.ajax({
             type: 'GET',
             contentType: "application/json",
-            url: '/client/get_contacts/' + $('input#clientId').val()
+            url: '/client/get_contacts?id=' + $('input#clientId').val()
         }).done(function (result) {
             $("table").html(result);
         }).fail(function (jqXHR, textStatus) {

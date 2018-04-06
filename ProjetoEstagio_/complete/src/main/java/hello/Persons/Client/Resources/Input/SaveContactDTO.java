@@ -5,12 +5,15 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-public class CreateContactDTO {
+public class SaveContactDTO {
 
     public static final int MAX_NAME_LENGHT = 30;
     public static final int MAX_ADRESS_LENGHT = 255;
     public static final int MAX_EMAIL_LENGHT = 255;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
+
+    //Just to show the Identification
+    private Long id;
 
     @NotNull
     private Long clientId;
@@ -69,5 +72,13 @@ public class CreateContactDTO {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
