@@ -69,7 +69,7 @@ public class ClientController implements WebMvcConfigurer{
     @PostMapping("/edit_client")
     public String editClient(@Valid SaveClientDTO clientDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "edit_client";
+            return "Client/edit_client";
         }
         clientService.editClient(clientDTO);
         return "redirect:/client/";
@@ -134,7 +134,7 @@ public class ClientController implements WebMvcConfigurer{
         return "Client/Contact/edit_contact";
     }
     @PostMapping("/edit_contact")
-    public String editContact(@Valid InfoContactDTO contactDTO, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
+    public String editContact(@Valid SaveContactDTO contactDTO, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
         if (bindingResult.hasErrors()) {
             return "edit_contact";

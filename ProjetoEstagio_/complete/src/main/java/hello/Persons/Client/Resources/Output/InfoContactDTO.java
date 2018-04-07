@@ -1,5 +1,7 @@
 package hello.Persons.Client.Resources.Output;
 
+import hello.Persons.Adress;
+
 public class InfoContactDTO {
 
 
@@ -7,7 +9,7 @@ public class InfoContactDTO {
     private Long clientId; //used by the "go back" button
     private String name;
     private String email;
-    private String adress;
+    private InfoAdressDTO adressDTO;
     private String numberPhone;
 
     public Long getId() {
@@ -34,12 +36,12 @@ public class InfoContactDTO {
         this.email = email;
     }
 
-    public String getAdress() {
-        return adress;
+    public InfoAdressDTO getAdressDTO() {
+        return adressDTO;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAdressDTO(InfoAdressDTO adressDTO) {
+        this.adressDTO = adressDTO;
     }
 
     public String getNumberPhone() {
@@ -65,7 +67,6 @@ public class InfoContactDTO {
                 ", clientId=" + clientId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", adress='" + adress + '\'' +
                 ", numberPhone='" + numberPhone + '\'' +
                 '}';
     }

@@ -29,12 +29,26 @@
                     <label th:text="${contactDTO.getEmail()}"/></span>
                 </div>
                 <div>
-                    <span th:text="#{Client.Adress}" th:remove="tag">title</span>:
-                    <label th:text="${contactDTO.getAdress()}"/></span>
-                </div>
-                <div>
                     <span th:text="#{Client.NumberPhone}" th:remove="tag">title</span>:
                     <label th:text="${contactDTO.getNumberPhone()}"/></span>
+                </div>
+                <br>
+                <span th:text="#{Client.Adress.Name}" th:remove="tag">title</span>:
+                <div>
+                    <span th:text="#{Client.Adress}" th:remove="tag">title</span>:
+                    <span th:text="${contactDTO.getAdressDTO().getAdressName()}"/></span>
+                </div>
+                <div>
+                    <span th:text="#{Client.Adress.City}" th:remove="tag">title</span>:
+                    <span th:text="${contactDTO.getAdressDTO().getCity()}"/></span>
+                </div>
+                <div>
+                    <span th:text="#{Client.Adress.ZipCode}" th:remove="tag">title</span>:
+                    <span th:text="${contactDTO.getAdressDTO().getZipCode()}"/></span>
+                </div>
+                <div>
+                    <span th:text="#{Client.Adress.Number}" th:remove="tag">title</span>:
+                    <span th:text="${contactDTO.getAdressDTO().getNumber()}"/></span>
                 </div>
             </div>
         </div>

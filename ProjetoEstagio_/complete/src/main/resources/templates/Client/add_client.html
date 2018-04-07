@@ -4,7 +4,7 @@
 <body>
 <div id="wrapper">
 
-    <div th:insert="~{fragments/navbar :: navbar}">...</div>
+    <div th:replace="~{fragments/navbar :: navbar}">...</div>
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
@@ -46,6 +46,46 @@
                                     <div class="col-sm-3"></div>
                                 </div>
 
+                                <div class="form-group">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" th:text="#{Client.Adress}"> Adicionar Cliente
+                                            </div>
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3"  th:text="#{Client.Adress.City}"></label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" th:field="*{adressDTO.city}">
+                                                        <td th:if="${#fields.hasErrors('adressDTO.city')}" th:errors="*{adressDTO.city}">Name Error</td>
+                                                    </div>
+                                                    <label class="control-label col-sm-1"  th:text="#{Client.Adress.Number}"></label>
+                                                    <div class="col-sm-3">
+                                                        <input type="number" class="form-control" th:field="*{adressDTO.number}">
+                                                        <td th:if="${#fields.hasErrors('adressDTO.number')}" th:errors="*{adressDTO.number}">Name Error</td>
+                                                    </div>
+                                                    <div class="col-sm-3"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3"  th:text="#{Client.Adress.Adress}"></label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" th:field="*{adressDTO.adressName}">
+                                                        <td th:if="${#fields.hasErrors('adressDTO.adressName')}" th:errors="*{adressDTO.adressName}">Name Error</td>
+                                                    </div>
+                                                    <label class="control-label col-sm-1"  th:text="#{Client.Adress.ZipCode}"></label>
+                                                    <div class="col-sm-3">
+                                                        <input class="form-control" th:field="*{adressDTO.zipCode}">
+                                                        <td th:if="${#fields.hasErrors('adressDTO.zipCode')}" th:errors="*{adressDTO.zipCode}">Name Error</td>
+                                                    </div>
+                                                    <div class="col-sm-3"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3"></div>
+                                </div>
+
                                 <div class="form-group" align="right">
                                     <input type="submit"  class="btn btn-default" th:value="#{Client.Add}" />
                                     <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
@@ -53,6 +93,7 @@
                                         <input class="btn btn-default" th:value="#{System.Back}" />
                                     </a>
                                 </div>
+
                             </div>
                         </form>
                     </div>

@@ -11,7 +11,13 @@ public class InfoClientDTO {
     private String registrationCode;
     private String name;
     private String numberPhone;
+
+    /*
+    TODO: esta' incorreto. Esta' a passar a entidade mesmo...
+     */
     private List<Contact> contacts;
+
+    private InfoAdressDTO adressDTO;
 
     public Long getId() {
         return id;
@@ -51,5 +57,13 @@ public class InfoClientDTO {
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public InfoAdressDTO getAdressDTO() {
+        return adressDTO;
+    }
+
+    public void setAdressDTO(InfoAdressDTO adressDTO) {
+        this.adressDTO = adressDTO;
     }
 }

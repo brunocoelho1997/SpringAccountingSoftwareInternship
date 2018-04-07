@@ -3,8 +3,7 @@ package hello.Persons;
 import hello.Entity;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,10 +28,13 @@ public class Person extends Entity {
     @Column(nullable = false, length = MAX_EMAIL_LENGHT)
     private String email;
 
+    /*
+    TODO: so' tera' uma morada?
+     */
     @NotNull
-    @Length(min=1, max = MAX_ADRESS_LENGHT)
-    @Column(nullable = false, length = MAX_ADRESS_LENGHT)
-    private String adress;
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_Adress"), nullable = false)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+    private Adress adress;
 
     @NotNull
     @Length(min=1, max = MAX_NUMBERPHONE_LENGHT)
@@ -55,11 +57,11 @@ public class Person extends Entity {
         this.email = email;
     }
 
-    public String getAdress() {
+    public Adress getAdress() {
         return adress;
     }
 
-    public void setAdress(String adress) {
+    public void setAdress(Adress adress) {
         this.adress = adress;
     }
 

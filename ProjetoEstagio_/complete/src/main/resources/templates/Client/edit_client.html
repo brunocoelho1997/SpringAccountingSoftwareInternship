@@ -58,36 +58,80 @@
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" th:text="#{Client.Adress}"> Adicionar Cliente
+                                            </div>
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3"  th:text="#{Client.Adress.City}"></label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" th:field="*{adressDTO.city}"/>
+                                                        <td th:if="${#fields.hasErrors('adressDTO.city')}" th:errors="*{adressDTO.city}">Name Error</td>
+                                                    </div>
+                                                    <label class="control-label col-sm-1"  th:text="#{Client.Adress.Number}"></label>
+                                                    <div class="col-sm-3">
+                                                        <input type="number" class="form-control" th:field="*{adressDTO.number}">
+                                                        <td th:if="${#fields.hasErrors('adressDTO.number')}" th:errors="*{adressDTO.number}">Name Error</td>
+                                                    </div>
+                                                    <div class="col-sm-3"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3"  th:text="#{Client.Adress.Adress}"></label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" th:field="*{adressDTO.adressName}">
+                                                        <td th:if="${#fields.hasErrors('adressDTO.adressName')}" th:errors="*{adressDTO.adressName}">Name Error</td>
+                                                    </div>
+                                                    <label class="control-label col-sm-1"  th:text="#{Client.Adress.ZipCode}"></label>
+                                                    <div class="col-sm-3">
+                                                        <input class="form-control" th:field="*{adressDTO.zipCode}">
+                                                        <td th:if="${#fields.hasErrors('adressDTO.zipCode')}" th:errors="*{adressDTO.zipCode}">Name Error</td>
+                                                    </div>
+                                                    <div class="col-sm-3"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3"></div>
+                                </div>
                             </div>
                         </form>
 
                         <br>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" th:text="#{Client.Contact.PanelHeading}"></div>
-                            <table width="100%" class="table table-striped table-hover" id="dataTables-example">
-                                <thead>
-                                <tr>
-                                    <th th:text="#{Person.Name}"></th>
-                                    <th th:text="#{Person.Email}"></th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="c : ${clientDTO.getContacts()}">
-                                    <td href="#" th:text="${c.getName()}"></td>
-                                    <td th:text="${c.getEmail()}">1</td>
-                                    <td class="center">
-                                        <a class="btn btn-default trash pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-remove"></i></a>
-                                        <a class="btn btn-default pull-right" th:href="@{/client/edit_contact(id_client=${clientDTO.getId()}, id_contact=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
-                                        <a class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" th:text="#{Client.Contact.PanelHeading}"></div>
+                                <table width="100%" class="table table-striped table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th th:text="#{Person.Name}"></th>
+                                        <th th:text="#{Person.Email}"></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="c : ${clientDTO.getContacts()}">
+                                        <td href="#" th:text="${c.getName()}"></td>
+                                        <td th:text="${c.getEmail()}">1</td>
+                                        <td class="center">
+                                            <a class="btn btn-default trash pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/client/edit_contact(id_client=${clientDTO.getId()}, id_contact=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
+                                            <a class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div align="right">
+                                <a class="btn btn-default pull-right" th:href="@{/client/add_contact(client_id=${clientDTO.getId()})}" th:text="#{Client.Contact.Add}"></a>
+                            </div>
                         </div>
-                        <div align="right">
-                            <a class="btn btn-default pull-right" th:href="@{/client/add_contact(client_id=${clientDTO.getId()})}" th:text="#{Client.Contact.Add}"></a>
-                        </div>
+                        <div class="col-sm-2"></div>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -143,9 +187,9 @@
             url: '/client/remove_contact?id_client=' + id_client + '&id_contact=' + id_contact
 
         }).done(function (result) {
-            $('button[contact-id=' + id_contact + ']').closest('tr').remove();
+            $('a[contact-id=' + id_contact + ']').closest('tr').remove();
         }).fail(function (jqXHR, textStatus) {
-            ;
+            alert(textStatus);
         });
 
     }

@@ -1,17 +1,22 @@
 package hello.Persons.Client.Resources.Input;
 
+import hello.Persons.Adress;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 public class SaveContactDTO {
 
     public static final int MAX_NAME_LENGHT = 30;
-    public static final int MAX_ADRESS_LENGHT = 255;
     public static final int MAX_EMAIL_LENGHT = 255;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
-
+    public static final int MAX_NUMBER_SIZE = 4;
+    public static final int MAX_CITY_LENGHT = 12;
+    public static final int MAX_ADRESS_LENGHT = 255;
+    public static final int MAX_ZIPCODE_LENGHT = 8;
     //Just to show the Identification
     private Long id;
 
@@ -27,12 +32,11 @@ public class SaveContactDTO {
     private String email;
 
     @NotNull
-    @Length(min=1, max = MAX_ADRESS_LENGHT)
-    private String adress;
-
-    @NotNull
     @Length(min=1, max = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
+
+    @NotNull
+    private SaveAdressDTO adressDTO;
 
     public String getName() {
         return name;
@@ -50,12 +54,12 @@ public class SaveContactDTO {
         this.email = email;
     }
 
-    public String getAdress() {
-        return adress;
+    public SaveAdressDTO getAdressDTO() {
+        return adressDTO;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAdressDTO(SaveAdressDTO adressDTO) {
+        this.adressDTO = adressDTO;
     }
 
     public String getNumberPhone() {

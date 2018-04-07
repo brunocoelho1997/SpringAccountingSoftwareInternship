@@ -1,5 +1,6 @@
 package hello.Persons.Client;
 
+import hello.Persons.Adress;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -34,6 +35,14 @@ public class Client extends hello.Entity {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval=true)
     private List<Contact> contacts;
 
+    /*
+        TODO: um cliente tem varias moradas ou nao? Ou tera so' 2?
+     */
+    @NotNull
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_Adress"), nullable = false)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+    private Adress adress;
+
     public String getRegistrationCode() {
         return registrationCode;
     }
@@ -64,5 +73,13 @@ public class Client extends hello.Entity {
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public Adress getAdress() {
+        return adress;
+    }
+
+    public void setAdress(Adress adress) {
+        this.adress = adress;
     }
 }

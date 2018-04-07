@@ -27,15 +27,33 @@
                         <div class="panel-body">
                             <div>
                                 <span th:text="#{Client.Id}" th:remove="tag">title</span>:
-                                <span id = "id_value" th:text="${clientDTO.getId()}"/></span>
+                                <span id = "id_value" th:text="${clientDTO.getId()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Client.RegistrationCode}" th:remove="tag">title</span>:
-                                <span th:text="${clientDTO.getRegistrationCode()}"/></span>
+                                <span th:text="${clientDTO.getRegistrationCode()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Client.Name}" th:remove="tag">title</span>:
-                                <span th:text="${clientDTO.getName()}"/></span>
+                                <span th:text="${clientDTO.getName()}"></span>
+                            </div>
+                            <br>
+                            <span th:text="#{Client.Adress.Name}" th:remove="tag">title</span>:
+                            <div>
+                                <span th:text="#{Client.Adress}" th:remove="tag">title</span>:
+                                <span th:text="${clientDTO.getAdressDTO().getAdressName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Client.Adress.City}" th:remove="tag">title</span>:
+                                <span th:text="${clientDTO.getAdressDTO().getCity()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Client.Adress.ZipCode}" th:remove="tag">title</span>:
+                                <span th:text="${clientDTO.getAdressDTO().getZipCode()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Client.Adress.Number}" th:remove="tag">title</span>:
+                                <span th:text="${clientDTO.getAdressDTO().getNumber()}"></span>
                             </div>
                             <br>
                             <div class="panel panel-default">
@@ -54,7 +72,6 @@
                                         <td th:text="${c.getEmail()}">1</td>
                                         <td class="center">
                                             <button class="btn btn-default info pull-right" th:client-id="${clientDTO.getId()}" th:contact-id="${c.getId()}"><i class="glyphicon glyphicon-info-sign"></i></button>
-
                                         </td>
                                     </tr>
                                     </tbody>
