@@ -4,6 +4,7 @@ import hello.Persons.Adress;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ public class SaveContactDTO {
     private String numberPhone;
 
     @NotNull
+    @Valid
     private SaveAdressDTO adressDTO;
 
     public String getName() {

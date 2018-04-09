@@ -31,7 +31,6 @@ public class ClientController implements WebMvcConfigurer{
         return "Client/clients_index";
     }
 
-
     @GetMapping("/add_client")
     public String addClient(Model model) {
         model.addAttribute("clientDTO", new SaveClientDTO());

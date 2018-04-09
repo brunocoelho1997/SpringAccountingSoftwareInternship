@@ -13,7 +13,7 @@ public class SaveAdressDTO {
     public static final int MAX_ADRESS_LENGHT = 255;
     public static final int MAX_ZIPCODE_LENGHT = 8;
 
-    //Just to show the Identification
+    //Used to edit adress or remove
     private Long id;
 
     @Length(min=1, max = MAX_CITY_LENGHT)

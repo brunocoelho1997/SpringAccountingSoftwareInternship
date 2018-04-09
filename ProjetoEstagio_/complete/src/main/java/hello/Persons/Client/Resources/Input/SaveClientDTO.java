@@ -3,6 +3,7 @@ package hello.Persons.Client.Resources.Input;
 import hello.Persons.Client.Contact;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,12 +14,8 @@ public class SaveClientDTO {
     public static final int MAX_NAME_LENGHT = 30;
     public static final int MAX_REGISTRATIONCODE_LENGHT = 30;
     public static final int MAX_NUMBERPHONE_LENGHT = 12;
-    public static final int MAX_NUMBER_SIZE = 4;
-    public static final int MAX_CITY_LENGHT = 12;
-    public static final int MAX_ADRESS_LENGHT = 255;
-    public static final int MAX_ZIPCODE_LENGHT = 8;
 
-    //Just to show the Identification
+    //Used when editing a client for example
     private Long id;
 
     @NotNull
@@ -34,6 +31,7 @@ public class SaveClientDTO {
     private String numberPhone;
 
     @NotNull
+    @Valid //to valid the adressDTO too
     private SaveAdressDTO adressDTO;
 
     private List<Contact> contacts;

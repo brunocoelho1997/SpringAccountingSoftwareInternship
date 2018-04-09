@@ -25,7 +25,7 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    List<InfoClientDTO> getAllClients(){
+    public List<InfoClientDTO> getAllClients(){
         List<Client> aux = clientRepository.findAll();
 
         List<InfoClientDTO> allClientes = new ArrayList<>();
@@ -36,10 +36,43 @@ public class ClientService {
             infoClientDTO.setNumberPhone(c.getNumberPhone());
             infoClientDTO.setRegistrationCode(c.getRegistrationCode());
             infoClientDTO.setId(c.getId());
-            infoClientDTO.setContacts(c.getContacts());
+
+            List<InfoContactDTO> contactDTOS = getInfoContactDTOList(c);
+            infoClientDTO.setContacts(contactDTOS);
             allClientes.add(infoClientDTO);
         }
         return allClientes;
+    }
+
+
+    //convert list of contact to list of contactDTO
+    private List<InfoContactDTO> getInfoContactDTOList(Client c)
+    {
+        List<InfoContactDTO> allcontacts = new ArrayList<>();
+        List<Contact> aux = c.getContacts();
+        for(Contact cc : aux)
+        {
+            InfoContactDTO contactDTO = new InfoContactDTO();
+            contactDTO.setId(cc.getId());
+            contactDTO.setEmail(cc.getEmail());
+            contactDTO.setName(cc.getName());
+            contactDTO.setNumberPhone(cc.getNumberPhone());
+            InfoAdressDTO adressDTO = getInfoAdressDTO(cc);
+            contactDTO.setAdressDTO(adressDTO);
+            allcontacts.add(contactDTO);
+
+        }
+        return allcontacts;
+    }
+    private InfoAdressDTO getInfoAdressDTO(Contact cc){
+        InfoAdressDTO adressDTO = new InfoAdressDTO();
+        Adress adress = cc.getAdress();
+        adressDTO.setZipCode(adress.getZipCode());
+        adressDTO.setNumber(adress.getNumber());
+        adressDTO.setCity(adress.getCity());
+        adressDTO.setAdressName(adress.getAdressName());
+        adressDTO.setId(adress.getId());
+        return adressDTO;
     }
 
     public Client addClient(SaveClientDTO clientDTO) {
@@ -64,12 +97,39 @@ public class ClientService {
         return client;
     }
 
-    public Client getClient(Long id) {
-        return clientRepository.getOne(id);
+    public InfoClientDTO getInfoClientDTO(Long id) {
+        try
+        {
+            Client c = getClient(id);
+            //convert entity to DTO
+            InfoClientDTO infoClientDTO = new InfoClientDTO();
+            infoClientDTO.setName(c.getName());
+            infoClientDTO.setNumberPhone(c.getNumberPhone());
+            infoClientDTO.setRegistrationCode(c.getRegistrationCode());
+            infoClientDTO.setId(c.getId());
+
+            List<InfoContactDTO> contactDTOS = getInfoContactDTOList(c);
+            infoClientDTO.setContacts(contactDTOS);
+
+            Adress ad = c.getAdress();
+            InfoAdressDTO adressDTO = new InfoAdressDTO();
+            adressDTO.setAdressName(ad.getAdressName());
+            adressDTO.setCity(ad.getCity());
+            adressDTO.setNumber(ad.getNumber());
+            adressDTO.setZipCode(ad.getZipCode());
+
+            infoClientDTO.setAdressDTO(adressDTO);
+            return infoClientDTO;
+
+        }catch (EntityNotFoundException ex)
+        {
+            //if can't getClient
+            return null;
+        }
     }
 
-    public void deleteClient(Client c) {
-        clientRepository.delete(c);
+    public Client getClient(Long id) {
+        return clientRepository.getOne(id);
     }
 
     public void editClient(SaveClientDTO clientDTO) {
@@ -86,39 +146,7 @@ public class ClientService {
 
         clientRepository.save(c);
     }
-    public void removeClient(Long id) {
-        Client c = getClient(id);
-        clientRepository.delete(c);
-    }
 
-    public InfoClientDTO getInfoClientDTO(Long id) {
-
-        try
-        {
-            Client c = getClient(id);
-            //convert entity to DTO
-            InfoClientDTO infoClientDTO = new InfoClientDTO();
-            infoClientDTO.setName(c.getName());
-            infoClientDTO.setNumberPhone(c.getNumberPhone());
-            infoClientDTO.setRegistrationCode(c.getRegistrationCode());
-            infoClientDTO.setId(c.getId());
-            infoClientDTO.setContacts(c.getContacts());
-
-            Adress ad = c.getAdress();
-            InfoAdressDTO adressDTO = new InfoAdressDTO();
-            adressDTO.setAdressName(ad.getAdressName());
-            adressDTO.setCity(ad.getCity());
-            adressDTO.setNumber(ad.getNumber());
-            adressDTO.setZipCode(ad.getZipCode());
-
-            infoClientDTO.setAdressDTO(adressDTO);
-            return infoClientDTO;
-
-        }catch (EntityNotFoundException ex)
-        {
-            return new InfoClientDTO();
-        }
-    }
 
     public SaveClientDTO getSaveClientDTO(Long id) {
         Client c = getClient(id);
@@ -138,13 +166,16 @@ public class ClientService {
         clientDTO.getAdressDTO().setZipCode(ad.getZipCode());
         clientDTO.getAdressDTO().setAdressName(ad.getAdressName());
 
-
         return clientDTO;
     }
 
-    /*
-    TODO: quando um gajo edita um contato o proprio cliente fica sem morada
-     */
+    public void removeClient(Long id) {
+        Client c = getClient(id);
+        clientRepository.delete(c);
+    }
+    public void deleteClient(Client c) {
+        clientRepository.delete(c);
+    }
 
     /*
     ------------------------------------------

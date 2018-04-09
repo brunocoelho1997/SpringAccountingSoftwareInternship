@@ -15,7 +15,7 @@ public class InfoClientDTO {
     /*
     TODO: esta' incorreto. Esta' a passar a entidade mesmo...
      */
-    private List<Contact> contacts;
+    private List<InfoContactDTO> contacts;
 
     private InfoAdressDTO adressDTO;
 
@@ -51,11 +51,11 @@ public class InfoClientDTO {
         this.numberPhone = numberPhone;
     }
 
-    public List<Contact> getContacts() {
+    public List<InfoContactDTO> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(List<InfoContactDTO> contacts) {
         this.contacts = contacts;
     }
 
