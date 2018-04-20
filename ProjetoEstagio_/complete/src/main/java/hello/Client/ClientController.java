@@ -1,6 +1,7 @@
 package hello.Client;
 
 import hello.Adress.Adress;
+import hello.Adress.AdressResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,25 +86,27 @@ public class ClientController implements WebMvcConfigurer {
      */
 
     @GetMapping("/add_adress_client")
-    public String addAdressClient(@RequestParam("client_id") Long clientId, Model model) {
+    public String addAdressClient(@RequestParam("client_id") Long client_id, Model model) {
 
-        Adress adress = new Adress();
-        Client client = clientService.getClient(clientId);
-
-        model.addAttribute("adress", adress);
-        model.addAttribute("client_id", client.getId());
+        AdressResource adressResource = new AdressResource();
+        adressResource.setClientId(client_id);
+        model.addAttribute("adressResource", adressResource);
 
         return "Adress/add_adress_client";
     }
-    @PostMapping("/add_adress_client")
-    public String addAdressClient(Model model, @Valid @ModelAttribute("client_id") long client_id, @Valid @ModelAttribute("adress") Adress adress, BindingResult bindingResult, RedirectAttributes attributes) {
+
+    @PostMapping(value = "/add_adress_client")
+    public String addAdressClient(Model model, @Valid @ModelAttribute("adress") AdressResource adressResource, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             return "Adress/add_adress_client";
         }
+        Adress adress = adressResource.convertToAdress();
+        clientService.addAdress(adressResource.getClientId(), adress);
 
-        clientService.addAdress(client_id, adress);
+        AdressResource aux = new AdressResource();
+        aux.setClientId(adressResource.getClientId());
+        attributes.addAttribute("client_id", adressResource.getClientId());
 
-        attributes.addAttribute("client_id", client_id);
         return "redirect:/client/add_adress_client";
     }
 

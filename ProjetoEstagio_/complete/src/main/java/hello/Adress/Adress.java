@@ -16,6 +16,7 @@ public class Adress {
     public static final int MAX_ZIPCODE_LENGHT = 8;
 
 
+
     @Length(min=1, max = MAX_CITY_LENGHT)
     @Column(length = MAX_CITY_LENGHT)
     private String city;
