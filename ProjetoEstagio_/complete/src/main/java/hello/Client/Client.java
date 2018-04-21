@@ -38,7 +38,7 @@ public class Client extends hello.Entity {
 
     @ElementCollection
     @CollectionTable(foreignKey = @ForeignKey(name = "FK_Client_Adress"))
-    private List<Adress> adress;
+    private List<Adress> adresses;
 
     public String getRegistrationCode() {
         return registrationCode;
@@ -64,11 +64,11 @@ public class Client extends hello.Entity {
         this.numberPhone = numberPhone;
     }
 
-    public List<Adress> getAdress() {
-        return adress;
+    public List<Adress> getAdresses() {
+        return adresses;
     }
 
-    public void setAdress(List<Adress> adress) {
-        this.adress = adress;
+    public void setAdresses(List<Adress> adresses) {
+        this.adresses = adresses;
     }
 }

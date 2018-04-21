@@ -21,8 +21,6 @@ public class ClientService {
 
     public Client addClient(Client client)
     {
-        if(client.getAdress() == null)
-            client.setAdress(new ArrayList<>());
         return repository.save(client);
     }
 
@@ -58,7 +56,7 @@ public class ClientService {
 
     public void editClient(Client editedClient){
         Client client = getOne(editedClient.getId());
-        client.setAdress(editedClient.getAdress());
+        client.setAdresses(editedClient.getAdresses());
         client.setName(editedClient.getName());
         client.setNumberPhone(editedClient.getNumberPhone());
         client.setRegistrationCode(editedClient.getRegistrationCode());
@@ -67,12 +65,12 @@ public class ClientService {
 
     public void addAdress(@Valid long client_id, @Valid Adress adress) {
         Client client = getOne(client_id);
-        client.getAdress().add(adress);
+        client.getAdresses().add(adress);
         repository.save(client);
     }
 
     public List<Adress> getAdressesClient(Long id) {
         Client client = getOne(id);
-        return client.getAdress();
+        return client.getAdresses();
     }
 }

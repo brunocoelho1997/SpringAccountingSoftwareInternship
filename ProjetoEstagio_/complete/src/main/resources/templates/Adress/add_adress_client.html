@@ -11,13 +11,13 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header" th:if="${adressResource.getClientId() !=null}" th:text="#{Adress.Client.Add}">
+                <h1 class="page-header" th:if="${adressResource.getClient() !=null}" th:text="#{Adress.Client.Add}">
                 </h1>
-                <h1 class="page-header" th:unless="${adressResource.getClientId() !=null}"> <label th:text="#{Adress.ErrorAdd.Header}"/></h1>
+                <h1 class="page-header" th:unless="${adressResource.getClient() !=null}"> <label th:text="#{Adress.ErrorAdd.Header}"/></h1>
             </div>
         </div>
-        <div class="row" th:unless="${adressResource.getClientId() !=null}" th:text="#{Adress.ErrorAdd.Body}"></div>
-        <div class="row" th:if="${adressResource.getClientId() != null}">
+        <div class="row" th:unless="${adressResource.getClient() !=null}" th:text="#{Adress.ErrorAdd.Body}"></div>
+        <div class="row" th:if="${adressResource.getClient() != null}">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading" th:text="#{Adress.Client.Add}"> Adicionar
@@ -25,36 +25,36 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div th:align="right">
-                            <a th:href="@{/client/edit_client(id=${adressResource.getClientId()})}">
+                            <a th:href="@{/client/edit_client(id=${adressResource.getClient()})}">
                                 <input class="btn btn-default" th:value="#{System.Finish}" />
                             </a>
                         </div>
                         <form th:action="@{/client/add_adress_client}" method="post">
-                            <input th:type="hidden" th:id="idClient" th:field = "*{adressResource.clientId}"/>
+                            <input th:type="hidden" th:id="idClient" th:field = "*{adressResource.client}"/>
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Adress.City}"></label>
                                     <div class="col-sm-2">
-                                        <input class="form-control" th:field="*{adressResource.city}"/>
-                                        <td th:if="${#fields.hasErrors('adressResource.city')}" th:errors="*{adressResource.city}">Name Error</td>
+                                        <input class="form-control" th:field="*{adressResource.adress.city}"/>
+                                        <td th:if="${#fields.hasErrors('adressResource.adress.city')}" th:errors="*{adressResource.adress.city}">Name Error</td>
                                     </div>
                                     <label class="control-label col-sm-1"  th:text="#{Adress.Number}"></label>
                                     <div class="col-sm-3">
-                                        <input type="number" class="form-control" th:field="*{adressResource.number}"/>
-                                        <td th:if="${#fields.hasErrors('adressResource.number')}" th:errors="*{adressResource.number}">Name Error</td>
+                                        <input type="number" class="form-control" th:field="*{adressResource.adress.number}"/>
+                                        <td th:if="${#fields.hasErrors('adressResource.adress.number')}" th:errors="*{adressResource.adress.number}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Adress.Adress}"></label>
                                     <div class="col-sm-2">
-                                        <input class="form-control" th:field="*{adressResource.adressName}"/>
-                                        <td th:if="${#fields.hasErrors('adressResource.adressName')}" th:errors="*{adressResource.adressName}">Name Error</td>
+                                        <input class="form-control" th:field="*{adressResource.adress.adressName}"/>
+                                        <td th:if="${#fields.hasErrors('adressResource.adress.adressName')}" th:errors="*{adressResource.adress.adressName}">Name Error</td>
                                     </div>
                                     <label class="control-label col-sm-1"  th:text="#{Adress.ZipCode}"></label>
                                     <div class="col-sm-3">
-                                        <input class="form-control" th:field="*{adressResource.zipCode}">
-                                        <td th:if="${#fields.hasErrors('adressResource.zipCode')}" th:errors="*{adressResource.zipCode}">Name Error</td>
+                                        <input class="form-control" th:field="*{adressResource.adress.zipCode}">
+                                        <td th:if="${#fields.hasErrors('adressResource.adress.zipCode')}" th:errors="*{adressResource.adress.zipCode}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
