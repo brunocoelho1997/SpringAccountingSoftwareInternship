@@ -31,22 +31,8 @@ public class ClientController implements WebMvcConfigurer {
     public String addClient(Model model) {
 
         Client client = new Client();
-        client.setName("ola");
 
-        List<Adress> adresses = new ArrayList<>();
-        Adress adress = new Adress();
-        adress.setAdressName("asdasd");
-        adress.setNumber(123);
-        adress.setZipCode("asdasd");
-        adress.setCity("asdasd");
-
-        adresses.add(adress);
-
-        Adress adress1 = new Adress();
-        adresses.add(adress1);
-        client.setAdresses(adresses);
         model.addAttribute("client", client);
-        model.addAttribute("adress", new Adress());
 
 
 
@@ -64,7 +50,7 @@ public class ClientController implements WebMvcConfigurer {
         //we receive the client to get his new id to add contacts
         Client c = clientService.addClient(client);
 
-//        attributes.addAttribute("client", c);
+        model.addAttribute("listClients", clientService.getClients());
         return "Client/index";
     }
 

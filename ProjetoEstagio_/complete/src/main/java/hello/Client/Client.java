@@ -4,6 +4,7 @@ import hello.Adress.Adress;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class Client extends hello.Entity {
 
     @ElementCollection
     @CollectionTable(foreignKey = @ForeignKey(name = "FK_Client_Adress"))
+    @Valid
     private List<Adress> adresses;
 
     public String getRegistrationCode() {

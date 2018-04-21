@@ -20,11 +20,20 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <form th:action="@{/client/add_client}" method="post">
+
+
+
+                            <div class="form-group" align="right">
+                                <input type="submit"  class="btn btn-default" th:value="#{System.Add}" />
+                                <a th:href="@{/client/}">
+                                    <input class="btn btn-default" th:value="#{System.Back}" />
+                                </a>
+                            </div>
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.RegistrationCode}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{client.registrationCode}"/>
+                                        <input class="form-control" th:field="*{client.registrationCode}" th:maxlength="${T(hello.Client.Client).MAX_REGISTRATIONCODE_LENGHT}"/>
                                         <td th:if="${#fields.hasErrors('client.registrationCode')}" th:errors="*{client.registrationCode}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -32,28 +41,21 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.Name}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{client.name}"/>
+                                        <input class="form-control" th:field="*{client.name}" th:maxlength="${T(hello.Client.Client).MAX_NAME_LENGHT}"/>
                                         <td th:if="${#fields.hasErrors('client.name')}" th:errors="*{client.name}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Client.NumberPhone}"></label>
+                                    <label class="control-label col-sm-3"  th:text="#{Client.NumberPhone}" th:maxlength="${T(hello.Client.Client).MAX_NUMBERPHONE_LENGHT}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{client.numberPhone}">
                                         <td th:if="${#fields.hasErrors('client.numberPhone')}" th:errors="*{client.numberPhone}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
-
-                                <div class="form-group" align="right">
-                                    <input type="submit"  class="btn btn-default" th:value="#{System.Next}" />
-                                    <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
-                                    <a th:href="@{/client/}">
-                                        <input class="btn btn-default" th:value="#{System.Back}" />
-                                    </a>
-                                </div>
                             </div>
+
 
 
                             <div class="row">
@@ -62,7 +64,7 @@
                                 <div class="col-sm-8">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" th:text="#{Adress.PanelHeader}"></div>
-                                        <table width="100%" class="table table-striped table-hover">
+                                        <table width="100%" class="table table-striped table-hover adresses">
                                             <thead>
                                             <tr>
                                                 <th th:text="#{Adress.City}"></th>
@@ -73,13 +75,12 @@
                                                 <th></th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr th:each="ad,rowStat : *{client.adresses}" th:class="${rowStat.even ? 'even' : 'odd'}">
-                                                <td><p th:text="${ad.city}"></p><input type="hidden" th:field="*{client.adresses[__${rowStat.index}__].city}" /></td>
-                                                <td><p th:text="${ad.number}"></p><input type="hidden" th:field="*{client.adresses[__${rowStat.index}__].number}" /></td>
-                                                <td><p th:text="${ad.zipCode}"></p><input type="hidden" th:field="*{client.adresses[__${rowStat.index}__].zipCode}" /></td>
-                                                <td><p th:text="${ad.adressName}"></p><input type="hidden" th:field="*{client.adresses[__${rowStat.index}__].adressName}" /></td>
-
+                                            <tbody th:id="listAdresses">
+                                            <tr th:each="ad,rowStat : *{client.adresses}" >
+                                                <td><input class="form-control" type="text" th:field="*{client.adresses[__${rowStat.index}__].city}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/></td>
+                                                <td><input class="form-control" type="text" th:field="*{client.adresses[__${rowStat.index}__].adressName}" required th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/></td>
+                                                <td><input class="form-control" type="text" th:field="*{client.adresses[__${rowStat.index}__].zipCode}" th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/></td>
+                                                <td><input class="form-control" type="number" th:field="*{client.adresses[__${rowStat.index}__].number}" th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/></td>
                                                 <td class="center">
                                                     <!--<a class="btn btn-default trash-adress pull-right" th:client-id="${saveClientDTO.getId()}" th:adress-id="${ad.getId()}"><i class="glyphicon glyphicon-remove"></i></a>-->
                                                     <!--<a class="btn btn-default pull-right" th:href="@{/client/edit_adress_client(id_client=${saveClientDTO.getId()}, id_adress=${ad.getId()})}"><i class="fa fa-gear fa-fw"></i></a>-->
@@ -89,65 +90,12 @@
                                             </tbody>
                                         </table>
                                     </div>
-
-                                    <input type="submit"  class="btn btn-default" th:value="#{System.Next}" />
-                                    <!---->
-                                    <!--<div align="right">-->
-                                        <!--<a class="btn btn-default pull-right" th:href="@{/client/add_adress_client(client_id=${client.getId()})}" th:text="#{Adress.Client.Add}"></a>-->
-                                    <!--</div>-->
+                                    <div align="right">
+                                        <a class="btn btn-default pull-right" th:text="#{Adress.Client.Add}" id="addAdress"></a>
+                                    </div>
                                 </div>
                             </div>
-
                         </form>
-
-
-
-                        <!--<form th:action="@{/client/add_adress_client}" method="post">-->
-
-
-                            <!--<input th:type="hidden" th:field = "*{clientResource.client}"/>-->
-
-
-                            <!--<div class="form-horizontal">-->
-                                <!--<div class="form-group">-->
-                                    <!--<label class="control-label col-sm-3"  th:text="#{Adress.City}"></label>-->
-                                    <!--<div class="col-sm-2">-->
-                                        <!--<input class="form-control" th:field="*{clientResource.adress.city}"/>-->
-                                        <!--<td th:if="${#fields.hasErrors('adress.city')}" th:errors="*{clientResource.adress.city}">Name Error</td>-->
-                                    <!--</div>-->
-                                    <!--<label class="control-label col-sm-1"  th:text="#{Adress.Number}"></label>-->
-                                    <!--<div class="col-sm-3">-->
-                                        <!--<input type="number" class="form-control" th:field="*{adress.number}"/>-->
-                                        <!--<td th:if="${#fields.hasErrors('adress.number')}" th:errors="*{adress.number}">Name Error</td>-->
-                                    <!--</div>-->
-                                    <!--<div class="col-sm-3"></div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label class="control-label col-sm-3"  th:text="#{Adress.Adress}"></label>-->
-                                    <!--<div class="col-sm-2">-->
-                                        <!--<input class="form-control" th:field="*{adress.adressName}"/>-->
-                                        <!--<td th:if="${#fields.hasErrors('adress.adressName')}" th:errors="*{adress.adressName}">Name Error</td>-->
-                                    <!--</div>-->
-                                    <!--<label class="control-label col-sm-1"  th:text="#{Adress.ZipCode}"></label>-->
-                                    <!--<div class="col-sm-3">-->
-                                        <!--<input class="form-control" th:field="*{adress.zipCode}">-->
-                                        <!--<td th:if="${#fields.hasErrors('adress.zipCode')}" th:errors="*{adress.zipCode}">Name Error</td>-->
-                                    <!--</div>-->
-                                    <!--<div class="col-sm-3"></div>-->
-                                <!--</div>-->
-
-                                <!--<div class="form-group" align="right">-->
-                                    <!--<input type="submit"  class="btn btn-default" th:value="#{System.Add}" />-->
-                                    <!--&lt;!&ndash;<button class="btn btn-default add"><i class="fa fa-plus"></i></button>&ndash;&gt;-->
-                                    <!--<input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />-->
-                                    <!--&lt;!&ndash;<a th:href="@{/client/edit_client(id=${contactDTO.getClientId()})}">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<input class="btn btn-default" th:value="#{System.Finish}" />&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</form>-->
-
-
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -157,6 +105,24 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    var listAdresses = $('#listAdresses');
+    var i = $('#listAdresses tr').size();
+
+    $('#addAdress').click(function() {
+
+        listAdresses.append('<tr>' +
+            '<td><input class="form-control" type="text" id="adresses'+i+'.city" name="adresses[' + i + '].city" required maxlength="[[${T(hello.Adress.Adress).MAX_CITY_LENGHT}]]"/></td>' +
+            '<td><input class="form-control" type="text" id="adresses'+i+'.adressName" name="adresses[' + i + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
+            '<td><input class="form-control" type="text" id="adresses'+i+'.zipCode" name="adresses[' + i + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
+            '<td><input class="form-control" type="number" id="adresses'+i+'.number" name="adresses[' + i + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
+            '<td></td>' +
+            '</tr>');
+
+        i++;
+        return false;
+    });
+</script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>
