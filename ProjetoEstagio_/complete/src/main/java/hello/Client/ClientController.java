@@ -1,6 +1,7 @@
 package hello.Client;
 
 import hello.Adress.Adress;
+import hello.Contact.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,17 @@ public class ClientController implements WebMvcConfigurer {
     public String addClient(Model model) {
 
         Client client = new Client();
+        Adress adress = new Adress();
+        List<Adress> adresses = new ArrayList<>();
+        adresses.add(adress);
+        client.setAdresses(adresses);
+
+        Contact contact = new Contact();
+        List<Contact> contacts = new ArrayList<>();
+        contacts.add(contact);
+        client.setContacts(contacts);
+
+
         model.addAttribute("client", client);
 
         return "Client/add_client";
@@ -51,7 +63,25 @@ public class ClientController implements WebMvcConfigurer {
 
 
 
+    @RequestMapping("/edit_client")
+    public String editClient(@RequestParam("id") Long id, Model model) {
+        Client client = clientService.getClient(id);
+        model.addAttribute("client", client);
 
+        return "Client/edit_client";
+    }
+    @PostMapping("/edit_client")
+    public String editClient(@Valid Client client, BindingResult bindingResult,Model model) {
+
+
+        if (bindingResult.hasErrors()) {
+            return "Client/edit_client";
+        }
+
+
+        clientService.editClient(client);
+        return "redirect:/client/";
+    }
 
 
 
@@ -82,40 +112,7 @@ public class ClientController implements WebMvcConfigurer {
 
 
 
-    @RequestMapping("/edit_client")
-    public String editClient(@RequestParam("id") Long id, Model model) {
-        Client client = clientService.getClient(id);
-        model.addAttribute("client", client);
 
-        return "Client/edit_client";
-    }
-    @PostMapping("/edit_client")
-    public String editClient(@Valid Client client, BindingResult bindingResult,Model model) {
-
-
-        if (bindingResult.hasErrors()) {
-//            if(saveClientDTO.getContacts() == null)
-//                System.out.println("\n\n\n\n\n\n\n\n" + "É NULL\n");
-
-//            funciona
-//            Client c = clientService.getClient(saveClientDTO.getId());
-//            saveClientDTO.setContacts(contactService.getSaveContactDTOList(c));
-
-            /*
-            TODO: sera' esta a melhor maneira de fazer?
-             */
-
-//            SaveClientDTO aux= clientService.getSaveClientDTO(saveClientDTO.getId());
-//            saveClientDTO.setContacts(aux.getContacts());
-//            saveClientDTO.setAdressDTO(aux.getAdressDTO());
-
-            return "Client/edit_client";
-        }
-
-
-        clientService.editClient(client);
-        return "redirect:/client/";
-    }
 
 
 

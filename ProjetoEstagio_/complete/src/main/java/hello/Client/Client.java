@@ -1,6 +1,7 @@
 package hello.Client;
 
 import hello.Adress.Adress;
+import hello.Contact.Contact;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -31,10 +32,10 @@ public class Client extends hello.Entity {
     @Column(nullable = false, length = MAX_NUMBERPHONE_LENGHT)
     private String numberPhone;
 
-//    @NotNull
-//    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_Contact"), nullable = false)
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-//    private List<Contact> contacts;
+    @NotNull
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_Contact"), nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Contact> contacts;
 
 
     @ElementCollection
@@ -72,5 +73,13 @@ public class Client extends hello.Entity {
 
     public void setAdresses(List<Adress> adresses) {
         this.adresses = adresses;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 }

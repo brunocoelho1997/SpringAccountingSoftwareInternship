@@ -56,12 +56,10 @@
                                 </div>
                             </div>
 
-
-
                             <div class="row">
                                 <br>
-                                <div class="col-sm-2"></div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" th:text="#{Adress.PanelHeader}"></div>
                                         <table width="100%" class="table table-striped table-hover adresses">
@@ -95,6 +93,36 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <br>
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" th:text="#{Contact.PanelHeading}"></div>
+                                        <table width="100%" class="table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th th:text="#{Person.Name}"></th>
+                                                <th th:text="#{Person.Email}"></th>
+                                                <th th:text="#{Person.NumberPhone}"></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody th:id="listContacts">
+                                            <tr th:each="contact,rowStat : *{client.contacts}" >
+                                                <td><input class="form-control" type="text" th:field="*{client.contacts[__${rowStat.index}__].name}" required th:maxlength="${T(hello.Contact.Contact).MAX_NAME_LENGHT}"/></td>
+                                                <td><input class="form-control" type="email" th:field="*{client.contacts[__${rowStat.index}__].email}" required th:maxlength="${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}"/></td>
+                                                <td><input class="form-control" type="text" th:field="*{client.contacts[__${rowStat.index}__].numberPhone}" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/></td>
+                                                <td class="center"><a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div align="right">
+                                        <a class="btn btn-default pull-right" th:text="#{Contact.Add}" id="addContact"></a>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <!-- /.panel-body -->
@@ -123,12 +151,40 @@
     });
     //Remove button
     $(document).on('click', '#removeAdress', function() {
-
+        if (i > 1)
+        {
             $(this).closest('tr').remove();
             i--;
-
+        }
         return false;
     });
+
+
+    // ----------------------------Contacts
+    var listContacts = $('#listContacts');
+    var iContacts = $('#listContacts tr').size();
+
+    $('#addContact').click(function() {
+
+        listContacts.append('<tr>' +
+            '<td><input class="form-control" type="text" id="contacts'+iContacts+'.name" name="contacts[' + iContacts + '].name" required maxlength="[[${T(hello.Contact.Contact).MAX_NAME_LENGHT}]]"/></td>' +
+            '<td><input class="form-control" type="email" id="contacts'+iContacts+'.email" name="contacts[' + iContacts + '].email" maxlength="[[${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}]]"/></td>' +
+            '<td><input class="form-control" type="text" id="contacts'+iContacts+'.numberPhone" name="contacts[' + iContacts + '].numberPhone" required maxlength="[[${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}]]"/></td>' +
+            '<td><a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a></td>' +
+            '</tr>');
+        iContacts++;
+        return false;
+    });
+    //Remove button
+    $(document).on('click', '#removeContact', function() {
+        if (iContacts > 1)
+        {
+            $(this).closest('tr').remove();
+            iContacts--;
+        }
+        return false;
+    });
+
 </script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
