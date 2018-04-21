@@ -31,10 +31,7 @@ public class ClientController implements WebMvcConfigurer {
     public String addClient(Model model) {
 
         Client client = new Client();
-
         model.addAttribute("client", client);
-
-
 
         return "Client/add_client";
     }
@@ -45,8 +42,6 @@ public class ClientController implements WebMvcConfigurer {
             return "Client/add_client";
         }
 
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n" + client.getAdresses().get(0));
-
         //we receive the client to get his new id to add contacts
         Client c = clientService.addClient(client);
 
@@ -54,21 +49,6 @@ public class ClientController implements WebMvcConfigurer {
         return "Client/index";
     }
 
-    @PostMapping(value = "/add_adress_client/{client_id}")
-    public String addAdressClient(@PathVariable Long client_id, Model model, @Valid @ModelAttribute("adress") Adress adress, BindingResult bindingResult, RedirectAttributes attributes) {
-        if (bindingResult.hasErrors()) {
-
-            return "Client/add_client";
-        }
-
-        System.out.println("\n\n\n\n\n\n\n\n\n\n CLIEND_id" + client_id);
-        System.out.println("\n\n\n\n\n\n\n\n\n\n CLIEND_id" + client_id);
-
-
-//        model.addAttribute("clientResource", clientResource);
-
-        return "Client/add_client";
-    }
 
 
 

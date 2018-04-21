@@ -82,9 +82,9 @@
                                                 <td><input class="form-control" type="text" th:field="*{client.adresses[__${rowStat.index}__].zipCode}" th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/></td>
                                                 <td><input class="form-control" type="number" th:field="*{client.adresses[__${rowStat.index}__].number}" th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/></td>
                                                 <td class="center">
-                                                    <!--<a class="btn btn-default trash-adress pull-right" th:client-id="${saveClientDTO.getId()}" th:adress-id="${ad.getId()}"><i class="glyphicon glyphicon-remove"></i></a>-->
+                                                    <a class="btn btn-default pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a>
                                                     <!--<a class="btn btn-default pull-right" th:href="@{/client/edit_adress_client(id_client=${saveClientDTO.getId()}, id_adress=${ad.getId()})}"><i class="fa fa-gear fa-fw"></i></a>-->
-                                                    <a class="btn btn-default info-adress pull-right" th:client-id="${client.getId()}" th:adress-id="${rowStat.index}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                                    <!--<a class="btn btn-default info-adress pull-right" th:client-id="${client.getId()}" th:adress-id="${rowStat.index}"><i class="glyphicon glyphicon-info-sign"></i></a>-->
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -116,10 +116,17 @@
             '<td><input class="form-control" type="text" id="adresses'+i+'.adressName" name="adresses[' + i + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="adresses'+i+'.zipCode" name="adresses[' + i + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="number" id="adresses'+i+'.number" name="adresses[' + i + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
-            '<td></td>' +
+            '<td><a class="btn btn-default pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a></td>' +
             '</tr>');
-
         i++;
+        return false;
+    });
+    //Remove button
+    $(document).on('click', '#removeAdress', function() {
+
+            $(this).closest('tr').remove();
+            i--;
+
         return false;
     });
 </script>
