@@ -31,17 +31,20 @@ public class ClientController implements WebMvcConfigurer {
     @GetMapping("/add_client")
     public String addClient(Model model) {
 
-        Client client = new Client();
         Adress adress = new Adress();
         List<Adress> adresses = new ArrayList<>();
         adresses.add(adress);
+
+        Client client = new Client();
         client.setAdresses(adresses);
 
         Contact contact = new Contact();
+        contact.setAdresses(adresses);
+
         List<Contact> contacts = new ArrayList<>();
         contacts.add(contact);
-        client.setContacts(contacts);
 
+        client.setContacts(contacts);
 
         model.addAttribute("client", client);
 
@@ -82,8 +85,6 @@ public class ClientController implements WebMvcConfigurer {
         clientService.editClient(client);
         return "redirect:/client/";
     }
-
-
 
 
 

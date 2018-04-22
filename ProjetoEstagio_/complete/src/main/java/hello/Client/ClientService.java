@@ -60,6 +60,11 @@ public class ClientService {
         client.setName(editedClient.getName());
         client.setNumberPhone(editedClient.getNumberPhone());
         client.setRegistrationCode(editedClient.getRegistrationCode());
+
+
+        client.setAdresses(editedClient.getAdresses());
+        client.getContacts().clear();
+//        client.setContacts(editedClient.getContacts());
         repository.save(client);
     }
 
