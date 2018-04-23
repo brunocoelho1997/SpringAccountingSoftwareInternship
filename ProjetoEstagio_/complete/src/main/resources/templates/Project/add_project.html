@@ -32,7 +32,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.Name}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{name}"/>
+                                        <input class="form-control" th:field="*{name}" required/>
                                         <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.InitialDate}"></label>
                                     <div class="col-sm-6">
-                                        <input id='startDatePicker' onchange="handler(event);" type="date" class="form-control" th:value="*{initialDate}" th:field="*{initialDate}" />
+                                        <input required id='startDatePicker' onchange="handler(event);" type="date" class="form-control" th:value="*{initialDate}" th:field="*{initialDate}" />
                                         <td th:if="${#fields.hasErrors('initialDate')}" th:errors="*{initialDate}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -56,7 +56,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.FinalDate}"></label>
                                     <div class="col-sm-6">
-                                        <input id='endDatePicker' type="date" class="form-control" th:value="*{finalDate}" th:field="*{finalDate}" />
+                                        <input required id='endDatePicker' type="date" class="form-control" th:value="*{finalDate}" th:field="*{finalDate}" />
                                         <td th:if="${#fields.hasErrors('finalDate')}" th:errors="*{finalDate}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -132,6 +132,9 @@
 
             // alert(selectedClientValue);
 
+            /*
+            TODO: se nao tiver nenhum cliente (ou seja, se n existtir nenhum na bd isto vai dar erro)
+             */
             var opt = {
                 type: 'GET',
                 url: '/client/get_contacts?id=' + selectedClientValue

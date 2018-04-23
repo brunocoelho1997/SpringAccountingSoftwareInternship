@@ -15,7 +15,7 @@ public class ProjectClient extends hello.Entity{
     /*
     TODO: perguntar ao hugo se é refresh
      */
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Client client;
 
     @NotNull
@@ -23,7 +23,7 @@ public class ProjectClient extends hello.Entity{
     /*
     TODO: perguntar ao hugo se é refresh
      */
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Contact contact;
 
 

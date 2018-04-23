@@ -51,4 +51,13 @@ public class ProjectService {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n" + project);
         projectRepository.save(project);
     }
+
+    public Project getProject(Long id) {
+        return projectRepository.getOne(id);
+    }
+
+    public void removeProject(Long id) {
+        Project project = projectRepository.getOne(id);
+        projectRepository.delete(project);
+    }
 }
