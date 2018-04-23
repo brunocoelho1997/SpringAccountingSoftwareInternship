@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: copy"></head>
+
+<script src="jquery.min.js"></script>
+<script src="jquery.textfill.min.js"></script>
+
+<body>
+<div id="wrapper">
+
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div id="page-wrapper">
+
+
+        <div th:object="${project}">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" th:if="${project !=null}">
+                        <h1 th:text="#{Project.Info.Header}" th:remove="tag" />
+                        <label th:text="${project.getName()}"/>
+                    </h1>
+                    <h1 class="page-header" th:unless="${project!=null}"> <label th:text="#{Project.NotFound}"/></h1>
+                </div>
+            </div>
+            <div class="row" th:unless="${project !=null}" th:text="#{Project.NotFoundDescription}"></div>
+            <div class="row" th:if="${project != null}">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div>
+                                <span th:text="#{Entity.Id}" th:remove="tag">title</span>:
+                                <span id = "id_value" th:text="${project.getId()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Project.Name}" th:remove="tag">title</span>:
+                                <span th:text="${project.getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Project.Description}" th:remove="tag">title</span>:
+                                <span th:text="${project.getDescription()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Project.InitialDate}" th:remove="tag">title</span>:
+                                <span th:text="${project.getInitialDate()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Project.FinalDate}" th:remove="tag">title</span>:
+                                <span th:text="${project.getFinalDate()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Project.FinalDate}" th:remove="tag">title</span>:
+                                <span th:text="${project.getFinalDate()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Project.Scope}" th:remove="tag">title</span>:
+                                <span th:text="${project.getScope()}"></span>
+                                <!--TODO: tratar disto. Se o ambito tiver 255 caracteres passa a pagina-->
+                            </div>
+
+                            <div>
+                                <br>
+                                <span th:text="#{Project.Client}" th:remove="tag">title</span>:
+                                <span th:text="${project.getProjectClient().getClient().getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Contact.Header}" th:remove="tag">title</span>:
+                                <br>
+                                <span th:text="#{Contact.Name}" th:remove="tag">title</span>:
+                                <span th:text="${project.getProjectClient().getContact().getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Client.NumberPhone}" th:remove="tag">title</span>:
+                                <span th:text="${project.getProjectClient().getContact().getNumberPhone()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Client.Email}" th:remove="tag">title</span>:
+                                <span th:text="${project.getProjectClient().getContact().getEmail()}"></span>
+                            </div>
+
+
+                        </div>
+
+                            <br><br>
+                            Fazer aqui lista de despesas e de receitas relativas a projeto
+
+                            <div align="right">
+                                <a th:href="@{/project/}">
+                                    <input class="btn btn-default" th:value="#{System.Back}" />
+                                </a>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#my-element').textfill({
+        explicitWidth: 50
+    });
+
+</script>
+<div id="modal-content"></div>
+<div th:replace="fragments/footer :: copy"></div>
+</body>
+</html>

@@ -90,4 +90,12 @@ public class ProjectController implements WebMvcConfigurer {
         return "redirect:/client/";
     }
 
+    @RequestMapping("/info_project")
+    public String infoProject(@RequestParam("id") Long id, Model model) {
+
+        Project project= projectService.getProject(id);
+        model.addAttribute("project", project);
+        return "Project/info_project";
+    }
+
 }
