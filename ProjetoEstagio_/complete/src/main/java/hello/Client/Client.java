@@ -83,4 +83,15 @@ public class Client extends hello.Entity {
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "registrationCode='" + registrationCode + '\'' +
+                ", name='" + name + '\'' +
+                ", numberPhone='" + numberPhone + '\'' +
+                ", contacts=" + contacts +
+                ", adresses=" + adresses +
+                '}';
+    }
 }

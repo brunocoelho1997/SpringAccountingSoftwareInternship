@@ -86,4 +86,14 @@ public class ClientService {
         Client c = repository.getOne(id);
         repository.delete(c);
     }
+
+    public Contact getContact(Long id, Long id1) {
+        Client c = repository.getOne(id);
+        for(Contact contact : c.getContacts())
+        {
+            if(contact.getId().equals(id1))
+                return contact;
+        }
+        return null;
+    }
 }

@@ -58,7 +58,7 @@
                             <tr th:each="p : ${listProjects}">
                                 <td href="#" th:text="${p.getName()}"></td>
                                 <td href="#" th:text="${p.getFinalDate()}"></td>
-                                <td href="#" th:text="${p.getInfoClientDTO().getName()}"></td>
+                                <td href="#" th:text="${p.getProjectClient().getClient().getName()}"></td>
                                 <td class="center">
                                     <!--TODO: Passar tudo para links-->
                                     <button class="btn btn-default trash pull-right" th:project-id="${p.getId()}" ><i class="glyphicon glyphicon-remove"></i></button>

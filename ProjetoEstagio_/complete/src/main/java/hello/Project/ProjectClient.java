@@ -15,7 +15,7 @@ public class ProjectClient extends hello.Entity{
     /*
     TODO: perguntar ao hugo se é refresh
      */
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Client client;
 
     @NotNull
@@ -23,7 +23,7 @@ public class ProjectClient extends hello.Entity{
     /*
     TODO: perguntar ao hugo se é refresh
      */
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Contact contact;
 
 
@@ -41,5 +41,13 @@ public class ProjectClient extends hello.Entity{
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectClient{" +
+                "client=" + client +
+                ", contact=" + contact +
+                '}';
     }
 }

@@ -70,5 +70,15 @@ public class Person extends Entity {
     public void setNumberPhone(String numberPhone) {
         this.numberPhone = numberPhone;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", adresses=" + adresses +
+                ", numberPhone='" + numberPhone + '\'' +
+                '}';
+    }
 }
 

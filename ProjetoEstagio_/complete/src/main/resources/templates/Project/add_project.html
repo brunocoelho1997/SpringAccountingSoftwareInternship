@@ -23,6 +23,11 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <form th:action="@{/project/add_project}" th:object="${project}" method="post">
+
+                            <ul th:if="${#fields.hasErrors('*')}">
+                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                            </ul>
+
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.Name}"></label>
@@ -62,7 +67,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.Client}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control selectedClient" th:field="*{projectClient.client}" required>
+                                        <select class="form-control selectedClient" th:field="*{projectClient.client.id}" required>
                                             <option th:each="client : ${listClients}"
                                                     th:value="${client.getId()}"
                                                     th:utext="${client.getName()}"/>
@@ -74,7 +79,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.Contact}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" th:id="contactsOfClient" th:field="*{projectClient.contact}" required>
+                                        <select class="form-control" th:id="contactsOfClient" th:field="*{projectClient.contact.id}" required>
                                         </select>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -132,18 +137,12 @@
                 url: '/client/get_contacts?id=' + selectedClientValue
             }
 
-            // alert(JSON.stringify(opt));
-
             $.ajax(opt).done(function (result) {
-                // result.filter("option");
-                // alert(result.find("option"));
                 $('#contactsOfClient').html('');
                 $('#contactsOfClient').append(result);
-                // $('#remove-modal').modal();
             }).fail(function (jqXHR, textStatus) {
                 alert(textStatus);
             });
-
 
         })
         .change();

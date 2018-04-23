@@ -50,7 +50,7 @@ public class Project extends Entity {
     /*
     TODO: perguntar ao hugo se é refresh
      */
-    @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private ProjectClient projectClient;
 
     /*
@@ -112,5 +112,18 @@ public class Project extends Entity {
 
     public void setProjectClient(ProjectClient projectClient) {
         this.projectClient = projectClient;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", initialDate=" + initialDate +
+                ", finalDate=" + finalDate +
+                ", balance=" + balance +
+                ", scope='" + scope + '\'' +
+                ", projectClient=" + projectClient +
+                '}';
     }
 }
