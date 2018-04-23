@@ -1,6 +1,7 @@
 package hello.Client;
 
 import hello.Adress.Adress;
+import hello.Contact.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +64,17 @@ public class ClientService {
 
 
         client.setAdresses(editedClient.getAdresses());
+
+//        for(Contact contact : client.getContacts())
+//            client.getContacts().remove(contact);
+//        client.getContacts().clear();
+
+        //client.getContacts().remove(0);
+
         client.getContacts().clear();
+        for(Contact contact : editedClient.getContacts())
+            client.getContacts().add(contact);
+
 //        client.setContacts(editedClient.getContacts());
         repository.save(client);
     }
