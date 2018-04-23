@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div >
+    <option th:fragment="options" th:each="contact : ${listContacts}"
+            th:value="${contact.getId()}"
+            th:utext="${contact.getName()}"/>
+</div>
+
+</body>
+</html>

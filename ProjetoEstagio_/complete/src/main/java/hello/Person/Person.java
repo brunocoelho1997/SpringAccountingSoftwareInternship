@@ -24,7 +24,6 @@ public class Person extends Entity {
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
-    @NotNull
     @Email
     @Length(min=1, max = MAX_EMAIL_LENGHT)
     @Column(nullable = false, length = MAX_EMAIL_LENGHT)

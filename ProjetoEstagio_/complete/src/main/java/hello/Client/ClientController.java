@@ -103,4 +103,12 @@ public class ClientController implements WebMvcConfigurer {
         clientService.removeClient(id);
         return "redirect:/client/";
     }
+
+    @RequestMapping("/get_contacts")
+    public String getContacts(@RequestParam("id") Long id, Model model) {
+        Client client = clientService.getClient(id);
+        model.addAttribute("listContacts", client.getContacts());
+        return "Client/contacts_list :: options";
+    }
+
 }
