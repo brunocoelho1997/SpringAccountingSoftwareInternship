@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header" th:if="${client !=null}">
-                    <h1 th:text="#{Client.Edit}" th:remove="tag" />
+                    <h1 th:text="#{Client.Info.Header}" th:remove="tag" />
                     <label th:text="${client.getName()}"/>
                 </h1>
                 <h1 class="page-header" th:unless="${client!=null}"> <label th:text="#{Client.NotFound}"/></h1>
@@ -19,7 +19,7 @@
         <div class="row" th:if="${client != null}">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" th:text="#{Client.Edit}"> Edit</div>
+                    <div class="panel-heading" th:text="#{Client.Info.Header}"> Edit</div>
                     <div class="panel-body">
                         <div class="form-horizontal">
 
@@ -127,6 +127,7 @@
                                                                     <th></th>
                                                                 </tr>
                                                                 </thead>
+                                                                <p th:text="#{Adress.PanelHeader}"/>
                                                                 <tbody>
                                                                 <tr th:each="ad : *{contact.adresses}" >
                                                                     <td><p th:text="*{ad.city}"/></td>

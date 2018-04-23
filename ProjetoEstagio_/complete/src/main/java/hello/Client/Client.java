@@ -35,6 +35,7 @@ public class Client extends hello.Entity {
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Client_Contact"), nullable = false)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Valid
     private List<Contact> contacts;
 
 

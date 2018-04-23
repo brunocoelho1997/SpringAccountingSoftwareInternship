@@ -127,7 +127,7 @@
                                             </thead>
                                             <tbody th:id="listContacts">
                                             <div th:each="contact,rowStat : *{contacts}">
-                                                <tr class="info">
+                                                <tr class="warning">
                                                     <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].name}" required th:maxlength="${T(hello.Contact.Contact).MAX_NAME_LENGHT}"/></td>
                                                     <td><input class="form-control" type="email" th:field="*{contacts[__${rowStat.index}__].email}" required th:maxlength="${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}"/></td>
                                                     <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].numberPhone}" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/></td>
@@ -152,6 +152,7 @@
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody th:id="'listContactAdresses[' + ${rowStat.index} +']'" >
+                                                                    <p th:text="#{Adress.PanelHeader}"/>
                                                                     <tr th:each="ad,rowStat2 : *{contacts[__${rowStat.index}__].adresses}" >
                                                                         <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].city}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/></td>
                                                                         <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].adressName}" th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/></td>
@@ -225,7 +226,7 @@
     var numberContacts = $('#listContacts>tr').size()-1;
 
     $('#addContact').click(function() {
-        listContacts.append('<tr class="info">' +
+        listContacts.append('<tr class="warning">' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.name" name="contacts[' + numberContacts + '].name" required maxlength="[[${T(hello.Contact.Contact).MAX_NAME_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="email" id="contacts'+numberContacts+'.email" name="contacts[' + numberContacts + '].email" maxlength="[[${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.numberPhone" name="contacts[' + numberContacts + '].numberPhone" required maxlength="[[${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}]]"/></td>' +
@@ -241,6 +242,7 @@
             '<table width="100%" class="table" style="background-color: transparent;">'+
             '<thead><tr><th>[[#{Adress.City}]]</th><th>[[#{Adress.Adress}]]</th><th>[[#{Adress.ZipCode}]]</th><th>[[#{Adress.Number}]]</th><th></th></tr></thead>'+
             '<tbody id="listContactAdresses[' + numberContacts + ']" >' +
+            '<p>[[#{Adress.PanelHeader}]]</p>'+
             '<tr>' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.city" name="contacts[' + numberContacts + '].adresses[0].city" required maxlength="[[${T(hello.Adress.Adress).MAX_CITY_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.adressName" name="contacts[' + numberContacts + '].adresses[0].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
