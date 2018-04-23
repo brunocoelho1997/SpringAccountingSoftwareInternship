@@ -15,11 +15,20 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     @Autowired
     ProjectTransactionService projectTransactionService;
 
-    @GetMapping("/projects_revenue")
+    @GetMapping("/revenue")
     public String index(Model model) {
 
         model.addAttribute("listRevenues",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
-        return "ProjectTransactions/projects_revenues_index";
+        return "ProjectTransaction/revenues_index";
     }
+
+    @GetMapping("/add_revenue")
+    public String addRevenue(Model model) {
+
+        model.addAttribute("listRevenues",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
+        return "ProjectTransaction/add_revenue";
+    }
+
+
 
 }
