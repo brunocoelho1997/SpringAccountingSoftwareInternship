@@ -28,6 +28,14 @@ public class ClientController implements WebMvcConfigurer {
         return "Client/index";
     }
 
+    @RequestMapping("/info_client")
+    public String infoClient(@RequestParam("id") Long id, Model model) {
+        Client client = clientService.getClient(id);
+        model.addAttribute("client", client);
+
+        return "Client/info_client";
+    }
+
     @GetMapping("/add_client")
     public String addClient(Model model) {
 
@@ -64,8 +72,6 @@ public class ClientController implements WebMvcConfigurer {
         return "Client/index";
     }
 
-
-
     @RequestMapping("/edit_client")
     public String editClient(@RequestParam("id") Long id, Model model) {
         Client client = clientService.getClient(id);
@@ -96,38 +102,5 @@ public class ClientController implements WebMvcConfigurer {
     public @ResponseBody String removeClient(@RequestParam("id") Long id) {
         clientService.removeClient(id);
         return "redirect:/client/";
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-      ---------------------------------ADRESS
-     */
-
-
-
-
-    @GetMapping("/get_client_adresses")
-    public String getClientAdresses(@RequestParam("id_client") Long id, Model model) {
-        List<Adress> adresses = clientService.getAdressesClient(id);
-        Collections.reverse(adresses);
-        model.addAttribute("adresses", adresses);
-        return "Adress/list_adresses :: list";
     }
 }
