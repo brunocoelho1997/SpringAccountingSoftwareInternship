@@ -103,8 +103,8 @@
                                         </table>
                                     </div>
                                     <div align="right">
+                                        <a class="btn btn-danger pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a>
                                         <a class="btn btn-default pull-right" th:text="#{Adress.Client.Add}" id="addAdress"></a>
-                                        <a class="btn btn-default pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -163,8 +163,8 @@
                                                                 </table>
                                                                 <br>
                                                                 <div align="right">
+                                                                    <a class="btn btn-danger pull-right" th:onclick="'removeAdressContact(' + ${rowStat.index} + ')'"><i class="glyphicon glyphicon-remove"></i></a>
                                                                     <a class="btn btn-default pull-right" th:onclick="'addAdressContact(' + ${rowStat.index} + ')'" th:text="#{Adress.Contact.Add}" ></a>
-                                                                    <a class="btn btn-default pull-right" th:onclick="'removeAdressContact(' + ${rowStat.index} + ')'"><i class="glyphicon glyphicon-remove"></i></a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -175,8 +175,8 @@
                                         </table>
                                     </div>
                                     <div align="right">
+                                        <a class="btn btn-danger pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>
                                         <a class="btn btn-default pull-right" th:text="#{Contact.Add}" id="addContact"></a>
-                                        <a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -190,7 +190,8 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<script>
+
     var listClientAdresses = $('#listAdresses');
     var numberClientAdresses = $('#listAdresses tr').size();
 
@@ -238,7 +239,7 @@
             '<div class="col-sm-1"></div>\n' +
             '<div class="col-sm-10">' +
             '<table width="100%" class="table" style="background-color: transparent;">'+
-            '<thead><tr><th th:text="#{Adress.City}"></th><th th:text="#{Adress.Adress}"></th><th th:text="#{Adress.ZipCode}"></th><th th:text="#{Adress.Number}"></th><th></th></tr></thead>'+
+            '<thead><tr><th>[[#{Adress.City}]]</th><th>[[#{Adress.Adress}]]</th><th>[[#{Adress.ZipCode}]]</th><th>[[#{Adress.Number}]]</th><th></th></tr></thead>'+
             '<tbody id="listContactAdresses[' + numberContacts + ']" >' +
             '<tr>' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.city" name="contacts[' + numberContacts + '].adresses[0].city" required maxlength="[[${T(hello.Adress.Adress).MAX_CITY_LENGHT}]]"/></td>' +
@@ -252,8 +253,8 @@
             '</tbody>'+
             '</table>'+
             '<div align="right">'+
-            '<a class="btn btn-default pull-right" onclick="addAdressContact('+numberContacts+')" >add</a>'+
-            '<a class="btn btn-default pull-right" onclick="removeAdressContact('+numberContacts+')" >remover</a>'+
+            '<a class="btn btn-danger pull-right" onclick="removeAdressContact('+numberContacts+')" ><i class="glyphicon glyphicon-remove "/></i></a>'+
+            '<a class="btn btn-default pull-right" onclick="addAdressContact('+numberContacts+')" >[[#{Adress.Contact.Add}]]</a>'+
             '</div>'+
             '</div>'+
             '</td>'+
