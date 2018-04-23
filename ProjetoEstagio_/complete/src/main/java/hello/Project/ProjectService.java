@@ -6,6 +6,7 @@ import hello.Contact.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,6 +21,25 @@ public class ProjectService {
 
     public List<Project> getProjects() {
         return projectRepository.findAll();
+    }
+
+
+    //method private! If you need a project use method getProject(long id);
+    private Project getOne(Long id) {
+
+        try
+        {
+            if(id == null)
+                throw new EntityNotFoundException();
+
+            Project project = projectRepository.getOne(id);
+
+            return project;
+        }catch (EntityNotFoundException ex)
+        {
+            //if can't getClient
+            return null;
+        }
     }
 
     public void addProject(Project project){
@@ -48,16 +68,30 @@ public class ProjectService {
 
         project.setProjectClient(projectClient);
 
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n" + project);
         projectRepository.save(project);
     }
 
     public Project getProject(Long id) {
-        return projectRepository.getOne(id);
+        return getOne(id);
     }
 
     public void removeProject(Long id) {
-        Project project = projectRepository.getOne(id);
+        Project project = getOne(id);
         projectRepository.delete(project);
+    }
+
+    public void editProject(@Valid Project editedProject) {
+
+        Project project = getOne(editedProject.getId());
+        project.setScope(editedProject.getScope());
+        project.setFinalDate(editedProject.getFinalDate());
+        project.setInitialDate(editedProject.getInitialDate());
+        project.setName(editedProject.getName());
+        project.setDescription(editedProject.getDescription());
+        project.setBalance(editedProject.getBalance());
+        project.setProjectClient(editedProject.getProjectClient());
+
+        projectRepository.save(project);
+
     }
 }

@@ -46,14 +46,30 @@ public class ProjectController implements WebMvcConfigurer {
     @PostMapping("/add_project")
     public String addProject(Model model, @Valid @ModelAttribute("project") Project project, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-//            model.addAttribute("project", new Project());
-//            model.addAttribute("projectClient", new ProjectClient());
-//            model.addAttribute("listClients", clientService.getClients());
-
             model.addAttribute("listClients", clientService.getClients());
             return "Project/add_project";
         }
         projectService.addProject(project);
+
+        model.addAttribute("listProjects", projectService.getProjects());
+
+        return "Project/index";
+    }
+
+    @GetMapping("/edit_project")
+    public String editProject(Model model,@RequestParam("id") Long id) {
+        model.addAttribute("project", projectService.getProject(id));
+        model.addAttribute("listClients", clientService.getClients());
+
+        return "Project/edit_project";
+    }
+    @PostMapping("/edit_project")
+    public String editProject(Model model, @Valid @ModelAttribute("project") Project project, BindingResult bindingResult, RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("listClients", clientService.getClients());
+            return "Project/add_project";
+        }
+        projectService.editProject(project);
 
         model.addAttribute("listProjects", projectService.getProjects());
 
