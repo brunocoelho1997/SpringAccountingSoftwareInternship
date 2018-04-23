@@ -86,19 +86,18 @@ public class ClientController implements WebMvcConfigurer {
         return "redirect:/client/";
     }
 
+    @RequestMapping("/remove_client")
+    public String removeClient(@RequestParam("id") Long id, Model model) {
+        Client client = clientService.getClient(id);
+        model.addAttribute("client", client);
+        return "Client/remove_client :: modal";
+    }
+    @DeleteMapping("/remove_client")
+    public @ResponseBody String removeClient(@RequestParam("id") Long id) {
+        clientService.removeClient(id);
+        return "redirect:/client/";
+    }
 
-
-//    @GetMapping("/add_adress_client")
-//    public String addAdressClient(@RequestParam("client_id") long client_id, Model model) {
-//
-//        AdressResource adressResource = new AdressResource();
-//        Client client = clientService.getClient(client_id);
-//        adressResource.setClient(client);
-//        adressResource.setAdress(new Adress());
-//        model.addAttribute("adressResource", adressResource);
-//
-//        return "Client/add_client";
-//    }
 
 
 

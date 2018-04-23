@@ -65,17 +65,9 @@ public class ClientService {
 
         client.setAdresses(editedClient.getAdresses());
 
-//        for(Contact contact : client.getContacts())
-//            client.getContacts().remove(contact);
-//        client.getContacts().clear();
-
-        //client.getContacts().remove(0);
-
         client.getContacts().clear();
         for(Contact contact : editedClient.getContacts())
             client.getContacts().add(contact);
-
-//        client.setContacts(editedClient.getContacts());
         repository.save(client);
     }
 
@@ -88,5 +80,10 @@ public class ClientService {
     public List<Adress> getAdressesClient(Long id) {
         Client client = getOne(id);
         return client.getAdresses();
+    }
+
+    public void removeClient(Long id) {
+        Client c = repository.getOne(id);
+        repository.delete(c);
     }
 }
