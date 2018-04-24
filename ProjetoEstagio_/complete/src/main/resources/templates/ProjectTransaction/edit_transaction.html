@@ -27,6 +27,14 @@
                             <div class="form-horizontal">
                                 <input th:type="hidden" th:field="*{genre}"/>
                                 <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Entity.Id}"></label>
+                                    <div class="col-sm-6">
+                                        <p th:text="*{id}"></p>
+                                        <input class="form-control" th:type="hidden" th:field="*{id}" />
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Frequency}"></label>
                                     <div class="col-sm-6">
                                         <select class="form-control" th:field="*{frequency}" required>
@@ -35,14 +43,6 @@
                                                     th:text="#{Frequency.+ ${frequency}}"
                                             />
                                         </select>
-                                    </div>
-                                    <div class="col-sm-3"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Entity.Id}"></label>
-                                    <div class="col-sm-6">
-                                        <p th:text="*{id}"></p>
-                                        <input class="form-control" th:type="hidden" th:field="*{id}" />
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>

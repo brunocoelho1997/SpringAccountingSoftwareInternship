@@ -95,5 +95,12 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         return "redirect:/project_transaction/revenue";
     }
 
+    @RequestMapping("/info_transaction")
+    public String infoProject(@RequestParam("id") Long id, Model model) {
+
+        ProjectTransaction projectTransaction= projectTransactionService.getProjectTransaction(id);
+        model.addAttribute("transaction", projectTransaction);
+        return "ProjectTransaction/info_transaction";
+    }
 
 }

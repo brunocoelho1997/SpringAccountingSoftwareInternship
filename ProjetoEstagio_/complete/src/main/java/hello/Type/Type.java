@@ -26,7 +26,6 @@ public class Type extends Entity {
     @Column(nullable = false)
     private Category category;
 
-
     @NotNull
     @Length(min = 1, max = MAX_NAME_LENGHT)
     @Column(nullable = false, length = MAX_NAME_LENGHT)

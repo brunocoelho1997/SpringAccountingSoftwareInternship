@@ -72,7 +72,7 @@
                                     <!--TODO: Passar tudo para links-->
                                     <button class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></button>
                                     <a class="btn btn-default pull-right" th:href="@{/project_transaction/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
-                                    <!--<a class="btn btn-default pull-right" th:href="@{/client/info_client(id=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>-->
+                                    <a class="btn btn-default pull-right" th:href="@{/project_transaction/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                 </td>
                             </tr>
                             </tbody>
