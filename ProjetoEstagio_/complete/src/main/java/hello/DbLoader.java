@@ -11,6 +11,7 @@ import hello.Project.Project;
 import hello.Project.ProjectClient;
 import hello.Project.ProjectRepository;
 import hello.ProjectTransaction.ProjectTransaction;
+import hello.ProjectTransaction.ProjectTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
 import hello.Transaction.TransactionType;
@@ -36,6 +37,8 @@ public class DbLoader implements CommandLineRunner {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private ProjectTransactionRepository projectTransactionRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -160,46 +163,55 @@ public class DbLoader implements CommandLineRunner {
             ProjectClient projectClient1 = new ProjectClient();
             projectClient1.setContact(contact1);
             projectClient1.setClient(client1);
-
             Project project1 = new Project();
             project1.setProjectClient(projectClient1);
             project1.setDescription("Descrição1");
             project1.setName("Projecto1");
-
             long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
             long maxDay = LocalDate.of(2015, 12, 31).toEpochDay();
             long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
             LocalDate randomDate1 = LocalDate.ofEpochDay(randomDay);
             LocalDate randomDate2 = LocalDate.ofEpochDay(randomDay);
-
             project1.setInitialDate(randomDate1);
             project1.setFinalDate(randomDate2);
-
             project1.setScope("Scope1");
             project1.setBalance(0);
 
             project1 = projectRepository.save(project1);
 
 
-//            ProjectTransaction projectTransaction = new ProjectTransaction();
-//            projectTransaction.setDate(randomDate1);
-//            projectTransaction.setName("Receita de Projeto 1");
-//            projectTransaction.setFrequency(Frequency.DAILY);
-//            projectTransaction.setValue((float)20.3);
-//            projectTransaction.setProject(project1);
-//            projectTransaction.setGenre(Genre.REVENUE);
-//
-//            TransactionType transactionType = new TransactionType();
-//            transactionType.setType(type1);
-//
-//            projectTransaction.set(randomDate1);
+
+
+            ProjectTransaction projectTransaction = new ProjectTransaction();
+            projectTransaction.setDate(randomDate1);
+            projectTransaction.setName("Receita de Projeto 1");
+            projectTransaction.setFrequency(Frequency.DAILY);
+            projectTransaction.setValue((float)20.3);
+            projectTransaction.setProject(project1);
+            projectTransaction.setGenre(Genre.REVENUE);
+            TransactionType transactionType = new TransactionType();
+            transactionType.setType(type2);
+            projectTransaction.setTransactionType(transactionType);
 
 
 
 
 
+            ProjectTransaction projectTransaction2 = new ProjectTransaction();
+            projectTransaction2.setDate(randomDate2);
+            projectTransaction2.setName("Outra Receita");
+            projectTransaction2.setFrequency(Frequency.DAILY);
+            projectTransaction2.setValue((float)20.3);
 
 
+//            TransactionType transactionType2 = new TransactionType();
+//            transactionType2.setType(type1);
+//            transactionType2.setSubType(subType2);
+//            projectTransaction2.setTransactionType(transactionType2);
+
+
+            projectTransactionRepository.save(projectTransaction);
+//            projectTransactionRepository.save(projectTransaction2);
 
 
 

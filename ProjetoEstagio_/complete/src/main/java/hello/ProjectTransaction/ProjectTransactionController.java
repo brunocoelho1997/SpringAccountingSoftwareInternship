@@ -78,8 +78,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
             return "ProjectTransaction/edit_transaction";
         }
         projectTransactionService.editProjectTransaction(projectTransaction);
-        model.addAttribute("listRevenues",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
-        return "ProjectTransaction/revenues_index";
+        return "redirect:/project_transaction/revenue";
     }
 
     @RequestMapping("/remove_transaction")
