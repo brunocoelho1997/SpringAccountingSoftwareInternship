@@ -85,6 +85,9 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
                                         <select class="form-control" th:id="subTypesOfType" th:field="*{transactionType.subType}">
+                                            <option th:each="subtype : *{transactionType.type.getSubTypeList()}"
+                                                    th:value="${subtype.getId()}"
+                                                    th:utext="${subtype.getName()}"/>
                                         </select>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -151,13 +154,18 @@
 
             $.ajax(opt).done(function (result) {
                 $('#subTypesOfType').html(''); //to clear all options
+
+                var option = document.createElement("option");
+                option.text = "";
+                option.value = 0;
+                $('#subTypesOfType').append(option);
+
                 $('#subTypesOfType').append(result);
             }).fail(function (jqXHR, textStatus) {
                 alert(textStatus);
             });
 
-        })
-        .change();
+        });
 
 </script>
 

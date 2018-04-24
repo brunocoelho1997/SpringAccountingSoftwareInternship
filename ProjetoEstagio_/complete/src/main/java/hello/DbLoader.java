@@ -4,13 +4,16 @@ import hello.Adress.Adress;
 import hello.Client.Client;
 import hello.Client.ClientRepository;
 import hello.Contact.Contact;
+import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Enums.Category;
 import hello.Project.Project;
 import hello.Project.ProjectClient;
 import hello.Project.ProjectRepository;
+import hello.ProjectTransaction.ProjectTransaction;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
+import hello.Transaction.TransactionType;
 import hello.Type.Type;
 import hello.Type.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,7 +178,29 @@ public class DbLoader implements CommandLineRunner {
             project1.setScope("Scope1");
             project1.setBalance(0);
 
-            projectRepository.save(project1);
+            project1 = projectRepository.save(project1);
+
+
+//            ProjectTransaction projectTransaction = new ProjectTransaction();
+//            projectTransaction.setDate(randomDate1);
+//            projectTransaction.setName("Receita de Projeto 1");
+//            projectTransaction.setFrequency(Frequency.DAILY);
+//            projectTransaction.setValue((float)20.3);
+//            projectTransaction.setProject(project1);
+//            projectTransaction.setGenre(Genre.REVENUE);
+//
+//            TransactionType transactionType = new TransactionType();
+//            transactionType.setType(type1);
+//
+//            projectTransaction.set(randomDate1);
+
+
+
+
+
+
+
+
 
 
         }

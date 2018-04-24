@@ -64,6 +64,9 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     public String editTransaction(Model model,@RequestParam("id") Long id) {
 
         ProjectTransaction revenue = projectTransactionService.getProjectTransaction(id);
+
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n" + revenue + "\n\n");
+
         model.addAttribute("transaction", revenue);
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("projects", projectService.getProjects());

@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.RegistrationCode}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{registrationCode}"/>
+                                        <input class="form-control" th:field="*{registrationCode}" required/>
                                         <td th:if="${#fields.hasErrors('registrationCode')}" th:errors="*{registrationCode}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.Name}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{name}"/>
+                                        <input class="form-control" th:field="*{name}" required/>
                                         <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.NumberPhone}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{numberPhone}"/>
+                                        <input class="form-control" th:field="*{numberPhone}" required/>
                                         <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>

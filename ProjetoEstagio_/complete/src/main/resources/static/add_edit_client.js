@@ -33,7 +33,7 @@ var listContacts = $('#listContacts');
 var numberContacts = $('#listContacts>tr').size()-1;
 
 $('#addContact').click(function() {
-    listContacts.append('<tr class="info">' +
+    listContacts.append('<tr class="warning">' +
         '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.name" name="contacts[' + numberContacts + '].name" required maxlength="[[${T(hello.Contact.Contact).MAX_NAME_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="email" id="contacts'+numberContacts+'.email" name="contacts[' + numberContacts + '].email" maxlength="[[${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.numberPhone" name="contacts[' + numberContacts + '].numberPhone" required maxlength="[[${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}]]"/></td>' +
@@ -47,8 +47,9 @@ $('#addContact').click(function() {
         '<div class="col-sm-1"></div>\n' +
         '<div class="col-sm-10">' +
         '<table width="100%" class="table" style="background-color: transparent;">'+
-        '<thead><tr><th th:text="#{Adress.City}"></th><th th:text="#{Adress.Adress}"></th><th th:text="#{Adress.ZipCode}"></th><th th:text="#{Adress.Number}"></th><th></th></tr></thead>'+
+        '<thead><tr><th>[[#{Adress.City}]]</th><th>[[#{Adress.Adress}]]</th><th>[[#{Adress.ZipCode}]]</th><th>[[#{Adress.Number}]]</th><th></th></tr></thead>'+
         '<tbody id="listContactAdresses[' + numberContacts + ']" >' +
+        '<p>[[#{Adress.PanelHeader}]]</p>'+
         '<tr>' +
         '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.city" name="contacts[' + numberContacts + '].adresses[0].city" required maxlength="[[${T(hello.Adress.Adress).MAX_CITY_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.adressName" name="contacts[' + numberContacts + '].adresses[0].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
@@ -61,8 +62,8 @@ $('#addContact').click(function() {
         '</tbody>'+
         '</table>'+
         '<div align="right">'+
-        '<a class="btn btn-default pull-right" onclick="addAdressContact('+numberContacts+')" >add</a>'+
-        '<a class="btn btn-default pull-right" onclick="removeAdressContact('+numberContacts+')" >remover</a>'+
+        '<a class="btn btn-danger pull-right" onclick="removeAdressContact('+numberContacts+')" ><i class="glyphicon glyphicon-remove "/></i></a>'+
+        '<a class="btn btn-default pull-right" onclick="addAdressContact('+numberContacts+')" >[[#{Adress.Contact.Add}]]</a>'+
         '</div>'+
         '</div>'+
         '</td>'+
