@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: copy"></head>
+<body>
+<div id="wrapper">
+
+    <div th:replace="~{fragments/navbar :: navbar}">...</div>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" th:if="${transaction !=null}">
+                    <h1 th:text="#{Transactions.Revenue.Edit}" th:remove="tag" />
+                    <label th:text="${transaction.getName()}"/>
+                </h1>
+                <h1 class="page-header" th:unless="${transaction!=null}"> <label th:text="#{Transactions.Revenue.NotFound}"/></h1>
+            </div>
+        </div>
+        <div class="row" th:unless="${transaction !=null}" th:text="#{Transactions.Revenue.NotFoundDescription}"></div>
+        <div class="row" th:if="${transaction != null}">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" th:text="#{Transactions.Revenue.Edit}"> Adicionar
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form th:action="@{/project_transaction/edit_transaction}" th:object="${transaction}" method="post">
+                            <div class="form-horizontal">
+                                <input th:type="hidden" th:field="*{genre}"/>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Frequency}"></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" th:field="*{frequency}" required>
+                                            <option th:each="frequency : ${T(hello.Enums.Frequency).values()}"
+                                                    th:value="${frequency}"
+                                                    th:text="#{Frequency.+ ${frequency}}"
+                                            />
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Entity.Id}"></label>
+                                    <div class="col-sm-6">
+                                        <p th:text="*{id}"></p>
+                                        <input class="form-control" th:type="hidden" th:field="*{id}" />
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Date}"></label>
+                                    <div class="col-sm-6">
+                                        <input id='endDatePicker' type="date" class="form-control" th:value="*{date}" th:field="*{date}" />
+                                        <td th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Name}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{name}"/>
+                                        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Description}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{description}"/>
+                                        <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Type}"></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control selectedType" th:field="*{transactionType.type}" required>
+                                            <option th:each="type : ${types}"
+                                                    th:value="${type.getId()}"
+                                                    th:utext="${type.getName()}"/>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" th:id="subTypesOfType" th:field="*{transactionType.subType}">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Projects.Project}"></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" th:field="*{project.id}" required>
+                                            <option th:each="project : ${projects}"
+                                                    th:value="${project.getId()}"
+                                                    th:utext="${project.getName()}"/>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Value}"></label>
+                                    <div class="col-sm-6">
+                                        <input  type="number" class="form-control" th:field="*{value}"/>
+                                        <td th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Name Error</td>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group" align="right">
+                                    <input type="submit"  class="btn btn-default" th:value="#{System.Save}" />
+                                    <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
+                                    <a th:href="@{/project_transaction/revenue}">
+                                        <input class="btn btn-default" th:value="#{System.Back}" />
+                                    </a>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $( ".selectedType" )
+        .change(function () {
+
+            var selectedTypeValue;
+
+            $( ".selectedType option:selected" ).each(function() {
+                selectedTypeValue = $( this ).val();
+            });
+
+            // alert(selectedTypeValue);
+
+            /*
+            TODO: se nao tiver nenhum cliente (ou seja, se n existtir nenhum na bd isto vai dar erro)
+             */
+            var opt = {
+                type: 'GET',
+                url: '/type/get_subTypes?id=' + selectedTypeValue
+            }
+
+            $.ajax(opt).done(function (result) {
+                $('#subTypesOfType').html(''); //to clear all options
+                $('#subTypesOfType').append(result);
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+
+        })
+        .change();
+
+</script>
+
+<div th:replace="fragments/footer :: copy"></div>
+</body>
+</html>

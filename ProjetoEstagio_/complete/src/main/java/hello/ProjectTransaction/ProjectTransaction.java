@@ -11,7 +11,7 @@ public class ProjectTransaction extends Transaction {
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_ProjectTransaction_Project"), nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
     private Project project;
 
 

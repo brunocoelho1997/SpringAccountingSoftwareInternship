@@ -135,6 +135,9 @@
             /*
             TODO: se nao tiver nenhum cliente (ou seja, se n existtir nenhum na bd isto vai dar erro)
              */
+
+            // TODO: nao deve permitir remover clientes caso exista projetos a usar cliente...
+            //     TODO: nao deve permitir remover projetos caso receitas de projetos estejam a usar o projeto...
             var opt = {
                 type: 'GET',
                 url: '/client/get_contacts?id=' + selectedClientValue

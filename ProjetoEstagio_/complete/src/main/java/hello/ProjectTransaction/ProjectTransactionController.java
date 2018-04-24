@@ -50,8 +50,6 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     @PostMapping("/add_revenue")
     public String addRevenue(Model model, @Valid @ModelAttribute("transaction") ProjectTransaction projectTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
 
-        System.out.println("\n\n\n\n\n\n\n\n " + projectTransaction + "\n\n\n");
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.getTypes());
             model.addAttribute("projects", projectService.getProjects());
@@ -60,6 +58,28 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         projectTransactionService.addTransaction(projectTransaction);
 
         return "redirect:/project_transaction/revenue";
+    }
+
+    @GetMapping("/edit_transaction")
+    public String editTransaction(Model model,@RequestParam("id") Long id) {
+
+        ProjectTransaction revenue = projectTransactionService.getProjectTransaction(id);
+        model.addAttribute("transaction", revenue);
+        model.addAttribute("types", typeService.getTypes());
+        model.addAttribute("projects", projectService.getProjects());
+
+        return "ProjectTransaction/edit_transaction";
+    }
+    @PostMapping("/edit_transaction")
+    public String editTransaction(Model model, @Valid @ModelAttribute("transaction") ProjectTransaction projectTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("projects", projectService.getProjects());
+            return "ProjectTransaction/edit_transaction";
+        }
+        projectTransactionService.editProjectTransaction(projectTransaction);
+        model.addAttribute("listRevenues",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
+        return "ProjectTransaction/revenues_index";
     }
 
     @RequestMapping("/remove_transaction")

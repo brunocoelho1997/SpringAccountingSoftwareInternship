@@ -58,4 +58,22 @@ public class ProjectTransactionService {
         ProjectTransaction projectTransaction = getOne(id);
         repository.delete(projectTransaction);
     }
+
+    public void editProjectTransaction(@Valid ProjectTransaction editedProjectTransaction) {
+        ProjectTransaction projectTransaction = getOne(editedProjectTransaction.getId());
+
+        projectTransaction.setGenre(editedProjectTransaction.getGenre());
+        projectTransaction.setTransactionType(editedProjectTransaction.getTransactionType());
+        projectTransaction.setDate(editedProjectTransaction.getDate());
+        projectTransaction.setValue(editedProjectTransaction.getValue());
+        projectTransaction.setFrequency(editedProjectTransaction.getFrequency());
+        projectTransaction.setDescription(editedProjectTransaction.getDescription());
+        projectTransaction.setName(editedProjectTransaction.getName());
+
+        Project project = projectService.getProject(projectTransaction.getProject().getId());
+        projectTransaction.setProject(project);
+
+
+        repository.save(projectTransaction);
+    }
 }

@@ -59,8 +59,7 @@
                                 <td href="#" th:text="${c.getRegistrationCode()}"></td>
                                 <td th:text="${c.name}">1</td>
                                 <td class="center">
-                                    <!--TODO: Passar tudo para links-->
-                                    <button class="btn btn-default trash pull-right" th:client-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></button>
+                                    <a class="btn btn-default trash pull-right" th:client-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
                                     <a class="btn btn-default pull-right" th:href="@{/client/edit_client(id=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                     <a class="btn btn-default pull-right" th:href="@{/client/info_client(id=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                 </td>
@@ -81,7 +80,7 @@
 
     $( document ).ready(function () {
 
-        $('button.trash').click(function (e) {
+        $('a.trash').click(function (e) {
 
             var opt = {
                 type: 'GET',
@@ -106,7 +105,7 @@
             url: '/client/remove_client?id=' + id
 
         }).done(function (result) {
-            $('button[client-id=' + id + ']').closest('tr').remove();
+            $('a[client-id=' + id + ']').closest('tr').remove();
 
         }).fail(function (jqXHR, textStatus) {
             alert("erro");
