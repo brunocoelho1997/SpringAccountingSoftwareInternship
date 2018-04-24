@@ -53,7 +53,7 @@ public class ProjectController implements WebMvcConfigurer {
 
         model.addAttribute("listProjects", projectService.getProjects());
 
-        return "Project/index";
+        return "redirect:/project/";
     }
 
     @GetMapping("/edit_project")

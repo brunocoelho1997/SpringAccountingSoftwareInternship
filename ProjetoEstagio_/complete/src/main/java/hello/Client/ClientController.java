@@ -69,7 +69,8 @@ public class ClientController implements WebMvcConfigurer {
         Client c = clientService.addClient(client);
 
         model.addAttribute("listClients", clientService.getClients());
-        return "Client/index";
+
+        return "redirect:/client/";
     }
 
     @RequestMapping("/edit_client")

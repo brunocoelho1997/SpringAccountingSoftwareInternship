@@ -42,37 +42,22 @@ public class ProjectService {
         }
     }
 
+    public Project getProject(Long id) {
+        return getOne(id);
+    }
+
     public void addProject(Project project){
 
         ProjectClient projectClient = project.getProjectClient();
 
         Client c = clientService.getClient(projectClient.getClient().getId());
         Contact contact = clientService.getContact(c.getId(), projectClient.getContact().getId());
-
-//        projectClient.getContact().setAdresses(contact.getAdresses());
-//        projectClient.getContact().setName(contact.getName());
-//        projectClient.getContact().setNumberPhone(contact.getNumberPhone());
-//        projectClient.getContact().setEmail(contact.getEmail());
-//
-//
-//        projectClient.getClient().setContacts(c.getContacts());
-//        projectClient.getClient().setAdresses(c.getAdresses());
-//        projectClient.getClient().setName(c.getName());
-//        projectClient.getClient().setNumberPhone(c.getNumberPhone());
-//        projectClient.getClient().setRegistrationCode(c.getRegistrationCode());
-
-
-
         projectClient.setClient(c);
         projectClient.setContact(contact);
 
         project.setProjectClient(projectClient);
 
         projectRepository.save(project);
-    }
-
-    public Project getProject(Long id) {
-        return getOne(id);
     }
 
     public void removeProject(Long id) {

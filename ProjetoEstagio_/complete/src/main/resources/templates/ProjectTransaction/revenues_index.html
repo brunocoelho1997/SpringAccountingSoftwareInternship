@@ -70,7 +70,7 @@
                                 <td th:text="${r.getValue()}">1</td>
                                 <td class="center">
                                     <!--TODO: Passar tudo para links-->
-                                    <!--<button class="btn btn-default trash pull-right" th:client-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></button>-->
+                                    <button class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></button>
                                     <!--<a class="btn btn-default pull-right" th:href="@{/client/edit_client(id=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>-->
                                     <!--<a class="btn btn-default pull-right" th:href="@{/client/info_client(id=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>-->
                                 </td>
@@ -86,6 +86,45 @@
         </div>
     </div>
 </div>
+<div id="modal-content"></div>
+<script>
+
+    $( document ).ready(function () {
+
+        $('button.trash').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/project_transaction/remove_transaction?id=' + $(this).attr('transaction-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#remove-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
+
+    });
+
+    function deleteProject(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/project_transaction/remove_transaction?id=' + id
+
+        }).done(function (result) {
+            $('button[transaction-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+
+    }
+
+</script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

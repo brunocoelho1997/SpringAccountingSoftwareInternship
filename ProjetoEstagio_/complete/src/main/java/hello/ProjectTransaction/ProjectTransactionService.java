@@ -6,6 +6,7 @@ import hello.Project.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -29,8 +30,32 @@ public class ProjectTransactionService {
         Project project = projectService.getProject(projectTransaction.getProject().getId());
         projectTransaction.setProject(project);
 
-        System.out.println("\n\n\n\n\n\n\n\n " + projectTransaction + "\n\n\n");
-
         repository.save(projectTransaction);
+    }
+
+    //method private! If you need a project use method getProject(long id);
+    private ProjectTransaction getOne(Long id) {
+
+        try
+        {
+            if(id == null)
+                throw new EntityNotFoundException();
+
+            ProjectTransaction projectTransaction = repository.getOne(id);
+
+            return projectTransaction;
+        }catch (EntityNotFoundException ex)
+        {
+            return null;
+        }
+    }
+
+    public ProjectTransaction getProjectTransaction(Long id) {
+        return getOne(id);
+    }
+
+    public void removeProjectTransaction(Long id) {
+        ProjectTransaction projectTransaction = getOne(id);
+        repository.delete(projectTransaction);
     }
 }
