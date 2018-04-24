@@ -1,6 +1,6 @@
 package hello.Type;
 
-import hello.Contact.Genre;
+import hello.Enums.Genre;
 import hello.Entity;
 import hello.Enums.Category;
 import hello.SubType.SubType;
@@ -14,7 +14,7 @@ import java.util.List;
 public class Type extends Entity {
 
 
-    public static final int MAX_NAME_LENGHT = 12;
+    public static final int MAX_NAME_LENGHT = 20;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -66,5 +66,15 @@ public class Type extends Entity {
 
     public void setSubTypeList(List<SubType> subTypeList) {
         this.subTypeList = subTypeList;
+    }
+
+    @Override
+    public String toString() {
+        return "Type{" +
+                "genre=" + genre +
+                ", category=" + category +
+                ", name='" + name + '\'' +
+                ", subTypeList=" + subTypeList +
+                '}';
     }
 }

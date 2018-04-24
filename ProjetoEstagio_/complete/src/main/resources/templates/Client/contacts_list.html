@@ -6,11 +6,10 @@
 </head>
 <body>
 
-<div >
     <option th:fragment="options" th:each="contact : ${listContacts}"
             th:value="${contact.getId()}"
             th:utext="${contact.getName()}"/>
-</div>
+
 
 </body>
 </html>

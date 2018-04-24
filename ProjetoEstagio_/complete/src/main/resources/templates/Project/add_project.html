@@ -141,7 +141,7 @@
             }
 
             $.ajax(opt).done(function (result) {
-                $('#contactsOfClient').html('');
+                $('#contactsOfClient').html('');//to clear all options
                 $('#contactsOfClient').append(result);
             }).fail(function (jqXHR, textStatus) {
                 alert(textStatus);

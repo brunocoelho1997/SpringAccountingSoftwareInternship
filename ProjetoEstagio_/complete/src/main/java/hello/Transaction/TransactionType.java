@@ -38,4 +38,12 @@ public class TransactionType extends hello.Entity{
     public void setSubType(SubType subType) {
         this.subType = subType;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionType{" +
+                "type=" + type +
+                ", subType=" + subType +
+                '}';
+    }
 }

@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<option th:fragment="options" th:each="subtype : ${listSubTypes}"
+        th:value="${subtype.getId()}"
+        th:utext="${subtype.getName()}"/>
+
+</body>
+</html>

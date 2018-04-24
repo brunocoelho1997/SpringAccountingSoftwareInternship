@@ -1,6 +1,6 @@
 package hello.ProjectTransaction;
 
-import hello.Contact.Genre;
+import hello.Enums.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

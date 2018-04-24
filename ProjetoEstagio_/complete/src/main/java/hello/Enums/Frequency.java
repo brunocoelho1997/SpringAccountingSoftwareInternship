@@ -1,4 +1,4 @@
-package hello.Contact;
+package hello.Enums;
 
 public enum Frequency {
     DAILY, MONTHLY, SEMESTER, ANNUAL

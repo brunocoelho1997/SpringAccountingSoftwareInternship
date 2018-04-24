@@ -1,4 +1,4 @@
-package hello.Contact;
+package hello.Enums;
 
 public enum Genre {
     REVENUE, COST

@@ -61,12 +61,12 @@
                             <tr th:each="r : ${listRevenues}">
                                 <td th:text="${r.getDate()}"></td>
                                 <td th:text="${r.getName()}">1</td>
-                                <td th:text="${r.getInfoTypeDTO().getName()}">1</td>
+                                <td th:text="${r.getTransactionType().getType().getName()}">1</td>
 
-                                <td th:if="${r.getInfoSubType()!=null}" th:text="${r.getInfoSubType().getName()}">1</td>
-                                <td th:unless="${r.getInfoSubType()!=null}"></td>
+                                <td th:if="${r.getTransactionType().getSubType()!=null}" th:text="${r.getTransactionType().getSubType().getName()}">1</td>
+                                <td th:unless="${r.getTransactionType().getSubType()!=null}"></td>
 
-                                <td th:text="${r.getInfoProjectDTO().getName()}">1</td>
+                                <td th:text="${r.getProject().getName()}">1</td>
                                 <td th:text="${r.getValue()}">1</td>
                                 <td class="center">
                                     <!--TODO: Passar tudo para links-->

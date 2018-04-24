@@ -22,4 +22,11 @@ public class ProjectTransaction extends Transaction {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nProjectTransaction{" +
+                "project=" + project +
+                '}';
+    }
 }

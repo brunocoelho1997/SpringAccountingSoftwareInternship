@@ -1,12 +1,13 @@
 package hello.Transaction;
 
-import hello.Contact.Frequency;
-import hello.Contact.Genre;
+import hello.Enums.Frequency;
+import hello.Enums.Genre;
 import hello.Entity;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -21,7 +22,7 @@ public class Transaction extends Entity {
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
-    @Length(min = 1, max = MAX_DESCRIPTION_LENGHT)
+    @Length(max = MAX_DESCRIPTION_LENGHT)
     @Column(length = MAX_DESCRIPTION_LENGHT)
     private String description;
 
@@ -43,6 +44,7 @@ public class Transaction extends Entity {
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_TransactionType"), nullable = false)
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @Valid
     private TransactionType transactionType;
 
     @NotNull
@@ -104,5 +106,18 @@ public class Transaction extends Entity {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", value=" + value +
+                ", frequency=" + frequency +
+                ", genre=" + genre +
+                ", transactionType=" + transactionType +
+                ", date=" + date +
+                '}';
     }
 }

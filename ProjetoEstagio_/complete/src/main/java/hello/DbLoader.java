@@ -4,24 +4,21 @@ import hello.Adress.Adress;
 import hello.Client.Client;
 import hello.Client.ClientRepository;
 import hello.Contact.Contact;
-import hello.Contact.Genre;
+import hello.Enums.Genre;
 import hello.Enums.Category;
 import hello.Project.Project;
 import hello.Project.ProjectClient;
 import hello.Project.ProjectRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
-import hello.SubType.SubTypeService;
 import hello.Type.Type;
 import hello.Type.TypeRepository;
-import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -49,6 +46,7 @@ public class DbLoader implements CommandLineRunner {
             SubType subType2 = new SubType();
             subType2.setName("Estruturação");
 
+
 //      add types
             Type type1 = new Type();
             type1.setCategory(Category.PROJECTS);
@@ -60,7 +58,7 @@ public class DbLoader implements CommandLineRunner {
             Type type2 = new Type();
             type2.setCategory(Category.PROJECTS);
             type2.setGenre(Genre.REVENUE);
-            type2.setName("Manutenção");
+            type2.setName("Desenvolvimento");
             type2.setSubTypeList(new ArrayList<>());
             type2 = typeRepository.save(type2);
 
@@ -68,7 +66,6 @@ public class DbLoader implements CommandLineRunner {
             type1.getSubTypeList().add(subType1);
             type1.getSubTypeList().add(subType2);
 
-            type2.getSubTypeList().add(subType1);
 
             typeRepository.save(type1);
             typeRepository.save(type2);
