@@ -43,7 +43,7 @@ public class Transaction extends Entity {
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_TransactionType"), nullable = false)
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval=true)
     @Valid
     private TransactionType transactionType;
 
