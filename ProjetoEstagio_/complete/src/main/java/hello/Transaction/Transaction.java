@@ -44,14 +44,14 @@ public class Transaction extends Entity {
     private Genre genre;
 
     @NotNull
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TransactionType_Type"), nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
     /*
     TODO: perguntar ao hugo se é refresh
      */
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Type type;
 
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TransactionType_SubType"))
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_SubType"))
     /*
     TODO: perguntar ao hugo se é refresh
      */

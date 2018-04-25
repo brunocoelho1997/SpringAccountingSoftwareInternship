@@ -2,6 +2,8 @@ package hello.Client;
 
 import hello.Adress.Adress;
 import hello.Contact.Contact;
+import hello.Post.PostContact;
+import hello.Post.PostContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,9 @@ public class ClientController implements WebMvcConfigurer {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private PostContactService postContactService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -55,6 +60,7 @@ public class ClientController implements WebMvcConfigurer {
         client.setContacts(contacts);
 
         model.addAttribute("client", client);
+        model.addAttribute("listPostContact", postContactService.getAll());
 
         return "Client/add_client";
     }
@@ -62,6 +68,7 @@ public class ClientController implements WebMvcConfigurer {
     @PostMapping("/add_client")
     public String addClient(Model model, @Valid @ModelAttribute("client") Client client, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("listPostContact", postContactService.getAll());
             return "Client/add_client";
         }
 
@@ -77,6 +84,8 @@ public class ClientController implements WebMvcConfigurer {
     public String editClient(@RequestParam("id") Long id, Model model) {
         Client client = clientService.getClient(id);
         model.addAttribute("client", client);
+        model.addAttribute("listPostContact", postContactService.getAll());
+
 
         return "Client/edit_client";
     }
@@ -85,9 +94,9 @@ public class ClientController implements WebMvcConfigurer {
 
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("listPostContact", postContactService.getAll());
             return "Client/edit_client";
         }
-
 
         clientService.editClient(client);
         return "redirect:/client/";

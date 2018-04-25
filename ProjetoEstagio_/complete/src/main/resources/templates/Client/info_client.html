@@ -98,18 +98,16 @@
                                             <th th:text="#{Person.Name}"></th>
                                             <th th:text="#{Person.Email}"></th>
                                             <th th:text="#{Person.NumberPhone}"></th>
-                                            <th></th>
+                                            <th th:text="#{PostContact.Name}"></th>
                                         </tr>
                                         </thead>
                                         <tbody th:id="listContacts">
                                         <div th:each="contact,rowStat : *{client.contacts}">
-                                            <tr class="info">
+                                            <tr class="warning">
                                                 <td><p th:text="*{contact.name}"/></td>
                                                 <td><p th:text="*{contact.email}"/></td>
                                                 <td><p th:text="*{contact.numberPhone}"/></td>
-                                                <td class="center">
-                                                    <!--<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>-->
-                                                </td>
+                                                <td><p th:text="*{contact.postContact.getName()}"/></td>
                                             </tr>
                                             <tr>
                                                 <td th:colspan="5">

@@ -122,7 +122,7 @@
                                                 <th th:text="#{Person.Name}"></th>
                                                 <th th:text="#{Person.Email}"></th>
                                                 <th th:text="#{Person.NumberPhone}"></th>
-                                                <th></th>
+                                                <th th:text="#{PostContact.Name}"></th>
                                             </tr>
                                             </thead>
                                             <tbody th:id="listContacts">
@@ -132,11 +132,15 @@
                                                     <td><input class="form-control" type="email" th:field="*{contacts[__${rowStat.index}__].email}" required th:maxlength="${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}"/></td>
                                                     <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].numberPhone}" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/></td>
                                                     <td class="center">
-                                                        <!--<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>-->
+                                                        <select class="form-control" id= "listPostContacts" th:field="*{contacts[__${rowStat.index}__].postContact}" required>
+                                                            <option th:each="postContact : ${listPostContact}"
+                                                                    th:value="${postContact.getId()}"
+                                                                    th:utext="${postContact.getName()}"/>
+                                                        </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td th:colspan="5" class="admin">
+                                                    <td th:colspan="5">
                                                         <div class="row">
                                                             <div class="col-sm-1"></div>
                                                             <div class="col-sm-10">
@@ -226,10 +230,16 @@
     var numberContacts = $('#listContacts>tr').size()-1;
 
     $('#addContact').click(function() {
+
+        var $options = $("#listPostContacts").clone();
+
         listContacts.append('<tr class="warning">' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.name" name="contacts[' + numberContacts + '].name" required maxlength="[[${T(hello.Contact.Contact).MAX_NAME_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="email" id="contacts'+numberContacts+'.email" name="contacts[' + numberContacts + '].email" maxlength="[[${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.numberPhone" name="contacts[' + numberContacts + '].numberPhone" required maxlength="[[${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}]]"/></td>' +
+            '<td><select class="form-control selectedClient" id="contacts'+numberContacts+'.postContact" name="contacts[' + numberContacts + '].postContact"  required>' +
+            $options.html() +
+            '</select></td>' +
             '<td>' +
             // TODO:APAGAR ISTO '   <a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
             '</td>' +

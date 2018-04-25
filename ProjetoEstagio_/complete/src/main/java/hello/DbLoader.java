@@ -7,6 +7,8 @@ import hello.Contact.Contact;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Enums.Category;
+import hello.Post.PostContact;
+import hello.Post.PostContactRepository;
 import hello.Project.Project;
 import hello.Project.ProjectRepository;
 import hello.ProjectTransaction.ProjectTransaction;
@@ -37,6 +39,9 @@ public class DbLoader implements CommandLineRunner {
 
     @Autowired
     private ProjectTransactionRepository projectTransactionRepository;
+
+    @Autowired
+    private PostContactRepository postContactRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -105,6 +110,20 @@ public class DbLoader implements CommandLineRunner {
 
 
 
+//            create posts of Contacts
+
+            PostContact postContact1 = new PostContact();
+            postContact1.setName("Revendedor");
+            PostContact postContact2 = new PostContact();
+            postContact2.setName("Gestor de Projetos");
+            PostContact postContact3 = new PostContact();
+            postContact3.setName("Gerente");
+
+            postContact1 = postContactRepository.save(postContact1);
+            postContact2 = postContactRepository.save(postContact2);
+            postContact3 = postContactRepository.save(postContact3);
+
+
 
 //            create contacts
             Contact contact1 = new Contact();
@@ -113,6 +132,7 @@ public class DbLoader implements CommandLineRunner {
             contact1.setName("Contato1");
             contact1.setAdresses(new ArrayList<>());
             contact1.getAdresses().add(adress1);
+            contact1.setPostContact(postContact1);
 
             Contact contact2 = new Contact();
             contact2.setEmail("contato2@isec.pt");
@@ -120,6 +140,7 @@ public class DbLoader implements CommandLineRunner {
             contact2.setName("Contato2");
             contact2.setAdresses(new ArrayList<>());
             contact2.getAdresses().add(adress2);
+            contact2.setPostContact(postContact2);
 
 
             Contact contact3 = new Contact();
@@ -128,6 +149,7 @@ public class DbLoader implements CommandLineRunner {
             contact3.setName("Contato3");
             contact3.setAdresses(new ArrayList<>());
             contact3.getAdresses().add(adress3);
+            contact3.setPostContact(postContact3);
 
 //            create clients
             Client client1 = new Client();

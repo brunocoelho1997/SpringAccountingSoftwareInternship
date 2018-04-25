@@ -48,7 +48,7 @@ public class Project extends Entity {
     private String scope;
 
     @NotNull
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_ProjectClient_Client"), nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Project_Client"), nullable = false)
     /*
     TODO: perguntar ao hugo se é refresh
      */
@@ -56,7 +56,7 @@ public class Project extends Entity {
     private Client client;
 
     @NotNull
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_ProjectClient_Contact"), nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Project_Contact"), nullable = false)
     /*
     TODO: perguntar ao hugo se é refresh
      */
