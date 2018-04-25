@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Type}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control selectedType" th:field="*{transactionType.type}" required>
+                                        <select class="form-control selectedType" th:field="*{type}" required>
                                             <option th:each="type : ${types}"
                                                     th:value="${type.getId()}"
                                                     th:utext="${type.getName()}"/>
@@ -72,7 +72,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" th:id="subTypesOfType" th:field="*{transactionType.subType}" required>
+                                        <select class="form-control" th:id="subTypesOfType" th:field="*{subType}" required>
                                         </select>
                                     </div>
                                     <div class="col-sm-3"></div>

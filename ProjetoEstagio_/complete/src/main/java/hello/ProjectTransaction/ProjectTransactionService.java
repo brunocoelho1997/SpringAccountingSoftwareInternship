@@ -3,6 +3,10 @@ package hello.ProjectTransaction;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.Project.ProjectService;
+import hello.SubType.SubType;
+import hello.SubType.SubTypeService;
+import hello.Type.Type;
+import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,10 @@ public class ProjectTransactionService {
 
     @Autowired
     ProjectService projectService;
+    @Autowired
+    TypeService typeService;
+    @Autowired
+    SubTypeService subTypeService;
 
 
     public List<ProjectTransaction> getProjectsTransactionsByGenre(Genre genre){
@@ -63,7 +71,14 @@ public class ProjectTransactionService {
         ProjectTransaction projectTransaction = getOne(editedProjectTransaction.getId());
 
         projectTransaction.setGenre(editedProjectTransaction.getGenre());
-        projectTransaction.setTransactionType(editedProjectTransaction.getTransactionType());
+
+        Type type = typeService.getType(editedProjectTransaction.getType().getId());
+        projectTransaction.setType(type);
+        if(editedProjectTransaction.getSubType() !=null)
+        {
+            SubType subType= subTypeService.getSubType(editedProjectTransaction.getSubType().getId());
+            projectTransaction.setSubType(subType);
+        }
         projectTransaction.setDate(editedProjectTransaction.getDate());
         projectTransaction.setValue(editedProjectTransaction.getValue());
         projectTransaction.setFrequency(editedProjectTransaction.getFrequency());

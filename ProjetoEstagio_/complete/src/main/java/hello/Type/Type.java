@@ -19,11 +19,6 @@ public class Type extends Entity {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Genre genre;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Category category;
 
     @NotNull
@@ -34,14 +29,6 @@ public class Type extends Entity {
     //    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<SubType> subTypeList;
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
 
     public Category getCategory() {
         return category;
@@ -70,7 +57,6 @@ public class Type extends Entity {
     @Override
     public String toString() {
         return "Type{" +
-                "genre=" + genre +
                 ", category=" + category +
                 ", name='" + name + '\'' +
                 ", subTypeList=" + subTypeList +

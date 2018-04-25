@@ -50,11 +50,11 @@
                             </div>
                             <div>
                                 <span th:text="#{Transactions.Type}" th:remove="tag">title</span>:
-                                <span th:text="${transaction.getTransactionType().getType().getName()}"></span>
+                                <span th:text="${transaction.getType().getName()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Transactions.SubType}" th:remove="tag">title</span>:
-                                <span th:if="${transaction.getTransactionType().getSubType()!=null}" th:text="${transaction.getTransactionType().getSubType().getName()}"></span>
+                                <span th:if="${transaction.getSubType()!=null}" th:text="${transaction.getSubType().getName()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Transactions.Projects.Project}" th:remove="tag">title</span>:

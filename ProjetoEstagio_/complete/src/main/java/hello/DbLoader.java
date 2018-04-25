@@ -13,7 +13,6 @@ import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
-import hello.Transaction.TransactionType;
 import hello.Type.Type;
 import hello.Type.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +54,12 @@ public class DbLoader implements CommandLineRunner {
 //      add types
             Type type1 = new Type();
             type1.setCategory(Category.PROJECTS);
-            type1.setGenre(Genre.REVENUE);
             type1.setName("Manutenção");
             type1.setSubTypeList(new ArrayList<>());
             type1 = typeRepository.save(type1);
 
             Type type2 = new Type();
             type2.setCategory(Category.PROJECTS);
-            type2.setGenre(Genre.REVENUE);
             type2.setName("Desenvolvimento");
             type2.setSubTypeList(new ArrayList<>());
             type2 = typeRepository.save(type2);
@@ -194,9 +191,7 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction.setValue((float)20.3);
             projectTransaction.setProject(project1);
             projectTransaction.setGenre(Genre.REVENUE);
-            TransactionType transactionType = new TransactionType();
-            transactionType.setType(type2);
-            projectTransaction.setTransactionType(transactionType);
+            projectTransaction.setType(type2);
 
 
 

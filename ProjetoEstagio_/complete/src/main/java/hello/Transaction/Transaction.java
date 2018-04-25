@@ -3,6 +3,8 @@ package hello.Transaction;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Entity;
+import hello.SubType.SubType;
+import hello.Type.Type;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,10 +44,19 @@ public class Transaction extends Entity {
     private Genre genre;
 
     @NotNull
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_TransactionType"), nullable = false)
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval=true)
-    @Valid
-    private TransactionType transactionType;
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TransactionType_Type"), nullable = false)
+    /*
+    TODO: perguntar ao hugo se é refresh
+     */
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    private Type type;
+
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TransactionType_SubType"))
+    /*
+    TODO: perguntar ao hugo se é refresh
+     */
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    private SubType subType;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -92,20 +103,28 @@ public class Transaction extends Entity {
         this.genre = genre;
     }
 
-    public TransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
-    }
-
     public LocalDate getDate() {
         return date;
     }
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public SubType getSubType() {
+        return subType;
+    }
+
+    public void setSubType(SubType subType) {
+        this.subType = subType;
     }
 
     @Override
@@ -116,7 +135,8 @@ public class Transaction extends Entity {
                 ", value=" + value +
                 ", frequency=" + frequency +
                 ", genre=" + genre +
-                ", transactionType=" + transactionType +
+                ", type=" + type +
+                ", subType=" + subType +
                 ", date=" + date +
                 '}';
     }
