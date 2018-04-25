@@ -35,7 +35,6 @@ public class ProjectController implements WebMvcConfigurer {
     public String addProject(Model model) {
 
         Project project = new Project();
-        project.setProjectClient(new ProjectClient());
         model.addAttribute("project", project);
         model.addAttribute("listClients", clientService.getClients());
 

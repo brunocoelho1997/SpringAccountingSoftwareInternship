@@ -67,7 +67,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.Client}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control selectedClient" th:field="*{projectClient.client.id}" required>
+                                        <select class="form-control selectedClient" th:field="*{client.id}" required>
                                             <option th:each="client : ${listClients}"
                                                     th:value="${client.getId()}"
                                                     th:utext="${client.getName()}"/>
@@ -79,7 +79,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.Contact}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" th:id="contactsOfClient" th:field="*{projectClient.contact.id}" required>
+                                        <select class="form-control" th:id="contactsOfClient" th:field="*{contact.id}" required>
                                         </select>
                                     </div>
                                     <div class="col-sm-3"></div>

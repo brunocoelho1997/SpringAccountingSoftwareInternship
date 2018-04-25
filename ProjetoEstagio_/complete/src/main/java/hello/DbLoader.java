@@ -8,7 +8,6 @@ import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Enums.Category;
 import hello.Project.Project;
-import hello.Project.ProjectClient;
 import hello.Project.ProjectRepository;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
@@ -160,11 +159,17 @@ public class DbLoader implements CommandLineRunner {
 
 //            create projects
 
-            ProjectClient projectClient1 = new ProjectClient();
-            projectClient1.setContact(contact1);
-            projectClient1.setClient(client1);
+//            ProjectClient projectClient1 = new ProjectClient();
+//            projectClient1.setContact(contact1);
+//            projectClient1.setClient(client1);
             Project project1 = new Project();
-            project1.setProjectClient(projectClient1);
+
+
+//            project1.setProjectClient(projectClient1);
+
+
+            project1.setClient(client1);
+            project1.setContact(contact1);
             project1.setDescription("Descrição1");
             project1.setName("Projecto1");
             long minDay = LocalDate.of(1970, 1, 1).toEpochDay();

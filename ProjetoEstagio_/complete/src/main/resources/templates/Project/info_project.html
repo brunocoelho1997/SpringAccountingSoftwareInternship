@@ -57,21 +57,21 @@
                             <div>
                                 <br>
                                 <span th:text="#{Project.Client}" th:remove="tag">title</span>:
-                                <span th:text="${project.getProjectClient().getClient().getName()}"></span>
+                                <span th:text="${project.getClient().getName()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Contact.Header}" th:remove="tag">title</span>:
                                 <br>
                                 <span th:text="#{Contact.Name}" th:remove="tag">title</span>:
-                                <span th:text="${project.getProjectClient().getContact().getName()}"></span>
+                                <span th:text="${project.getContact().getName()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Client.NumberPhone}" th:remove="tag">title</span>:
-                                <span th:text="${project.getProjectClient().getContact().getNumberPhone()}"></span>
+                                <span th:text="${project.getContact().getNumberPhone()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Client.Email}" th:remove="tag">title</span>:
-                                <span th:text="${project.getProjectClient().getContact().getEmail()}"></span>
+                                <span th:text="${project.getContact().getEmail()}"></span>
                             </div>
 
 

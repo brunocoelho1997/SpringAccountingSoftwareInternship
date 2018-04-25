@@ -48,14 +48,11 @@ public class ProjectService {
 
     public void addProject(Project project){
 
-        ProjectClient projectClient = project.getProjectClient();
 
-        Client c = clientService.getClient(projectClient.getClient().getId());
-        Contact contact = clientService.getContact(c.getId(), projectClient.getContact().getId());
-        projectClient.setClient(c);
-        projectClient.setContact(contact);
-
-        project.setProjectClient(projectClient);
+        Client c = clientService.getClient(project.getClient().getId());
+        Contact contact = clientService.getContact(c.getId(), project.getContact().getId());
+        project.setClient(c);
+        project.setContact(contact);
 
         projectRepository.save(project);
     }
@@ -74,7 +71,11 @@ public class ProjectService {
         project.setName(editedProject.getName());
         project.setDescription(editedProject.getDescription());
         project.setBalance(editedProject.getBalance());
-        project.setProjectClient(editedProject.getProjectClient());
+
+        Client c = clientService.getClient(editedProject.getClient().getId());
+        Contact contact = clientService.getContact(c.getId(), editedProject.getContact().getId());
+        project.setClient(c);
+        project.setContact(contact);
 
         projectRepository.save(project);
 

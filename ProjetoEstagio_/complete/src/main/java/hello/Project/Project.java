@@ -1,5 +1,7 @@
 package hello.Project;
 
+import hello.Client.Client;
+import hello.Contact.Contact;
 import hello.Entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -50,8 +52,18 @@ public class Project extends Entity {
     /*
     TODO: perguntar ao hugo se é refresh
      */
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private ProjectClient projectClient;
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    private Client client;
+
+    @NotNull
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_ProjectClient_Contact"), nullable = false)
+    /*
+    TODO: perguntar ao hugo se é refresh
+     */
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    private Contact contact;
+
+
 
     /*
         TODO: No DC nao esta' representado... mas a meu ver a ligacao de Projeto para ProjectTransaction devia ser bidirecional. O mesmo acontece parra EmployeeTransaction
@@ -106,12 +118,20 @@ public class Project extends Entity {
         this.scope = scope;
     }
 
-    public ProjectClient getProjectClient() {
-        return projectClient;
+    public Client getClient() {
+        return client;
     }
 
-    public void setProjectClient(ProjectClient projectClient) {
-        this.projectClient = projectClient;
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     @Override
@@ -123,7 +143,8 @@ public class Project extends Entity {
                 ", finalDate=" + finalDate +
                 ", balance=" + balance +
                 ", scope='" + scope + '\'' +
-                ", projectClient=" + projectClient +
+                ", client=" + client +
+                ", contact=" + contact +
                 '}';
     }
 }
