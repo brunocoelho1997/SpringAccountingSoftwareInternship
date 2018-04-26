@@ -2,6 +2,7 @@ package hello.Project;
 
 import hello.Client.Client;
 import hello.Contact.Contact;
+import hello.CostCenter.CostCenter;
 import hello.Entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -63,6 +64,14 @@ public class Project extends Entity {
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Contact contact;
 
+
+    @NotNull
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Project_CostCenter"), nullable = false)
+    /*
+    TODO: perguntar ao hugo se é refresh
+     */
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    private CostCenter costCenter;
 
 
     /*
@@ -132,6 +141,14 @@ public class Project extends Entity {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public CostCenter getCostCenter() {
+        return costCenter;
+    }
+
+    public void setCostCenter(CostCenter costCenter) {
+        this.costCenter = costCenter;
     }
 
     @Override

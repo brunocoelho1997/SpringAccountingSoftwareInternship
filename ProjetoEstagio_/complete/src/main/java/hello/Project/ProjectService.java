@@ -3,6 +3,8 @@ package hello.Project;
 import hello.Client.Client;
 import hello.Client.ClientService;
 import hello.Contact.Contact;
+import hello.CostCenter.CostCenter;
+import hello.CostCenter.CostCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class ProjectService {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private CostCenterService costCenterService;
 
     public List<Project> getProjects() {
         return projectRepository.findAll();
@@ -74,8 +79,16 @@ public class ProjectService {
 
         Client c = clientService.getClient(editedProject.getClient().getId());
         Contact contact = clientService.getContact(c.getId(), editedProject.getContact().getId());
-        project.setClient(c);
-        project.setContact(contact);
+        CostCenter costCenter = costCenterService.getCostCenter(editedProject.getCostCenter().getId());
+
+        if(c !=null)
+            project.setClient(c);
+
+        if(contact != null)
+            project.setContact(contact);
+
+        if(costCenter !=null)
+            project.setCostCenter(costCenter);
 
         projectRepository.save(project);
 

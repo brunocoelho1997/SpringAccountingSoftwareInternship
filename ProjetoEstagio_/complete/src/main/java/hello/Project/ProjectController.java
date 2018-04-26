@@ -2,6 +2,7 @@ package hello.Project;
 
 import hello.Client.ClientService;
 import hello.Contact.Contact;
+import hello.CostCenter.CostCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,9 @@ public class ProjectController implements WebMvcConfigurer {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private CostCenterService costCenterService;
+
 
     @GetMapping("/")
     public String index(Model model) {
@@ -37,6 +41,7 @@ public class ProjectController implements WebMvcConfigurer {
         Project project = new Project();
         model.addAttribute("project", project);
         model.addAttribute("listClients", clientService.getClients());
+        model.addAttribute("listCostsCenter", costCenterService.getCostsCenter());
 
 
         return "Project/add_project";
@@ -46,6 +51,7 @@ public class ProjectController implements WebMvcConfigurer {
     public String addProject(Model model, @Valid @ModelAttribute("project") Project project, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("listClients", clientService.getClients());
+            model.addAttribute("listCostsCenter", costCenterService.getCostsCenter());
             return "Project/add_project";
         }
         projectService.addProject(project);
@@ -59,6 +65,7 @@ public class ProjectController implements WebMvcConfigurer {
     public String editProject(Model model,@RequestParam("id") Long id) {
         model.addAttribute("project", projectService.getProject(id));
         model.addAttribute("listClients", clientService.getClients());
+        model.addAttribute("listCostsCenter", costCenterService.getCostsCenter());
 
         return "Project/edit_project";
     }
@@ -66,13 +73,14 @@ public class ProjectController implements WebMvcConfigurer {
     public String editProject(Model model, @Valid @ModelAttribute("project") Project project, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("listClients", clientService.getClients());
-            return "Project/add_project";
+            model.addAttribute("listCostsCenter", costCenterService.getCostsCenter());
+            return "Project/edit_project";
         }
         projectService.editProject(project);
 
         model.addAttribute("listProjects", projectService.getProjects());
 
-        return "Project/index";
+        return "redirect:/project/";
     }
 
     @RequestMapping("/remove_project")

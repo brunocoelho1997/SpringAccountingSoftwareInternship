@@ -73,7 +73,10 @@
                                 <span th:text="#{Client.Email}" th:remove="tag">title</span>:
                                 <span th:text="${project.getContact().getEmail()}"></span>
                             </div>
-
+                            <div>
+                                <span th:text="#{CostCenter.Name}" th:remove="tag">title</span>:
+                                <span th:text="${project.costCenter.getName()}"></span>
+                            </div>
 
                         </div>
 

@@ -4,6 +4,8 @@ import hello.Adress.Adress;
 import hello.Client.Client;
 import hello.Client.ClientRepository;
 import hello.Contact.Contact;
+import hello.CostCenter.CostCenter;
+import hello.CostCenter.CostCenterRepository;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Enums.Category;
@@ -42,6 +44,10 @@ public class DbLoader implements CommandLineRunner {
 
     @Autowired
     private PostContactRepository postContactRepository;
+
+    @Autowired
+    private CostCenterRepository costCenterRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -176,17 +182,21 @@ public class DbLoader implements CommandLineRunner {
             client2 = clientRepository.save(client2);
 
 
+//            create Cost Centers
+
+            CostCenter costCenter1 = new CostCenter();
+            costCenter1.setName("Centro de Custos 1");
+            costCenter1.setDescription("Descrição");
+            CostCenter costCenter2 = new CostCenter();
+            costCenter2.setName("Centro de Custos 2");
+            costCenter2.setDescription("Descrição");
+
+            costCenter1 = costCenterRepository.save(costCenter1);
+            costCenter2 = costCenterRepository.save(costCenter2);
+
 //            create projects
 
-//            ProjectClient projectClient1 = new ProjectClient();
-//            projectClient1.setContact(contact1);
-//            projectClient1.setClient(client1);
             Project project1 = new Project();
-
-
-//            project1.setProjectClient(projectClient1);
-
-
             project1.setClient(client1);
             project1.setContact(contact1);
             project1.setDescription("Descrição1");
@@ -200,6 +210,7 @@ public class DbLoader implements CommandLineRunner {
             project1.setFinalDate(randomDate2);
             project1.setScope("Scope1");
             project1.setBalance(0);
+            project1.setCostCenter(costCenter1);
 
             project1 = projectRepository.save(project1);
 
