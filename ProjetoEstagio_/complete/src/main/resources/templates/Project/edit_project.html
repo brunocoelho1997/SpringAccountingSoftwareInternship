@@ -161,21 +161,20 @@
 
             // alert(selectedClientValue);
 
-            /*
-            TODO: se nao tiver nenhum cliente (ou seja, se n existtir nenhum na bd isto vai dar erro)
-             */
-            var opt = {
-                type: 'GET',
-                url: '/client/get_contacts?id=' + selectedClientValue
+            if(selectedClientValue!=null)
+            {
+                var opt = {
+                    type: 'GET',
+                    url: '/client/get_contacts?id=' + selectedClientValue
+                }
+
+                $.ajax(opt).done(function (result) {
+                    $('#contactsOfClient').html('');
+                    $('#contactsOfClient').append(result);
+                }).fail(function (jqXHR, textStatus) {
+                    alert(textStatus);
+                });
             }
-
-            $.ajax(opt).done(function (result) {
-                $('#contactsOfClient').html('');
-                $('#contactsOfClient').append(result);
-            }).fail(function (jqXHR, textStatus) {
-                alert(textStatus);
-            });
-
         })
         .change();
 

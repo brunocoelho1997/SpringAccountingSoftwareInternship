@@ -152,7 +152,6 @@
                                                                         <th th:text="#{Adress.Adress}"></th>
                                                                         <th th:text="#{Adress.ZipCode}"></th>
                                                                         <th th:text="#{Adress.Number}"></th>
-                                                                        <th></th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody th:id="'listContactAdresses[' + ${rowStat.index} +']'" >
@@ -162,7 +161,6 @@
                                                                         <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].adressName}" th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/></td>
                                                                         <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].zipCode}" required th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/></td>
                                                                         <td><input class="form-control" type="number" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].number}" required th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/></td>
-                                                                        <!--<td class="center"><a class="btn btn-default pull-right" id="removeAdressContact"><i class="glyphicon glyphicon-remove"></i></a></td>-->
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -207,7 +205,6 @@
             '<td><input class="form-control" type="text" id="adresses'+numberClientAdresses+'.adressName" name="adresses[' + numberClientAdresses + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="adresses'+numberClientAdresses+'.zipCode" name="adresses[' + numberClientAdresses + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="number" id="adresses'+numberClientAdresses+'.number" name="adresses[' + numberClientAdresses + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
-            // '<td><a class="btn btn-default pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a></td>' +
             '</tr>');
         numberClientAdresses++;
         return false;
@@ -240,9 +237,6 @@
             '<td><select class="form-control selectedClient" id="contacts'+numberContacts+'.postContact" name="contacts[' + numberContacts + '].postContact"  required>' +
             $options.html() +
             '</select></td>' +
-            '<td>' +
-            // TODO:APAGAR ISTO '   <a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
-            '</td>' +
             '</tr>'+
             '<tr>'+
             '<td colspan="5"'+
@@ -258,9 +252,6 @@
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.adressName" name="contacts[' + numberContacts + '].adresses[0].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.zipCode" name="contacts[' + numberContacts + '].adresses[0].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="number" id="contacts'+numberContacts+'.adresses0.number" name="contacts[' + numberContacts + '].adresses[0].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
-            '<td>' +
-            //TODO:apagar isto '<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
-            '</td>' +
             '</tr>'+
             '</tbody>'+
             '</table>'+
@@ -304,9 +295,6 @@
             '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.adressName" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.zipCode" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="number" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.number" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
-            '<td>' +
-            // TODO:apagar isto'<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
-            '</td>' +
             '</tr>');
         return false;
     }

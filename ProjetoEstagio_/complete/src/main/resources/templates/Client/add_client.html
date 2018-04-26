@@ -140,7 +140,6 @@
                                                                         <th th:text="#{Adress.Adress}"></th>
                                                                         <th th:text="#{Adress.ZipCode}"></th>
                                                                         <th th:text="#{Adress.Number}"></th>
-                                                                        <th></th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody th:id="'listContactAdresses[' + ${rowStat.index} +']'" >
@@ -222,33 +221,7 @@
 
 
 
-
-
-    // var listPostContact = [[${listPostContact}]];
-    //
-    // var options;
-    // for (i = 0; i < listPostContact.length; i++) {
-    //     options += "<option value='" + listPostContact[i].getId() + "'></option>";
-    //
-    // }
-
-
-    // <td class="center">
-    //     <select class="form-control selectedClient" th:field="*{contacts[__${rowStat.index}__].postContact}" required>
-    // <option th:each="postContact : ${listContactService}"
-    // th:value="${postContact.getId()}"
-    // th:utext="${postContact.getName()}"/>
-    //     </select>
-    //     </td>
-
     $('#addContact').click(function() {
-
-        // var lista = $( "#listPostContact" );
-        //
-        // var options = lista.clone();
-        //
-        //
-        // alert(options.html);
 
 
 // clone optins of the posts from the first contat (tambem podia fazer um pedido ao servidor e renderizar aqui... mas seria pedidos d+ nao?)
@@ -263,7 +236,6 @@
             $options.html() +
             '</select></td>' +
             '<td>' +
-            // TODO:APAGAR ISTO '   <a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
             '</td>' +
             '</tr>'+
             '<tr>'+
@@ -281,7 +253,6 @@
             '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.zipCode" name="contacts[' + numberContacts + '].adresses[0].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="number" id="contacts'+numberContacts+'.adresses0.number" name="contacts[' + numberContacts + '].adresses[0].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
             '<td>' +
-            //TODO:apagar isto '<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
             '</td>' +
             '</tr>'+
             '</tbody>'+
@@ -328,9 +299,6 @@
             '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.adressName" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.zipCode" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
             '<td><input class="form-control" type="number" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.number" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
-            '<td>' +
-            // TODO:apagar isto'<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
-            '</td>' +
             '</tr>');
         return false;
     }

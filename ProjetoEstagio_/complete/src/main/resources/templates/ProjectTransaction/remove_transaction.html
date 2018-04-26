@@ -15,18 +15,18 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel2" th:text="#{System.Delete}"></h4>
             </div>
-            <div class="modal-body" th:unless="${projectTransaction !=null}" th:text="#{Transactions.Project.Revenue.NotFoundDescription}"></div>
-            <div class="modal-body" th:if="${projectTransaction != null}">
+            <div class="modal-body" th:unless="${transaction !=null}" th:text="${transaction.getGenre() == T(hello.Enums.Genre).REVENUE} ? #{Transactions.Project.Revenue.NotFoundDescription} : #{Transactions.Project.Revenue.NotFoundDescription}"></div>
+            <div class="modal-body" th:if="${transaction != null}">
                 <div>
-                    <span th:text="#{Transactions.Revenue.Remove}" th:remove="tag">title</span>:
-                    <label th:text="${projectTransaction.getId()}"/></span> -
-                    <label th:text="${projectTransaction.getName()}"/></span>
+                    <span th:text="${transaction.getGenre() == T(hello.Enums.Genre).REVENUE} ? #{Transactions.Revenue.Remove} : #{Transactions.Cost.Remove}" th:remove="tag">title</span>:
+                    <label th:text="${transaction.getId()}"/></span> -
+                    <label th:text="${transaction.getName()}"/></span>
                     ?
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{System.Close}"></button>
-                <button th:if="${projectTransaction != null}" class="btn btn-default trash-confirm pull-right" data-dismiss="modal" th:onclick="'deleteProject(' + ${projectTransaction.getId()} + ')'" th:text="#{System.Delete}"></button>
+                <button th:if="${transaction != null}" class="btn btn-default trash-confirm pull-right" data-dismiss="modal" th:onclick="'deleteProject(' + ${transaction.getId()} + ')'" th:text="#{System.Delete}"></button>
             </div>
         </div>
     </div>

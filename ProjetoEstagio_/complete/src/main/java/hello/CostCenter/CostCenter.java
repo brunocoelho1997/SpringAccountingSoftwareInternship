@@ -18,9 +18,6 @@ public class CostCenter extends Entity {
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
-    /*
-    TODO: penso que isto nao deveria ser obrigatorio. Ver requisitos... Isto e mts outros devem estar errados...
-     */
     @Size(max = MAX_DESCRIPTION_LENGHT)
     @Column(length = MAX_DESCRIPTION_LENGHT)
     private String description;

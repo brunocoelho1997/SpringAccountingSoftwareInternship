@@ -29,55 +29,56 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div>
-                                <span th:text="#{Entity.Id}" th:remove="tag">title</span>:
+                                <span th:text="#{Entity.Id}">title</span>:
                                 <span id = "id_value" th:text="${project.getId()}"></span>
                             </div>
                             <div>
-                                <span th:text="#{Project.Name}" th:remove="tag">title</span>:
+                                <span th:text="#{Project.Name}">title</span>:
                                 <span th:text="${project.getName()}"></span>
                             </div>
                             <div>
-                                <span th:text="#{Project.Description}" th:remove="tag">title</span>:
-                                <span th:text="${project.getDescription()}"></span>
+                                <span th:text="#{Project.Description}">title</span>:
+                                <textarea readonly style= "resize:vertical; overflow:auto;" rows="4" cols="50"  class="form-control" th:field="*{description}"></textarea>
                             </div>
                             <div>
-                                <span th:text="#{Project.InitialDate}" th:remove="tag">title</span>:
+                                <span th:text="#{Project.InitialDate}">title</span>:
                                 <span th:text="${project.getInitialDate()}"></span>
                             </div>
                             <div>
-                                <span th:text="#{Project.FinalDate}" th:remove="tag">title</span>:
+                                <span th:text="#{Project.FinalDate}">title</span>:
                                 <span th:text="${project.getFinalDate()}"></span>
                             </div>
+
                             <div>
-                                <span th:text="#{Project.Scope}" th:remove="tag">title</span>:
-                                <span th:text="${project.getScope()}"></span>
+                                <span th:text="#{Project.Scope}">title</span>:
+
+                                <textarea readonly style= "resize:vertical; overflow:auto;" rows="4" cols="50"  class="form-control" th:field="*{scope}"></textarea>
                                 <!--TODO: tratar disto. Se o ambito tiver 255 caracteres passa a pagina-->
                             </div>
 
                             <div>
                                 <br>
-                                <span th:text="#{Project.Client}" th:remove="tag">title</span>:
+                                <span th:text="#{Project.Client}">title</span>:
                                 <span th:text="${project.getClient().getName()}"></span>
                             </div>
                             <div>
-                                <span th:text="#{Contact.Header}" th:remove="tag">title</span>:
+                                <span th:text="#{Contact.Header}">title</span>:
                                 <br>
-                                <span th:text="#{Contact.Name}" th:remove="tag">title</span>:
+                                <span th:text="#{Contact.Name}">title</span>:
                                 <span th:text="${project.getContact().getName()}"></span>
                             </div>
                             <div>
-                                <span th:text="#{Client.NumberPhone}" th:remove="tag">title</span>:
+                                <span th:text="#{Client.NumberPhone}">title</span>:
                                 <span th:text="${project.getContact().getNumberPhone()}"></span>
                             </div>
                             <div>
-                                <span th:text="#{Client.Email}" th:remove="tag">title</span>:
+                                <span th:text="#{Client.Email}">title</span>:
                                 <span th:text="${project.getContact().getEmail()}"></span>
                             </div>
                             <div>
-                                <span th:text="#{CostCenter.Name}" th:remove="tag">title</span>:
+                                <span th:text="#{CostCenter.Name}">title</span>:
                                 <span th:text="${project.costCenter.getName()}"></span>
                             </div>
-
                         </div>
 
                             <br><br>
@@ -100,9 +101,6 @@
 </div>
 
 <script>
-    $('#my-element').textfill({
-        explicitWidth: 50
-    });
 
 </script>
 <div id="modal-content"></div>

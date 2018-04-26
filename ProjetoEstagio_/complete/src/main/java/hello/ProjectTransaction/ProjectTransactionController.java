@@ -1,7 +1,6 @@
 package hello.ProjectTransaction;
 
 import hello.Enums.Genre;
-import hello.Project.Project;
 import hello.Project.ProjectService;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,10 @@ public class ProjectTransactionController implements WebMvcConfigurer {
 
 
     @GetMapping("/revenue")
-    public String index(Model model) {
+    public String indexRevenue(Model model) {
 
-        model.addAttribute("listRevenues",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
-        return "ProjectTransaction/revenues_index";
+        model.addAttribute("listTransactions",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
+        return "ProjectTransaction/index";
     }
 
     @GetMapping("/add_revenue")
@@ -44,16 +43,16 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("projects", projectService.getProjects());
 
-        return "ProjectTransaction/add_revenue";
+        return "ProjectTransaction/add_transaction";
     }
 
-    @PostMapping("/add_revenue")
+    @PostMapping("/add_transaction")
     public String addRevenue(Model model, @Valid @ModelAttribute("transaction") ProjectTransaction projectTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.getTypes());
             model.addAttribute("projects", projectService.getProjects());
-            return "ProjectTransaction/add_revenue";
+            return "add_transaction";
         }
         projectTransactionService.addTransaction(projectTransaction);
 
@@ -85,7 +84,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     public String removeTransaction(@RequestParam("id") Long id, Model model) {
 
         ProjectTransaction projectTransaction = projectTransactionService.getProjectTransaction(id);
-        model.addAttribute("projectTransaction", projectTransaction);
+        model.addAttribute("transaction", projectTransaction);
 
         return "ProjectTransaction/remove_transaction :: modal";
     }
@@ -101,6 +100,25 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         ProjectTransaction projectTransaction= projectTransactionService.getProjectTransaction(id);
         model.addAttribute("transaction", projectTransaction);
         return "ProjectTransaction/info_transaction";
+    }
+
+    @GetMapping("/cost")
+    public String indexCost(Model model) {
+
+        model.addAttribute("listTransactions",projectTransactionService.getProjectsTransactionsByGenre(Genre.COST));
+        return "ProjectTransaction/index";
+    }
+
+    @GetMapping("/add_cost")
+    public String addCost(Model model) {
+
+        ProjectTransaction cost = new ProjectTransaction();
+        cost.setGenre(Genre.COST);
+        model.addAttribute("transaction", cost);
+        model.addAttribute("types", typeService.getTypes());
+        model.addAttribute("projects", projectService.getProjects());
+
+        return "ProjectTransaction/add_transaction";
     }
 
 }
