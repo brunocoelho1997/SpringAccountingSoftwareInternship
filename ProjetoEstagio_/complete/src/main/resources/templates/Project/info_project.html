@@ -81,8 +81,34 @@
                             </div>
                         </div>
 
-                            <br><br>
-                            Fazer aqui lista de despesas e de receitas relativas a projeto
+                        <br><br>
+
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-2"></div>
+                                <div  class="col-lg-8">
+                                    <div id="percentage-revenues-costs"></div>
+
+                                </div>
+                                <div class="col-lg-2"></div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-4"></div>
+                                    <div class="col-lg-4" >
+                                        <div id="bar-chart-by-transactions"></div>
+                                    </div>
+
+                                <div class="col-lg-4"></div>
+                            </div>
+                        </div>
+
 
                             <div align="right">
                                 <a th:href="@{/project/}">
@@ -100,10 +126,69 @@
     </div>
 </div>
 
-<script>
 
-</script>
-<div id="modal-content"></div>
+
 <div th:replace="fragments/footer :: copy"></div>
+
+
+
+
+<!-- Morris Charts JavaScript -->
+<script src="../assets/vendor/raphael/raphael.min.js"></script>
+<script src="../assets/vendor/morrisjs/morris.min.js"></script>
+<!--<script src="../assets/js/morris-data.js"></script>-->
+
+
+
+<script>
+    /*<![CDATA[*/
+
+
+    var opt = {
+        type: 'GET',
+        url: '/project/get_chart_resource?id=' + [[${project.getId()}]]
+    }
+
+
+    $.ajax(opt).done(function (result) {
+
+
+        Morris.Donut({
+            element: 'percentage-revenues-costs',
+            data: [{
+                label: '[[#{Chart.Transactions.Costs}]]',
+                value: result.percentageCosts
+            }, {
+                label: '[[#{Chart.Transactions.Revenues}]]',
+                value: result.percentageRevenues
+            }],
+            resize: true
+        });
+
+        Morris.Bar({
+            element: 'bar-chart-by-transactions',
+            data: [{
+                y: '[[#{Chart.Total}]]',
+                a: result.totalRevenues,
+                b: result.totalCosts
+
+            }],
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['[[#{Chart.Total.Revenues}]]', '[[#{Chart.Total.Costs}]]'],
+            hideHover: 'auto',
+            resize: true
+        });
+
+    }).fail(function (jqXHR, textStatus) {
+        alert(textStatus);
+    });
+
+
+    /*]]>*/
+</script>
+
+
+
 </body>
 </html>

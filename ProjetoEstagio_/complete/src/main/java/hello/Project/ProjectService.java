@@ -5,6 +5,10 @@ import hello.Client.ClientService;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenter;
 import hello.CostCenter.CostCenterService;
+import hello.Enums.Genre;
+import hello.Project.Resources.ChartResource;
+import hello.ProjectTransaction.ProjectTransaction;
+import hello.ProjectTransaction.ProjectTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,19 +28,17 @@ public class ProjectService {
     @Autowired
     private CostCenterService costCenterService;
 
+    @Autowired
+    private ProjectTransactionRepository projectTransactionRepository;
+
     public List<Project> getProjects() {
         return projectRepository.findAll();
     }
 
 
-    //method private! If you need a project use method getProject(long id);
-    private Project getOne(Long id) {
-
-        return projectRepository.findById((long)id);
-    }
 
     public Project getProject(Long id) {
-        return getOne(id);
+        return projectRepository.findById((long)id);
     }
 
     public void addProject(Project project){
@@ -51,13 +53,13 @@ public class ProjectService {
     }
 
     public void removeProject(Long id) {
-        Project project = getOne(id);
+        Project project = getProject(id);
         projectRepository.delete(project);
     }
 
     public void editProject(@Valid Project editedProject) {
 
-        Project project = getOne(editedProject.getId());
+        Project project = getProject(editedProject.getId());
         project.setScope(editedProject.getScope());
         project.setFinalDate(editedProject.getFinalDate());
         project.setInitialDate(editedProject.getInitialDate());
@@ -80,5 +82,31 @@ public class ProjectService {
 
         projectRepository.save(project);
 
+    }
+
+    public ChartResource getStatistic(long id) {
+
+        ChartResource statistic = new ChartResource();
+        Project project = getProject(id);
+        List<ProjectTransaction> projectTransactionList = projectTransactionRepository.findByProject(project);
+        float total=0, totalCosts=0, totalRevenues=0;
+
+        for(ProjectTransaction projectTransaction : projectTransactionList)
+        {
+            if(projectTransaction.getGenre().equals(Genre.REVENUE))
+                totalRevenues+=projectTransaction.getValue();
+            else
+                totalCosts+=projectTransaction.getValue();
+            total+=projectTransaction.getValue();
+        }
+
+        statistic.setPercentageRevenues((int)((totalRevenues*100)/total));
+        statistic.setPercentageCosts((int)((totalCosts*100)/total));
+        statistic.setTotal((int)total);
+        statistic.setTotalCosts((int)totalCosts);
+        statistic.setTotalRevenues((int)totalRevenues);
+
+
+        return statistic;
     }
 }

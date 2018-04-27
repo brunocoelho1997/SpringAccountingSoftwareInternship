@@ -3,6 +3,7 @@ package hello.Project;
 import hello.Client.ClientService;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenterService;
+import hello.Project.Resources.ChartResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -104,5 +105,16 @@ public class ProjectController implements WebMvcConfigurer {
         model.addAttribute("project", project);
         return "Project/info_project";
     }
+
+
+    @GetMapping("/get_chart_resource")
+    @ResponseBody
+    public ChartResource getChartResource(@RequestParam("id") Long id, Model model) {
+
+        ChartResource chartResource = projectService.getStatistic(id);
+        return chartResource;
+    }
+
+
 
 }
