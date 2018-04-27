@@ -16,34 +16,8 @@ public class TypeService {
         typeRepository.save(type);
     }
 
-    //method private! If you need a client use method getClient(long id);
-    private Type getOne(Long id) {
-
-        try
-        {
-            if(id == null)
-                throw new EntityNotFoundException();
-
-            Type c = typeRepository.getOne(id);
-
-            return c;
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
-    }
-
     public Type getType(Long id) {
-        try
-        {
-            return getOne(id);
-
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
+        return typeRepository.findById((long)id);
     }
 
     public List<Type> getTypes(){

@@ -4,6 +4,7 @@ import hello.Enums.Genre;
 import hello.Project.ProjectService;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -95,9 +96,10 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     }
 
     @RequestMapping("/info_transaction")
-    public String infoProject(@RequestParam("id") Long id, Model model) {
+    public String infoProject(@Valid @RequestParam("id") Long id, Model model) {
 
-        ProjectTransaction projectTransaction= projectTransactionService.getProjectTransaction(id);
+        ProjectTransaction projectTransaction = projectTransactionService.getProjectTransaction(id);
+
         model.addAttribute("transaction", projectTransaction);
         return "ProjectTransaction/info_transaction";
     }

@@ -15,10 +15,10 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel2" th:text="#{System.Delete}"></h4>
             </div>
-            <div class="modal-body" th:unless="${transaction !=null}" th:text="${transaction.getGenre() == T(hello.Enums.Genre).REVENUE} ? #{Transactions.Project.Revenue.NotFoundDescription} : #{Transactions.Project.Revenue.NotFoundDescription}"></div>
+            <div class="modal-body" th:unless="${transaction !=null}" th:text="#{Transactions.NotFoundDescription}"></div>
             <div class="modal-body" th:if="${transaction != null}">
                 <div>
-                    <span th:text="${transaction.getGenre() == T(hello.Enums.Genre).REVENUE} ? #{Transactions.Revenue.Remove} : #{Transactions.Cost.Remove}" th:remove="tag">title</span>:
+                    <span th:text="#{Transactions.Revenue.Remove}" th:remove="tag">title</span>:
                     <label th:text="${transaction.getId()}"/></span> -
                     <label th:text="${transaction.getName()}"/></span>
                     ?

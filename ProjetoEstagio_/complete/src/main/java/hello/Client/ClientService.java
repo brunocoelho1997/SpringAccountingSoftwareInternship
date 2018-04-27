@@ -25,38 +25,12 @@ public class ClientService {
         return repository.save(client);
     }
 
-    //method private! If you need a client use method getClient(long id);
-    private Client getOne(Long id) {
-
-        try
-        {
-            if(id == null)
-                throw new EntityNotFoundException();
-
-            Client c = repository.getOne(id);
-
-            return c;
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
-    }
-
     public Client getClient(Long id) {
-        try
-        {
-            return getOne(id);
-
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
+        return repository.findById((long)id);
     }
 
     public void editClient(Client editedClient){
-        Client client = getOne(editedClient.getId());
+        Client client = getClient(editedClient.getId());
         client.setAdresses(editedClient.getAdresses());
         client.setName(editedClient.getName());
         client.setNumberPhone(editedClient.getNumberPhone());
@@ -72,13 +46,13 @@ public class ClientService {
     }
 
     public void addAdress(@Valid long client_id, @Valid Adress adress) {
-        Client client = getOne(client_id);
+        Client client = getClient(client_id);
         client.getAdresses().add(adress);
         repository.save(client);
     }
 
     public List<Adress> getAdressesClient(Long id) {
-        Client client = getOne(id);
+        Client client = getClient(id);
         return client.getAdresses();
     }
 

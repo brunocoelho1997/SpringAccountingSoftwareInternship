@@ -9,10 +9,12 @@ import hello.Type.Type;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectTransactionService {
@@ -41,34 +43,17 @@ public class ProjectTransactionService {
         repository.save(projectTransaction);
     }
 
-    //method private! If you need a project use method getProject(long id);
-    private ProjectTransaction getOne(Long id) {
-
-        try
-        {
-            if(id == null)
-                throw new EntityNotFoundException();
-
-            ProjectTransaction projectTransaction = repository.getOne(id);
-
-            return projectTransaction;
-        }catch (EntityNotFoundException ex)
-        {
-            return null;
-        }
+    public ProjectTransaction getProjectTransaction(long id)
+    {
+        return repository.findById(id);
     }
-
-    public ProjectTransaction getProjectTransaction(Long id) {
-        return getOne(id);
-    }
-
     public void removeProjectTransaction(Long id) {
-        ProjectTransaction projectTransaction = getOne(id);
+        ProjectTransaction projectTransaction = getProjectTransaction((long)id);
         repository.delete(projectTransaction);
     }
 
     public void editProjectTransaction(@Valid ProjectTransaction editedProjectTransaction) {
-        ProjectTransaction projectTransaction = getOne(editedProjectTransaction.getId());
+        ProjectTransaction projectTransaction = getProjectTransaction((long)editedProjectTransaction.getId());
 
         projectTransaction.setGenre(editedProjectTransaction.getGenre());
 

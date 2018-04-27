@@ -16,32 +16,7 @@ public class SubTypeService {
         subTypeRepository.save(subType);
     }
 
-    //method private! If you need a client use method getClient(long id);
-    private SubType getOne(Long id) {
-
-        try
-        {
-            if(id == null)
-                throw new EntityNotFoundException();
-
-            SubType c = subTypeRepository.getOne(id);
-
-            return c;
-        }catch (EntityNotFoundException ex)
-        {
-            return null;
-        }
-    }
-
     public SubType getSubType(Long id) {
-        try
-        {
-            return getOne(id);
-
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
+        return subTypeRepository.findById((long)id);
     }
 }

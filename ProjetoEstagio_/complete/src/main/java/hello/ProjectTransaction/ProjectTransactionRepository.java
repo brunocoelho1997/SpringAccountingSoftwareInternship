@@ -9,4 +9,6 @@ public interface ProjectTransactionRepository extends JpaRepository<ProjectTrans
 
     List<ProjectTransaction> findByGenre(Genre genre);
 
+    ProjectTransaction findById(long id);
+
 }

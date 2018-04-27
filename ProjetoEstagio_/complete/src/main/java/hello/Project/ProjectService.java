@@ -32,19 +32,7 @@ public class ProjectService {
     //method private! If you need a project use method getProject(long id);
     private Project getOne(Long id) {
 
-        try
-        {
-            if(id == null)
-                throw new EntityNotFoundException();
-
-            Project project = projectRepository.getOne(id);
-
-            return project;
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
+        return projectRepository.findById((long)id);
     }
 
     public Project getProject(Long id) {

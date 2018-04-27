@@ -8,5 +8,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     List<Client> findByNameContaining(String name);
 
+    Client findById(long id);
 }
 

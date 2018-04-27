@@ -16,37 +16,7 @@ public class CostCenterService {
         return repository.findAll();
     }
 
-    //method private! If you need a client use method getClient(long id);
-    private CostCenter getOne(Long id) {
-
-        try
-        {
-            if(id == null)
-                throw new EntityNotFoundException();
-
-            CostCenter c = repository.getOne(id);
-
-            //            TODO: isto deveria funcionar como funciona o cliente... no entanto tive de fazer assim porque a exception nao accionava
-            System.out.print(c);
-
-            return c;
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
-    }
-
     public CostCenter getCostCenter(Long id) {
-        try
-        {
-
-            return getOne(id);
-
-        }catch (EntityNotFoundException ex)
-        {
-            //if can't getClient
-            return null;
-        }
+        return repository.findById((long)id);
     }
 }
