@@ -22,4 +22,27 @@ public class EmployeeService{
         employee.setActived(true);
         repository.save(employee);
     }
+
+    public Employee getEmployee(Long id) {
+        return repository.findById((long)id);
+    }
+
+    public void editEmployee(Employee editedEmployee){
+
+        Employee employee = getEmployee(editedEmployee.getId());
+
+        employee.setActived(editedEmployee.isActived());
+        employee.setPostEmployee(editedEmployee.getPostEmployee());
+        employee.setAdresses(editedEmployee.getAdresses());
+        employee.setName(editedEmployee.getName());
+        employee.setEmail(editedEmployee.getEmail());
+        employee.setNumberPhone(editedEmployee.getNumberPhone());
+
+        repository.save(employee);
+    }
+
+    public void removeEmployee(Long id) {
+        Employee employee = getEmployee(id);
+        repository.delete(employee);
+    }
 }

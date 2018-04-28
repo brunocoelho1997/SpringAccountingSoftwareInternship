@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: copy"></head>
+
+<script src="jquery.min.js"></script>
+<script src="jquery.textfill.min.js"></script>
+
+<body>
+<div id="wrapper">
+
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div id="page-wrapper">
+
+
+        <div th:object="${employee}">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" th:if="${employee !=null}">
+                        <h1 th:text="#{Employee.Info.Header}" th:remove="tag" />
+                        <label th:text="${employee.getName()}"/>
+                    </h1>
+                    <h1 class="page-header" th:unless="${employee!=null}"> <label th:text="#{Employee.NotFound}"/></h1>
+                </div>
+            </div>
+            <div class="row" th:unless="${employee !=null}" th:text="#{Employee.NotFoundDescription}"></div>
+            <div class="row" th:if="${employee != null}">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div>
+                                <span th:text="#{Entity.Id}">title</span>:
+                                <span id = "id_value" th:text="${employee.getId()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Person.Name}">title</span>:
+                                <span th:text="${employee.getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Person.Email}">title</span>:
+                                <span th:text="${employee.getEmail()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Employee.Post}">title</span>:
+                                <span th:text="${employee.getPostEmployee().getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Employee.State}">title</span>:
+
+                                <span th:if="${employee.isActived()} == true" th:text="#{Employee.State.Actived}"> activo</span>
+                                <span th:unless="${employee.isActived()} == true" th:text="#{Employee.State.Inactived}"> ello</span>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <br>
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" th:text="#{Adress.PanelHeader}"></div>
+                                    <table width="100%" class="table table-striped table-hover adresses">
+                                        <thead>
+                                        <tr>
+                                            <th th:text="#{Adress.City}"></th>
+                                            <th th:text="#{Adress.Adress}"></th>
+                                            <th th:text="#{Adress.ZipCode}"></th>
+                                            <th th:text="#{Adress.Number}"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="ad,rowStat : ${employee.adresses}" >
+                                            <td><p th:text="${ad.city}"/></td>
+                                            <td><p th:text="${ad.adressName}"/></td>
+                                            <td><p th:text="${ad.zipCode}"/></td>
+                                            <td><p th:text="${ad.number}"/></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div align="right">
+                            <a th:href="@{/project/}">
+                                <input class="btn btn-default" th:value="#{System.Back}" />
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+</div>
+</div>
+
+<div th:replace="fragments/footer :: copy"></div>
+
+</body>
+</html>

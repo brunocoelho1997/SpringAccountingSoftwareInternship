@@ -246,12 +246,6 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction2.setGenre(Genre.COST);
             projectTransaction2.setType(type2);
 
-//            TransactionType transactionType2 = new TransactionType();
-//            transactionType2.setType(type1);
-//            transactionType2.setSubType(subType2);
-//            projectTransaction2.setTransactionType(transactionType2);
-
-
             projectTransactionRepository.save(projectTransaction1);
             projectTransactionRepository.save(projectTransaction2);
 

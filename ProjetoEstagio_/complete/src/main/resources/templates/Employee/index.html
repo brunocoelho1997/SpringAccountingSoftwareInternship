@@ -54,13 +54,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="c : ${listEmployees}">
-                                <td href="#" th:text="${c.getName()}"></td>
-                                <td th:text="${c.getEmail()}">1</td>
+                            <tr th:each="e : ${listEmployees}">
+                                <td href="#" th:text="${e.getName()}"></td>
+                                <td th:text="${e.getEmail()}">1</td>
                                 <td class="center">
-                                    <a class="btn btn-default trash pull-right" th:client-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
-                                    <a class="btn btn-default pull-right" th:href="@{/client/edit_client(id=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
-                                    <a class="btn btn-default pull-right" th:href="@{/client/info_client(id=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                    <a class="btn btn-default trash pull-right" th:employee-id="${e.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                    <a class="btn btn-default pull-right" th:href="@{/employee/edit_employee(id=${e.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
+                                    <a class="btn btn-default pull-right" th:href="@{/employee/info_employee(id=${e.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                 </td>
                             </tr>
                             </tbody>
@@ -74,44 +74,43 @@
         </div>
     </div>
 </div>
-<!--<div id="modal-content"></div>-->
-<!--<script>-->
+<div id="modal-content"></div>
+<script>
+    $( document ).ready(function () {
 
-    <!--$( document ).ready(function () {-->
+        $('a.trash').click(function (e) {
 
-        <!--$('a.trash').click(function (e) {-->
+            var opt = {
+                type: 'GET',
+                url: '/employee/remove_employee?id=' + $(this).attr('employee-id')
+            }
 
-            <!--var opt = {-->
-                <!--type: 'GET',-->
-                <!--url: '/client/remove_client?id=' + $(this).attr('client-id')-->
-            <!--}-->
+            // alert(JSON.stringify(opt));
 
-            <!--// alert(JSON.stringify(opt));-->
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#remove-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
 
-            <!--$.ajax(opt).done(function (result) {-->
-                <!--$('#modal-content').html(result);-->
-                <!--$('#remove-modal').modal();-->
-            <!--}).fail(function (jqXHR, textStatus) {-->
-                <!--alert(textStatus);-->
-            <!--});-->
-        <!--});-->
+    });
 
-    <!--});-->
+    function deleteEmployee(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/employee/remove_employee?id=' + id
 
-    <!--function deleteClient(id) {-->
-        <!--$.ajax({-->
-            <!--type: 'DELETE',-->
-            <!--url: '/client/remove_client?id=' + id-->
+        }).done(function (result) {
+            $('a[employee-id=' + id + ']').closest('tr').remove();
 
-        <!--}).done(function (result) {-->
-            <!--$('a[client-id=' + id + ']').closest('tr').remove();-->
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
 
-        <!--}).fail(function (jqXHR, textStatus) {-->
-            <!--alert("erro");-->
-        <!--});-->
-
-    <!--}-->
-<!--</script>-->
+    }
+</script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

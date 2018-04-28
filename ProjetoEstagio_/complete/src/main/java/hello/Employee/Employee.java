@@ -34,4 +34,6 @@ public class Employee extends Person{
     public void setActived(boolean actived) {
         this.actived = actived;
     }
+
+
 }
