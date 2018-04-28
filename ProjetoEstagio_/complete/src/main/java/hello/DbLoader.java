@@ -6,11 +6,15 @@ import hello.Client.ClientRepository;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenter;
 import hello.CostCenter.CostCenterRepository;
+import hello.Employee.Employee;
+import hello.Employee.EmployeeRepository;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Enums.Category;
-import hello.Post.PostContact;
-import hello.Post.PostContactRepository;
+import hello.PostContact.PostContact;
+import hello.PostContact.PostContactRepository;
+import hello.PostEmployee.PostEmployee;
+import hello.PostEmployee.PostEmployeeRepository;
 import hello.Project.Project;
 import hello.Project.ProjectRepository;
 import hello.ProjectTransaction.ProjectTransaction;
@@ -25,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -47,6 +52,12 @@ public class DbLoader implements CommandLineRunner {
 
     @Autowired
     private CostCenterRepository costCenterRepository;
+
+    @Autowired
+    private PostEmployeeRepository postEmployeeRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
 
     @Override
@@ -217,25 +228,23 @@ public class DbLoader implements CommandLineRunner {
 
 
 
-            ProjectTransaction projectTransaction = new ProjectTransaction();
-            projectTransaction.setDate(randomDate1);
-            projectTransaction.setName("Receita de Projeto 1");
-            projectTransaction.setFrequency(Frequency.DAILY);
-            projectTransaction.setValue((float)20.3);
-            projectTransaction.setProject(project1);
-            projectTransaction.setGenre(Genre.REVENUE);
-            projectTransaction.setType(type2);
-
-
-
-
+            ProjectTransaction projectTransaction1 = new ProjectTransaction();
+            projectTransaction1.setDate(randomDate1);
+            projectTransaction1.setName("Receita de Projeto 1");
+            projectTransaction1.setFrequency(Frequency.DAILY);
+            projectTransaction1.setValue((float)20.3);
+            projectTransaction1.setProject(project1);
+            projectTransaction1.setGenre(Genre.REVENUE);
+            projectTransaction1.setType(type2);
 
             ProjectTransaction projectTransaction2 = new ProjectTransaction();
-            projectTransaction2.setDate(randomDate2);
-            projectTransaction2.setName("Outra Receita");
-            projectTransaction2.setFrequency(Frequency.DAILY);
-            projectTransaction2.setValue((float)20.3);
-
+            projectTransaction2.setDate(randomDate1);
+            projectTransaction2.setName("Despesa de Projeto 1");
+            projectTransaction2.setFrequency(Frequency.MONTHLY);
+            projectTransaction2.setValue((float)135.3);
+            projectTransaction2.setProject(project1);
+            projectTransaction2.setGenre(Genre.COST);
+            projectTransaction2.setType(type2);
 
 //            TransactionType transactionType2 = new TransactionType();
 //            transactionType2.setType(type1);
@@ -243,10 +252,59 @@ public class DbLoader implements CommandLineRunner {
 //            projectTransaction2.setTransactionType(transactionType2);
 
 
-            projectTransactionRepository.save(projectTransaction);
-//            projectTransactionRepository.save(projectTransaction2);
+            projectTransactionRepository.save(projectTransaction1);
+            projectTransactionRepository.save(projectTransaction2);
 
 
+
+//            add posts employess
+            PostEmployee postEmployee1 = new PostEmployee();
+            postEmployee1.setName("Programador - beckend");
+            PostEmployee postEmployee2 = new PostEmployee();
+            postEmployee2.setName("Gerente");
+            PostEmployee postEmployee3 = new PostEmployee();
+            postEmployee3.setName("Programador - frontend");
+
+            postEmployeeRepository.save(postEmployee1);
+            postEmployeeRepository.save(postEmployee2);
+            postEmployeeRepository.save(postEmployee3);
+
+//            add employee
+            Employee employee1 = new Employee();
+            employee1.setActived(true);
+
+            Adress adress6 = new Adress();
+            adress6.setCity("Faro");
+            adress6.setZipCode("5550-143");
+            adress6.setNumber(3);
+            adress6.setAdressName("Rua De Faro");
+
+            employee1.setAdresses(new ArrayList<>());
+            employee1.getAdresses().add(adress6);
+            employee1.setNumberPhone("939898345");
+            employee1.setEmail("funcionario1@isec.pt");
+            employee1.setName("Funcionário1");
+            employee1.setPostEmployee(postEmployee1);
+
+            Employee employee2 = new Employee();
+            employee2.setActived(true);
+            employee2.setPostEmployee(postEmployee3);
+
+            Adress adress7 = new Adress();
+            adress7.setCity("Portimão");
+            adress7.setZipCode("2550-143");
+            adress7.setNumber(300);
+            adress7.setAdressName("Rua De Portimão");
+
+            employee2.setAdresses(new ArrayList<>());
+            employee2.getAdresses().add(adress7);
+            employee2.setNumberPhone("939898345");
+            employee2.setEmail("funcionario1@isec.pt");
+            employee2.setName("Funcionário2");
+
+
+            employeeRepository.save(employee1);
+            employeeRepository.save(employee2);
 
         }
     }

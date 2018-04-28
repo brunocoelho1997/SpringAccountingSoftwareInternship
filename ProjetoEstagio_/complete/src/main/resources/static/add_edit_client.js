@@ -1,52 +1,15 @@
-var listClientAdresses = $('#listAdresses');
-var numberClientAdresses = $('#listAdresses tr').size();
-
-$('#addAdress').click(function() {
-
-    listClientAdresses.append('<tr>' +
-        '<td><input class="form-control" type="text" id="adresses'+numberClientAdresses+'.city" name="adresses[' + numberClientAdresses + '].city" required maxlength="[[${T(hello.Adress.Adress).MAX_CITY_LENGHT}]]"/></td>' +
-        '<td><input class="form-control" type="text" id="adresses'+numberClientAdresses+'.adressName" name="adresses[' + numberClientAdresses + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
-        '<td><input class="form-control" type="text" id="adresses'+numberClientAdresses+'.zipCode" name="adresses[' + numberClientAdresses + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
-        '<td><input class="form-control" type="number" id="adresses'+numberClientAdresses+'.number" name="adresses[' + numberClientAdresses + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
-        // '<td><a class="btn btn-default pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a></td>' +
-        '</tr>');
-    numberClientAdresses++;
-    return false;
-});
-//Remove adress of client
-$(document).on('click', '#removeAdress', function() {
-    if (numberClientAdresses > 1)
-    {
-        $('#listAdresses>tr:last-child').remove();
-
-        // $(this).closest('tr').remove();
-        numberClientAdresses--;
-    }
-    return false;
-});
-
 
 // ----------------------------Contacts
 var listContacts = $('#listContacts');
 var numberContacts = $('#listContacts>tr').size()-1;
 
-
-
 $('#addContact').click(function() {
-
-
-// clone optins of the posts from the first contat (tambem podia fazer um pedido ao servidor e renderizar aqui... mas seria pedidos d+ nao?)
-
-    var $options = $("#listPostContacts").clone();
-
     listContacts.append('<tr class="warning">' +
         '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.name" name="contacts[' + numberContacts + '].name" required maxlength="[[${T(hello.Contact.Contact).MAX_NAME_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="email" id="contacts'+numberContacts+'.email" name="contacts[' + numberContacts + '].email" maxlength="[[${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.numberPhone" name="contacts[' + numberContacts + '].numberPhone" required maxlength="[[${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}]]"/></td>' +
-        '<td><select class="form-control selectedClient" id="contacts'+numberContacts+'.postContact" name="contacts[' + numberContacts + '].postContact"  required>' +
-        $options.html() +
-        '</select></td>' +
         '<td>' +
+        // TODO:APAGAR ISTO '   <a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
         '</td>' +
         '</tr>'+
         '<tr>'+
@@ -64,6 +27,7 @@ $('#addContact').click(function() {
         '<td><input class="form-control" type="text" id="contacts'+numberContacts+'.adresses0.zipCode" name="contacts[' + numberContacts + '].adresses[0].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="number" id="contacts'+numberContacts+'.adresses0.number" name="contacts[' + numberContacts + '].adresses[0].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
         '<td>' +
+        //TODO:apagar isto '<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
         '</td>' +
         '</tr>'+
         '</tbody>'+
@@ -77,8 +41,6 @@ $('#addContact').click(function() {
         '</tr>'
 
     );
-
-
     numberContacts++;
     return false;
 });
@@ -110,6 +72,9 @@ function addAdressContact(idContact) {
         '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.adressName" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.zipCode" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="number" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.number" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
+        '<td>' +
+        // TODO:apagar isto'<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
+        '</td>' +
         '</tr>');
     return false;
 }

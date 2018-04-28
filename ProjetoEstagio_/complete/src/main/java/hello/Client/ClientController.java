@@ -2,8 +2,7 @@ package hello.Client;
 
 import hello.Adress.Adress;
 import hello.Contact.Contact;
-import hello.Post.PostContact;
-import hello.Post.PostContactService;
+import hello.PostContact.PostContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -72,8 +70,7 @@ public class ClientController implements WebMvcConfigurer {
             return "Client/add_client";
         }
 
-        //we receive the client to get his new id to add contacts
-        Client c = clientService.addClient(client);
+        clientService.addClient(client);
 
         model.addAttribute("listClients", clientService.getClients());
 

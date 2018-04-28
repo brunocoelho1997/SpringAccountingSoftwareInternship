@@ -1,4 +1,4 @@
-package hello.Post;
+package hello.PostContact;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

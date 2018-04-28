@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.RegistrationCode}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{registrationCode}" th:maxlength="${T(hello.Client.Client).MAX_REGISTRATIONCODE_LENGHT}"/>
+                                        <input class="form-control" th:field="*{registrationCode}" required th:maxlength="${T(hello.Client.Client).MAX_REGISTRATIONCODE_LENGHT}"/>
                                         <td th:if="${#fields.hasErrors('registrationCode')}" th:errors="*{registrationCode}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -43,15 +43,15 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Client.Name}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{name}" th:maxlength="${T(hello.Client.Client).MAX_NAME_LENGHT}"/>
+                                        <input class="form-control" th:field="*{name}" required th:maxlength="${T(hello.Client.Client).MAX_NAME_LENGHT}"/>
                                         <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Client.NumberPhone}" th:maxlength="${T(hello.Client.Client).MAX_NUMBERPHONE_LENGHT}"></label>
+                                    <label class="control-label col-sm-3"  th:text="#{Client.NumberPhone}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{numberPhone}">
+                                        <input class="form-control" th:field="*{numberPhone}" required th:maxlength="${T(hello.Client.Client).MAX_NUMBERPHONE_LENGHT}">
                                         <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</td>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -182,6 +182,7 @@
     </div>
 </div>
 
+<script src="../add_remove_adress.js"></script>
 <script src="../add_edit_client.js"></script>
 
 
