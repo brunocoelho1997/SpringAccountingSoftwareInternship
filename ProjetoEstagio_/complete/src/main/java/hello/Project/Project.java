@@ -4,6 +4,7 @@ import hello.Client.Client;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenter;
 import hello.Entity;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Project extends Entity {
 
 
     @NotNull
-    @Size(min=1, max = MAX_NAME_LENGHT)
+    @Length(min=1, max = MAX_NAME_LENGHT)
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 

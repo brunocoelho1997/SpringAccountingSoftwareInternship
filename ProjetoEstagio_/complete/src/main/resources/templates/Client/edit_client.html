@@ -65,11 +65,6 @@
                                 </div>
                             </div>
 
-                            <!--TODO: esta validacao tem de melhorar-->
-                            <ul th:if="${#fields.hasErrors('*')}">
-                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-                            </ul>
-
                             <div class="row">
                                 <br>
                                 <div class="col-sm-1"></div>
@@ -89,10 +84,22 @@
                                             </thead>
                                             <tbody th:id="listAdresses">
                                             <tr th:each="ad,rowStat : *{adresses}" >
-                                                <td><input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].city}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/></td>
-                                                <td><input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].adressName}" required th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/></td>
-                                                <td><input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].zipCode}" th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/></td>
-                                                <td><input class="form-control" type="number" th:field="*{adresses[__${rowStat.index}__].number}" th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/></td>
+                                                <td>
+                                                    <input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].city}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/>
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].city')}" th:errors="*{adresses[__${rowStat.index}__].city}">Name Error</p>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].adressName}" required th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/>
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].adressName')}" th:errors="*{adresses[__${rowStat.index}__].adressName}">Name Error</p>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].zipCode}" th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/>
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].zipCode')}" th:errors="*{adresses[__${rowStat.index}__].zipCode}">Name Error</p>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number" th:field="*{adresses[__${rowStat.index}__].number}" th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/>
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].number')}" th:errors="*{adresses[__${rowStat.index}__].number}">Name Error</p>
+                                                </td>
                                                 <td class="center">
                                                     <!--<a class="btn btn-default pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a>-->
                                                     <!--<a class="btn btn-default pull-right" th:href="@{/client/edit_adress_client(id_client=${saveClientDTO.getId()}, id_adress=${ad.getId()})}"><i class="fa fa-gear fa-fw"></i></a>-->
@@ -128,9 +135,18 @@
                                             <tbody th:id="listContacts">
                                             <div th:each="contact,rowStat : *{contacts}">
                                                 <tr class="warning">
-                                                    <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].name}" required th:maxlength="${T(hello.Contact.Contact).MAX_NAME_LENGHT}"/></td>
-                                                    <td><input class="form-control" type="email" th:field="*{contacts[__${rowStat.index}__].email}" required th:maxlength="${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}"/></td>
-                                                    <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].numberPhone}" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/></td>
+                                                    <td>
+                                                        <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].name}" required th:maxlength="${T(hello.Contact.Contact).MAX_NAME_LENGHT}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].name')}" th:errors="*{contacts[__${rowStat.index}__].name}">Name Error</p>
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" type="email" th:field="*{contacts[__${rowStat.index}__].email}" required th:maxlength="${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].email')}" th:errors="*{contacts[__${rowStat.index}__].email}">Name Error</p>
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].numberPhone}" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].name')}" th:errors="*{contacts[__${rowStat.index}__].numberPhone}">Name Error</p>
+                                                    </td>
                                                     <td class="center">
                                                         <select class="form-control" id= "listPostContacts" th:field="*{contacts[__${rowStat.index}__].postContact}" required>
                                                             <option th:each="postContact : ${listPostContact}"
@@ -157,10 +173,22 @@
                                                                     <tbody th:id="'listContactAdresses[' + ${rowStat.index} +']'" >
                                                                     <p th:text="#{Adress.PanelHeader}"/>
                                                                     <tr th:each="ad,rowStat2 : *{contacts[__${rowStat.index}__].adresses}" >
-                                                                        <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].city}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/></td>
-                                                                        <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].adressName}" th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/></td>
-                                                                        <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].zipCode}" required th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/></td>
-                                                                        <td><input class="form-control" type="number" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].number}" required th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/></td>
+                                                                        <td>
+                                                                            <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].city}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/>
+                                                                            <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].city')}" th:errors="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].city}">Name Error</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].adressName}" th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/>
+                                                                            <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].adressName')}" th:errors="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].adressName}">Name Error</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].zipCode}" required th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/>
+                                                                            <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].zipCode')}" th:errors="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].zipCode}">Name Error</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control" type="number" th:field="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].number}" required th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/>
+                                                                            <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].number')}" th:errors="*{contacts[__${rowStat.index}__].adresses[__${rowStat2.index}__].number}">Name Error</p>
+                                                                        </td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -194,7 +222,11 @@
     </div>
 </div>
 
+
+<script src="../add_remove_adress.js"></script>
 <script src="../add_edit_client.js"></script>
+
+
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

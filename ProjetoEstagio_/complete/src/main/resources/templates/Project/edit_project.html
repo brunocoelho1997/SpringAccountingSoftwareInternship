@@ -28,9 +28,11 @@
                     <div class="panel-body">
                         <form th:action="@{/project/edit_project}" th:object="${project}" method="post">
 
-                            <ul th:if="${#fields.hasErrors('*')}">
-                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-                            </ul>
+                            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                                </ul>
+                            </div>
 
                             <div class="form-horizontal">
                                 <div class="form-group">
