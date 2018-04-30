@@ -53,7 +53,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.getTypes());
             model.addAttribute("projects", projectService.getProjects());
-            return "add_transaction";
+            return "ProjectTransaction/add_transaction";
         }
         projectTransactionService.addTransaction(projectTransaction);
 

@@ -26,6 +26,9 @@ public class Adress {
     @Column(nullable = false, length = MAX_ADRESSNAME_LENGHT)
     private String adressName;
 
+    /*
+    TODO: se colocarmos null na frontend mostra o erro todo...
+     */
     @NotNull
     @Digits(integer=MAX_NUMBER_SIZE,fraction=0)
     @Column(nullable = false, length = MAX_NUMBER_SIZE)

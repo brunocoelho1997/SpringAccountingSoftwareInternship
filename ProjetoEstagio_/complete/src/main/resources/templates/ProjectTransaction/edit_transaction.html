@@ -43,22 +43,23 @@
                                                     th:text="#{Frequency.+ ${frequency}}"
                                             />
                                         </select>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('frequency')}" th:errors="*{frequency}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Date}"></label>
                                     <div class="col-sm-6">
-                                        <input id='endDatePicker' type="date" class="form-control" th:value="*{date}" th:field="*{date}" />
-                                        <td th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Name Error</td>
+                                        <input id='endDatePicker' type="date" class="form-control" th:value="*{date}" th:field="*{date}" required/>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Name}"></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{name}"/>
-                                        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                                        <input class="form-control" th:field="*{name}" required/>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -66,29 +67,31 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Description}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{description}"/>
-                                        <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Type}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control selectedType" th:field="*{type}" required>
+                                        <select class="form-control selectedType" th:field="*{type.id}" required>
                                             <option th:each="type : ${types}"
                                                     th:value="${type.getId()}"
                                                     th:utext="${type.getName()}"/>
                                         </select>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" th:id="subTypesOfType" th:field="*{subType}">
+                                        <select class="form-control" th:id="subTypesOfType" th:field="*{subType.id}">
                                             <option th:each="subtype : *{type.getSubTypeList()}"
                                                     th:value="${subtype.getId()}"
                                                     th:utext="${subtype.getName()}"/>
                                         </select>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('subType')}" th:errors="*{subType}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -100,6 +103,7 @@
                                                     th:value="${project.getId()}"
                                                     th:utext="${project.getName()}"/>
                                         </select>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('project')}" th:errors="*{project}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -107,7 +111,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Value}"></label>
                                     <div class="col-sm-6">
                                         <input  type="number" step="0.01" class="form-control" th:field="*{value}"/>
-                                        <td th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -162,8 +166,7 @@
                     alert(textStatus);
                 });
             }
-        })
-        .change();
+        });
 
     /*
     TODO: passar todos os scripts para js externos. ATENCAO: este e' diferente do add_revenue... este nao tinha o .change() no fim!!!! E funcionava!! ver se nao era erro de cache!!

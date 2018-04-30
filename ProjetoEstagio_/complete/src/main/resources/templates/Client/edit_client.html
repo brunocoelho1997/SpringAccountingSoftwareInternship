@@ -43,7 +43,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Client.RegistrationCode}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{registrationCode}" required/>
-                                        <td th:if="${#fields.hasErrors('registrationCode')}" th:errors="*{registrationCode}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('registrationCode')}" th:errors="*{registrationCode}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -51,7 +51,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Client.Name}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{name}" required/>
-                                        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -59,7 +59,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Client.NumberPhone}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{numberPhone}" required/>
-                                        <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -145,7 +145,7 @@
                                                     </td>
                                                     <td>
                                                         <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].numberPhone}" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/>
-                                                        <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].name')}" th:errors="*{contacts[__${rowStat.index}__].numberPhone}">Name Error</p>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].numberPhone')}" th:errors="*{contacts[__${rowStat.index}__].numberPhone}">Name Error</p>
                                                     </td>
                                                     <td class="center">
                                                         <select class="form-control" id= "listPostContacts" th:field="*{contacts[__${rowStat.index}__].postContact}" required>
@@ -153,6 +153,8 @@
                                                                     th:value="${postContact.getId()}"
                                                                     th:utext="${postContact.getName()}"/>
                                                         </select>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].postContact')}" th:errors="*{contacts[__${rowStat.index}__].postContact}">Name Error</p>
+
                                                     </td>
                                                 </tr>
                                                 <tr>

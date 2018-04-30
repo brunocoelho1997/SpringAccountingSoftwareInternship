@@ -44,6 +44,10 @@ public class ProjectController implements WebMvcConfigurer {
         model.addAttribute("listClients", clientService.getClients());
         model.addAttribute("listCostsCenter", costCenterService.getCostsCenter());
 
+        /*
+        TODO: para validacao das datas na backend uma pessoa teria de criar a propria anotacao...
+        https://stackoverflow.com/questions/1700295/java-bean-validation-jsr303-constraints-involving-relationship-between-several
+         */
 
         return "Project/add_project";
     }

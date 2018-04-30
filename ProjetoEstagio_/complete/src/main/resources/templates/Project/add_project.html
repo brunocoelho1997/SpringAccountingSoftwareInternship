@@ -23,17 +23,12 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <form th:action="@{/project/add_project}" th:object="${project}" method="post">
-
-                            <ul th:if="${#fields.hasErrors('*')}">
-                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-                            </ul>
-
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Project.Name}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{name}" required/>
-                                        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -41,7 +36,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Project.Description}"></label>
                                     <div class="col-sm-6">
                                         <input class="form-control" th:field="*{description}"/>
-                                        <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -49,7 +44,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Project.InitialDate}"></label>
                                     <div class="col-sm-6">
                                         <input required id='startDatePicker' onchange="handler(event);" type="date" class="form-control" th:value="*{initialDate}" th:field="*{initialDate}" />
-                                        <td th:if="${#fields.hasErrors('initialDate')}" th:errors="*{initialDate}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('initialDate')}" th:errors="*{initialDate}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -57,7 +52,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Project.FinalDate}"></label>
                                     <div class="col-sm-6">
                                         <input required id='endDatePicker' type="date" class="form-control" th:value="*{finalDate}" th:field="*{finalDate}" />
-                                        <td th:if="${#fields.hasErrors('finalDate')}" th:errors="*{finalDate}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('finalDate')}" th:errors="*{finalDate}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -69,7 +64,7 @@
                                                     th:value="${client.getId()}"
                                                     th:utext="${client.getName()}"/>
                                         </select>
-                                        <!--<td th:if="${#fields.hasErrors('clientId')}" th:errors="*{clientId}">Name Error</td>-->
+                                        <p class="text-danger" th:if="${#fields.hasErrors('client')}" th:errors="*{client}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -78,6 +73,7 @@
                                     <div class="col-sm-6">
                                         <select class="form-control" th:id="contactsOfClient" th:field="*{contact.id}" required>
                                         </select>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -90,7 +86,7 @@
                                                     th:value="${costCenter.getId()}"
                                                     th:utext="${costCenter.getName()}"/>
                                         </select>
-                                        <!--<td th:if="${#fields.hasErrors('clientId')}" th:errors="*{clientId}">Name Error</td>-->
+                                        <p class="text-danger" th:if="${#fields.hasErrors('costCenter')}" th:errors="*{costCenter}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -99,7 +95,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Project.Scope}"></label>
                                     <div class="col-sm-6">
                                         <textarea style= "resize:vertical; overflow:auto;" rows="4" cols="50"  class="form-control" th:field="*{scope}"/>
-                                        <td th:if="${#fields.hasErrors('scope')}" th:errors="*{scope}">Name Error</td>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('scope')}" th:errors="*{scope}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>

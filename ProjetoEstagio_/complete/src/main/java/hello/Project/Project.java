@@ -51,34 +51,18 @@ public class Project extends Entity {
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Project_Client"), nullable = false)
-    /*
-    TODO: perguntar ao hugo se é refresh
-     */
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Client client;
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Project_Contact"), nullable = false)
-    /*
-    TODO: perguntar ao hugo se é refresh
-     */
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Contact contact;
 
-
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Project_CostCenter"), nullable = false)
-    /*
-    TODO: perguntar ao hugo se é refresh
-     */
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private CostCenter costCenter;
-
-
-    /*
-        TODO: No DC nao esta' representado... mas a meu ver a ligacao de Projeto para ProjectTransaction devia ser bidirecional. O mesmo acontece parra EmployeeTransaction
-        o projeto tbm deve ter uma var de cliente. Falta a direcao da seta
-     */
 
     public String getName() {
         return name;

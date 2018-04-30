@@ -59,7 +59,7 @@ public class EmployeeController {
     public String addEmployee(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("postEmployeeList", postEmployeeService.getAllPostsEmployees());
-            return "Employee/edit_employee";
+            return "Employee/add_employee";
         }
 
         employeeService.addEmployee(employee);

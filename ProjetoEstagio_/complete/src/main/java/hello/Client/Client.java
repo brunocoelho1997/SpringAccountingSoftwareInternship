@@ -38,7 +38,6 @@ public class Client extends hello.Entity {
     @Valid
     private List<Contact> contacts;
 
-
     @ElementCollection
     @CollectionTable(foreignKey = @ForeignKey(name = "FK_Client_Adress"))
     @Valid

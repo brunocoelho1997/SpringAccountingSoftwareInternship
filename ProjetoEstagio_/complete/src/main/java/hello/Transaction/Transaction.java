@@ -28,6 +28,9 @@ public class Transaction extends Entity {
     @Column(length = MAX_DESCRIPTION_LENGHT)
     private String description;
 
+    /*
+    TODO: se  n escrevermos nada a validacao da backend nao e' a melhor
+     */
     @NotNull
     @Column(nullable = false)
     private float value;
