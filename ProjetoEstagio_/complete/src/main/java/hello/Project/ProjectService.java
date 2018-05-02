@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -108,5 +109,20 @@ public class ProjectService {
 
 
         return statistic;
+    }
+    public List<Project> filterProjects(String value) {
+
+        List<Project> projectList= new ArrayList<>();
+
+        if(value.isEmpty()){
+            return projectRepository.findAll();
+        }
+
+        projectList = projectRepository.findByNameContaining(value);
+        if(!projectList.isEmpty()){
+            return projectList;
+        }
+
+        return projectList;
     }
 }

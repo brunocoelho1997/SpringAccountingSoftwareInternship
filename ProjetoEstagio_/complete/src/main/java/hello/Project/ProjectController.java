@@ -119,6 +119,12 @@ public class ProjectController implements WebMvcConfigurer {
         return chartResource;
     }
 
+    @GetMapping("/search_submit")
+    public String searchSubmit(@RequestParam(name="value_filter", required=false) String value, Model model) {
+
+        model.addAttribute("listClients", projectService.filterProjects(value));
+        return "Client/index";
+    }
 
 
 }

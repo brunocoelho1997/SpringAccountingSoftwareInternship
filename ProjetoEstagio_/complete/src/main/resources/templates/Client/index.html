@@ -55,7 +55,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="c : ${listClients}">
+                            <tr th:if="${listClients==null}"><td>Null</td></tr>
+                            <tr th:unless="${listClients==null}" th:each="c : ${listClients}">
                                 <td href="#" th:text="${c.getRegistrationCode()}"></td>
                                 <td th:text="${c.name}">1</td>
                                 <td class="center">

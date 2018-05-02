@@ -118,4 +118,11 @@ public class ClientController implements WebMvcConfigurer {
         return "Client/contacts_list :: options";
     }
 
+    @GetMapping("/search_submit")
+    public String searchSubmit(@RequestParam(name="value_filter", required=false) String value, Model model) {
+
+        model.addAttribute("listClients", clientService.filterClients(value));
+        return "Client/index";
+    }
+
 }

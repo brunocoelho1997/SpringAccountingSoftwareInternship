@@ -70,4 +70,20 @@ public class ClientService {
         }
         return null;
     }
+
+    public List<Client> filterClients(String value) {
+
+        List<Client> clientList = new ArrayList<>();
+
+        if(value.isEmpty()){
+            return repository.findAll();
+        }
+
+        clientList = repository.findByNameContaining(value);
+        if(!clientList.isEmpty()){
+            return clientList;
+        }
+
+        return clientList;
+    }
 }
