@@ -11,11 +11,17 @@ import java.util.Locale;
 @SpringBootApplication
 public class Application{
 
+
+    public static final int INITIAL_PAGE_SIZE = 5;
+    public static final int INITIAL_PAGE = 0;
+    public static final int[] PAGE_SIZES = {5,10,20};
+    public static final int BUTTONS_TO_SHOW = 5;
+
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
 
     }
-
 
     @Bean
     public MessageSource messageSource() {

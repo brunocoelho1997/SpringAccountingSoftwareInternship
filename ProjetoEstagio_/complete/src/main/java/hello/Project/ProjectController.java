@@ -3,18 +3,27 @@ package hello.Project;
 import hello.Client.ClientService;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenterService;
+import hello.Pager;
 import hello.Project.Resources.ChartResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static hello.Application.*;
+
 
 @Controller
 @RequestMapping(path="/project")
@@ -29,11 +38,38 @@ public class ProjectController implements WebMvcConfigurer {
     @Autowired
     private CostCenterService costCenterService;
 
+//    @GetMapping("/")
+//    public String index(Model model) {
+//        model.addAttribute("listProjects", projectService.getProjects());
+//        return "Project/index";
+//    }
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("listProjects", projectService.getProjects());
-        return "Project/index";
+    public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
+                                        @RequestParam("page") Optional<Integer> page) {
+        ModelAndView modelAndView = new ModelAndView("Project/index");
+
+        // Evaluate page size. If requested parameter is null, return initial
+        // page size
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+
+
+        // Evaluate page. If requested parameter is null or less than 0 (to
+        // prevent exception), return initial size. Otherwise, return value of
+        // param. decreased by 1.
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+
+
+        Page<Project> projects = projectService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
+        Pager pager = new Pager(projects.getTotalPages(), projects.getNumber(), BUTTONS_TO_SHOW);
+
+
+        modelAndView.addObject("listProjects", projects);
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+        modelAndView.addObject("pager", pager);
+
+        return modelAndView;
     }
 
     @GetMapping("/add_project")
@@ -114,6 +150,16 @@ public class ProjectController implements WebMvcConfigurer {
     @GetMapping("/get_chart_resource")
     @ResponseBody
     public ChartResource getChartResource(@RequestParam("id") Long id, Model model) {
+
+
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.addObject("percentageCosts", chartResource.getPercentageCosts());
+//        modelAndView.addObject("percentageRevenues", chartResource.getPercentageRevenues());
+//        modelAndView.addObject("total", chartResource.getTotal());
+//        modelAndView.addObject("totalRevenues", chartResource.getTotalCosts());
+//        modelAndView.addObject("totalCosts", chartResource.getTotalCosts());
+//
+//        return modelAndView;
 
         ChartResource chartResource = projectService.getStatistic(id);
         return chartResource;

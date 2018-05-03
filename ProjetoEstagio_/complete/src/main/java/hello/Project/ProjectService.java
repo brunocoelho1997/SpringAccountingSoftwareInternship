@@ -10,6 +10,8 @@ import hello.Project.Resources.ChartResource;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -37,6 +39,9 @@ public class ProjectService {
     }
 
 
+    public Page<Project> findAllPageable(Pageable pageable) {
+        return projectRepository.findAll(pageable);
+    }
 
     public Project getProject(Long id) {
         return projectRepository.findById((long)id);

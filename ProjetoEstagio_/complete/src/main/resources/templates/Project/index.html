@@ -74,10 +74,22 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <div th:insert="~{fragments/pagination :: pagination}">...</div>
     </div>
 </div>
 <div id="modal-content"></div>
 <script>
+
+    $(document).ready(function() {
+        changePageAndSize();
+    });
+
+    function changePageAndSize() {
+        $('#pageSizeSelect').change(function(evt) {
+            window.location.replace("/project/?pageSize=" + this.value + "&page=1");
+        });
+    }
+
     $( document ).ready(function () {
 
         $('a.trash').click(function (e) {

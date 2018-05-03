@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: copy"></head>
+
+<body>
+
+
+    <div class="row" th:fragment="pagination">
+        <div class="form-group col-md-1">
+            <select class="form-control pagination" id="pageSizeSelect">
+                <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                        th:selected="${pageSize} == ${selectedPageSize}"></option>
+            </select>
+        </div>
+        <div th:if="${listProjects.totalPages != 1}" class="form-group col-md-11 pagination-centered">
+            <ul class="pagination">
+                <li th:class="${listProjects.number == 0} ? disabled">
+                    <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+                </li>
+                <li th:class="${listProjects.number == 0} ? disabled">
+                    <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listProjects.number})}">&larr;</a>
+                </li>
+                <li th:class="${listProjects.number == (page - 1)} ? 'active pointer-disabled'"
+                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                    <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${page})}"
+                       th:text="${page}"></a>
+                </li>
+                <li th:class="${listProjects.number + 1 == listProjects.totalPages} ? disabled">
+                    <a class="pageLink"
+                       th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listProjects.number + 2})}">&rarr;</a>
+                </li>
+                <li th:class="${listProjects.number + 1 == listProjects.totalPages} ? disabled">
+                    <a class="pageLink"
+                       th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listProjects.totalPages})}">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: copy"></div>
+
+</body>
+</html>
