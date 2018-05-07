@@ -3,7 +3,7 @@ package hello.Project;
 import hello.Client.Client;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenter;
-import hello.Entity;
+import hello.EntityPackage.Entity;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 

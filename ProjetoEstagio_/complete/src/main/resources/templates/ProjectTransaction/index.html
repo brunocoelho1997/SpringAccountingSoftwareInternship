@@ -15,29 +15,51 @@
             <!-- /.col-lg-12 -->
         </div>
         <div class = "container-fluid">
-            <div class="row">
-                <div class="col-sm-4">
-                    <form th:action="@{/client/search_submit}" method="get" id="form">
+
+            <form th:action="@{/project/search_submit}" method="get" id="form">
+
+                <div class="row">
+                    <div class="col-sm-3">
+
+                            <div class="input-group">
+                                <span class="input-group-addon" th:text="#{Filter.Search}"></span>
+                                <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
+                                <!--<span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>-->
+                            </div>
+                    </div>
+                    <div class="col-sm-9" align="right">
+                        <!--warning: The IDE are saying "@{" is error but it isnt't-->
+                        <a th:href="${#httpServletRequest.requestURI.contains('/revenue')} ? @{/project_transaction/add_revenue} : @{/project_transaction/add_cost}">
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal">
+                                <span class="glyphicon glyphicon-plus"></span> <span th:text="${#httpServletRequest.requestURI.contains('/revenue')} ? #{Transactions.Revenue.Add} : #{Transactions.Cost.Add}"></span>
+                            </button>
+                        </a>
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
                         <div class="input-group">
-                            <span class="input-group-addon" th:text="#{Filter.Search}"></span>
-                            <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
-                            <span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>
+                            <span class="input-group-addon" th:text="#{System.Since}"></span>
+                            <input type="date" name="date_since" class="form-control" >
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
-                    </form>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{System.Until}"></span>
+                            <input type="date" name="date_until" class="form-control" >
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <a class="col-sm-6" align="right"onclick="$(form).submit()"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
                 </div>
-                <div class="col-sm-8"></div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-sm-12" align="right" >
-                    <!--warning: The IDE are saying "@{" is error but it isnt't-->
-                    <a th:href="${#httpServletRequest.requestURI.contains('/revenue')} ? @{/project_transaction/add_revenue} : @{/project_transaction/add_cost}">
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal">
-                            <span class="glyphicon glyphicon-plus"></span> <span th:text="${#httpServletRequest.requestURI.contains('/revenue')} ? #{Transactions.Revenue.Add} : #{Transactions.Cost.Add}"></span>
-                        </button>
-                    </a>
-                </div>
-            </div>
+
+            </form>
+
 
             <br>
             <div class="row">

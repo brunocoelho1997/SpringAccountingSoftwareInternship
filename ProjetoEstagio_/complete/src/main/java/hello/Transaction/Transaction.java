@@ -2,14 +2,13 @@ package hello.Transaction;
 
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
-import hello.Entity;
+import hello.EntityPackage.Entity;
 import hello.SubType.SubType;
 import hello.Type.Type;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 

@@ -1,7 +1,6 @@
 package hello.Type;
 
-import hello.Enums.Genre;
-import hello.Entity;
+import hello.EntityPackage.Entity;
 import hello.Enums.Category;
 import hello.SubType.SubType;
 import org.hibernate.validator.constraints.Length;

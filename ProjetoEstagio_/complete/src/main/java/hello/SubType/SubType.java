@@ -1,6 +1,6 @@
 package hello.SubType;
 
-import hello.Entity;
+import hello.EntityPackage.Entity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;

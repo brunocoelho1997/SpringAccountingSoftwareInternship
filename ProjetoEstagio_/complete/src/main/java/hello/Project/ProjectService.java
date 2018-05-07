@@ -1,6 +1,7 @@
 package hello.Project;
 
 import hello.Client.Client;
+import hello.Client.ClientRepository;
 import hello.Client.ClientService;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenter;
@@ -11,11 +12,14 @@ import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +43,16 @@ public class ProjectService {
     }
 
 
-    public Page<Project> findAllPageable(Pageable pageable) {
-        return projectRepository.findAll(pageable);
+    public Page<Project> findAllPageable(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
+
+
+        //could receive params to filter de list
+        if(value!= null || dateSince !=null || dateUntil != null)
+            return filterProjects(pageable, value, dateSince, dateUntil, clientId);
+
+        else
+            return projectRepository.findAll(pageable);
+
     }
 
     public Project getProject(Long id) {
@@ -115,19 +127,113 @@ public class ProjectService {
 
         return statistic;
     }
-    public List<Project> filterProjects(String value) {
+    public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
 
-        List<Project> projectList= new ArrayList<>();
+        Page<Project> projectPage = new PageImpl<>(new ArrayList<>());
+        List<Project> listByName = null;
+        List<Project> listByMinDate= null;
+        List<Project> listByMaxDate= null;
+        List<Project> listByClient= null;
 
-        if(value.isEmpty()){
-            return projectRepository.findAll();
+        try{
+            if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
+                return projectRepository.findAll(pageable);
+            }
+
+            if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
+                return projectRepository.findAll(pageable);
+            }
+
+            Specification<Project> specFilter;
+
+            if(clientId == 0)
+                specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, null);
+            else
+                specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, clientService.getClient(clientId));
+
+
+            projectPage = projectRepository.findAll(specFilter, pageable);
+
+
+//            if(specName!= null)
+//                listByName = projectRepository.findAll(specName);
+//            if(specDateSince!= null)
+//                listByMinDate = projectRepository.findAll(specDateSince);
+
+
+            System.out.println("\n\n\n\n\n\n\n\n\n\n" + projectPage.getContent());
+
+
+//            System.out.println("\n\n\n\n\n\n\n\n\n\n" + listByName);
+//            System.out.println("\n\n\n\n\n\n\n\n\n\n" + listByMinDate);
+
+
+
+            /*
+            PARA APAGAR
+             */
+//            if(!value.isEmpty())
+//            {
+////                listByName = projectRepository.findByNameContaining(value);
+//
+////                TODO:validar id aqui...
+//
+//                Specification<Project> specName = ProjectSpecifications.hasName(value);
+//                listByName = projectRepository.findAll(specName);
+//            }
+
+
+
+//            LocalDate localDateSince;
+//            LocalDate localDateUntil;
+//
+//            if(!dateSince.isEmpty())
+//            {
+//                localDateSince = LocalDate.parse(dateSince);
+//                listByMinDate = projectRepository.findByInitialDateGreaterThanEqual(localDateSince);
+//            }
+//
+//            if(!dateUntil.isEmpty())
+//            {
+//                localDateUntil = LocalDate.parse(dateUntil);
+//                listByMaxDate = projectRepository.findByFinalDateLessThanEqual(localDateUntil);
+//            }
+//
+//            listByClient= projectRepository.findByClient(clientService.getClient(clientId));
+//
+//
+//            projectPage = joinTables(pageable, listByName, listByMinDate, listByMaxDate,listByClient);
+
+
+        }catch (NumberFormatException ex){
         }
 
-        projectList = projectRepository.findByNameContaining(value);
-        if(!projectList.isEmpty()){
-            return projectList;
-        }
 
-        return projectList;
+        return projectPage;
+
     }
+//
+//    private Page<Project> joinTables(Pageable pageable, List<Project> listByName, List<Project> listByMinDate, List<Project> listByMaxDate, List<Project> listByClient) {
+//
+//        List<Project> projects = new ArrayList<>();
+//
+//        if(!listByName.isEmpty())
+//            projects.addAll(listByName);
+//
+//        System.out.println("\n\n\n\n\n\n\n\n\n" + listByName);
+//
+//
+//        if(!listByMinDate.isEmpty() && listByMinDate!=null)
+//            projects.retainAll(listByMinDate);
+//        if(!listByMaxDate.isEmpty()&& listByMaxDate!=null)
+//            projects.retainAll(listByMaxDate);
+//        if(!listByClient.isEmpty()&& listByClient!=null)
+//            projects.retainAll(listByClient);
+//
+//        System.out.println("\n\n\n\n\n\n\n\n\n" + projects);
+//        System.out.println("aqui");
+//
+//
+//        return new PageImpl<>(projects, pageable,pageable.getPageSize());
+//    }
 }

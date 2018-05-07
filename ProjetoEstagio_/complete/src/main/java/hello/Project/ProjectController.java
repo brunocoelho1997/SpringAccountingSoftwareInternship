@@ -18,7 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +48,12 @@ public class ProjectController implements WebMvcConfigurer {
 
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
-                                        @RequestParam("page") Optional<Integer> page) {
+                                        @RequestParam("page") Optional<Integer> page,
+                                        @RequestParam(name="value_filter", required=false) String value,
+                                        @RequestParam(name="date_since", required=false) String dateSince,
+                                        @RequestParam(name="date_until", required=false) String dateUntil,
+                                        @RequestParam(name="client_id", required=false) Long clientId)
+    {
         ModelAndView modelAndView = new ModelAndView("Project/index");
 
         // Evaluate page size. If requested parameter is null, return initial
@@ -59,11 +66,11 @@ public class ProjectController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
+        Page<Project> projects= projectService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, dateSince, dateUntil,clientId);
 
-        Page<Project> projects = projectService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
         Pager pager = new Pager(projects.getTotalPages(), projects.getNumber(), BUTTONS_TO_SHOW);
 
-
+        modelAndView.addObject("listClients", clientService.getClients());
         modelAndView.addObject("listProjects", projects);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
@@ -165,12 +172,31 @@ public class ProjectController implements WebMvcConfigurer {
         return chartResource;
     }
 
-    @GetMapping("/search_submit")
-    public String searchSubmit(@RequestParam(name="value_filter", required=false) String value, Model model) {
-
-        model.addAttribute("listClients", projectService.filterProjects(value));
-        return "Client/index";
-    }
+//    @GetMapping("/search_submit")
+//    public String searchSubmit(@RequestParam(name="value_filter", required=false) String value,
+//                               @RequestParam(name="date_since", required=false) String dateSince,
+//                               @RequestParam(name="date_until", required=false) String dateUntil,
+//                                           Model model, RedirectAttributes redirectAttributes) {
+//
+//
+//
+////        model.addAttribute("listClients", projectService.filterProjects(value,dateSince,dateUntil));
+////        return "Client/index";
+//
+////        ModelAndView mav = new ModelAndView("redirect:/project/");
+////
+////        mav.addObject();
+////
+////        System.out.println("\n\n\n\n\n\n\n\n\n " + projectService.filterProjects(value,dateSince,dateUntil).getContent());
+////
+////        return mav;
+//
+//
+//
+////        redirectAttributes.addAttribute("listProjects",projectService.filterProjects(value,dateSince,dateUntil));
+//        return "redirect:/project";
+//
+//    }
 
 
 }

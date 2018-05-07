@@ -1,6 +1,6 @@
 package hello.CostCenter;
 
-import hello.Entity;
+import hello.EntityPackage.Entity;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;

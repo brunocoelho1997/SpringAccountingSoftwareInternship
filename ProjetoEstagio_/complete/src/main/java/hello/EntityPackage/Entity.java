@@ -1,12 +1,7 @@
-package hello;
+package hello.EntityPackage;
 
-
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.UUID;
 
 @MappedSuperclass
 public abstract class Entity {

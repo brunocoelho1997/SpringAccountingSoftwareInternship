@@ -34,7 +34,7 @@
                             </div>
                             <div>
                                 <span th:text="#{Transactions.Frequency}" th:remove="tag">title</span>:
-                                <span th:text="${transaction.getFrequency()}"></span>
+                                <span   th:text="#{Frequency.+ ${transaction.getFrequency()}}"   ></span>
                             </div>
                             <div>
                                 <span th:text="#{Transactions.Date}" th:remove="tag">title</span>:

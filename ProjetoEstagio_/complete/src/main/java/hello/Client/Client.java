@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity(name = "client")
-public class Client extends hello.Entity {
+public class Client extends hello.EntityPackage.Entity {
 
     public static final int MAX_NAME_LENGHT = 30;
     public static final int MAX_REGISTRATIONCODE_LENGHT = 30;

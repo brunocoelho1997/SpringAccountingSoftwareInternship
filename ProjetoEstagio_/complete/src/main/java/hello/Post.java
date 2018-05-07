@@ -1,13 +1,14 @@
 package hello;
 
+import hello.EntityPackage.Entity;
+
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
-public class Post extends hello.Entity{
+public class Post extends Entity {
 
     public static final int MAX_NAME_LENGHT = 30;
 
