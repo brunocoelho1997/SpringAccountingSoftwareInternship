@@ -14,35 +14,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 
     Project findById(long id);
 
-//    List<Project> findByNameContaining(String name);
-
-
-//    Page<Project> findByName(String name, Pageable pageable);
-
     List<Project> findAll();
 
     Page<Project> findAll(Pageable pageable);
-
-
-
-
-
-
-
-
-
-
-
-//    Page<Project> findByNameContaining(String name, Pageable pageable);
-
-//    List<Project>findByFinalDateLessThanEqual(LocalDate finalDate);
-//    List<Project>findByInitialDateGreaterThanEqual(LocalDate initialDate);
-//
-//    List<Project>findByClient(Client client);
-
-//    Page<Project>findByClient(Client client, Pageable pageable);
-//    Page<Project>findByClientAndFinalDateLessThanEqual(Client client, LocalDate finalDate, Pageable pageable);
-//    Page<Project>findByClientAndFinalDateLessThanEqualAndInitialDateGreaterThanEqual(Client client, LocalDate finalDate, LocalDate initialDate, Pageable pageable);
-//    Page<Project>findByClientAndFinalDateLessThanEqualAndInitialDateGreaterThanEqualAndNameContaining(Client client, LocalDate finalDate, LocalDate initialDate, String name, Pageable pageable);
-
 }

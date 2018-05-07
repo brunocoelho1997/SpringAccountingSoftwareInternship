@@ -91,7 +91,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="p : ${listProjects}">
+                            <tr th:each="p : ${listEntitys}">
                                 <td href="#" th:text="${p.getName()}"></td>
                                 <td href="#" th:text="${p.getFinalDate()}"></td>
                                 <td href="#" th:text="${p.getClient().getName()}"></td>

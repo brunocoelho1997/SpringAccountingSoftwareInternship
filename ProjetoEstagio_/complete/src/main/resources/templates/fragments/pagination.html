@@ -13,26 +13,26 @@
                         th:selected="${pageSize} == ${selectedPageSize}"></option>
             </select>
         </div>
-        <div th:if="${listProjects.totalPages != 1}" class="form-group col-md-11 pagination-centered">
+        <div th:if="${listEntitys.totalPages != 1}" class="form-group col-md-11 pagination-centered">
             <ul class="pagination">
-                <li th:class="${listProjects.number == 0} ? disabled">
+                <li th:class="${listEntitys.number == 0} ? disabled">
                     <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
                 </li>
-                <li th:class="${listProjects.number == 0} ? disabled">
-                    <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listProjects.number})}">&larr;</a>
+                <li th:class="${listEntitys.number == 0} ? disabled">
+                    <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listEntitys.number})}">&larr;</a>
                 </li>
-                <li th:class="${listProjects.number == (page - 1)} ? 'active pointer-disabled'"
+                <li th:class="${listEntitys.number == (page - 1)} ? 'active pointer-disabled'"
                     th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
                     <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${page})}"
                        th:text="${page}"></a>
                 </li>
-                <li th:class="${listProjects.number + 1 == listProjects.totalPages} ? disabled">
+                <li th:class="${listEntitys.number + 1 == listEntitys.totalPages} ? disabled">
                     <a class="pageLink"
-                       th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listProjects.number + 2})}">&rarr;</a>
+                       th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listEntitys.number + 2})}">&rarr;</a>
                 </li>
-                <li th:class="${listProjects.number + 1 == listProjects.totalPages} ? disabled">
+                <li th:class="${listEntitys.number + 1 == listEntitys.totalPages} ? disabled">
                     <a class="pageLink"
-                       th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listProjects.totalPages})}">&raquo;</a>
+                       th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listEntitys.totalPages})}">&raquo;</a>
                 </li>
             </ul>
         </div>

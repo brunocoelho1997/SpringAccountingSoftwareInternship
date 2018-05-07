@@ -17,7 +17,7 @@
         <div class = "container-fluid">
             <div class="row">
                 <div class="col-sm-4">
-                    <form th:action="@{/client/search_submit}" method="get" id="form">
+                    <form th:action="@{/client/}" method="get" id="form">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Filter.Search}"></span>
                             <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
@@ -55,8 +55,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:if="${listClients==null}"><td>Null</td></tr>
-                            <tr th:unless="${listClients==null}" th:each="c : ${listClients}">
+                            <tr th:if="${listEntitys==null}"><td>Null</td></tr>
+                            <tr th:unless="${listEntitys==null}" th:each="c : ${listEntitys}">
                                 <td href="#" th:text="${c.getRegistrationCode()}"></td>
                                 <td th:text="${c.name}">1</td>
                                 <td class="center">
@@ -74,6 +74,8 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <div th:insert="~{fragments/pagination :: pagination}">...</div>
+
     </div>
 </div>
 <div id="modal-content"></div>

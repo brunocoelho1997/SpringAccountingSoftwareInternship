@@ -3,6 +3,10 @@ package hello.Client;
 import hello.Adress.Adress;
 import hello.Contact.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -18,6 +22,18 @@ public class ClientService {
 
     public List<Client> getClients(){
         return repository.findAll();
+    }
+
+    public Page<Client> findAllPageable(Pageable pageable, String value) {
+
+
+        //could receive params to filter de list
+        if(value!= null)
+            return filterClients(pageable, value);
+
+        else
+            return repository.findAll(pageable);
+
     }
 
     public Client addClient(Client client)
@@ -71,19 +87,19 @@ public class ClientService {
         return null;
     }
 
-    public List<Client> filterClients(String value) {
+    public Page<Client> filterClients(Pageable pageable, String value) {
 
-        List<Client> clientList = new ArrayList<>();
+        Page<Client> projectPage = new PageImpl<>(new ArrayList<>());
 
-        if(value.isEmpty()){
-            return repository.findAll();
-        }
 
-        clientList = repository.findByNameContaining(value);
-        if(!clientList.isEmpty()){
-            return clientList;
-        }
+        if(value.isEmpty())
+            return repository.findAll(pageable);
 
-        return clientList;
+        Specification<Client> specFilter;
+        specFilter= ClientSpecifications.filter(value);
+
+        projectPage = repository.findAll(specFilter, pageable);
+
+        return projectPage;
     }
 }

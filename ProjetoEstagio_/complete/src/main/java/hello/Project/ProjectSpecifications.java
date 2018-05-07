@@ -29,8 +29,6 @@ public class ProjectSpecifications {
             Predicate predicateDateUntil;
             Predicate predicateClient;
 
-
-
             if(!value.isEmpty())
             {
                 try{

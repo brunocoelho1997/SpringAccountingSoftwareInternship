@@ -130,87 +130,27 @@ public class ProjectService {
     public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
 
         Page<Project> projectPage = new PageImpl<>(new ArrayList<>());
-        List<Project> listByName = null;
-        List<Project> listByMinDate= null;
-        List<Project> listByMaxDate= null;
-        List<Project> listByClient= null;
-
-        try{
-            if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
-                return projectRepository.findAll(pageable);
-            }
-
-            if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
-                return projectRepository.findAll(pageable);
-            }
-
-            Specification<Project> specFilter;
-
-            if(clientId == 0)
-                specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, null);
-            else
-                specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, clientService.getClient(clientId));
 
 
-            projectPage = projectRepository.findAll(specFilter, pageable);
-
-
-//            if(specName!= null)
-//                listByName = projectRepository.findAll(specName);
-//            if(specDateSince!= null)
-//                listByMinDate = projectRepository.findAll(specDateSince);
-
-
-            System.out.println("\n\n\n\n\n\n\n\n\n\n" + projectPage.getContent());
-
-
-//            System.out.println("\n\n\n\n\n\n\n\n\n\n" + listByName);
-//            System.out.println("\n\n\n\n\n\n\n\n\n\n" + listByMinDate);
-
-
-
-            /*
-            PARA APAGAR
-             */
-//            if(!value.isEmpty())
-//            {
-////                listByName = projectRepository.findByNameContaining(value);
-//
-////                TODO:validar id aqui...
-//
-//                Specification<Project> specName = ProjectSpecifications.hasName(value);
-//                listByName = projectRepository.findAll(specName);
-//            }
-
-
-
-//            LocalDate localDateSince;
-//            LocalDate localDateUntil;
-//
-//            if(!dateSince.isEmpty())
-//            {
-//                localDateSince = LocalDate.parse(dateSince);
-//                listByMinDate = projectRepository.findByInitialDateGreaterThanEqual(localDateSince);
-//            }
-//
-//            if(!dateUntil.isEmpty())
-//            {
-//                localDateUntil = LocalDate.parse(dateUntil);
-//                listByMaxDate = projectRepository.findByFinalDateLessThanEqual(localDateUntil);
-//            }
-//
-//            listByClient= projectRepository.findByClient(clientService.getClient(clientId));
-//
-//
-//            projectPage = joinTables(pageable, listByName, listByMinDate, listByMaxDate,listByClient);
-
-
-        }catch (NumberFormatException ex){
+        if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
+            return projectRepository.findAll(pageable);
         }
 
+        if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
+            return projectRepository.findAll(pageable);
+        }
+
+        Specification<Project> specFilter;
+
+        if(clientId == 0)
+            specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, null);
+        else
+            specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, clientService.getClient(clientId));
+
+
+        projectPage = projectRepository.findAll(specFilter, pageable);
 
         return projectPage;
-
     }
 //
 //    private Page<Project> joinTables(Pageable pageable, List<Project> listByName, List<Project> listByMinDate, List<Project> listByMaxDate, List<Project> listByClient) {

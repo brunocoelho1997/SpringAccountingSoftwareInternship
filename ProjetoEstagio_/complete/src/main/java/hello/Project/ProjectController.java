@@ -71,7 +71,7 @@ public class ProjectController implements WebMvcConfigurer {
         Pager pager = new Pager(projects.getTotalPages(), projects.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listClients", clientService.getClients());
-        modelAndView.addObject("listProjects", projects);
+        modelAndView.addObject("listEntitys", projects);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
@@ -158,45 +158,9 @@ public class ProjectController implements WebMvcConfigurer {
     @ResponseBody
     public ChartResource getChartResource(@RequestParam("id") Long id, Model model) {
 
-
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.addObject("percentageCosts", chartResource.getPercentageCosts());
-//        modelAndView.addObject("percentageRevenues", chartResource.getPercentageRevenues());
-//        modelAndView.addObject("total", chartResource.getTotal());
-//        modelAndView.addObject("totalRevenues", chartResource.getTotalCosts());
-//        modelAndView.addObject("totalCosts", chartResource.getTotalCosts());
-//
-//        return modelAndView;
-
         ChartResource chartResource = projectService.getStatistic(id);
         return chartResource;
     }
-
-//    @GetMapping("/search_submit")
-//    public String searchSubmit(@RequestParam(name="value_filter", required=false) String value,
-//                               @RequestParam(name="date_since", required=false) String dateSince,
-//                               @RequestParam(name="date_until", required=false) String dateUntil,
-//                                           Model model, RedirectAttributes redirectAttributes) {
-//
-//
-//
-////        model.addAttribute("listClients", projectService.filterProjects(value,dateSince,dateUntil));
-////        return "Client/index";
-//
-////        ModelAndView mav = new ModelAndView("redirect:/project/");
-////
-////        mav.addObject();
-////
-////        System.out.println("\n\n\n\n\n\n\n\n\n " + projectService.filterProjects(value,dateSince,dateUntil).getContent());
-////
-////        return mav;
-//
-//
-//
-////        redirectAttributes.addAttribute("listProjects",projectService.filterProjects(value,dateSince,dateUntil));
-//        return "redirect:/project";
-//
-//    }
 
 
 }
