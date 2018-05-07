@@ -136,10 +136,6 @@ public class ProjectService {
             return projectRepository.findAll(pageable);
         }
 
-        if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
-            return projectRepository.findAll(pageable);
-        }
-
         Specification<Project> specFilter;
 
         if(clientId == 0)

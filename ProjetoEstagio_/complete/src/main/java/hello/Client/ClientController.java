@@ -59,7 +59,6 @@ public class ClientController implements WebMvcConfigurer {
 
         Pager pager = new Pager(clients.getTotalPages(), clients.getNumber(), BUTTONS_TO_SHOW);
 
-        System.out.println("\n\n\n\n\n\n" + clients);
         modelAndView.addObject("listEntitys", clients);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);

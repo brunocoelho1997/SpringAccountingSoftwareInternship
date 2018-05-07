@@ -20,14 +20,24 @@
 
                 <div class="row">
                     <div class="col-sm-3">
-
-                            <div class="input-group">
-                                <span class="input-group-addon" th:text="#{Filter.Search}"></span>
-                                <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
-                                <!--<span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>-->
-                            </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{Filter.Search}"></span>
+                            <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
+                            <!--<span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>-->
+                        </div>
                     </div>
-                    <div class="col-sm-9" align="right">
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{Transactions.Frequency}">frequency </span>
+                            <select class="form-control" name="frequency" required>
+                                <option th:each="frequency : ${T(hello.Enums.Frequency).values()}"
+                                        th:value="${frequency}"
+                                        th:text="#{Frequency.+ ${frequency}}"
+                                />
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-7" align="right">
                         <!--warning: The IDE are saying "@{" is error but it isnt't-->
                         <a th:href="${#httpServletRequest.requestURI.contains('/revenue')} ? @{/project_transaction/add_revenue} : @{/project_transaction/add_cost}">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal">
@@ -36,8 +46,37 @@
                         </a>
 
                     </div>
-
-
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{Transactions.Type}"></span>
+                            <select class="form-control selectedType" name = "type_id">
+                                <option th:each="type : ${types}"
+                                        th:value="${type.getId()}"
+                                        th:utext="${type.getName()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{Transactions.SubType}"></span>
+                            <select class="form-control" th:id="subTypesOfType" name = "subtype_id">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{Transactions.Projects.Project}"></span>
+                            <select class="form-control" name="project_id">
+                                <option th:each="project : ${projects}"
+                                        th:value="${project.getId()}"
+                                        th:utext="${project.getName()}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
                 </div>
                 <br>
                 <div class="row">
@@ -53,6 +92,24 @@
                             <span class="input-group-addon" th:text="#{System.Until}"></span>
                             <input type="date" name="date_until" class="form-control" >
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{System.Since}"></span>
+                            <input type="number" step="0.01" name="value_since" class="form-control" >
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{System.Until}"></span>
+                            <input type="number" step="0.01" name="value_until" class="form-control" >
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
                         </div>
                     </div>
                     <a class="col-sm-6" align="right"onclick="$(form).submit()"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
@@ -81,7 +138,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="r : ${listTransactions}">
+                                <tr th:each="r : ${listEntitys}">
                                     <td th:text="${r.getDate()}"></td>
                                     <td th:text="${r.getName()}">1</td>
                                     <td th:text="${r.getType().getName()}">1</td>
@@ -107,9 +164,15 @@
                 <!-- /.col-lg-12 -->
             </div>
         </div>
+        <div th:insert="~{fragments/pagination :: pagination}">...</div>
+
     </div>
 </div>
 <div id="modal-content"></div>
+
+<script src="../subTypeSelect.js"></script>
+
+
 <script>
 
     $( document ).ready(function () {

@@ -1,18 +1,29 @@
 package hello.ProjectTransaction;
 
+import hello.Enums.Frequency;
 import hello.Enums.Genre;
+import hello.Pager;
 import hello.Project.ProjectService;
+import hello.SubType.SubType;
+import hello.Type.Type;
 import hello.Type.TypeService;
+import javafx.scene.media.SubtitleTrack;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
+
+import static hello.Application.*;
 
 @Controller
 @RequestMapping(path="/project_transaction")
@@ -28,11 +39,56 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     ProjectService projectService;
 
 
-    @GetMapping("/revenue")
-    public String indexRevenue(Model model) {
+//    @GetMapping("/revenue")
+//    public String indexRevenue(Model model) {
+//
+//        model.addAttribute("listTransactions",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
+//        return "ProjectTransaction/index";
+//    }
 
-        model.addAttribute("listTransactions",projectTransactionService.getProjectsTransactionsByGenre(Genre.REVENUE));
-        return "ProjectTransaction/index";
+    @GetMapping("/revenue")
+    public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
+                                        @RequestParam("page") Optional<Integer> page,
+                                        @RequestParam(name="value_filter", required=false) String value,
+                                        @RequestParam(name="frequency", required=false) Frequency frequency,
+                                        @RequestParam(name="type_id", required=false) Type type,
+                                        @RequestParam(name="sub_type_id", required=false) SubType subType,
+                                        @RequestParam(name="project_id", required=false) Long projectId,
+                                        @RequestParam(name="date_since", required=false) String dateSince,
+                                        @RequestParam(name="date_until", required=false) String dateUntil,
+                                        @RequestParam(name="value_since", required=false) String valueSince,
+                                        @RequestParam(name="value_until", required=false) String valueUntil)
+
+    {
+        ModelAndView modelAndView = new ModelAndView("ProjectTransaction/index");
+
+        // Evaluate page size. If requested parameter is null, return initial
+        // page size
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+
+
+        // Evaluate page. If requested parameter is null or less than 0 (to
+        // prevent exception), return initial size. Otherwise, return value of
+        // param. decreased by 1.
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+
+
+       Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, type, subType, projectId, dateSince, dateUntil, valueSince, valueUntil, Genre.REVENUE);
+
+
+        Pager pager = new Pager(projectsTransactions.getTotalPages(), projectsTransactions.getNumber(), BUTTONS_TO_SHOW);
+
+        modelAndView.addObject("listEntitys", projectsTransactions);
+
+        modelAndView.addObject("types", typeService.getTypes());
+        modelAndView.addObject("projects", projectService.getProjects());
+
+
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+//        modelAndView.addObject("pager", pager);
+
+        return modelAndView;
     }
 
     @GetMapping("/add_revenue")
@@ -104,11 +160,56 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         return "ProjectTransaction/info_transaction";
     }
 
-    @GetMapping("/cost")
-    public String indexCost(Model model) {
+//    @GetMapping("/cost")
+//    public String indexCost(Model model) {
+//
+//        model.addAttribute("listTransactions",projectTransactionService.getProjectsTransactionsByGenre(Genre.COST));
+//        return "ProjectTransaction/index";
+//    }
 
-        model.addAttribute("listTransactions",projectTransactionService.getProjectsTransactionsByGenre(Genre.COST));
-        return "ProjectTransaction/index";
+    @GetMapping("/cost")
+    public ModelAndView indexCost(@RequestParam("pageSize") Optional<Integer> pageSize,
+                                        @RequestParam("page") Optional<Integer> page,
+                                        @RequestParam(name="value_filter", required=false) String value,
+                                        @RequestParam(name="frequency", required=false) Frequency frequency,
+                                        @RequestParam(name="type_id", required=false) Type type,
+                                        @RequestParam(name="sub_type_id", required=false) SubType subType,
+                                        @RequestParam(name="project_id", required=false) Long projectId,
+                                        @RequestParam(name="date_since", required=false) String dateSince,
+                                        @RequestParam(name="date_until", required=false) String dateUntil,
+                                        @RequestParam(name="value_since", required=false) String valueSince,
+                                        @RequestParam(name="value_until", required=false) String valueUntil)
+
+    {
+        ModelAndView modelAndView = new ModelAndView("ProjectTransaction/index");
+
+        // Evaluate page size. If requested parameter is null, return initial
+        // page size
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+
+
+        // Evaluate page. If requested parameter is null or less than 0 (to
+        // prevent exception), return initial size. Otherwise, return value of
+        // param. decreased by 1.
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+
+
+        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, type, subType, projectId, dateSince, dateUntil, valueSince, valueUntil,Genre.COST);
+
+
+        Pager pager = new Pager(projectsTransactions.getTotalPages(), projectsTransactions.getNumber(), BUTTONS_TO_SHOW);
+
+        modelAndView.addObject("listEntitys", projectsTransactions);
+
+        modelAndView.addObject("types", typeService.getTypes());
+        modelAndView.addObject("projects", projectService.getProjects());
+
+
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+//        modelAndView.addObject("pager", pager);
+
+        return modelAndView;
     }
 
     @GetMapping("/add_cost")

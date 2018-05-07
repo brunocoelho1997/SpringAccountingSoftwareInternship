@@ -15,10 +15,6 @@ public class ProjectSpecifications {
 
     private ProjectSpecifications() {}
 
-
-    @Autowired
-    private ClientService clientService;
-
     public static Specification<Project> filter(String value, String initialDate, String finalDate, Client client) {
         return (root, query, cb) -> {
 

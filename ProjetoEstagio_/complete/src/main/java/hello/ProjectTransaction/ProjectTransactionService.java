@@ -1,5 +1,6 @@
 package hello.ProjectTransaction;
 
+import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.Project.ProjectService;
@@ -8,11 +9,16 @@ import hello.SubType.SubTypeService;
 import hello.Type.Type;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,4 +84,39 @@ public class ProjectTransactionService {
 
         repository.save(projectTransaction);
     }
+
+    public Page<ProjectTransaction> findAllPageableByGenre(PageRequest pageable, String value, Frequency frequency, Type type, SubType subType, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+
+        //could receive params to filter de list
+        if(value!= null || dateSince !=null || dateUntil != null)
+            return filterTransactions(pageable, value, frequency, type, subType, projectId, dateSince, dateUntil, valueSince, valueUntil);
+
+        else
+            return repository.findByGenre(pageable, genre);
+
+    }
+
+    private Page<ProjectTransaction> filterTransactions(PageRequest pageable, String value, Frequency frequency, Type type, SubType subType, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil) {
+
+        Page<ProjectTransaction> projectTransactionsPage = null;
+
+
+        if(value.isEmpty() && frequency == null && type == null && subType == null && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty()){
+            return repository.findAll(pageable);
+        }
+
+
+        Specification<ProjectTransaction> specFilter;
+
+        if(projectId == 0)
+            specFilter= ProjectTransactionSpecifications.filter(value, frequency, type, subType, null, dateSince, dateUntil,valueSince, valueUntil);
+        else
+            specFilter= ProjectTransactionSpecifications.filter(value, frequency, type, subType, projectService.getProject(projectId), dateSince, dateUntil,valueSince, valueUntil);
+
+
+        projectTransactionsPage = repository.findAll(specFilter, pageable);
+
+        return projectTransactionsPage;
+    }
+
 }
