@@ -13,7 +13,7 @@
                         th:selected="${pageSize} == ${selectedPageSize}"></option>
             </select>
         </div>
-        <div th:if="${listEntitys.totalPages != 1}" class="form-group col-md-11 pagination-centered">
+        <div th:if="${listEntitys.totalPages != 1 && listEntitys.totalPages != 0}" class="form-group col-md-11 pagination-centered">
             <ul class="pagination">
                 <li th:class="${listEntitys.number == 0} ? disabled">
                     <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>

@@ -89,7 +89,7 @@ public class ClientService {
 
     public Page<Client> filterClients(Pageable pageable, String value) {
 
-        Page<Client> projectPage = new PageImpl<>(new ArrayList<>());
+        Page<Client> projectPage = null;
 
 
         if(value.isEmpty())
