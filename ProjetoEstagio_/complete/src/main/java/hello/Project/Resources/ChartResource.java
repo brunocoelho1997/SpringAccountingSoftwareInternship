@@ -5,9 +5,9 @@ public class ChartResource {
     private int percentageRevenues;
     private int percentageCosts;
 
-    private int total;
-    private int totalCosts;
-    private int totalRevenues;
+    private float total;
+    private float totalCosts;
+    private float totalRevenues;
 
     public int getPercentageRevenues() {
         return percentageRevenues;
@@ -25,27 +25,27 @@ public class ChartResource {
         this.percentageCosts = percentageCosts;
     }
 
-    public int getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
-    public int getTotalCosts() {
+    public float getTotalCosts() {
         return totalCosts;
     }
 
-    public void setTotalCosts(int totalCosts) {
+    public void setTotalCosts(float totalCosts) {
         this.totalCosts = totalCosts;
     }
 
-    public int getTotalRevenues() {
+    public float getTotalRevenues() {
         return totalRevenues;
     }
 
-    public void setTotalRevenues(int totalRevenues) {
+    public void setTotalRevenues(float totalRevenues) {
         this.totalRevenues = totalRevenues;
     }
 }

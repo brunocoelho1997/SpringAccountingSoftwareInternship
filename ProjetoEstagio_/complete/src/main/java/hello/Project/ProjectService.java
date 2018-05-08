@@ -122,9 +122,9 @@ public class ProjectService {
 
         statistic.setPercentageRevenues((int)((totalRevenues*100)/total));
         statistic.setPercentageCosts((int)((totalCosts*100)/total));
-        statistic.setTotal((int)total);
-        statistic.setTotalCosts((int)totalCosts);
-        statistic.setTotalRevenues((int)totalRevenues);
+        statistic.setTotal(total);
+        statistic.setTotalCosts(totalCosts);
+        statistic.setTotalRevenues(totalRevenues);
 
 
         return statistic;

@@ -139,46 +139,56 @@
     /*<![CDATA[*/
 
 
-    var opt = {
-        type: 'GET',
-        url: '/project/get_chart_resource?id=' + [[${project.getId()}]]
+    var id = [[${project.getId()}]];
+
+    if(id!=null)
+    {
+        var opt = {
+            type: 'GET',
+            url: '/project/get_chart_resource?id=' + id
+        }
+
+
+        $.ajax(opt).done(function (result) {
+
+            // alert(result);
+
+            if(result.percentageCosts != 0 && result.percentageRevenues != 0)
+            {
+                Morris.Donut({
+                    element: 'percentage-revenues-costs',
+                    data: [{
+                        label: '[[#{Chart.Transactions.Costs}]]',
+                        value: result.percentageCosts
+                    }, {
+                        label: '[[#{Chart.Transactions.Revenues}]]',
+                        value: result.percentageRevenues
+                    }],
+                    resize: true
+                });
+
+                Morris.Bar({
+                    element: 'bar-chart-by-transactions',
+                    data: [{
+                        y: '[[#{Chart.Total}]]',
+                        a: result.totalRevenues,
+                        b: result.totalCosts
+
+                    }],
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    labels: ['[[#{Chart.Total.Revenues}]]', '[[#{Chart.Total.Costs}]]'],
+                    hideHover: 'auto',
+                    resize: true
+                });
+            }
+
+        }).fail(function (jqXHR, textStatus) {
+            alert(textStatus);
+        });
     }
 
 
-    $.ajax(opt).done(function (result) {
-
-        // alert(result);
-
-        Morris.Donut({
-            element: 'percentage-revenues-costs',
-            data: [{
-                label: '[[#{Chart.Transactions.Costs}]]',
-                value: result.percentageCosts
-            }, {
-                label: '[[#{Chart.Transactions.Revenues}]]',
-                value: result.percentageRevenues
-            }],
-            resize: true
-        });
-
-        Morris.Bar({
-            element: 'bar-chart-by-transactions',
-            data: [{
-                y: '[[#{Chart.Total}]]',
-                a: result.totalRevenues,
-                b: result.totalCosts
-
-            }],
-            xkey: 'y',
-            ykeys: ['a', 'b'],
-            labels: ['[[#{Chart.Total.Revenues}]]', '[[#{Chart.Total.Costs}]]'],
-            hideHover: 'auto',
-            resize: true
-        });
-
-    }).fail(function (jqXHR, textStatus) {
-        alert(textStatus);
-    });
 
 
     /*]]>*/

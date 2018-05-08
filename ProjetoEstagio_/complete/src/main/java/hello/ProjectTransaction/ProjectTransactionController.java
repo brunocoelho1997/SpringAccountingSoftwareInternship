@@ -109,7 +109,11 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         }
         projectTransactionService.addTransaction(projectTransaction);
 
-        return "redirect:/project_transaction/revenue";
+        if(projectTransaction.getGenre().equals(Genre.REVENUE))
+            return "redirect:/project_transaction/revenue";
+        else
+            return "redirect:/project_transaction/cost";
+
     }
 
     @GetMapping("/edit_transaction")
@@ -130,7 +134,12 @@ public class ProjectTransactionController implements WebMvcConfigurer {
             return "ProjectTransaction/edit_transaction";
         }
         projectTransactionService.editProjectTransaction(projectTransaction);
-        return "redirect:/project_transaction/revenue";
+
+        if(projectTransaction.getGenre().equals(Genre.REVENUE))
+            return "redirect:/project_transaction/revenue";
+        else
+            return "redirect:/project_transaction/cost";
+
     }
 
     @RequestMapping("/remove_transaction")
@@ -155,14 +164,6 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         model.addAttribute("transaction", projectTransaction);
         return "ProjectTransaction/info_transaction";
     }
-
-//    @GetMapping("/cost")
-//    public String indexCost(Model model) {
-//
-//        model.addAttribute("listTransactions",projectTransactionService.getProjectsTransactionsByGenre(Genre.COST));
-//        return "ProjectTransaction/index";
-//    }
-
 
 
     @GetMapping("/cost")
