@@ -16,7 +16,7 @@
         </div>
         <div class = "container-fluid">
 
-            <form th:action="@{/project/search_submit}" method="get" id="form">
+            <form th:action="${#httpServletRequest.requestURI.contains('/revenue')} ? @{/project_transaction/revenue} : @{/project_transaction/cost}" method="get" id="form">
 
                 <div class="row">
                     <div class="col-sm-3">
@@ -30,6 +30,7 @@
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.Frequency}">frequency </span>
                             <select class="form-control" name="frequency" required>
+                                <option value=""/>
                                 <option th:each="frequency : ${T(hello.Enums.Frequency).values()}"
                                         th:value="${frequency}"
                                         th:text="#{Frequency.+ ${frequency}}"
@@ -53,6 +54,7 @@
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.Type}"></span>
                             <select class="form-control selectedType" name = "type_id">
+                                <option value="0"/>
                                 <option th:each="type : ${types}"
                                         th:value="${type.getId()}"
                                         th:utext="${type.getName()}"/>
@@ -70,6 +72,7 @@
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.Projects.Project}"></span>
                             <select class="form-control" name="project_id">
+                                <option value="0"/>
                                 <option th:each="project : ${projects}"
                                         th:value="${project.getId()}"
                                         th:utext="${project.getName()}"/>

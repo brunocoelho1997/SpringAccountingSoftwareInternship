@@ -7,9 +7,9 @@ $( ".selectedType" )
             selectedTypeValue = $( this ).val();
         });
 
-        // alert(selectedTypeValue);
+        //alert(selectedTypeValue);
 
-        if(selectedTypeValue !=null)
+        if(selectedTypeValue !=null && selectedTypeValue!="0")
         {
             var opt = {
                 type: 'GET',

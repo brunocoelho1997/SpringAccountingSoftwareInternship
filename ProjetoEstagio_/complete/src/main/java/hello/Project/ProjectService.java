@@ -47,8 +47,10 @@ public class ProjectService {
 
 
         //could receive params to filter de list
-        if(value!= null || dateSince !=null || dateUntil != null)
+        if(value!= null || dateSince !=null || dateUntil != null || clientId != null)
+        {
             return filterProjects(pageable, value, dateSince, dateUntil, clientId);
+        }
 
         else
             return projectRepository.findAll(pageable);
@@ -129,7 +131,7 @@ public class ProjectService {
     }
     public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
 
-        Page<Project> projectPage = new PageImpl<>(new ArrayList<>());
+        Page<Project> projectPage = null;
 
 
         if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
@@ -138,10 +140,9 @@ public class ProjectService {
 
         Specification<Project> specFilter;
 
-        if(clientId == 0)
-            specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, null);
-        else
-            specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, clientService.getClient(clientId));
+        Client client = clientService.getClient(clientId);
+
+        specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, client);
 
 
         projectPage = projectRepository.findAll(specFilter, pageable);

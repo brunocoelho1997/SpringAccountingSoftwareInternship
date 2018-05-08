@@ -11,13 +11,9 @@ import java.util.List;
 
 public interface ProjectTransactionRepository extends JpaRepository<ProjectTransaction, Long>, JpaSpecificationExecutor {
 
-    List<ProjectTransaction> findByGenre(Genre genre);
-
     ProjectTransaction findById(long id);
-
     List<ProjectTransaction> findByProject(Project project);
-
     Page<ProjectTransaction> findAll(Pageable pageable);
-    Page<ProjectTransaction> findByGenre(Pageable pageable, Genre genre);
+    Page<ProjectTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
 }

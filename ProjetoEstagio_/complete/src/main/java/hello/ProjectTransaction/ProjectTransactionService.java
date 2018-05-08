@@ -36,10 +36,10 @@ public class ProjectTransactionService {
     SubTypeService subTypeService;
 
 
-    public List<ProjectTransaction> getProjectsTransactionsByGenre(Genre genre){
-        List<ProjectTransaction> projectTransactions = repository.findByGenre(genre);
-        return projectTransactions;
-    }
+//    public List<ProjectTransaction> getProjectsTransactionsByGenre(Genre genre){
+//        List<ProjectTransaction> projectTransactions = repository.findByGenre(genre);
+//        return projectTransactions;
+//    }
 
     public void addTransaction(@Valid ProjectTransaction projectTransaction) {
 
@@ -55,6 +55,7 @@ public class ProjectTransactionService {
     {
         return repository.findById(id);
     }
+
     public void removeProjectTransaction(Long id) {
         ProjectTransaction projectTransaction = getProjectTransaction((long)id);
         repository.delete(projectTransaction);
@@ -85,34 +86,38 @@ public class ProjectTransactionService {
         repository.save(projectTransaction);
     }
 
-    public Page<ProjectTransaction> findAllPageableByGenre(PageRequest pageable, String value, Frequency frequency, Type type, SubType subType, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<ProjectTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         //could receive params to filter de list
-        if(value!= null || dateSince !=null || dateUntil != null)
-            return filterTransactions(pageable, value, frequency, type, subType, projectId, dateSince, dateUntil, valueSince, valueUntil);
+        if(value!= null || frequency!=null || typeId != null || subTypeId != null|| projectId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
+            return filterTransactions(pageable, value, frequency, typeId, subTypeId, projectId, dateSince, dateUntil, valueSince, valueUntil, genre);
 
         else
-            return repository.findByGenre(pageable, genre);
+            return repository.findAllByGenre(pageable, genre);
 
     }
 
-    private Page<ProjectTransaction> filterTransactions(PageRequest pageable, String value, Frequency frequency, Type type, SubType subType, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil) {
+    private Page<ProjectTransaction> filterTransactions(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         Page<ProjectTransaction> projectTransactionsPage = null;
 
 
-        if(value.isEmpty() && frequency == null && type == null && subType == null && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty()){
-            return repository.findAll(pageable);
-        }
+        if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && projectId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+            return repository.findAllByGenre(pageable, genre);
+
 
 
         Specification<ProjectTransaction> specFilter;
 
-        if(projectId == 0)
-            specFilter= ProjectTransactionSpecifications.filter(value, frequency, type, subType, null, dateSince, dateUntil,valueSince, valueUntil);
-        else
-            specFilter= ProjectTransactionSpecifications.filter(value, frequency, type, subType, projectService.getProject(projectId), dateSince, dateUntil,valueSince, valueUntil);
+        Type type = typeService.getType(typeId);
 
+        SubType subType = null;
+        if(subTypeId!=null)
+            subType= subTypeService.getSubType(subTypeId);
+
+        Project project = projectService.getProject(projectId);
+
+        specFilter= ProjectTransactionSpecifications.filter(value, frequency, type, subType, project, dateSince, dateUntil,valueSince, valueUntil, genre);
 
         projectTransactionsPage = repository.findAll(specFilter, pageable);
 
