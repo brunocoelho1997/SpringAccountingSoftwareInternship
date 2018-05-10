@@ -11,9 +11,6 @@ function addAdressContact(idContact) {
         '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.adressName" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].adressName" required maxlength="[[${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="text" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.zipCode" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].zipCode" required maxlength="[[${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}]]"/></td>' +
         '<td><input class="form-control" type="number" id="contacts'+idContact+'.adresses'+numberlistContactAdresses+ '.number" name="contacts[' + idContact + '].adresses[' + numberlistContactAdresses + '].number" required maxlength="[[${T(hello.Adress.Adress).MAX_NUMBER_SIZE}]]"/></td>' +
-        '<td>' +
-        // TODO:apagar isto'<a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>' +
-        '</td>' +
         '</tr>');
     return false;
 }
@@ -48,8 +45,6 @@ $('#addContact').click(function() {
         '<td><select class="form-control selectedClient" id="contacts'+numberContacts+'.postContact" name="contacts[' + numberContacts + '].postContact"  required>' +
         $options.html() +
         '</select></td>' +
-        '<td>' +
-        '</td>' +
         '</tr>'+
         '<tr>'+
         '<td colspan="5"'+

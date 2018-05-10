@@ -47,16 +47,10 @@ public class Transaction extends Entity {
 
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
-    /*
-    TODO: perguntar ao hugo se é refresh
-     */
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Type type;
 
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_SubType"))
-    /*
-    TODO: perguntar ao hugo se é refresh
-     */
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private SubType subType;
 
