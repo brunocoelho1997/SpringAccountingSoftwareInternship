@@ -16,28 +16,27 @@
     <div th:if="${listEntitys.totalPages != 1}" class="form-group col-md-11 pagination-centered">
         <ul class="pagination">
             <li th:class="${listEntitys.number == 0} ? disabled">
-                <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+                <a class="pageLink" th:pageSize="${selectedPageSize}" th:page="${page}">&laquo;</a>
             </li>
             <li th:class="${listEntitys.number == 0} ? disabled">
-                <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listEntitys.number})}">&larr;</a>
+                <a class="pageLink" th:pageSize="${selectedPageSize}" th:page="${listEntitys.number}">&larr;</a>
             </li>
             <li th:class="${listEntitys.number == (page - 1)} ? 'active pointer-disabled'"
                 th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-                <a class="pageLink" th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${page})}"
+                <a class="pageLink"
+                   th:pageSize="${selectedPageSize}" th:page="${page}"
                    th:text="${page}"></a>
             </li>
             <li th:class="${listEntitys.number + 1 == listEntitys.totalPages} ? disabled">
-                <a class="pageLink"
-                   th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listEntitys.number + 2})}">&rarr;</a>
+                <a class="pageLink" th:pageSize="${selectedPageSize}" th:page="${listEntitys.number + 2}">&rarr;</a>
             </li>
             <li th:class="${listEntitys.number + 1 == listEntitys.totalPages} ? disabled">
-                <a class="pageLink"
-                   th:href="@{__${#httpServletRequest.requestURI}__(pageSize=${selectedPageSize}, page=${listEntitys.totalPages})}">&raquo;</a>
+                <a class="pageLink" th:pageSize="${selectedPageSize}" th:page="${listEntitys.totalPages}">&raquo;</a>
             </li>
         </ul>
     </div>
 </div>
-
+<script src="../pagination.js"></script>
 <div th:replace="fragments/footer :: copy"></div>
 
 </body>

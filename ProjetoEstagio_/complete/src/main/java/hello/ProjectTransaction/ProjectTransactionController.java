@@ -84,6 +84,17 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
 
+        //TODO: correto?
+        modelAndView.addObject("value_filter", value);
+        modelAndView.addObject("frequency", frequency);
+        modelAndView.addObject("type_id", typeId);
+        modelAndView.addObject("subtype_id", subTypeId);
+        modelAndView.addObject("project_id", projectId);
+        modelAndView.addObject("date_since", dateSince);
+        modelAndView.addObject("date_until", dateUntil);
+        modelAndView.addObject("value_since", valueSince);
+        modelAndView.addObject("value_until", valueUntil);
+
         return modelAndView;
     }
 
