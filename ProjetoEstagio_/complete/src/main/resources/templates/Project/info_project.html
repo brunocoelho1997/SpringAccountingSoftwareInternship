@@ -104,6 +104,18 @@
                             </div>
                         </div>
 
+                        <h2> despesas por tipos (melhorar isto) </h2>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4" >
+                                    <div id="bar-chart-by-revenues"></div>
+                                </div>
+
+                                <div class="col-lg-4"></div>
+                            </div>
+                        </div>
+
 
                             <div align="right">
                                 <a th:href="@{/project/}">
@@ -148,10 +160,7 @@
             url: '/project/get_chart_resource?id=' + id
         }
 
-
         $.ajax(opt).done(function (result) {
-
-            // alert(result);
 
             if(result.percentageCosts != 0 && result.percentageRevenues != 0)
             {
@@ -178,6 +187,26 @@
                     xkey: 'y',
                     ykeys: ['a', 'b'],
                     labels: ['[[#{Chart.Total.Revenues}]]', '[[#{Chart.Total.Costs}]]'],
+                    hideHover: 'auto',
+                    resize: true
+                });
+
+
+                var order_graph_chat = [];
+                var i;
+                for (i = 0; i < result.costsTypesNames.length; i++) {
+                    var element = {};
+                    element.y = result.costsTypesNames[i];
+                    element.a = result.costsTypesValues[i];
+                    order_graph_chat.push(element);
+                }
+
+                Morris.Bar({
+                    element: 'bar-chart-by-revenues',
+                    data: order_graph_chat,
+                    xkey: 'y',
+                    ykeys: ['a'],
+                    labels: ['Value'],
                     hideHover: 'auto',
                     resize: true
                 });

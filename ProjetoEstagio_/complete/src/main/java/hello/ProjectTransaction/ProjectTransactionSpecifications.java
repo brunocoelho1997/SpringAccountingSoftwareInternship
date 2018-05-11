@@ -17,6 +17,26 @@ import java.time.LocalDate;
 
 public class ProjectTransactionSpecifications {
 
+
+
+    public static Specification<ProjectTransaction> filterByProjectAndGenre(Project project, Genre genre) {
+        return (root, query, cb) -> {
+
+            Predicate predicateFinal = null;
+            Predicate predicateProject = null;
+            Predicate predicateGenre = null;
+
+            predicateProject = cb.equal(root.get(ProjectTransaction_.project), project);
+            predicateFinal = predicateProject;
+
+            predicateGenre = cb.equal(root.get(Transaction_.genre), genre);
+            predicateFinal = cb.and(predicateFinal, predicateGenre);
+
+            return predicateFinal;
+
+        };
+    }
+
     public static Specification<ProjectTransaction> filter(String value, String frequency, Type type, SubType subType, Project project, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 

@@ -2,6 +2,7 @@ package hello.ProjectTransaction;
 
 import hello.Enums.Genre;
 import hello.Project.Project;
+import hello.Type.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,7 @@ public interface ProjectTransactionRepository extends JpaRepository<ProjectTrans
     List<ProjectTransaction> findByProject(Project project);
     Page<ProjectTransaction> findAll(Pageable pageable);
     Page<ProjectTransaction> findAllByGenre(Pageable pageable, Genre genre);
+
+//    List<Type> findDistinctByProjectAndAndGenre(Project project, Genre genre);
 
 }

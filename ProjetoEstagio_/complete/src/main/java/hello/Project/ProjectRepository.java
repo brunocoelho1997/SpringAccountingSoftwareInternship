@@ -1,6 +1,7 @@
 package hello.Project;
 
 import hello.Client.Client;
+import hello.Type.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

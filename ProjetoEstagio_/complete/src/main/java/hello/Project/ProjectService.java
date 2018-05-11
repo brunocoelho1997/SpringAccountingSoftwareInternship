@@ -10,6 +10,9 @@ import hello.Enums.Genre;
 import hello.Project.Resources.ChartResource;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
+import hello.ProjectTransaction.ProjectTransactionSpecifications;
+import hello.Type.Type;
+import hello.Type.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,7 +24,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProjectService {
@@ -37,6 +42,10 @@ public class ProjectService {
 
     @Autowired
     private ProjectTransactionRepository projectTransactionRepository;
+
+    @Autowired
+    private TypeRepository typeRepository;
+
 
     public List<Project> getProjects() {
         return projectRepository.findAll();
@@ -127,8 +136,65 @@ public class ProjectService {
         statistic.setTotalRevenues(totalRevenues);
 
 
+        statistic.setCostsTypesNames(new ArrayList<>());
+        statistic.setCostsTypesValues(new ArrayList<>());
+
+
+        /*
+        TODO: n da para simplificar isto?
+         */
+        Specification<ProjectTransaction> specFilter = ProjectTransactionSpecifications.filterByProjectAndGenre(project, Genre.COST);
+        List<ProjectTransaction> listCosts = projectTransactionRepository.findAll(specFilter);
+
+
+        Map<String, Float> mapTypeValues = new HashMap<>();
+
+
+        List<String> costTypes = new ArrayList<>();
+        getResult(listCosts, costTypes, mapTypeValues);
+
+        statistic.setCostsTypesNames(costTypes);
+        statistic.setCostsTypesValues(new ArrayList<Float>(mapTypeValues.values()));
+
+        /*
+        TODO: n da para simplificar isto?
+         */
+        specFilter = ProjectTransactionSpecifications.filterByProjectAndGenre(project, Genre.REVENUE);
+        List<ProjectTransaction> listRevenues = projectTransactionRepository.findAll(specFilter);
+
+        List<String> revenueTypes = new ArrayList<>();
+        getResult(listRevenues, revenueTypes, mapTypeValues);
+
+
+
+        statistic.setRevenuesTypesNames(revenueTypes);
+        statistic.setRevenuesTypesValues(new ArrayList<Float>(mapTypeValues.values()));
+
+
         return statistic;
     }
+
+    private void getResult(List<ProjectTransaction> list, List<String> types, Map<String, Float> mapTypeValues)
+    {
+
+
+
+        for(ProjectTransaction projectTransaction : list){
+            if(!types.contains(projectTransaction.getType().getName()))
+            {
+                types.add(projectTransaction.getType().getName());
+                mapTypeValues.put(projectTransaction.getType().getName(), projectTransaction.getValue());
+            }
+            else
+            {
+                Float aux = mapTypeValues.get(projectTransaction.getType().getName());
+                mapTypeValues.put(projectTransaction.getType().getName(), projectTransaction.getValue() + aux);
+            }
+        }
+
+        System.out.println("\n\n\n\n\n" +mapTypeValues);
+    }
+
     public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
 
         Page<Project> projectPage = null;
