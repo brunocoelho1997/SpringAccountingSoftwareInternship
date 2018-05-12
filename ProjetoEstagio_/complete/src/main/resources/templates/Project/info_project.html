@@ -82,48 +82,72 @@
                         </div>
 
                         <br><br>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="col-lg-2"></div>
-                                <div  class="col-lg-8">
-                                    <div id="percentage-revenues-costs"></div>
+                        <div class="container inline">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-2"></div>
+                                    <div  class="col-lg-8">
+                                        <div id="percentage-revenues-costs"></div>
+
+                                    </div>
+                                    <div class="col-lg-2"></div>
 
                                 </div>
-                                <div class="col-lg-2"></div>
-
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="col-lg-4"></div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-4"></div>
                                     <div class="col-lg-4" >
                                         <div id="bar-chart-by-transactions"></div>
                                     </div>
-
-                                <div class="col-lg-4"></div>
-                            </div>
-                        </div>
-
-                        <h2> despesas por tipos (melhorar isto) </h2>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="col-lg-4"></div>
-                                <div class="col-lg-4" >
-                                    <div id="bar-chart-by-revenues"></div>
+                                    <div class="col-lg-4"></div>
                                 </div>
+                            </div>
+                        </div>
 
-                                <div class="col-lg-4"></div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    <h3 th:text="#{Chart.CostsByType}"> titulo </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-4" >
+                                        <div id="bar-chart-by-costs"></div>
+                                    </div>
+
+                                    <div class="col-lg-4"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    <h3 th:text="#{Chart.RevenuesByType}"> titulo </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-4" >
+                                        <div id="bar-chart-by-revenues"></div>
+                                    </div>
+
+                                    <div class="col-lg-4"></div>
+                                </div>
                             </div>
                         </div>
 
 
-                            <div align="right">
-                                <a th:href="@{/project/}">
-                                    <input class="btn btn-default" th:value="#{System.Back}" />
-                                </a>
-                            </div>
+                        <div align="right">
+                            <a th:href="@{/project/}">
+                                <input class="btn btn-default" th:value="#{System.Back}" />
+                            </a>
                         </div>
-                        <!-- /.panel-body -->
+
                     </div>
                     <!-- /.panel -->
                 </div>
@@ -202,6 +226,24 @@
                 }
 
                 Morris.Bar({
+                    element: 'bar-chart-by-costs',
+                    data: order_graph_chat,
+                    xkey: 'y',
+                    ykeys: ['a'],
+                    labels: ['Value'],
+                    hideHover: 'auto',
+                    resize: true
+                });
+
+                order_graph_chat = [];
+                for (i = 0; i < result.revenuesTypesNames.length; i++) {
+                    var element = {};
+                    element.y = result.revenuesTypesNames[i];
+                    element.a = result.revenuesTypesValues[i];
+                    order_graph_chat.push(element);
+                }
+
+                Morris.Bar({
                     element: 'bar-chart-by-revenues',
                     data: order_graph_chat,
                     xkey: 'y',
@@ -210,6 +252,7 @@
                     hideHover: 'auto',
                     resize: true
                 });
+
             }
 
         }).fail(function (jqXHR, textStatus) {

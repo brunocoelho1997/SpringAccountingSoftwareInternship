@@ -17,6 +17,6 @@ public interface ProjectTransactionRepository extends JpaRepository<ProjectTrans
     Page<ProjectTransaction> findAll(Pageable pageable);
     Page<ProjectTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
-//    List<Type> findDistinctByProjectAndAndGenre(Project project, Genre genre);
+    List<ProjectTransaction> findDistinctByProjectAndAndGenre(Project project, Genre genre);
 
 }

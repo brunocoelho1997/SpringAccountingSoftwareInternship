@@ -136,37 +136,20 @@ public class ProjectService {
         statistic.setTotalRevenues(totalRevenues);
 
 
-        statistic.setCostsTypesNames(new ArrayList<>());
-        statistic.setCostsTypesValues(new ArrayList<>());
-
-
-        /*
-        TODO: n da para simplificar isto?
-         */
-        Specification<ProjectTransaction> specFilter = ProjectTransactionSpecifications.filterByProjectAndGenre(project, Genre.COST);
-        List<ProjectTransaction> listCosts = projectTransactionRepository.findAll(specFilter);
-
 
         Map<String, Float> mapTypeValues = new HashMap<>();
 
-
+        List<ProjectTransaction> listCosts = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.COST);
         List<String> costTypes = new ArrayList<>();
         getResult(listCosts, costTypes, mapTypeValues);
-
         statistic.setCostsTypesNames(costTypes);
         statistic.setCostsTypesValues(new ArrayList<Float>(mapTypeValues.values()));
 
-        /*
-        TODO: n da para simplificar isto?
-         */
-        specFilter = ProjectTransactionSpecifications.filterByProjectAndGenre(project, Genre.REVENUE);
-        List<ProjectTransaction> listRevenues = projectTransactionRepository.findAll(specFilter);
 
+        List<ProjectTransaction> listRevenues = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.REVENUE);
         List<String> revenueTypes = new ArrayList<>();
+        mapTypeValues = new HashMap<>();
         getResult(listRevenues, revenueTypes, mapTypeValues);
-
-
-
         statistic.setRevenuesTypesNames(revenueTypes);
         statistic.setRevenuesTypesValues(new ArrayList<Float>(mapTypeValues.values()));
 
@@ -176,9 +159,6 @@ public class ProjectService {
 
     private void getResult(List<ProjectTransaction> list, List<String> types, Map<String, Float> mapTypeValues)
     {
-
-
-
         for(ProjectTransaction projectTransaction : list){
             if(!types.contains(projectTransaction.getType().getName()))
             {
@@ -191,8 +171,6 @@ public class ProjectService {
                 mapTypeValues.put(projectTransaction.getType().getName(), projectTransaction.getValue() + aux);
             }
         }
-
-        System.out.println("\n\n\n\n\n" +mapTypeValues);
     }
 
     public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
