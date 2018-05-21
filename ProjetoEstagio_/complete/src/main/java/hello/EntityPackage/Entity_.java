@@ -9,5 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Entity_ {
 
     public static volatile SingularAttribute<Entity, Long> id;
+    public static volatile SingularAttribute<Entity, Boolean> actived;
+
 
 }

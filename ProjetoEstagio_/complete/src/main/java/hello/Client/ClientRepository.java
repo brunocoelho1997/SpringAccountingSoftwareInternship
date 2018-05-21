@@ -13,7 +13,10 @@ public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecif
 
     Client findById(long id);
 
-    Page<Client> findAll(Pageable pageable);
+//    Page<Client> findAll(Pageable pageable);
+
+    Page<Client> findAllByActived(Pageable pageable, boolean actived);
+    List<Client> findAllByActived(boolean actived);
 
 
 }

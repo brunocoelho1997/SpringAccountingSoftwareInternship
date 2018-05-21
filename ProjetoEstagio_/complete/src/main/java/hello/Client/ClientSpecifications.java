@@ -14,6 +14,7 @@ public class ClientSpecifications {
 
             Predicate predicateFinal = null;
             Predicate predicateName;
+            Predicate predicateActived;
 
 
             if(!value.isEmpty())
@@ -22,6 +23,11 @@ public class ClientSpecifications {
 
                     Long id = Long.parseLong(value);
                     predicateFinal = cb.equal(root.get(Entity_.id), id);
+
+                    //just show the clients actived
+                    predicateActived = cb.equal(root.get(Entity_.actived), true);
+                    predicateFinal = cb.and(predicateFinal, predicateActived);
+
                     return predicateFinal;
 
                 }catch(NumberFormatException ex){
@@ -31,6 +37,11 @@ public class ClientSpecifications {
                     predicateFinal = predicateName;
                 }
             }
+
+            //just show the clients actived
+            predicateActived = cb.equal(root.get(Entity_.actived), true);
+            predicateFinal = cb.and(predicateFinal, predicateActived);
+
 
             return predicateFinal;
 

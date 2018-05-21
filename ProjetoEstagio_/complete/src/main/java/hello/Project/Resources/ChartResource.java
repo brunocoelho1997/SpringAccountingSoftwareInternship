@@ -12,11 +12,9 @@ public class ChartResource {
     private float totalCosts;
     private float totalRevenues;
 
-    private List<String> costsTypesNames;
-    private List<Float> costsTypesValues;
+    private List<TypeSubtypeResource> typeSubtypeResourcesCosts;
+    private List<TypeSubtypeResource> typeSubtypeResourcesRevenues;
 
-    private List<String> revenuesTypesNames;
-    private List<Float> revenuesTypesValues;
 
 
     public int getPercentageRevenues() {
@@ -59,35 +57,19 @@ public class ChartResource {
         this.totalRevenues = totalRevenues;
     }
 
-    public List<String> getCostsTypesNames() {
-        return costsTypesNames;
+    public List<TypeSubtypeResource> getTypeSubtypeResourcesCosts() {
+        return typeSubtypeResourcesCosts;
     }
 
-    public void setCostsTypesNames(List<String> costsTypesNames) {
-        this.costsTypesNames = costsTypesNames;
+    public void setTypeSubtypeResourcesCosts(List<TypeSubtypeResource> typeSubtypeResourcesCosts) {
+        this.typeSubtypeResourcesCosts = typeSubtypeResourcesCosts;
     }
 
-    public List<Float> getCostsTypesValues() {
-        return costsTypesValues;
+    public List<TypeSubtypeResource> getTypeSubtypeResourcesRevenues() {
+        return typeSubtypeResourcesRevenues;
     }
 
-    public void setCostsTypesValues(List<Float> costsTypesValues) {
-        this.costsTypesValues = costsTypesValues;
-    }
-
-    public List<String> getRevenuesTypesNames() {
-        return revenuesTypesNames;
-    }
-
-    public void setRevenuesTypesNames(List<String> revenuesTypesNames) {
-        this.revenuesTypesNames = revenuesTypesNames;
-    }
-
-    public List<Float> getRevenuesTypesValues() {
-        return revenuesTypesValues;
-    }
-
-    public void setRevenuesTypesValues(List<Float> revenuesTypesValues) {
-        this.revenuesTypesValues = revenuesTypesValues;
+    public void setTypeSubtypeResourcesRevenues(List<TypeSubtypeResource> typeSubtypeResourcesRevenues) {
+        this.typeSubtypeResourcesRevenues = typeSubtypeResourcesRevenues;
     }
 }

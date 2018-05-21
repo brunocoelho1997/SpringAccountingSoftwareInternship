@@ -8,6 +8,7 @@ import hello.CostCenter.CostCenter;
 import hello.CostCenter.CostCenterService;
 import hello.Enums.Genre;
 import hello.Project.Resources.ChartResource;
+import hello.Project.Resources.TypeSubtypeResource;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
 import hello.ProjectTransaction.ProjectTransactionSpecifications;
@@ -135,26 +136,88 @@ public class ProjectService {
         statistic.setTotalCosts(totalCosts);
         statistic.setTotalRevenues(totalRevenues);
 
+        List<TypeSubtypeResource> typeSubtypeResources = new ArrayList<>();
+
+        List<ProjectTransaction> list = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.COST);
+        getValues(list, typeSubtypeResources);
+        statistic.setTypeSubtypeResourcesCosts(typeSubtypeResources);
 
 
-        Map<String, Float> mapTypeValues = new HashMap<>();
-
-        List<ProjectTransaction> listCosts = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.COST);
-        List<String> costTypes = new ArrayList<>();
-        getResult(listCosts, costTypes, mapTypeValues);
-        statistic.setCostsTypesNames(costTypes);
-        statistic.setCostsTypesValues(new ArrayList<Float>(mapTypeValues.values()));
-
-
-        List<ProjectTransaction> listRevenues = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.REVENUE);
-        List<String> revenueTypes = new ArrayList<>();
-        mapTypeValues = new HashMap<>();
-        getResult(listRevenues, revenueTypes, mapTypeValues);
-        statistic.setRevenuesTypesNames(revenueTypes);
-        statistic.setRevenuesTypesValues(new ArrayList<Float>(mapTypeValues.values()));
-
+        list = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.REVENUE);
+        typeSubtypeResources = new ArrayList<>();
+        getValues(list, typeSubtypeResources);
+        statistic.setTypeSubtypeResourcesRevenues(typeSubtypeResources);
 
         return statistic;
+    }
+
+    private void getValues(List<ProjectTransaction> list, List<TypeSubtypeResource> typeSubtypeResources) {
+        Map<String, Float> mapTypeValues = new HashMap<>();
+        //just to help... to validate if type exist in typeSubtypeResources or not
+        //or to get the TypeSubtypeResource because this index is the index of the type in typeSubtypeResources
+        List<String> nameTypesProcessed = new ArrayList<>();
+
+
+
+        for(ProjectTransaction projectTransaction : list){
+            if(!nameTypesProcessed.contains(projectTransaction.getType().getName()))
+            {
+                TypeSubtypeResource resource = new TypeSubtypeResource();
+                resource.setTypeName(projectTransaction.getType().getName());
+                resource.setTypeValueTotal(projectTransaction.getValue());
+
+                processSubType(resource, projectTransaction);
+
+                typeSubtypeResources.add(resource);
+                //indicate this type is exist
+                nameTypesProcessed.add(projectTransaction.getType().getName());
+            }
+            else
+            {
+                int index = nameTypesProcessed.indexOf(projectTransaction.getType().getName());
+                TypeSubtypeResource resource = typeSubtypeResources.get(index);
+                resource.setTypeValueTotal(resource.getTypeValueTotal() + projectTransaction.getValue());
+
+                processSubType(resource, projectTransaction);
+            }
+        }
+
+    }
+
+    private void processSubType(TypeSubtypeResource resource, ProjectTransaction projectTransaction) {
+
+        if(resource.getSubTypeNames() == null)
+        {
+            resource.setSubTypeNames(new ArrayList<>());
+            resource.setSubTypeValues(new ArrayList<>());
+        }
+
+        //if do not have subtype
+        if(projectTransaction.getSubType()==null)
+        {
+            //and do not exist in list subtypeNames the subtype "NoSubTypeDefined"
+            if(!resource.getSubTypeNames().contains("NoSubTypeDefined") ){
+                resource.getSubTypeNames().add("NoSubTypeDefined");
+                resource.getSubTypeValues().add(projectTransaction.getValue());
+            }
+            else
+            {
+                int index = resource.getSubTypeNames().indexOf("NoSubTypeDefined");
+                Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
+                resource.getSubTypeValues().set(index, newValue);
+            }
+
+        }
+        else if(!resource.getSubTypeNames().contains(projectTransaction.getSubType().getName())){
+            resource.getSubTypeNames().add(projectTransaction.getSubType().getName());
+            resource.getSubTypeValues().add(projectTransaction.getValue());
+        }
+        else
+        {
+            int index = resource.getSubTypeNames().indexOf(projectTransaction.getSubType().getName());
+            Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
+            resource.getSubTypeValues().set(index, newValue);
+        }
     }
 
     private void getResult(List<ProjectTransaction> list, List<String> types, Map<String, Float> mapTypeValues)
@@ -193,28 +256,4 @@ public class ProjectService {
 
         return projectPage;
     }
-//
-//    private Page<Project> joinTables(Pageable pageable, List<Project> listByName, List<Project> listByMinDate, List<Project> listByMaxDate, List<Project> listByClient) {
-//
-//        List<Project> projects = new ArrayList<>();
-//
-//        if(!listByName.isEmpty())
-//            projects.addAll(listByName);
-//
-//        System.out.println("\n\n\n\n\n\n\n\n\n" + listByName);
-//
-//
-//        if(!listByMinDate.isEmpty() && listByMinDate!=null)
-//            projects.retainAll(listByMinDate);
-//        if(!listByMaxDate.isEmpty()&& listByMaxDate!=null)
-//            projects.retainAll(listByMaxDate);
-//        if(!listByClient.isEmpty()&& listByClient!=null)
-//            projects.retainAll(listByClient);
-//
-//        System.out.println("\n\n\n\n\n\n\n\n\n" + projects);
-//        System.out.println("aqui");
-//
-//
-//        return new PageImpl<>(projects, pageable,pageable.getPageSize());
-//    }
 }

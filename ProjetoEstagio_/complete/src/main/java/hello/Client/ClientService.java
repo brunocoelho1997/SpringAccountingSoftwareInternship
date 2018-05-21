@@ -21,7 +21,7 @@ public class ClientService {
     ClientRepository repository;
 
     public List<Client> getClients(){
-        return repository.findAll();
+        return repository.findAllByActived(true);
     }
 
     public Page<Client> findAllPageable(Pageable pageable, String value) {
@@ -32,7 +32,7 @@ public class ClientService {
             return filterClients(pageable, value);
 
         else
-            return repository.findAll(pageable);
+            return repository.findAllByActived(pageable, true);
 
     }
 
@@ -74,7 +74,8 @@ public class ClientService {
 
     public void removeClient(Long id) {
         Client c = repository.getOne(id);
-        repository.delete(c);
+        c.setActived(false);
+        repository.save(c);
     }
 
     public Contact getContact(Long id, Long id1) {
@@ -93,7 +94,7 @@ public class ClientService {
 
 
         if(value.isEmpty())
-            return repository.findAll(pageable);
+            return repository.findAllByActived(pageable, true);
 
         Specification<Client> specFilter;
         specFilter= ClientSpecifications.filter(value);

@@ -81,67 +81,70 @@
                             </div>
                         </div>
 
+
                         <br><br>
-                        <div class="container inline">
+                        <div class="container-fluid">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-2"></div>
-                                    <div  class="col-lg-8">
-                                        <div id="percentage-revenues-costs"></div>
-
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">hello</div>
+                                        <div class="content">
+                                            <div id="percentage-revenues-costs"></div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-2"></div>
-
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4"></div>
-                                    <div class="col-lg-4" >
-                                        <div id="bar-chart-by-transactions"></div>
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">hello</div>
+                                        <div class="content">
+                                            <div id="bar-chart-by-transactions"></div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-4"></div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="container">
+                        <br><br><br><br>
+                        <div class="container-fluid">
                             <div class="row">
-                                <div class="col-lg-12 text-center">
-                                    <h3 th:text="#{Chart.CostsByType}"> titulo </h3>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4"></div>
-                                    <div class="col-lg-4" >
-                                        <div id="bar-chart-by-costs"></div>
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" th:text="#{Chart.CostsByType}">titulo</div>
+                                        <div class="content">
+                                            <div id="bar-chart-by-costs"></div>
+                                        </div>
                                     </div>
-
-                                    <div class="col-lg-4"></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" th:text="#{Chart.RevenuesByType}">titulo</div>
+                                        <div class="content">
+                                            <div id="bar-chart-by-revenues"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="container">
+                        <br><br><br><br>
+                        <div class="container-fluid">
                             <div class="row">
-                                <div class="col-lg-12 text-center">
-                                    <h3 th:text="#{Chart.RevenuesByType}"> titulo </h3>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4"></div>
-                                    <div class="col-lg-4" >
-                                        <div id="bar-chart-by-revenues"></div>
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" th:text="#{Chart.CostsByType}">titulo</div>
+                                        <div class="content">
+                                            <div id="bar-chart-by-costs-subtypes"></div>
+                                        </div>
                                     </div>
-
-                                    <div class="col-lg-4"></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" th:text="#{Chart.RevenuesByType}">titulo</div>
+                                        <div class="content">
+                                            <div id="bar-chart-by-revenues-subtypes"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-
                         <div align="right">
                             <a th:href="@{/project/}">
                                 <input class="btn btn-default" th:value="#{System.Back}" />
@@ -160,8 +163,6 @@
 
 
 <div th:replace="fragments/footer :: copy"></div>
-
-
 
 
 <!-- Morris Charts JavaScript -->
@@ -218,10 +219,10 @@
 
                 var order_graph_chat = [];
                 var i;
-                for (i = 0; i < result.costsTypesNames.length; i++) {
+                for (i = 0; i < result.typeSubtypeResourcesCosts.length; i++) {
                     var element = {};
-                    element.y = result.costsTypesNames[i];
-                    element.a = result.costsTypesValues[i];
+                    element.y = result.typeSubtypeResourcesCosts[i].typeName;
+                    element.a = result.typeSubtypeResourcesCosts[i].typeValueTotal;
                     order_graph_chat.push(element);
                 }
 
@@ -236,10 +237,10 @@
                 });
 
                 order_graph_chat = [];
-                for (i = 0; i < result.revenuesTypesNames.length; i++) {
+                for (i = 0; i < result.typeSubtypeResourcesRevenues.length; i++) {
                     var element = {};
-                    element.y = result.revenuesTypesNames[i];
-                    element.a = result.revenuesTypesValues[i];
+                    element.y = result.typeSubtypeResourcesRevenues[i].typeName;
+                    element.a = result.typeSubtypeResourcesRevenues[i].typeValueTotal;
                     order_graph_chat.push(element);
                 }
 
@@ -249,6 +250,84 @@
                     xkey: 'y',
                     ykeys: ['a'],
                     labels: ['Value'],
+                    hideHover: 'auto',
+                    resize: true
+                });
+
+                // -------------------- subtypes
+
+                order_graph_chat = [];
+
+                var x;
+                var names = [];
+                var subTypeNames = [];
+
+                for (i = 0; i < result.typeSubtypeResourcesCosts.length; i++) {
+                    var element = {};
+
+                    x = result.typeSubtypeResourcesCosts[i].typeName;
+                    names.push(x);
+                    element.y = x;
+
+                    for(j = 0; j<result.typeSubtypeResourcesCosts[i].subTypeNames.length; j++)
+                    {
+                        var subTypeName = result.typeSubtypeResourcesCosts[i].subTypeNames[j];
+                        var subTypeValue = result.typeSubtypeResourcesCosts[i].subTypeValues[j];
+
+                        //verify if subTypeName exists in array...
+                        if(!subTypeNames.includes(subTypeName))
+                            subTypeNames.push(subTypeName);
+                        element[subTypeName] = subTypeValue;
+
+                    }
+
+                    order_graph_chat.push(element);
+                }
+
+                Morris.Bar({
+                    element: 'bar-chart-by-costs-subtypes',
+                    data: order_graph_chat,
+                    xkey: 'y',
+                    ykeys: subTypeNames,
+                    labels: subTypeNames,
+                    hideHover: 'auto',
+                    resize: true
+                });
+
+
+                order_graph_chat = [];
+
+                names = [];
+                subTypeNames = [];
+
+                for (i = 0; i < result.typeSubtypeResourcesRevenues.length; i++) {
+                    var element = {};
+
+                    x = result.typeSubtypeResourcesRevenues[i].typeName;
+                    names.push(x);
+                    element.y = x;
+
+                    for(j = 0; j<result.typeSubtypeResourcesRevenues[i].subTypeNames.length; j++)
+                    {
+                        var subTypeName = result.typeSubtypeResourcesRevenues[i].subTypeNames[j];
+                        var subTypeValue = result.typeSubtypeResourcesRevenues[i].subTypeValues[j];
+
+                        //verify if subTypeName exists in array...
+                        if(!subTypeNames.includes(subTypeName))
+                            subTypeNames.push(subTypeName);
+                        element[subTypeName] = subTypeValue;
+
+                    }
+
+                    order_graph_chat.push(element);
+                }
+
+                Morris.Bar({
+                    element: 'bar-chart-by-revenues-subtypes',
+                    data: order_graph_chat,
+                    xkey: 'y',
+                    ykeys: subTypeNames,
+                    labels: subTypeNames,
                     hideHover: 'auto',
                     resize: true
                 });
