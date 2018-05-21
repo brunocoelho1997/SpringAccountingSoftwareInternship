@@ -104,7 +104,7 @@ public class ProjectController implements WebMvcConfigurer {
         }
         projectService.addProject(project);
 
-        model.addAttribute("listProjects", projectService.getProjects());
+        model.addAttribute("listProjects", projectService.getProjectsActived());
 
         return "redirect:/project/";
     }
@@ -126,7 +126,7 @@ public class ProjectController implements WebMvcConfigurer {
         }
         projectService.editProject(project);
 
-        model.addAttribute("listProjects", projectService.getProjects());
+        model.addAttribute("listProjects", projectService.getProjectsActived());
 
         return "redirect:/project/";
     }

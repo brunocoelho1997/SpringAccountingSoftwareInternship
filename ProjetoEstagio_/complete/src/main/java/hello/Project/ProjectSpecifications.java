@@ -24,6 +24,8 @@ public class ProjectSpecifications {
             Predicate predicateDateSince;
             Predicate predicateDateUntil;
             Predicate predicateClient;
+            Predicate predicateActived;
+
 
             if(!value.isEmpty())
             {
@@ -74,6 +76,12 @@ public class ProjectSpecifications {
                 else
                     predicateFinal = predicateClient;
             }
+
+
+            //just show the clients actived
+            predicateActived = cb.equal(root.get(Entity_.actived), true);
+            predicateFinal = cb.and(predicateFinal, predicateActived);
+
             return predicateFinal;
 
         };

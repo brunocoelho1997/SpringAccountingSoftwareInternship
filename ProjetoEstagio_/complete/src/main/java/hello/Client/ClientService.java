@@ -21,6 +21,10 @@ public class ClientService {
     ClientRepository repository;
 
     public List<Client> getClients(){
+        return repository.findAll();
+    }
+
+    public List<Client> getClientsActived(){
         return repository.findAllByActived(true);
     }
 

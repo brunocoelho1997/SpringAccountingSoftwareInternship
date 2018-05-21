@@ -15,7 +15,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 
     Project findById(long id);
 
-    List<Project> findAll();
-
-    Page<Project> findAll(Pageable pageable);
+    Page<Project> findAllByActived(Pageable pageable, boolean actived);
+    List<Project> findAllByActived(boolean actived);
 }

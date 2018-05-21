@@ -108,7 +108,7 @@ public class ClientController implements WebMvcConfigurer {
 
         clientService.addClient(client);
 
-        model.addAttribute("listClients", clientService.getClients());
+        model.addAttribute("listClients", clientService.getClientsActived());
 
         return "redirect:/client/";
     }

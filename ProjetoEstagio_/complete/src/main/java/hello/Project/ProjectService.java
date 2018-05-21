@@ -52,6 +52,10 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
+    public List<Project> getProjectsActived() {
+        return projectRepository.findAllByActived(true);
+    }
+
 
     public Page<Project> findAllPageable(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
 
@@ -63,7 +67,7 @@ public class ProjectService {
         }
 
         else
-            return projectRepository.findAll(pageable);
+            return projectRepository.findAllByActived(pageable, true);
 
     }
 
@@ -84,7 +88,8 @@ public class ProjectService {
 
     public void removeProject(Long id) {
         Project project = getProject(id);
-        projectRepository.delete(project);
+        project.setActived(false);
+        projectRepository.save(project);
     }
 
     public void editProject(@Valid Project editedProject) {
@@ -242,7 +247,7 @@ public class ProjectService {
 
 
         if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
-            return projectRepository.findAll(pageable);
+            return projectRepository.findAllByActived(pageable, true);
         }
 
         Specification<Project> specFilter;
