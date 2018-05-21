@@ -292,7 +292,6 @@ public class DbLoader implements CommandLineRunner {
 
 //            add employee
             Employee employee1 = new Employee();
-            employee1.setActived(true);
 
             Adress adress6 = new Adress();
             adress6.setCity("Faro");
@@ -308,7 +307,6 @@ public class DbLoader implements CommandLineRunner {
             employee1.setPostEmployee(postEmployee1);
 
             Employee employee2 = new Employee();
-            employee2.setActived(true);
             employee2.setPostEmployee(postEmployee3);
 
             Adress adress7 = new Adress();

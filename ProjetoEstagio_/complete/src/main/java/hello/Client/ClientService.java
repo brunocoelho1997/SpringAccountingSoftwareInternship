@@ -2,6 +2,7 @@ package hello.Client;
 
 import hello.Adress.Adress;
 import hello.Contact.Contact;
+import hello.Person.PersonSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -94,17 +95,17 @@ public class ClientService {
 
     public Page<Client> filterClients(Pageable pageable, String value) {
 
-        Page<Client> projectPage = null;
+        Page<Client> page = null;
 
 
         if(value.isEmpty())
             return repository.findAllByActived(pageable, true);
 
         Specification<Client> specFilter;
-        specFilter= ClientSpecifications.filter(value);
+        specFilter= PersonSpecifications.filter(value);
 
-        projectPage = repository.findAll(specFilter, pageable);
+        page = repository.findAll(specFilter, pageable);
 
-        return projectPage;
+        return page;
     }
 }

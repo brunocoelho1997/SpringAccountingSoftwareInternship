@@ -72,46 +72,46 @@
                     </div>
                     <a class="col-sm-6" align="right"onclick="$(form).submit()"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
                 </div>
-
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" th:text="#{Project.PanelHeading}"></div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th th:text="#{Project.Name}"></th>
+                                        <th th:text="#{Project.FinalDate}"></th>
+                                        <th th:text="#{Project.Client}"></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="p : ${listEntitys}">
+                                        <td href="#" th:text="${p.getName()}"></td>
+                                        <td href="#" th:text="${p.getFinalDate()}"></td>
+                                        <td href="#" th:text="${p.getClient().getName()}"></td>
+                                        <td class="center">
+                                            <a class="btn btn-default trash pull-right" th:project-id="${p.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/project/edit_project(id=${p.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/project/info_project(id=${p.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div th:insert="~{fragments/pagination :: pagination}">...</div>
             </form>
         </div>
         <br>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading" th:text="#{Project.PanelHeading}"></div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <table class="table table-striped table-hover" id="dataTables-example">
-                            <thead>
-                            <tr>
-                                <th th:text="#{Project.Name}"></th>
-                                <th th:text="#{Project.FinalDate}"></th>
-                                <th th:text="#{Project.Client}"></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="p : ${listEntitys}">
-                                <td href="#" th:text="${p.getName()}"></td>
-                                <td href="#" th:text="${p.getFinalDate()}"></td>
-                                <td href="#" th:text="${p.getClient().getName()}"></td>
-                                <td class="center">
-                                    <a class="btn btn-default trash pull-right" th:project-id="${p.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
-                                    <a class="btn btn-default pull-right" th:href="@{/project/edit_project(id=${p.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
-                                    <a class="btn btn-default pull-right" th:href="@{/project/info_project(id=${p.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
-            </div>
-            <!-- /.col-lg-12 -->
-        </div>
-        <div th:insert="~{fragments/pagination :: pagination}">...</div>
     </div>
 </div>
 <div id="modal-content"></div>

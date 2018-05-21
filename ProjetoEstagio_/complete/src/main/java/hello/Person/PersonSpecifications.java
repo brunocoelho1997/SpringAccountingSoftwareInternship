@@ -1,13 +1,13 @@
-package hello.Client;
+package hello.Person;
 
+import hello.Client.Client;
+import hello.Client.Client_;
 import hello.EntityPackage.Entity_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
 
-public class ClientSpecifications {
-
-
+public class PersonSpecifications {
     public static Specification<Client> filter(String value) {
         return (root, query, cb) -> {
 
