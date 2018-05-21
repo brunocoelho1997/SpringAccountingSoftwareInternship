@@ -87,7 +87,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">hello</div>
+                                        <div class="panel-heading" th:text="#{Chart.Total.Percentage}"></div>
                                         <div class="content">
                                             <div id="percentage-revenues-costs"></div>
                                         </div>
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">hello</div>
+                                        <div class="panel-heading" th:text="#{Chart.Total.Values}"></div>
                                         <div class="content">
                                             <div id="bar-chart-by-transactions"></div>
                                         </div>
@@ -129,7 +129,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" th:text="#{Chart.CostsByType}">titulo</div>
+                                        <div class="panel-heading" th:text="#{Chart.CostsBySubType}">titulo</div>
                                         <div class="content">
                                             <div id="bar-chart-by-costs-subtypes"></div>
                                         </div>
@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" th:text="#{Chart.RevenuesByType}">titulo</div>
+                                        <div class="panel-heading" th:text="#{Chart.RevenuesBySubType}">titulo</div>
                                         <div class="content">
                                             <div id="bar-chart-by-revenues-subtypes"></div>
                                         </div>

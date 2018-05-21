@@ -138,8 +138,12 @@ public class ProjectService {
         statistic.setPercentageRevenues((int)((totalRevenues*100)/total));
         statistic.setPercentageCosts((int)((totalCosts*100)/total));
         statistic.setTotal(total);
+
         statistic.setTotalCosts(totalCosts);
-        statistic.setTotalRevenues(totalRevenues);
+        double x = totalRevenues;
+        //round
+        double valueRounded = Math.round(x * 100D) / 100D;
+        statistic.setTotalRevenues((float)valueRounded);
 
         List<TypeSubtypeResource> typeSubtypeResources = new ArrayList<>();
 
@@ -222,22 +226,6 @@ public class ProjectService {
             int index = resource.getSubTypeNames().indexOf(projectTransaction.getSubType().getName());
             Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
             resource.getSubTypeValues().set(index, newValue);
-        }
-    }
-
-    private void getResult(List<ProjectTransaction> list, List<String> types, Map<String, Float> mapTypeValues)
-    {
-        for(ProjectTransaction projectTransaction : list){
-            if(!types.contains(projectTransaction.getType().getName()))
-            {
-                types.add(projectTransaction.getType().getName());
-                mapTypeValues.put(projectTransaction.getType().getName(), projectTransaction.getValue());
-            }
-            else
-            {
-                Float aux = mapTypeValues.get(projectTransaction.getType().getName());
-                mapTypeValues.put(projectTransaction.getType().getName(), projectTransaction.getValue() + aux);
-            }
         }
     }
 
