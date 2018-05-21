@@ -2,7 +2,6 @@ package hello.Client;
 
 import hello.Adress.Adress;
 import hello.Contact.Contact;
-import hello.Person.PersonSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -102,7 +101,7 @@ public class ClientService {
             return repository.findAllByActived(pageable, true);
 
         Specification<Client> specFilter;
-        specFilter= PersonSpecifications.filter(value);
+        specFilter= ClientSpecifications.filter(value);
 
         page = repository.findAll(specFilter, pageable);
 

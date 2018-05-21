@@ -1,17 +1,10 @@
 package hello.Employee;
 
-
-import hello.Client.Client;
-import hello.Person.Person;
-import hello.Person.PersonSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @Service
 public class EmployeeService{
@@ -38,8 +31,8 @@ public class EmployeeService{
         if(value.isEmpty())
             return repository.findAllByActived(pageable, true);
 
-        Specification<Client> specFilter;
-        specFilter= PersonSpecifications.filter(value);
+        Specification<Employee> specFilter;
+        specFilter= EmployeeSpecifications.filter(value);
 
         page = repository.findAll(specFilter, pageable);
 

@@ -1,14 +1,14 @@
-package hello.Person;
+package hello.Supplier;
 
-import hello.Client.Client;
-import hello.Client.Client_;
+import hello.Employee.Employee;
 import hello.EntityPackage.Entity_;
+import hello.Person.Person_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
 
-public class PersonSpecifications {
-    public static Specification<Client> filter(String value) {
+public class SupplierSpecifications {
+    public static Specification<Supplier> filter(String value) {
         return (root, query, cb) -> {
 
 
@@ -24,7 +24,7 @@ public class PersonSpecifications {
                     Long id = Long.parseLong(value);
                     predicateFinal = cb.equal(root.get(Entity_.id), id);
 
-                    //just show the clients actived
+                    //just show the persons actived
                     predicateActived = cb.equal(root.get(Entity_.actived), true);
                     predicateFinal = cb.and(predicateFinal, predicateActived);
 
@@ -33,12 +33,12 @@ public class PersonSpecifications {
                 }catch(NumberFormatException ex){
 
                     String name = value;
-                    predicateName = cb.like(root.get(Client_.name), name);
+                    predicateName = cb.like(root.get(Person_.name), name);
                     predicateFinal = predicateName;
                 }
             }
 
-            //just show the clients actived
+            //just show the persons actived
             predicateActived = cb.equal(root.get(Entity_.actived), true);
             predicateFinal = cb.and(predicateFinal, predicateActived);
 
