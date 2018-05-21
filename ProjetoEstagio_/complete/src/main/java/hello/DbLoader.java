@@ -73,6 +73,10 @@ public class DbLoader implements CommandLineRunner {
             subType2.setName("Estruturação");
 
 
+            subTypeRepository.save(subType1);
+            subTypeRepository.save(subType2);
+
+
 //      add types
             Type type1 = new Type();
             type1.setCategory(Category.PROJECTS);
@@ -246,8 +250,31 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction2.setGenre(Genre.COST);
             projectTransaction2.setType(type2);
 
+            ProjectTransaction projectTransaction3 = new ProjectTransaction();
+            projectTransaction3.setDate(randomDate1);
+            projectTransaction3.setName("Despesa de Projeto 2");
+            projectTransaction3.setFrequency(Frequency.DAILY);
+            projectTransaction3.setValue((float)35.1);
+            projectTransaction3.setProject(project1);
+            projectTransaction3.setGenre(Genre.COST);
+            projectTransaction3.setType(type1);
+            projectTransaction3.setSubType(subType1);
+
+            ProjectTransaction projectTransaction4 = new ProjectTransaction();
+            projectTransaction4.setDate(randomDate1);
+            projectTransaction4.setName("Receita de Projeto 2");
+            projectTransaction4.setFrequency(Frequency.DAILY);
+            projectTransaction4.setValue((float)261.9);
+            projectTransaction4.setProject(project1);
+            projectTransaction4.setGenre(Genre.REVENUE);
+            projectTransaction4.setType(type1);
+            projectTransaction4.setSubType(subType2);
+
+
             projectTransactionRepository.save(projectTransaction1);
             projectTransactionRepository.save(projectTransaction2);
+            projectTransactionRepository.save(projectTransaction3);
+            projectTransactionRepository.save(projectTransaction4);
 
 
 

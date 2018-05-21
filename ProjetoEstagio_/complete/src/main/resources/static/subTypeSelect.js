@@ -23,6 +23,12 @@ $( ".selectedType" )
                 option.value = 0;
                 $('#subTypesOfType').append(option);
                 $('#subTypesOfType').append(result);
+
+                // define subtype selected
+                var subtype_id_selected = $('#subTypesOfType').data('subtype-id');
+                $("#subTypesOfType").val(subtype_id_selected);
+                // alert(subtype_id_selected);
+
             }).fail(function (jqXHR, textStatus) {
                 alert(textStatus);
             });
