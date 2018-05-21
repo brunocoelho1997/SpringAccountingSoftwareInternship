@@ -46,8 +46,8 @@ public class ProjectTransactionService {
         Project project = projectService.getProject(projectTransaction.getProject().getId());
         projectTransaction.setProject(project);
 
-        if(projectTransaction.getSubType().getId()==0)
-            projectTransaction.setSubType(null);
+//        if(projectTransaction.getSubType().getId()==0)
+//            projectTransaction.setSubType(null);
         repository.save(projectTransaction);
     }
 
