@@ -76,6 +76,12 @@ public class ProjectController implements WebMvcConfigurer {
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
 
+        //TODO: correto?
+        modelAndView.addObject("value_filter", value);
+        modelAndView.addObject("date_since", dateSince);
+        modelAndView.addObject("date_until", dateUntil);
+        modelAndView.addObject("client_id", clientId);
+
         return modelAndView;
     }
 

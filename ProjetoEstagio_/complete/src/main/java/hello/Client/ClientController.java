@@ -64,6 +64,8 @@ public class ClientController implements WebMvcConfigurer {
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
 
+        modelAndView.addObject("value_filter", value);
+
         return modelAndView;
     }
 
@@ -95,7 +97,6 @@ public class ClientController implements WebMvcConfigurer {
 
         model.addAttribute("client", client);
         model.addAttribute("listPostContact", postContactService.getAll());
-
         return "Client/add_client";
     }
 

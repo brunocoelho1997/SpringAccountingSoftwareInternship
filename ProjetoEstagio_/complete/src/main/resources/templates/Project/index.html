@@ -24,7 +24,7 @@
 
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Filter.Search}"></span>
-                            <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
+                            <input th:value="${value_filter}" name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
                             <!--<span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>-->
                         </div>
                     </div>
@@ -37,7 +37,8 @@
                                 <option value="0" />
                                 <option th:each="c : ${listClients}"
                                         th:value="${c.getId()}"
-                                        th:utext="${c.getName()}"/>
+                                        th:utext="${c.getName()}"
+                                        th:selected="${c.getId() == client_id}"/>
                             </select>
                             <!--<span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>-->
                         </div>
@@ -58,14 +59,14 @@
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{System.Since}"></span>
-                            <input type="date" name="date_since" class="form-control" >
+                            <input type="date" th:value="${date_since}" name="date_since" class="form-control" >
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{System.Until}"></span>
-                            <input type="date" name="date_until" class="form-control" >
+                            <input type="date" th:value="${date_until}" name="date_until" class="form-control" >
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
