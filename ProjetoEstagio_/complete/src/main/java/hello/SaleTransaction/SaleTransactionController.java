@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static hello.Application.*;
@@ -75,5 +77,71 @@ public class SaleTransactionController implements WebMvcConfigurer {
         modelAndView.addObject("value_until", valueUntil);
 
         return modelAndView;
+    }
+
+    @GetMapping("/add_transaction")
+    public String addRevenue(Model model) {
+
+        SaleTransaction revenue = new SaleTransaction();
+        revenue.setGenre(Genre.REVENUE);
+        model.addAttribute("transaction", revenue);
+        model.addAttribute("types", typeService.getTypes());
+
+        return "SaleTransaction/add_transaction";
+    }
+
+    @PostMapping("/add_transaction")
+    public String addRevenue(Model model, @Valid @ModelAttribute("transaction") SaleTransaction saleTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("types", typeService.getTypes());
+            return "SaleTransaction/add_transaction";
+        }
+        saleTransactionService.addTransaction(saleTransaction);
+        return "redirect:/sale_transaction/";
+    }
+
+    @GetMapping("/edit_transaction")
+    public String editTransaction(Model model,@RequestParam("id") Long id) {
+
+        SaleTransaction revenue = saleTransactionService.getSaleTransaction(id);
+        model.addAttribute("transaction", revenue);
+        model.addAttribute("types", typeService.getTypes());
+
+        return "SaleTransaction/edit_transaction";
+    }
+    @PostMapping("/edit_transaction")
+    public String editTransaction(Model model, @Valid @ModelAttribute("transaction") SaleTransaction saleTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("types", typeService.getTypes());
+            return "SaleTransaction/edit_transaction";
+        }
+        saleTransactionService.editSaleTransaction(saleTransaction);
+
+        return "redirect:/sale_transaction/";
+
+    }
+
+    @RequestMapping("/remove_transaction")
+    public String removeTransaction(@RequestParam("id") Long id, Model model) {
+
+        SaleTransaction saleTransaction = saleTransactionService.getSaleTransaction(id);
+        model.addAttribute("transaction", saleTransaction);
+
+        return "SaleTransaction/remove_transaction :: modal";
+    }
+    @DeleteMapping("/remove_transaction")
+    public @ResponseBody String removeTransaction(@RequestParam("id") Long id) {
+        saleTransactionService.removeSaleTransaction(id);
+        return "redirect:/sale_transaction/";
+    }
+
+    @RequestMapping("/info_transaction")
+    public String infoTransaction(@Valid @RequestParam("id") Long id, Model model) {
+
+        SaleTransaction saleTransaction = saleTransactionService.getSaleTransaction(id);
+
+        model.addAttribute("transaction", saleTransaction);
+        return "SaleTransaction/info_transaction";
     }
 }

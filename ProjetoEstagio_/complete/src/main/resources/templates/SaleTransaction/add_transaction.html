@@ -8,32 +8,20 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header" th:if="${transaction !=null}">
-                    <h1 th:text="#{Transactions.Revenue.Edit}" th:remove="tag" />
-                    <label th:text="${transaction.getName()}"/>
-                </h1>
-                <h1 class="page-header" th:unless="${transaction!=null}"> <label th:text="#{Transactions.NotFound}"/></h1>
+                <h1 class="page-header" th:text="#{Transactions.Projects.Cost.Header}">header</h1>
             </div>
+            <!-- /.col-lg-12 -->
         </div>
-        <div class="row" th:unless="${transaction !=null}" th:text="#{Transactions.NotFoundDescription}"></div>
         <div class="row" th:if="${transaction != null}">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" th:text="#{Transactions.Revenue.Edit}"> Adicionar
+                    <div class="panel-heading" th:text="#{Transactions.Revenue.Add}"> Adicionar
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <form th:action="@{/project_transaction/edit_transaction}" th:object="${transaction}" method="post">
+                        <form th:action="@{/sale_transaction/add_transaction}" th:object="${transaction}" method="post">
                             <div class="form-horizontal">
                                 <input th:type="hidden" th:field="*{genre}"/>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Entity.Id}"></label>
-                                    <div class="col-sm-6">
-                                        <p th:text="*{id}"></p>
-                                        <input class="form-control" th:type="hidden" th:field="*{id}" />
-                                    </div>
-                                    <div class="col-sm-3"></div>
-                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Frequency}"></label>
                                     <div class="col-sm-6">
@@ -87,23 +75,8 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
                                         <select class="form-control" th:id="subTypesOfType" th:field="*{subType.id}">
-                                            <option th:each="subtype : *{type.getSubTypeList()}"
-                                                    th:value="${subtype.getId()}"
-                                                    th:utext="${subtype.getName()}"/>
                                         </select>
                                         <p class="text-danger" th:if="${#fields.hasErrors('subType')}" th:errors="*{subType}">Name Error</p>
-                                    </div>
-                                    <div class="col-sm-3"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Transactions.Projects.Project}"></label>
-                                    <div class="col-sm-6">
-                                        <select class="form-control" th:field="*{project.id}" required>
-                                            <option th:each="project : ${projects}"
-                                                    th:value="${project.getId()}"
-                                                    th:utext="${project.getName()}"/>
-                                        </select>
-                                        <p class="text-danger" th:if="${#fields.hasErrors('project')}" th:errors="*{project}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -118,7 +91,7 @@
                                 <div class="form-group" align="right">
                                     <input type="submit"  class="btn btn-default" th:value="#{System.Save}" />
                                     <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
-                                    <a th:href="@{/sale_transaction/}">
+                                    <a th:href="@{/project_transaction/revenue}">
                                         <input class="btn btn-default" th:value="#{System.Back}" />
                                     </a>
                                 </div>
@@ -135,44 +108,9 @@
     </div>
 </div>
 
-<script>
+<script src="../subTypeSelect.js"></script>
 
-    $( ".selectedType" )
-        .change(function () {
 
-            var selectedTypeValue;
-
-            $( ".selectedType option:selected" ).each(function() {
-                selectedTypeValue = $( this ).val();
-            });
-
-            // alert(selectedTypeValue);
-
-            if(selectedTypeValue !=null)
-            {
-                var opt = {
-                    type: 'GET',
-                    url: '/type/get_subTypes?id=' + selectedTypeValue
-                }
-
-                $.ajax(opt).done(function (result) {
-                    $('#subTypesOfType').html(''); //to clear all options
-                    var option = document.createElement("option");
-                    option.text = "";
-                    option.value = 0;
-                    $('#subTypesOfType').append(option);
-                    $('#subTypesOfType').append(result);
-                }).fail(function (jqXHR, textStatus) {
-                    alert(textStatus);
-                });
-            }
-        });
-
-    /*
-    TODO: passar todos os scripts para js externos. ATENCAO: este e' diferente do add_revenue... este nao tinha o .change() no fim!!!! E funcionava!! ver se nao era erro de cache!!
-     */
-
-</script>
 
 <div th:replace="fragments/footer :: copy"></div>
 </body>

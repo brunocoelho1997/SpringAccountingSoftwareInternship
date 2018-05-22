@@ -71,7 +71,7 @@ public class SaleTransactionService {
         repository.delete(saleTransaction);
     }
 
-    public void editProjectTransaction(@Valid SaleTransaction editedSaleTransaction) {
+    public void editSaleTransaction(@Valid SaleTransaction editedSaleTransaction) {
         SaleTransaction projectTransaction = getSaleTransaction((long)editedSaleTransaction.getId());
 
         projectTransaction.setGenre(editedSaleTransaction.getGenre());

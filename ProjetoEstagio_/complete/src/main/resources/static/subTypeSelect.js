@@ -1,3 +1,11 @@
+// // server just send all options... but subtype is not required so we need to add empty option
+// $( document ).ready(function() {
+//     var option = document.createElement("option");
+//     option.text = "";
+//     option.value = 0;
+//     $('#subTypesOfType').prepend(option);
+// });
+
 $( ".selectedType" )
     .change(function () {
 

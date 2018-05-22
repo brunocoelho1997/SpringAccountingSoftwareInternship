@@ -443,7 +443,7 @@ public class DbLoader implements CommandLineRunner {
             saleTransaction2.setFrequency(Frequency.MONTHLY);
             saleTransaction2.setValue((float)120.3);
             saleTransaction2.setGenre(Genre.REVENUE);
-            saleTransaction2.setType(type2);
+            saleTransaction2.setType(type1);
             saleTransaction2.setSubType(subType2);
 
             SaleTransaction saleTransaction3 = new SaleTransaction();
