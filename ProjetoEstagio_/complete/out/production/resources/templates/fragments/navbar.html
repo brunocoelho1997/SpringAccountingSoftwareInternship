@@ -49,7 +49,7 @@
                             <a th:href="@{/project_transaction/revenue}" th:text="#{Menu.Projects}">Projetos</a>
                         </li>
                         <li>
-                            <a href="receitas_vendas.html" th:text="#{Menu.Sales}">Vendas</a>
+                            <a th:href="@{/sale_transaction/}" th:text="#{Menu.Sales}">Vendas</a>
                         </li>
                     </ul>
                 </li>
@@ -60,7 +60,10 @@
                             <a href="despesas_gerais.html" th:text="#{Menu.General}">Geral</a>
                         </li>
                         <li>
-                            <a href="despesas_funcionarios.html" th:text="#{Menu.Employees}">Funcionários / Folha</a>
+                            <a th:href="@{/employee_transaction/}" th:text="#{Menu.Employees}">Funcionários </a>
+                        </li>
+                        <li>
+                            <a th:text="#{Menu.Sheet}">Folha </a>
                         </li>
                         <li>
                             <a href="despesas_fornecedores.html" th:text="#{Menu.Suppliers}">Fornecedores</a>

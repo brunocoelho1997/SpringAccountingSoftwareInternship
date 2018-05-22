@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: copy"></head>
+
+<body>
+<div id="wrapper">
+    <div th:insert="~{fragments/navbar :: navbar}">...</div>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" th:text="#{Supplier.Header}"></h1>
+            </div>
+        </div>
+        <div class = "container-fluid">
+            <form th:action="@{/supplier/}" method="get" id="form">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon" th:text="#{Filter.Search}"></span>
+                            <input name="value_filter" type="text" class="form-control" th:placeholder="#{Filter.Client.Search}">
+                            <span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-8"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12" align="right" >
+                        <a th:href="@{/supplier/add_supplier}">
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal">
+                                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{Supplier.Add}"></span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" th:text="#{Supplier.PanelHeading}"></div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <table width="100%" class="table table-striped table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr>
+                                    <tr>
+                                        <th th:text="#{Person.Name}"></th>
+                                        <th th:text="#{Person.Email}"></th>
+                                        <th></th>
+                                    </tr>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:if="${listEntitys==null}"><td>Null</td></tr>
+                                    <tr th:unless="${listEntitys==null}" th:each="e : ${listEntitys}">
+                                        <td href="#" th:text="${e.getName()}"></td>
+                                        <td th:text="${e.getEmail()}">1</td>
+                                        <td class="center">
+                                            <a class="btn btn-default trash pull-right" th:supplier-id="${e.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/supplier/edit_supplier(id=${e.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/supplier/info_supplier(id=${e.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div th:insert="~{fragments/pagination :: pagination}">...</div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="modal-content"></div>
+<script src="../pagination.js"></script>
+<script>
+    $( document ).ready(function () {
+
+        $('a.trash').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/supplier/remove_supplier?id=' + $(this).attr('supplier-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#remove-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
+
+    });
+
+    function deleteSupplier(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/supplier/remove_supplier?id=' + id
+
+        }).done(function (result) {
+            $('a[supplier-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+
+    }
+</script>
+<div th:replace="fragments/footer :: copy"></div>
+</body>
+</html>

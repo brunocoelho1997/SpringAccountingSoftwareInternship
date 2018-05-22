@@ -8,6 +8,8 @@ import hello.CostCenter.CostCenter;
 import hello.CostCenter.CostCenterRepository;
 import hello.Employee.Employee;
 import hello.Employee.EmployeeRepository;
+import hello.EmployeeTransaction.EmployeeTransaction;
+import hello.EmployeeTransaction.EmployeeTransactionRepository;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Enums.Category;
@@ -19,8 +21,13 @@ import hello.Project.Project;
 import hello.Project.ProjectRepository;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
+import hello.SaleTransaction.SaleTransaction;
+import hello.SaleTransaction.SaleTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
+import hello.Supplier.Resources.StringContact;
+import hello.Supplier.Supplier;
+import hello.Supplier.SupplierRepository;
 import hello.Type.Type;
 import hello.Type.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +66,14 @@ public class DbLoader implements CommandLineRunner {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private SupplierRepository supplierRepository;
+
+    @Autowired
+    private EmployeeTransactionRepository employeeTransactionRepository;
+
+    @Autowired
+    private SaleTransactionRepository saleTransactionRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -324,6 +339,124 @@ public class DbLoader implements CommandLineRunner {
 
             employeeRepository.save(employee1);
             employeeRepository.save(employee2);
+
+
+//            add supplier
+            Supplier supplier1 = new Supplier();
+            Adress adress8 = new Adress();
+            adress8.setCity("Faro");
+            adress8.setZipCode("5550-143");
+            adress8.setNumber(3);
+            adress8.setAdressName("Rua De Faro");
+
+
+            supplier1.setAdresses(new ArrayList<>());
+            supplier1.getAdresses().add(adress8);
+            supplier1.setNumberPhone("939898345");
+            supplier1.setEmail("fornecedor1@isec.pt");
+            supplier1.setName("Fornecedor1");
+            StringContact stringContact1 = new StringContact();
+            stringContact1.setContact("912345654");
+            supplier1.setContacts(new ArrayList<>());
+            supplier1.getContacts().add(stringContact1);
+
+
+            Adress adress9 = new Adress();
+            adress9.setCity("Óbidos");
+            adress9.setZipCode("5550-143");
+            adress9.setNumber(3);
+            adress9.setAdressName("Rua De Faro");
+
+            StringContact stringContact2 = new StringContact();
+            stringContact2.setContact("234432345");
+            StringContact stringContact3 = new StringContact();
+            stringContact3.setContact("678543213");
+
+            Supplier supplier2 = new Supplier();
+            supplier2.setAdresses(new ArrayList<>());
+            supplier2.getAdresses().add(adress9);
+            supplier2.setNumberPhone("939898345");
+            supplier2.setEmail("fornecedor2@isec.pt");
+            supplier2.setName("Fornecedor2");
+            supplier2.setContacts(new ArrayList<>());
+            supplier2.getContacts().add(stringContact2);
+            supplier2.getContacts().add(stringContact3);
+
+
+
+            supplierRepository.save(supplier2);
+            supplierRepository.save(supplier1);
+
+
+
+//            about empployee transactiosn
+            EmployeeTransaction employeeTransaction1 = new EmployeeTransaction();
+            employeeTransaction1.setDate(randomDate1);
+            employeeTransaction1.setName("Despesa de Funcionário 1");
+            employeeTransaction1.setFrequency(Frequency.DAILY);
+            employeeTransaction1.setValue((float)20.3);
+            employeeTransaction1.setProject(project1);
+            employeeTransaction1.setEmployee(employee1);
+            employeeTransaction1.setGenre(Genre.COST);
+            employeeTransaction1.setType(type2);
+
+            EmployeeTransaction employeeTransaction2 = new EmployeeTransaction();
+            employeeTransaction2.setDate(randomDate1);
+            employeeTransaction2.setName("Despesa de Funcionário 2");
+            employeeTransaction2.setFrequency(Frequency.DAILY);
+            employeeTransaction2.setValue((float)20.3);
+            employeeTransaction2.setProject(project1);
+            employeeTransaction2.setEmployee(employee1);
+            employeeTransaction2.setGenre(Genre.COST);
+            employeeTransaction2.setType(type1);
+            employeeTransaction2.setSubType(subType1);
+
+
+            EmployeeTransaction employeeTransaction3 = new EmployeeTransaction();
+            employeeTransaction3.setDate(randomDate1);
+            employeeTransaction3.setName("Despesa de Funcionário 3");
+            employeeTransaction3.setFrequency(Frequency.DAILY);
+            employeeTransaction3.setValue((float)20.3);
+            employeeTransaction3.setProject(project1);
+            employeeTransaction3.setEmployee(employee2);
+            employeeTransaction3.setGenre(Genre.COST);
+            employeeTransaction3.setType(type2);
+
+
+            employeeTransactionRepository.save(employeeTransaction1);
+            employeeTransactionRepository.save(employeeTransaction2);
+            employeeTransactionRepository.save(employeeTransaction3);
+
+
+//            about sale transactiosn
+            SaleTransaction saleTransaction1 = new SaleTransaction();
+            saleTransaction1.setDate(randomDate1);
+            saleTransaction1.setName("Receita de Venda 1");
+            saleTransaction1.setFrequency(Frequency.DAILY);
+            saleTransaction1.setValue((float)20.3);
+            saleTransaction1.setGenre(Genre.REVENUE);
+            saleTransaction1.setType(type2);
+
+            SaleTransaction saleTransaction2 = new SaleTransaction();
+            saleTransaction2.setDate(randomDate1);
+            saleTransaction2.setName("Receita de Venda 2");
+            saleTransaction2.setFrequency(Frequency.MONTHLY);
+            saleTransaction2.setValue((float)120.3);
+            saleTransaction2.setGenre(Genre.REVENUE);
+            saleTransaction2.setType(type2);
+            saleTransaction2.setSubType(subType2);
+
+            SaleTransaction saleTransaction3 = new SaleTransaction();
+            saleTransaction3.setDate(randomDate1);
+            saleTransaction3.setName("Receita de Venda 3");
+            saleTransaction3.setFrequency(Frequency.DAILY);
+            saleTransaction3.setValue((float)10.1);
+            saleTransaction3.setGenre(Genre.REVENUE);
+            saleTransaction3.setType(type1);
+
+            saleTransactionRepository.save(saleTransaction1);
+            saleTransactionRepository.save(saleTransaction2);
+            saleTransactionRepository.save(saleTransaction3);
 
         }
     }

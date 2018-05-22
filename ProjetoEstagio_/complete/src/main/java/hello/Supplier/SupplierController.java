@@ -79,7 +79,10 @@ public class SupplierController {
         contacts.add(new StringContact());
         supplier.setContacts(contacts);
 
-        return "Employee/add_employee";
+        model.addAttribute("supplier", supplier);
+
+
+        return "Supplier/add_supplier";
     }
 
     @PostMapping("/add_supplier")
@@ -90,6 +93,6 @@ public class SupplierController {
 
         supplierService.addSupplier(supplier);
 
-        return "redirect:/employee/";
+        return "redirect:/supplier/";
     }
 }

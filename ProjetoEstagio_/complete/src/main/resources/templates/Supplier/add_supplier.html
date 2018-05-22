@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: copy"></head>
+<body>
+<div id="wrapper">
+
+    <div th:replace="~{fragments/navbar :: navbar}">...</div>
+
+    <!--<script src="../../static/add_edit_client.js"></script>-->
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" th:text="#{Supplier.Header}"></h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" th:text="#{Supplier.Add}"> Adicionar
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form th:action="@{/supplier/add_supplier}" th:object="${supplier}" method="post">
+                            <div class="form-group" align="right">
+                                <input type="submit"  class="btn btn-default" th:value="#{System.Add}" />
+                                <a th:href="@{/employee/}">
+                                    <input class="btn btn-default" th:value="#{System.Back}" />
+                                </a>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Person.Name}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{name}" required th:maxlength="${T(hello.Supplier.Supplier).MAX_NAME_LENGHT}"/>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Person.Email}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{email}" required th:maxlength="${T(hello.Supplier.Supplier).MAX_EMAIL_LENGHT}"/>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</p>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3"  th:text="#{Person.NumberPhone}"></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" th:field="*{numberPhone}" required th:maxlength="${T(hello.Supplier.Supplier).MAX_NUMBERPHONE_LENGHT}">
+                                        <p class="text-danger" th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Name Error</p>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <!--<div class="form-group">-->
+                                    <!--<label class="control-label col-sm-3"  th:text="#{Employee.Post}"></label>-->
+                                    <!--<div class="col-sm-6">-->
+                                        <!--<select class="form-control selectedType" th:field="*{postEmployee}" required>-->
+                                            <!--<option th:each="post : ${postEmployeeList}"-->
+                                                    <!--th:value="${post.getId()}"-->
+                                                    <!--th:utext="${post.getName()}"/>-->
+                                        <!--</select>-->
+                                        <!--<p class="text-danger" th:if="${#fields.hasErrors('postEmployee')}" th:errors="*{postEmployee}">Name Error</p>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-sm-3"></div>-->
+                                <!--</div>-->
+                                <div class="row">
+                                    <br>
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-8">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" th:text="#{Adress.PanelHeader}"></div>
+                                            <table width="100%" class="table table-striped table-hover adresses">
+                                                <thead>
+                                                <tr>
+                                                    <th th:text="#{Adress.City}"></th>
+                                                    <th th:text="#{Adress.Adress}"></th>
+                                                    <th th:text="#{Adress.ZipCode}"></th>
+                                                    <th th:text="#{Adress.Number}"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody th:id="listAdresses">
+                                                <tr th:each="ad,rowStat : *{adresses}" >
+                                                    <td>
+                                                        <input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].city}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].city')}" th:errors="*{adresses[__${rowStat.index}__].city}">Name Error</p>
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].adressName}" required th:maxlength="${T(hello.Adress.Adress).MAX_ADRESSNAME_LENGHT}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].adressName')}" th:errors="*{adresses[__${rowStat.index}__].adressName}">Name Error</p>
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" type="text" th:field="*{adresses[__${rowStat.index}__].zipCode}" th:maxlength="${T(hello.Adress.Adress).MAX_ZIPCODE_LENGHT}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].zipCode')}" th:errors="*{adresses[__${rowStat.index}__].zipCode}">Name Error</p>
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" type="number" th:field="*{adresses[__${rowStat.index}__].number}" th:maxlength="${T(hello.Adress.Adress).MAX_NUMBER_SIZE}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('adresses[__${rowStat.index}__].number')}" th:errors="*{adresses[__${rowStat.index}__].number}">Name Error</p>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div align="right">
+                                            <a class="btn btn-danger pull-right" id="removeAdress"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default pull-right" th:text="#{Adress.Supplier.Add}" id="addAdress"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+</div>
+
+<script src="../add_remove_adress.js"></script>
+
+
+<div th:replace="fragments/footer :: copy"></div>
+</body>
+</html>
