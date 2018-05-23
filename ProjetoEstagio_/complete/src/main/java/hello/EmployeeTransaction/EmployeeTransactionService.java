@@ -54,11 +54,8 @@ public class EmployeeTransactionService {
 
         Page<EmployeeTransaction> projectTransactionsPage = null;
 
-
         if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && projectId == 0 && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             return repository.findAllByGenre(pageable, genre);
-
-
 
         Specification<EmployeeTransaction> specFilter;
 

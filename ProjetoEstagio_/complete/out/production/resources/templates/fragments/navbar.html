@@ -71,11 +71,14 @@
                         <li>
                             <a th:href="@{/project_transaction/cost}" th:text="#{Menu.Projects}">Projetos</a>
                         </li>
+                        <li>
+                            <a th:href="@{/project_transaction/cost}">Comissões</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
-                    <!--TODO: previsoes? Pode-se chamar disto mesmo?-->
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Previsões<span class="fa arrow"></span></a>
+                    <!--TODO: por isto em messages.proprierties; (os outros tbm, os principais) -->
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Projeção Financeira<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="previsoes_despesas.html">Despesas Previstas</a>
@@ -115,7 +118,7 @@
                             <a href="flot.html" th:text="#{Menu.Permissions}">Permissões</a>
                         </li>
                         <li>
-                            <a href="config_tipos.html" th:text="#{Menu.Types}">Gerir Tipos</a>
+                            <a th:href="@{/type/}" th:text="#{Menu.Types}">Gerir Tipos</a>
                         </li>
                         <li>
                             <a href="utilizadores.html" th:text="#{Menu.Users}">Gerir Utilizadores</a>

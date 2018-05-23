@@ -87,6 +87,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
                                         <select class="form-control" th:id="subTypesOfType" th:field="*{subType.id}">
+                                            <option th:value="0" />
                                             <option th:each="subtype : *{type.getSubTypeList()}"
                                                     th:value="${subtype.getId()}"
                                                     th:utext="${subtype.getName()}"/>

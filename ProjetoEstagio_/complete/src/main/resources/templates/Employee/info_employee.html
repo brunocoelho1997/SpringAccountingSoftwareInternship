@@ -44,13 +44,6 @@
                                 <span th:text="#{Employee.Post}">title</span>:
                                 <span th:text="${employee.getPostEmployee().getName()}"></span>
                             </div>
-                            <div>
-                                <span th:text="#{Employee.State}">title</span>:
-
-                                <span th:if="${employee.isActived()} == true" th:text="#{Employee.State.Actived}"> activo</span>
-                                <span th:unless="${employee.isActived()} == true" th:text="#{Employee.State.Inactived}"> ello</span>
-
-                            </div>
                         </div>
 
                         <div class="row">

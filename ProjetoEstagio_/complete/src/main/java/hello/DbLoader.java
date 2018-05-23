@@ -258,7 +258,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction2 = new ProjectTransaction();
             projectTransaction2.setDate(randomDate1);
-            projectTransaction2.setName("Despesa de Projeto 1");
+            projectTransaction2.setName("Despesa de Projeto 2");
             projectTransaction2.setFrequency(Frequency.MONTHLY);
             projectTransaction2.setValue((float)135.3);
             projectTransaction2.setProject(project1);
@@ -267,7 +267,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction3 = new ProjectTransaction();
             projectTransaction3.setDate(randomDate1);
-            projectTransaction3.setName("Despesa de Projeto 2");
+            projectTransaction3.setName("Despesa de Projeto 3");
             projectTransaction3.setFrequency(Frequency.DAILY);
             projectTransaction3.setValue((float)35.1);
             projectTransaction3.setProject(project1);
@@ -277,7 +277,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction4 = new ProjectTransaction();
             projectTransaction4.setDate(randomDate1);
-            projectTransaction4.setName("Receita de Projeto 2");
+            projectTransaction4.setName("Receita de Projeto 4");
             projectTransaction4.setFrequency(Frequency.DAILY);
             projectTransaction4.setValue((float)261.9);
             projectTransaction4.setProject(project1);
@@ -285,11 +285,21 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction4.setType(type1);
             projectTransaction4.setSubType(subType2);
 
+            ProjectTransaction projectTransaction5 = new ProjectTransaction();
+            projectTransaction5.setDate(randomDate1);
+            projectTransaction5.setName("Despesa de Projeto 5");
+            projectTransaction5.setFrequency(Frequency.DAILY);
+            projectTransaction5.setValue((float)23.2);
+            projectTransaction5.setProject(project1);
+            projectTransaction5.setGenre(Genre.COST);
+            projectTransaction5.setType(type1);
+            projectTransaction5.setSubType(subType2);
 
             projectTransactionRepository.save(projectTransaction1);
             projectTransactionRepository.save(projectTransaction2);
             projectTransactionRepository.save(projectTransaction3);
             projectTransactionRepository.save(projectTransaction4);
+            projectTransactionRepository.save(projectTransaction5);
 
 
 

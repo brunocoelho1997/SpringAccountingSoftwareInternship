@@ -68,7 +68,8 @@ public class SaleTransactionService {
 
     public void removeSaleTransaction(Long id) {
         SaleTransaction saleTransaction = getSaleTransaction((long)id);
-        repository.delete(saleTransaction);
+        saleTransaction.setActived(false);
+        repository.save(saleTransaction);
     }
 
     public void editSaleTransaction(@Valid SaleTransaction editedSaleTransaction) {

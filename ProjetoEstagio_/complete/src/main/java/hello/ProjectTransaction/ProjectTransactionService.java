@@ -58,7 +58,8 @@ public class ProjectTransactionService {
 
     public void removeProjectTransaction(Long id) {
         ProjectTransaction projectTransaction = getProjectTransaction((long)id);
-        repository.delete(projectTransaction);
+        projectTransaction.setActived(false);
+        repository.save(projectTransaction);
     }
 
     public void editProjectTransaction(@Valid ProjectTransaction editedProjectTransaction) {
