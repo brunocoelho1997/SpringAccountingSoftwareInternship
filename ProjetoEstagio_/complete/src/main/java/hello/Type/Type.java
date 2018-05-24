@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @javax.persistence.Entity(name="type")
@@ -26,7 +27,7 @@ public class Type extends Entity {
     private String name;
 
     //    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubType> subTypeList;
 
     public Category getCategory() {
@@ -51,6 +52,10 @@ public class Type extends Entity {
 
     public void setSubTypeList(List<SubType> subTypeList) {
         this.subTypeList = subTypeList;
+    }
+
+    public Type() {
+        subTypeList = new ArrayList<>();
     }
 
     @Override

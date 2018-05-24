@@ -352,23 +352,23 @@ public class DbLoader implements CommandLineRunner {
 
 
 //            add supplier
-            Supplier supplier1 = new Supplier();
-            Adress adress8 = new Adress();
-            adress8.setCity("Faro");
-            adress8.setZipCode("5550-143");
-            adress8.setNumber(3);
-            adress8.setAdressName("Rua De Faro");
+//            Supplier supplier1 = new Supplier();
+//            Adress adress8 = new Adress();
+//            adress8.setCity("Faro");
+//            adress8.setZipCode("5550-143");
+//            adress8.setNumber(3);
+//            adress8.setAdressName("Rua De Faro");
 
 
-            supplier1.setAdresses(new ArrayList<>());
-            supplier1.getAdresses().add(adress8);
-            supplier1.setNumberPhone("939898345");
-            supplier1.setEmail("fornecedor1@isec.pt");
-            supplier1.setName("Fornecedor1");
-            StringContact stringContact1 = new StringContact();
-            stringContact1.setContact("912345654");
-            supplier1.setContacts(new ArrayList<>());
-            supplier1.getContacts().add(stringContact1);
+//            supplier1.setAdresses(new ArrayList<>());
+//            supplier1.getAdresses().add(adress8);
+//            supplier1.setNumberPhone("939898345");
+//            supplier1.setEmail("fornecedor1@isec.pt");
+//            supplier1.setName("Fornecedor1");
+//            StringContact stringContact1 = new StringContact();
+//            stringContact1.setContact("912345654");
+//            supplier1.setContacts(new ArrayList<>());
+//            supplier1.getContacts().add(stringContact1);
 
 
             Adress adress9 = new Adress();
@@ -382,20 +382,20 @@ public class DbLoader implements CommandLineRunner {
             StringContact stringContact3 = new StringContact();
             stringContact3.setContact("678543213");
 
-            Supplier supplier2 = new Supplier();
-            supplier2.setAdresses(new ArrayList<>());
-            supplier2.getAdresses().add(adress9);
-            supplier2.setNumberPhone("939898345");
-            supplier2.setEmail("fornecedor2@isec.pt");
-            supplier2.setName("Fornecedor2");
-            supplier2.setContacts(new ArrayList<>());
-            supplier2.getContacts().add(stringContact2);
-            supplier2.getContacts().add(stringContact3);
-
-
-
-            supplierRepository.save(supplier2);
-            supplierRepository.save(supplier1);
+//            Supplier supplier2 = new Supplier();
+//            supplier2.setAdresses(new ArrayList<>());
+//            supplier2.getAdresses().add(adress9);
+//            supplier2.setNumberPhone("939898345");
+//            supplier2.setEmail("fornecedor2@isec.pt");
+//            supplier2.setName("Fornecedor2");
+//            supplier2.setContacts(new ArrayList<>());
+//            supplier2.getContacts().add(stringContact2);
+//            supplier2.getContacts().add(stringContact3);
+//
+//
+//
+//            supplierRepository.save(supplier2);
+//            supplierRepository.save(supplier1);
 
 
 

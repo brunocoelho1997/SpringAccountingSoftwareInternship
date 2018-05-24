@@ -33,7 +33,7 @@ public class SupplierSpecifications {
                 }catch(NumberFormatException ex){
 
                     String name = value;
-                    predicateName = cb.like(root.get(Person_.name), name);
+                    predicateName = cb.like(root.get(Supplier_.name), name);
                     predicateFinal = predicateName;
                 }
             }

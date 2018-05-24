@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class TypeController implements WebMvcConfigurer {
                                         @RequestParam(name="category", required=false) String category
     )
     {
-        ModelAndView modelAndView = new ModelAndView("Client/index");
+        ModelAndView modelAndView = new ModelAndView("Type/index");
 
         // Evaluate page size. If requested parameter is null, return initial
         // page size
@@ -64,7 +65,7 @@ public class TypeController implements WebMvcConfigurer {
         modelAndView.addObject("pager", pager);
 
         modelAndView.addObject("value_filter", value);
-        modelAndView.addObject("category", category);
+
 
 
         return modelAndView;
@@ -73,7 +74,7 @@ public class TypeController implements WebMvcConfigurer {
     @GetMapping("/add_type")
     public String addType(Model model) {
 
-        model.addAttribute("type", new Type());
+        model.addAttribute("type",new Type());
         return "Type/add_type";
     }
 
@@ -85,9 +86,9 @@ public class TypeController implements WebMvcConfigurer {
 
         typeService.addType(type);
 
-        model.addAttribute("listClients", typeService.getTypesActived());
+        model.addAttribute("listEntitys", typeService.getTypesActived());
 
-        return "redirect:/client/";
+        return "redirect:/type/";
     }
 
     @RequestMapping("/edit_type")
@@ -95,7 +96,15 @@ public class TypeController implements WebMvcConfigurer {
         Type type = typeService.getType(id);
         model.addAttribute("type", type);
 
-        return "Client/edit_client";
+        return "Type/edit_type";
+    }
+
+    @RequestMapping("/info_type")
+    public String infoType(@RequestParam("id") Long id, Model model) {
+        Type type = typeService.getType(id);
+        model.addAttribute("type", type);
+
+        return "Type/info_type";
     }
 
     @RequestMapping("/remove_type")
@@ -110,16 +119,15 @@ public class TypeController implements WebMvcConfigurer {
         return "redirect:/type/";
     }
 
-//    @PostMapping("/edit_type")
-//    public String editType(@Valid Client client, BindingResult bindingResult,Model model) {
-//
-//
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("listPostContact", postContactService.getAll());
-//            return "Client/edit_client";
-//        }
-//
-//        clientService.editClient(client);
-//        return "redirect:/client/";
-//    }
+    @PostMapping("/edit_type")
+    public String editType(@Valid Type type, BindingResult bindingResult,Model model) {
+
+
+        if (bindingResult.hasErrors()) {
+            return "Type/edit_type";
+        }
+
+        typeService.editType(type);
+        return "redirect:/type/";
+    }
 }

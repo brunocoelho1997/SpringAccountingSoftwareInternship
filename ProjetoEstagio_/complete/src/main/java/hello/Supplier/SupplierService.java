@@ -41,31 +41,31 @@ public class SupplierService {
         return page;
     }
 
-    public void addSupplier(Supplier supplier) {
-        repository.save(supplier);
-    }
-
-    public Supplier getSupplier(Long id) {
-        return repository.findById((long)id);
-    }
-
-    public void editSupplier(Supplier editedSupplier){
-
-        Supplier supplier = getSupplier(editedSupplier.getId());
-
-        supplier.setActived(editedSupplier.isActived());
-        supplier.setAdresses(editedSupplier.getAdresses());
-        supplier.setName(editedSupplier.getName());
-        supplier.setEmail(editedSupplier.getEmail());
-        supplier.setNumberPhone(editedSupplier.getNumberPhone());
-        supplier.setAdresses(editedSupplier.getAdresses());
-        supplier.setContacts(editedSupplier.getContacts());
-        repository.save(supplier);
-    }
-
-    public void removeSupplier(Long id) {
-        Supplier supplier = getSupplier(id);
-        supplier.setActived(false);
-        repository.save(supplier);
-    }
+//    public void addSupplier(Supplier supplier) {
+//        repository.save(supplier);
+//    }
+//
+//    public Supplier getSupplier(Long id) {
+//        return repository.findById((long)id);
+//    }
+//
+//    public void editSupplier(Supplier editedSupplier){
+//
+//        Supplier supplier = getSupplier(editedSupplier.getId());
+//
+//        supplier.setActived(editedSupplier.isActived());
+//        supplier.setAdresses(editedSupplier.getAdresses());
+//        supplier.setName(editedSupplier.getName());
+//        supplier.setEmail(editedSupplier.getEmail());
+//        supplier.setNumberPhone(editedSupplier.getNumberPhone());
+//        supplier.setAdresses(editedSupplier.getAdresses());
+//        supplier.setContacts(editedSupplier.getContacts());
+//        repository.save(supplier);
+//    }
+//
+//    public void removeSupplier(Long id) {
+//        Supplier supplier = getSupplier(id);
+//        supplier.setActived(false);
+//        repository.save(supplier);
+//    }
 }
