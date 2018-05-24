@@ -106,19 +106,14 @@
                         <br><br><br><br>
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" th:text="#{Chart.CostsByType}">titulo</div>
                                         <div class="content">
                                             <div id="bar-chart-by-costs"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" th:text="#{Chart.RevenuesByType}">titulo</div>
-                                        <div class="content">
-                                            <div id="bar-chart-by-revenues"></div>
+                                            <div class="content" id="container_subtype_costs_charts">
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -127,19 +122,14 @@
                         <br><br><br><br>
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" th:text="#{Chart.CostsBySubType}">titulo</div>
+                                        <div class="panel-heading" th:text="#{Chart.RevenuesByType}">titulo</div>
                                         <div class="content">
-                                            <div id="bar-chart-by-costs-subtypes"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" th:text="#{Chart.RevenuesBySubType}">titulo</div>
-                                        <div class="content">
-                                            <div id="bar-chart-by-revenues-subtypes"></div>
+                                            <div id="bar-chart-by-revenues"></div>
+                                            <div class="content" id="container_subtype_revenues_charts">
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +158,6 @@
 <!-- Morris Charts JavaScript -->
 <script src="../assets/vendor/raphael/raphael.min.js"></script>
 <script src="../assets/vendor/morrisjs/morris.min.js"></script>
-<!--<script src="../assets/js/morris-data.js"></script>-->
 
 
 
@@ -257,42 +246,55 @@
                 // -------------------- subtypes
 
                 order_graph_chat = [];
-
                 var x;
                 var names = [];
                 var subTypeNames = [];
 
                 for (i = 0; i < result.typeSubtypeResourcesCosts.length; i++) {
-                    var element = {};
+
 
                     x = result.typeSubtypeResourcesCosts[i].typeName;
-                    names.push(x);
-                    element.y = x;
+
 
                     for(j = 0; j<result.typeSubtypeResourcesCosts[i].subTypeNames.length; j++)
                     {
+                        var element = {};
                         var subTypeName = result.typeSubtypeResourcesCosts[i].subTypeNames[j];
                         var subTypeValue = result.typeSubtypeResourcesCosts[i].subTypeValues[j];
 
-                        //verify if subTypeName exists in array...
-                        if(!subTypeNames.includes(subTypeName))
-                            subTypeNames.push(subTypeName);
-                        element[subTypeName] = subTypeValue;
-
+                        element.y = subTypeName;
+                        element.a = subTypeValue;
+                        order_graph_chat.push(element);
                     }
 
-                    order_graph_chat.push(element);
+                    //create chart....
+                    $("#container_subtype_costs_charts").append("" +
+                        "<br>" +
+                        "<div class='row'>" +
+                        "<div class='col-sm-1'></div>" +
+                        "<div class='col-sm-9'>" +
+                        "<div class='panel panel-default'>" +
+                        "<div class='panel-heading'>" + x + "</div>" +
+                        "<div class='content'>" +
+                        "<div id='bar-chart-by-costs-subtypes-" + x + "'></div>" +
+                        "</div></div></div></div>"
+                    );
+
+
+                    Morris.Bar({
+                        element: 'bar-chart-by-costs-subtypes-' + x,
+                        data: order_graph_chat,
+                        xkey: 'y',
+                        ykeys: 'a',
+                        labels: ["Value"],
+                        hideHover: 'auto',
+                        resize: true
+                    });
+
+                    order_graph_chat = [];
                 }
 
-                Morris.Bar({
-                    element: 'bar-chart-by-costs-subtypes',
-                    data: order_graph_chat,
-                    xkey: 'y',
-                    ykeys: subTypeNames,
-                    labels: subTypeNames,
-                    hideHover: 'auto',
-                    resize: true
-                });
+
 
 
                 order_graph_chat = [];
@@ -301,36 +303,47 @@
                 subTypeNames = [];
 
                 for (i = 0; i < result.typeSubtypeResourcesRevenues.length; i++) {
-                    var element = {};
 
                     x = result.typeSubtypeResourcesRevenues[i].typeName;
-                    names.push(x);
-                    element.y = x;
 
-                    for(j = 0; j<result.typeSubtypeResourcesRevenues[i].subTypeNames.length; j++)
-                    {
+
+                    for (j = 0; j < result.typeSubtypeResourcesRevenues[i].subTypeNames.length; j++) {
+                        var element = {};
+
                         var subTypeName = result.typeSubtypeResourcesRevenues[i].subTypeNames[j];
                         var subTypeValue = result.typeSubtypeResourcesRevenues[i].subTypeValues[j];
 
-                        //verify if subTypeName exists in array...
-                        if(!subTypeNames.includes(subTypeName))
-                            subTypeNames.push(subTypeName);
-                        element[subTypeName] = subTypeValue;
-
+                        element.y = subTypeName;
+                        element.a = subTypeValue;
+                        order_graph_chat.push(element);
                     }
 
-                    order_graph_chat.push(element);
-                }
+                    //create chart....
+                    $("#container_subtype_revenues_charts").append("" +
+                        "<br>" +
+                        "<div class='row'>" +
+                        "<div class='col-sm-1'></div>" +
+                        "<div class='col-sm-9'>" +
+                        "<div class='panel panel-default'>" +
+                        "<div class='panel-heading'>" + x + "</div>" +
+                        "<div class='content'>" +
+                        "<div id='bar-chart-by-revenues-subtypes-" + x + "'></div>" +
+                        "</div></div></div></div>"
+                    );
 
-                Morris.Bar({
-                    element: 'bar-chart-by-revenues-subtypes',
-                    data: order_graph_chat,
-                    xkey: 'y',
-                    ykeys: subTypeNames,
-                    labels: subTypeNames,
-                    hideHover: 'auto',
-                    resize: true
-                });
+
+                    Morris.Bar({
+                        element: 'bar-chart-by-revenues-subtypes-' + x,
+                        data: order_graph_chat,
+                        xkey: 'y',
+                        ykeys: 'a',
+                        labels: ["Value"],
+                        hideHover: 'auto',
+                        resize: true
+                    });
+
+                    order_graph_chat = [];
+                }
 
             }
 
