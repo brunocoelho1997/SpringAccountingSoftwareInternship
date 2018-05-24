@@ -13,6 +13,8 @@ import hello.EmployeeTransaction.EmployeeTransactionRepository;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Enums.Category;
+import hello.GeneralTransaction.GeneralTransaction;
+import hello.GeneralTransaction.GeneralTransactionRepository;
 import hello.PostContact.PostContact;
 import hello.PostContact.PostContactRepository;
 import hello.PostEmployee.PostEmployee;
@@ -74,6 +76,9 @@ public class DbLoader implements CommandLineRunner {
 
     @Autowired
     private SaleTransactionRepository saleTransactionRepository;
+
+    @Autowired
+    private GeneralTransactionRepository generalTransactionRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -467,6 +472,37 @@ public class DbLoader implements CommandLineRunner {
             saleTransactionRepository.save(saleTransaction1);
             saleTransactionRepository.save(saleTransaction2);
             saleTransactionRepository.save(saleTransaction3);
+
+
+//            about general transactiosn
+            GeneralTransaction generalTransaction1 = new GeneralTransaction();
+            generalTransaction1.setDate(randomDate1);
+            generalTransaction1.setName("Despesa Geral 1");
+            generalTransaction1.setFrequency(Frequency.DAILY);
+            generalTransaction1.setValue((float)20.3);
+            generalTransaction1.setGenre(Genre.COST);
+            generalTransaction1.setType(type2);
+
+            GeneralTransaction generalTransaction2 = new GeneralTransaction();
+            generalTransaction2.setDate(randomDate1);
+            generalTransaction2.setName("Despesa Geral 2");
+            generalTransaction2.setFrequency(Frequency.MONTHLY);
+            generalTransaction2.setValue((float)120.3);
+            generalTransaction2.setGenre(Genre.COST);
+            generalTransaction2.setType(type1);
+            generalTransaction2.setSubType(subType2);
+
+            GeneralTransaction generalTransaction3 = new GeneralTransaction();
+            generalTransaction3.setDate(randomDate1);
+            generalTransaction3.setName("Despesa Geral 3");
+            generalTransaction3.setFrequency(Frequency.DAILY);
+            generalTransaction3.setValue((float)10.1);
+            generalTransaction3.setGenre(Genre.COST);
+            generalTransaction3.setType(type1);
+
+            generalTransactionRepository.save(generalTransaction1);
+            generalTransactionRepository.save(generalTransaction2);
+            generalTransactionRepository.save(generalTransaction3);
 
         }
     }
