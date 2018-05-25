@@ -28,7 +28,7 @@ public class GeneralTransactionService {
         Page<GeneralTransaction> saleTransactionsPage = null;
 
         if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
-            return repository.findAllByGenre(pageable, genre);
+            return repository.findAllByGenreAndActived(pageable, genre, true);
 
         Specification<GeneralTransaction> specFilter;
 
@@ -52,7 +52,7 @@ public class GeneralTransactionService {
             return filterTransactions(pageable, value, frequency, typeId, subTypeId, dateSince, dateUntil, valueSince, valueUntil, genre);
 
         else
-            return repository.findAllByGenre(pageable, genre);
+            return repository.findAllByGenreAndActived(pageable, genre, true);
 
     }
 

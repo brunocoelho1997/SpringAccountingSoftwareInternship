@@ -94,7 +94,7 @@ public class ProjectTransactionService {
             return filterTransactions(pageable, value, frequency, typeId, subTypeId, projectId, dateSince, dateUntil, valueSince, valueUntil, genre);
 
         else
-            return repository.findAllByGenre(pageable, genre);
+            return repository.findAllByGenreAndActived(pageable, genre,true);
 
     }
 
@@ -104,7 +104,7 @@ public class ProjectTransactionService {
 
 
         if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && projectId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
-            return repository.findAllByGenre(pageable, genre);
+            return repository.findAllByGenreAndActived(pageable, genre, true);
 
 
 

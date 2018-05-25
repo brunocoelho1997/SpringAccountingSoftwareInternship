@@ -147,12 +147,12 @@ public class ProjectService {
 
         List<TypeSubtypeResource> typeSubtypeResources = new ArrayList<>();
 
-        List<ProjectTransaction> list = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.COST);
+        List<ProjectTransaction> list = projectTransactionRepository.findDistinctByProjectAndGenreAndActived(project, Genre.COST, true);
         getValues(list, typeSubtypeResources);
         statistic.setTypeSubtypeResourcesCosts(typeSubtypeResources);
 
 
-        list = projectTransactionRepository.findDistinctByProjectAndAndGenre(project, Genre.REVENUE);
+        list = projectTransactionRepository.findDistinctByProjectAndGenreAndActived(project, Genre.REVENUE, true);
         typeSubtypeResources = new ArrayList<>();
         getValues(list, typeSubtypeResources);
         statistic.setTypeSubtypeResourcesRevenues(typeSubtypeResources);

@@ -64,7 +64,6 @@ public class GeneralTransactionController {
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
 
-        //TODO: correto?
         modelAndView.addObject("value_filter", value);
         modelAndView.addObject("frequency", frequency);
         modelAndView.addObject("type_id", typeId);
