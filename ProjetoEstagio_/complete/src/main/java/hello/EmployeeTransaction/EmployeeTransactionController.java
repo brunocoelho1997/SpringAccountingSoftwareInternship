@@ -63,7 +63,7 @@ public class EmployeeTransactionController {
 
         Pager pager = new Pager(employeeTransactions.getTotalPages(), employeeTransactions.getNumber(), BUTTONS_TO_SHOW);
 
-        modelAndView.addObject("listEntitys", employeeTransactions);
+        modelAndView.addObject("listEntities", employeeTransactions);
         modelAndView.addObject("types", typeService.getTypes());
         modelAndView.addObject("projects", projectService.getProjects());
         modelAndView.addObject("selectedPageSize", evalPageSize);

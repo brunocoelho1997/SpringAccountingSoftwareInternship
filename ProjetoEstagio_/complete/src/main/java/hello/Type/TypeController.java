@@ -59,7 +59,7 @@ public class TypeController implements WebMvcConfigurer {
 
         Pager pager = new Pager(types.getTotalPages(), types.getNumber(), BUTTONS_TO_SHOW);
 
-        modelAndView.addObject("listEntitys", types);
+        modelAndView.addObject("listEntities", types);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);

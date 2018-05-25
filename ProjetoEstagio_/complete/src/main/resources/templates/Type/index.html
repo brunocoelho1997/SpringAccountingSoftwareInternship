@@ -51,8 +51,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:if="${listEntitys==null}"><td>Null</td></tr>
-                                    <tr th:unless="${listEntitys==null}" th:each="c : ${listEntitys}">
+                                    <tr th:if="${listEntities==null}"><td>Null</td></tr>
+                                    <tr th:unless="${listEntities==null}" th:each="c : ${listEntities}">
                                         <td href="#" th:text="${c.getCategory()}"></td>
                                         <td th:text="${c.getName()}">1</td>
                                         <td>

@@ -77,7 +77,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
 
         Pager pager = new Pager(projectsTransactions.getTotalPages(), projectsTransactions.getNumber(), BUTTONS_TO_SHOW);
 
-        modelAndView.addObject("listEntitys", projectsTransactions);
+        modelAndView.addObject("listEntities", projectsTransactions);
         modelAndView.addObject("types", typeService.getTypes());
         modelAndView.addObject("projects", projectService.getProjects());
         modelAndView.addObject("selectedPageSize", evalPageSize);
@@ -209,7 +209,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
 
         modelAndView.addObject("types", typeService.getTypes());
         modelAndView.addObject("projects", projectService.getProjects());
-        modelAndView.addObject("listEntitys", projectsTransactions);
+        modelAndView.addObject("listEntities", projectsTransactions);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);

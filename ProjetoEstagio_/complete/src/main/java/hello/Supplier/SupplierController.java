@@ -49,7 +49,7 @@ public class SupplierController {
 
         Pager pager = new Pager(persons.getTotalPages(), persons.getNumber(), BUTTONS_TO_SHOW);
 
-        modelAndView.addObject("listEntitys", persons);
+        modelAndView.addObject("listEntities", persons);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);

@@ -53,8 +53,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:if="${listEntitys==null}"><td>Null</td></tr>
-                                    <tr th:unless="${listEntitys==null}" th:each="e : ${listEntitys}">
+                                    <tr th:if="${listEntities==null}"><td>Null</td></tr>
+                                    <tr th:unless="${listEntities==null}" th:each="e : ${listEntities}">
                                         <td href="#" th:text="${e.getName()}"></td>
                                         <td th:text="${e.getEmail()}">1</td>
                                         <td class="center">

@@ -58,7 +58,7 @@ public class GeneralTransactionController {
 
         Pager pager = new Pager(saleTransactions.getTotalPages(), saleTransactions.getNumber(), BUTTONS_TO_SHOW);
 
-        modelAndView.addObject("listEntitys", saleTransactions);
+        modelAndView.addObject("listEntities", saleTransactions);
         modelAndView.addObject("types", typeService.getTypes());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);

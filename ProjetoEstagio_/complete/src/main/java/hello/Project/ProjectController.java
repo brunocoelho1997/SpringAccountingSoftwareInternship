@@ -71,7 +71,7 @@ public class ProjectController implements WebMvcConfigurer {
         Pager pager = new Pager(projects.getTotalPages(), projects.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listClients", clientService.getClients());
-        modelAndView.addObject("listEntitys", projects);
+        modelAndView.addObject("listEntities", projects);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
