@@ -26,7 +26,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{System.Close}"></button>
-                <button th:if="${employee != null}" class="btn btn-default trash-confirm pull-right" data-dismiss="modal" th:onclick="'deleteEmployee(' + ${employee.getId()} + ')'" th:text="#{System.Delete}"></button>
+                <button th:if="${employee != null}" class="btn btn-default trash-confirm pull-right" data-dismiss="modal" th:onclick="'deleteEntity(' + ${employee.getId()} + ')'" th:text="#{System.Delete}"></button>
             </div>
         </div>
     </div>
