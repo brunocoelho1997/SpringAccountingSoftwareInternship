@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="remove-modal" th:fragment="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2" th:text="#{System.Details}"></h4>
+            </div>
+            <div class="modal-body" th:unless="${supplier !=null}" th:text="#{Project.NotFoundDescription}"></div>
+            <div class="modal-body" th:if="${supplier != null}">
+                <div>
+                    <span th:text="#{Supplier.Remove}" th:remove="tag">title</span>:
+                    <label th:text="${supplier.getId()}"/></span> -
+                    <label th:text="${supplier.getName()}"/></span>
+                    ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{System.Close}"></button>
+                <button th:if="${supplier != null}" class="btn btn-default trash-confirm pull-right" data-dismiss="modal" th:onclick="'deleteEntity(' + ${supplier.getId()} + ')'" th:text="#{System.Delete}"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

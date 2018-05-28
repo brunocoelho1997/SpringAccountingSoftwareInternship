@@ -126,14 +126,9 @@
 
 <script>
 
-
-    // server just send all options... but subtype is not required so we need to add empty option
-    // $( document ).ready(function() {
-    //     var option = document.createElement("option");
-    //     option.text = "";
-    //     option.value = 0;
-    //     $('#subTypesOfType').prepend(option);
-    // });
+    /*
+    TODO: passar todos os scripts para js externos. ATENCAO: este e' diferente do add_revenue... este nao tinha o .change() no fim!!!! E funcionava!! ver se nao era erro de cache!!
+     */
 
     $( ".selectedType" )
         .change(function () {
@@ -165,10 +160,6 @@
                 });
             }
         });
-
-    /*
-    TODO: passar todos os scripts para js externos. ATENCAO: este e' diferente do add_revenue... este nao tinha o .change() no fim!!!! E funcionava!! ver se nao era erro de cache!!
-     */
 
 </script>
 

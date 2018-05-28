@@ -59,40 +59,71 @@ public class SupplierController {
         return modelAndView;
     }
 
-//    @RequestMapping("/info_supplier")
-//    public String infoSupplier(@RequestParam("id") Long id, Model model) {
-//        Supplier supplier = supplierService.getSupplier(id);
-//        model.addAttribute("employee", supplier);
+    @RequestMapping("/info_supplier")
+    public String infoSupplier(@RequestParam("id") Long id, Model model) {
+        Supplier supplier = supplierService.getSupplier(id);
+        model.addAttribute("supplier", supplier);
+
+        return "Supplier/info_supplier";
+    }
 //
-//        return "Supplier/info_supplier";
-//    }
-//
-//    @GetMapping("/add_supplier")
-//    public String addEmployee(Model model) {
-//
-//        Supplier supplier = new Supplier();
-//        List<Adress> adressList = new ArrayList<>();
-//        adressList.add(new Adress());
-//        supplier.setAdresses(adressList);
-//
-//        List<StringContact> contacts = new ArrayList<>();
-//        contacts.add(new StringContact());
-//        supplier.setContacts(contacts);
-//
-//        model.addAttribute("supplier", supplier);
-//
-//
-//        return "Supplier/add_supplier";
-//    }
-//
-//    @PostMapping("/add_supplier")
-//    public String addEmployee(Model model, @Valid @ModelAttribute("supplier") Supplier supplier, BindingResult bindingResult, RedirectAttributes attributes) {
-//        if (bindingResult.hasErrors()) {
-//            return "Supplier/add_supplier";
-//        }
-//
-//        supplierService.addSupplier(supplier);
-//
-//        return "redirect:/supplier/";
-//    }
+    @GetMapping("/add_supplier")
+    public String addEmployee(Model model) {
+
+        Supplier supplier = new Supplier();
+        List<Adress> adressList = new ArrayList<>();
+        adressList.add(new Adress());
+        supplier.setAdresses(adressList);
+
+        List<StringContact> contacts = new ArrayList<>();
+        contacts.add(new StringContact());
+        supplier.setContacts(contacts);
+
+        model.addAttribute("supplier", supplier);
+
+
+        return "Supplier/add_supplier";
+    }
+
+    @PostMapping("/add_supplier")
+    public String addEmployee(Model model, @Valid @ModelAttribute("supplier") Supplier supplier, BindingResult bindingResult, RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            return "Supplier/add_supplier";
+        }
+
+        supplierService.addSupplier(supplier);
+
+        return "redirect:/supplier/";
+    }
+
+    @RequestMapping("/edit_supplier")
+    public String editSupplier(@RequestParam("id") Long id, Model model) {
+        Supplier entity= supplierService.getSupplier(id);
+        model.addAttribute("supplier", entity);
+
+        return "Supplier/edit_supplier";
+    }
+    @PostMapping("/edit_supplier")
+    public String editClient(@Valid Supplier supplier, BindingResult bindingResult,Model model) {
+
+
+        if (bindingResult.hasErrors()) {
+            return "Supplier/edit_supplier";
+        }
+
+        supplierService.editSupplier(supplier);
+        return "redirect:/supplier/";
+    }
+
+    @RequestMapping("/remove_supplier")
+    public String removeClient(@RequestParam("id") Long id, Model model) {
+        Supplier supplier = supplierService.getSupplier(id);
+        model.addAttribute("supplier", supplier);
+        return "Supplier/remove_supplier :: modal";
+    }
+    @DeleteMapping("/remove_supplier")
+    public @ResponseBody String removeSupplier(@RequestParam("id") Long id) {
+        supplierService.removeSupplier(id);
+        return "redirect:/supplier/";
+    }
 }

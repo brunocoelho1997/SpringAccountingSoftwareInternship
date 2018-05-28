@@ -47,7 +47,7 @@
                                     <tr>
                                     <tr>
                                         <th th:text="#{Person.Name}"></th>
-                                        <th th:text="#{Person.Email}"></th>
+                                        <!--<th th:text="#{Person.Email}"></th>-->
                                         <th></th>
                                     </tr>
                                     </tr>
@@ -56,7 +56,7 @@
                                     <tr th:if="${listEntities==null}"><td>Null</td></tr>
                                     <tr th:unless="${listEntities==null}" th:each="e : ${listEntities}">
                                         <td href="#" th:text="${e.getName()}"></td>
-                                        <td th:text="${e.getEmail()}">1</td>
+                                        <!--<td th:text="${e.getEmail()}">1</td>-->
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:supplier-id="${e.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/supplier/edit_supplier(id=${e.getId()})}"><i class="fa fa-gear fa-fw"></i></a>

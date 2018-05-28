@@ -20,52 +20,49 @@ public class SupplierService {
 
         //could receive params to filter de list
         if(value!= null)
-            return filterSupplier(pageable, value);
+            return filterEntities(pageable, value);
 
         else
             return repository.findAllByActived(pageable, true);
 
     }
-    public Page<Supplier> filterSupplier(Pageable pageable, String value) {
+    public Page<Supplier> filterEntities(Pageable pageable, String value) {
 
         Page<Supplier> page = null;
 
         if(value.isEmpty())
             return repository.findAllByActived(pageable, true);
 
-        Specification<Employee> specFilter;
-        specFilter= EmployeeSpecifications.filter(value);
+        Specification<Supplier> specFilter;
+        specFilter= SupplierSpecifications.filter(value);
 
         page = repository.findAll(specFilter, pageable);
 
         return page;
     }
 
-//    public void addSupplier(Supplier supplier) {
-//        repository.save(supplier);
-//    }
-//
-//    public Supplier getSupplier(Long id) {
-//        return repository.findById((long)id);
-//    }
-//
-//    public void editSupplier(Supplier editedSupplier){
-//
-//        Supplier supplier = getSupplier(editedSupplier.getId());
-//
-//        supplier.setActived(editedSupplier.isActived());
-//        supplier.setAdresses(editedSupplier.getAdresses());
-//        supplier.setName(editedSupplier.getName());
-//        supplier.setEmail(editedSupplier.getEmail());
-//        supplier.setNumberPhone(editedSupplier.getNumberPhone());
-//        supplier.setAdresses(editedSupplier.getAdresses());
-//        supplier.setContacts(editedSupplier.getContacts());
-//        repository.save(supplier);
-//    }
-//
-//    public void removeSupplier(Long id) {
-//        Supplier supplier = getSupplier(id);
-//        supplier.setActived(false);
-//        repository.save(supplier);
-//    }
+    public void addSupplier(Supplier supplier) {
+        repository.save(supplier);
+    }
+
+    public Supplier getSupplier(Long id) {
+        return repository.findById((long)id);
+    }
+
+    public void editSupplier(Supplier editedSupplier){
+
+        Supplier supplier = getSupplier(editedSupplier.getId());
+
+        supplier.setActived(editedSupplier.isActived());
+        supplier.setName(editedSupplier.getName());
+        supplier.setContacts(editedSupplier.getContacts());
+        supplier.setAdresses(editedSupplier.getAdresses());
+        repository.save(supplier);
+    }
+
+    public void removeSupplier(Long id) {
+        Supplier supplier = getSupplier(id);
+        supplier.setActived(false);
+        repository.save(supplier);
+    }
 }

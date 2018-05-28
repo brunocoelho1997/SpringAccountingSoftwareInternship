@@ -19,4 +19,13 @@ public class SubTypeService {
     public SubType getSubType(Long id) {
         return subTypeRepository.findById((long)id);
     }
+
+    public void editSubType(SubType editedSubType) {
+
+        SubType aux = subTypeRepository.findById((long)editedSubType.getId());
+
+        aux.setActived(editedSubType.isActived());
+        aux.setName(editedSubType.getName());
+        subTypeRepository.save(aux);
+    }
 }

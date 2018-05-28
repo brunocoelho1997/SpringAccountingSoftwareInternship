@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class StringContact {
 
-    public static final int MAX_CONTACT_LENGHT = 12;
+    public static final int MAX_CONTACT_LENGHT = 30;
 
     @NotNull
     @Length(min=1, max = MAX_CONTACT_LENGHT)

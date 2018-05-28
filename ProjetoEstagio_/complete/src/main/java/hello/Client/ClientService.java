@@ -65,16 +65,6 @@ public class ClientService {
         repository.save(client);
     }
 
-    public void addAdress(@Valid long client_id, @Valid Adress adress) {
-        Client client = getClient(client_id);
-        client.getAdresses().add(adress);
-        repository.save(client);
-    }
-
-    public List<Adress> getAdressesClient(Long id) {
-        Client client = getClient(id);
-        return client.getAdresses();
-    }
 
     public void removeClient(Long id) {
         Client c = repository.getOne(id);

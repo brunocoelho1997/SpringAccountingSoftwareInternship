@@ -33,7 +33,7 @@
                             </div>
                             <div class="form-group" align="right">
                                 <input type="submit"  class="btn btn-default" th:value="#{System.Save}" />
-                                <a th:href="@{/subtype/}">
+                                <a th:href="@{/type/}">
                                     <input class="btn btn-default" th:value="#{System.Back}" />
                                 </a>
                             </div>
@@ -77,6 +77,7 @@
                                                 <tbody th:id="listSubtypes">
                                                 <tr th:each="sub,rowStat : *{subTypeList}" >
                                                     <td>
+                                                        <input class="form-control" th:type="hidden" th:field="*{subTypeList[__${rowStat.index}__].id}" />
                                                         <input class="form-control" type="text" th:field="*{subTypeList[__${rowStat.index}__].name}" required th:maxlength="${T(hello.Adress.Adress).MAX_CITY_LENGHT}"/>
                                                         <p class="text-danger" th:if="${#fields.hasErrors('subTypeList[__${rowStat.index}__].name')}" th:errors="*{subTypeList[__${rowStat.index}__].name}">Name Error</p>
                                                     </td>

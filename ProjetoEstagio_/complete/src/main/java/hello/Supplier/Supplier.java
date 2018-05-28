@@ -25,6 +25,11 @@ public class Supplier extends hello.EntityPackage.Entity{
     @Valid
     private List<StringContact> contacts;
 
+    @ElementCollection
+    @CollectionTable(foreignKey = @ForeignKey(name = "FK_Supplier_Adress"))
+    @Valid
+    private List<Adress> adresses;
+
     public List<StringContact> getContacts() {
         return contacts;
     }
@@ -39,5 +44,13 @@ public class Supplier extends hello.EntityPackage.Entity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Adress> getAdresses() {
+        return adresses;
+    }
+
+    public void setAdresses(List<Adress> adresses) {
+        this.adresses = adresses;
     }
 }

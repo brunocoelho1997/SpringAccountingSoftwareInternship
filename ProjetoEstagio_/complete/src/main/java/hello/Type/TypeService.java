@@ -1,6 +1,8 @@
 package hello.Type;
 
 import hello.Client.ClientSpecifications;
+import hello.SubType.SubType;
+import hello.SubType.SubTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +18,9 @@ public class TypeService {
 
     @Autowired
     TypeRepository repository;
+
+    @Autowired
+    SubTypeService subTypeService;
 
     public void addType(Type type) {
         repository.save(type);
@@ -62,9 +68,46 @@ public class TypeService {
         type.setCategory(editedType.getCategory());
         type.setName(editedType.getName());
         type.setActived(editedType.isActived());
-        type.setSubTypeList(editedType.getSubTypeList());
+
+
+//        type.setSubTypeList(new ArrayList<>());
+//        for(SubType editedSubType : editedType.getSubTypeList()){
+//            type.getSubTypeList().add(editedSubType);
+//        }
+
+//        if subtypelist has changed....
+        for(SubType editedSubType : editedType.getSubTypeList()){
+
+            for(SubType subType : type.getSubTypeList()){
+
+
+
+                if(editedSubType.getId().equals(subType.getId()))
+                {
+                    subType.setActived(editedSubType.isActived());
+                    subType.setName(editedSubType.getName());
+
+
+                }
+                else
+                {
+
+                    if(typeContainsSubType(type, editedSubType)){
+
+                    }
+
+                    type.getSubTypeList().add(editedSubType);
+                }
+            }
+        }
+
 
         repository.save(type);
+    }
+
+    private boolean typeContainsSubType(Type type, SubType subtype){
+
+        return false;
     }
 
     public void removeType(Long id) {
