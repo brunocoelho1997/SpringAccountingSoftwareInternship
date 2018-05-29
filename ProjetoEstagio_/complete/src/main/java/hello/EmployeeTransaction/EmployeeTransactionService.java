@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 public class EmployeeTransactionService {
@@ -33,28 +34,27 @@ public class EmployeeTransactionService {
     ProjectService projectService;
 
 
-
     public void addTransaction(@Valid EmployeeTransaction employeeTransaction) {
         Employee employee = employeeService.getEmployee(employeeTransaction.getEmployee().getId());
         employeeTransaction.setEmployee(employee);
         repository.save(employeeTransaction);
     }
 
-    public Page<EmployeeTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long projectId, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<EmployeeTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         //could receive params to filter de list
         if(value!= null || frequency!=null || typeId != null || subTypeId != null|| employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
-            return filterTransactions(pageable, value, frequency, typeId, subTypeId, projectId, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
+            return filterTransactions(pageable, value, frequency, typeId, subTypeId, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
         else
             return repository.findAllByGenre(pageable, genre);
 
     }
 
-    private Page<EmployeeTransaction> filterTransactions(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long projectId, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<EmployeeTransaction> filterTransactions(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         Page<EmployeeTransaction> projectTransactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && projectId == 0 && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+        if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             return repository.findAllByGenre(pageable, genre);
 
         Specification<EmployeeTransaction> specFilter;
@@ -67,11 +67,9 @@ public class EmployeeTransactionService {
 
         Employee employee = employeeService.getEmployee(employeeId);
 
-        Project project = projectService.getProject(projectId);
 
 
-
-        specFilter= EmployeeTransactionSpecifications.filter(value, frequency, type, subType, project, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+        specFilter= EmployeeTransactionSpecifications.filter(value, frequency, type, subType, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
 
         projectTransactionsPage = repository.findAll(specFilter, pageable);
 
@@ -83,7 +81,7 @@ public class EmployeeTransactionService {
         return repository.findById(id);
     }
 
-    public void editEmployeeTransaction(@Valid ProjectTransaction editedEmployeeTransaction) {
+    public void editEmployeeTransaction(@Valid EmployeeTransaction editedEmployeeTransaction) {
         EmployeeTransaction employeeTransaction = getEmployeeTransaction((long)editedEmployeeTransaction.getId());
 
         employeeTransaction.setGenre(editedEmployeeTransaction.getGenre());
@@ -101,9 +99,8 @@ public class EmployeeTransactionService {
         employeeTransaction.setDescription(editedEmployeeTransaction.getDescription());
         employeeTransaction.setName(editedEmployeeTransaction.getName());
 
-        Employee employee = employeeService.getEmployee(editedEmployeeTransaction.getProject().getId());
+        Employee employee = employeeService.getEmployee(editedEmployeeTransaction.getEmployee().getId());
         employeeTransaction.setEmployee(employee);
-
 
         repository.save(employeeTransaction);
     }

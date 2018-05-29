@@ -1,14 +1,12 @@
-package hello.EmployeeTransaction;
+package hello.SupplierTransaction;
 
-import hello.Employee.Employee;
 import hello.EntityPackage.Entity_;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
-import hello.Project.Project;
-import hello.Project.Project_;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransaction_;
 import hello.SubType.SubType;
+import hello.Supplier.Supplier;
 import hello.Transaction.Transaction_;
 import hello.Type.Type;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,9 +14,9 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
 
-public class EmployeeTransactionSpecifications {
+public class SupplierTransactionSpecifications {
 
-    public static Specification<EmployeeTransaction> filter(String value, String frequency, Type type, SubType subType, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public static Specification<SupplierTransaction> filter(String value, String frequency, Type type, SubType subType, Supplier supplier, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -27,7 +25,7 @@ public class EmployeeTransactionSpecifications {
             Predicate predicateFrequency;
             Predicate predicateType;
             Predicate predicateSubType;
-            Predicate predicateProject;
+            Predicate predicateSupplier;
             Predicate predicateDateSince;
             Predicate predicateDateUntil;
             Predicate predicateValueSince;
@@ -80,14 +78,14 @@ public class EmployeeTransactionSpecifications {
                     predicateFinal = predicateSubType;
             }
 
-            if(employee != null)
-            {
-                predicateProject = cb.equal(root.get(EmployeeTransaction_.employee), employee);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateProject);
-                else
-                    predicateFinal = predicateProject;
-            }
+//            if(supplier != null)
+//            {
+//                predicateSupplier = cb.equal(root.get(SupplierTransaction_.supplier), supplier);
+//                if(predicateFinal!=null)
+//                    predicateFinal = cb.and(predicateFinal, predicateSupplier);
+//                else
+//                    predicateFinal = predicateSupplier;
+//            }
 
 
             if(!dateSince.isEmpty())

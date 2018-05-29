@@ -10,7 +10,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header" th:text="#{Transactions.Projects.Cost.Header}"></h1>
+                <h1 class="page-header" th:text="#{Transactions.Employee.Cost.Header}"></h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -41,9 +41,9 @@
                     </div>
                     <div class="col-sm-7" align="right">
                         <!--warning: The IDE are saying "@{" is error but it isnt't-->
-                        <a th:href="${#httpServletRequest.requestURI.contains('/revenue')} ? @{/project_transaction/add_revenue} : @{/project_transaction/add_cost}">
+                        <a th:href="@{/employee_transaction/add_transaction}">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal">
-                                <span class="glyphicon glyphicon-plus"></span> <span th:text="${#httpServletRequest.requestURI.contains('/revenue')} ? #{Transactions.Revenue.Add} : #{Transactions.Cost.Add}"></span>
+                                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{Transactions.Cost.Add}"></span>
                             </button>
                         </a>
 
@@ -72,13 +72,13 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
-                            <span class="input-group-addon" th:text="#{Transactions.Projects.Project}"></span>
-                            <select class="form-control" name="project_id">
+                            <span class="input-group-addon" th:text="#{Transactions.Employee.Employee}"></span>
+                            <select class="form-control" name="employee_id">
                                 <option value="0"/>
-                                <option th:each="project : ${projects}"
-                                        th:value="${project.getId()}"
-                                        th:utext="${project.getName()}"
-                                        th:selected="${project.getId() == project_id}"/>
+                                <option th:each="entity : ${employees}"
+                                        th:value="${entity.getId()}"
+                                        th:utext="${entity.getName()}"
+                                        th:selected="${entity.getId() == employee_id}"/>
                             </select>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading" th:text="#{Transactions.Cost.PanelHeading}"></div>
+                            <div class="panel-heading" th:text="#{Transactions.Revenue.PanelHeading}"></div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
                                 <table class="table table-striped table-hover" id="dataTables-example">
@@ -136,7 +136,6 @@
                                         <th th:text="#{Transactions.Type}"></th>
                                         <th th:text="#{Transactions.SubType}"></th>
                                         <th th:text="#{Transactions.Employee.Employee}"></th>
-                                        <th th:text="#{Transactions.Projects.Project}"></th>
                                         <th th:text="#{Transactions.Value}"></th>
                                         <th></th>
                                     </tr>
@@ -146,16 +145,14 @@
                                         <td th:text="${r.getDate()}"></td>
                                         <td th:text="${r.getName()}">1</td>
                                         <td th:text="${r.getType().getName()}">1</td>
-
                                         <td th:if="${r.getSubType()!=null}" th:text="${r.getSubType().getName()}">1</td>
                                         <td th:unless="${r.getSubType()!=null}"></td>
-
-                                        <td th:text="${r.getProject().getName()}">1</td>
-                                        <td th:text="${r.getValue()}">1</td>
+                                        <td th:text="${r.getEmployee().getName()}"></td>
+                                        <td th:text="${r.getValue()}"></td>
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
-                                            <a class="btn btn-default pull-right" th:href="@{/project_transaction/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
-                                            <a class="btn btn-default pull-right" th:href="@{/project_transaction/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/employee_transaction/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/employee_transaction/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -187,7 +184,7 @@
 
             var opt = {
                 type: 'GET',
-                url: '/project_transaction/remove_transaction?id=' + $(this).attr('transaction-id')
+                url: '/employee_transaction/remove_transaction?id=' + $(this).attr('transaction-id')
             }
 
             // alert(JSON.stringify(opt));
@@ -202,11 +199,10 @@
 
     });
 
-    // TODO: este nome nao esta bem aqui.....
-    function deleteProject(id) {
+    function deleteEntity(id) {
         $.ajax({
             type: 'DELETE',
-            url: '/project_transaction/remove_transaction?id=' + id
+            url: '/employee_transaction/remove_transaction?id=' + id
 
         }).done(function (result) {
             $('a[transaction-id=' + id + ']').closest('tr').remove();

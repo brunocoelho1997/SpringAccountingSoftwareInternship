@@ -412,7 +412,6 @@ public class DbLoader implements CommandLineRunner {
             employeeTransaction1.setName("Despesa de Funcionário 1");
             employeeTransaction1.setFrequency(Frequency.DAILY);
             employeeTransaction1.setValue((float)20.3);
-            employeeTransaction1.setProject(project1);
             employeeTransaction1.setEmployee(employee1);
             employeeTransaction1.setGenre(Genre.COST);
             employeeTransaction1.setType(type2);
@@ -422,7 +421,6 @@ public class DbLoader implements CommandLineRunner {
             employeeTransaction2.setName("Despesa de Funcionário 2");
             employeeTransaction2.setFrequency(Frequency.DAILY);
             employeeTransaction2.setValue((float)20.3);
-            employeeTransaction2.setProject(project1);
             employeeTransaction2.setEmployee(employee1);
             employeeTransaction2.setGenre(Genre.COST);
             employeeTransaction2.setType(type1);
@@ -434,7 +432,6 @@ public class DbLoader implements CommandLineRunner {
             employeeTransaction3.setName("Despesa de Funcionário 3");
             employeeTransaction3.setFrequency(Frequency.DAILY);
             employeeTransaction3.setValue((float)20.3);
-            employeeTransaction3.setProject(project1);
             employeeTransaction3.setEmployee(employee2);
             employeeTransaction3.setGenre(Genre.COST);
             employeeTransaction3.setType(type2);

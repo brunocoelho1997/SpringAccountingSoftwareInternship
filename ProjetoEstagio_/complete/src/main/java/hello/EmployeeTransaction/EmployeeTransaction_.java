@@ -8,6 +8,5 @@ import javax.persistence.metamodel.SingularAttribute;
 public class EmployeeTransaction_ {
 
     public static volatile SingularAttribute<EmployeeTransaction, Employee> employee;
-    public static volatile SingularAttribute<EmployeeTransaction, Project> project;
 
 }

@@ -12,10 +12,8 @@ import java.util.List;
 public interface EmployeeTransactionRepository extends JpaRepository<EmployeeTransaction, Long>, JpaSpecificationExecutor {
 
     EmployeeTransaction findById(long id);
-    List<EmployeeTransaction> findByProject(Employee employee);
     Page<EmployeeTransaction> findAll(Pageable pageable);
     Page<EmployeeTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
-    List<EmployeeTransaction> findDistinctByProjectAndAndGenre(Employee employee, Genre genre);
 
 }

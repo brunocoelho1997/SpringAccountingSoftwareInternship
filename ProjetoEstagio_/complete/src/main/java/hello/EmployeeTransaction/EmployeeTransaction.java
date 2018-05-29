@@ -14,11 +14,6 @@ public class EmployeeTransaction extends Transaction {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
     private Employee employee;
 
-    @NotNull
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EmployeeTransaction_Project"), nullable = false)
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
-    private Project project;
-
     public Employee getEmployee() {
         return employee;
     }
@@ -27,11 +22,4 @@ public class EmployeeTransaction extends Transaction {
         this.employee = employee;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
 }
