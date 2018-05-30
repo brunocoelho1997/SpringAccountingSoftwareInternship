@@ -25,6 +25,9 @@ import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
 import hello.SaleTransaction.SaleTransaction;
 import hello.SaleTransaction.SaleTransactionRepository;
+import hello.SheetTransaction.Resources.HoursPerProject;
+import hello.SheetTransaction.SheetTransaction;
+import hello.SheetTransaction.SheetTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
 import hello.Supplier.Resources.StringContact;
@@ -36,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +83,9 @@ public class DbLoader implements CommandLineRunner {
 
     @Autowired
     private GeneralTransactionRepository generalTransactionRepository;
+
+    @Autowired
+    private SheetTransactionRepository sheetTransactionRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -502,6 +509,49 @@ public class DbLoader implements CommandLineRunner {
             generalTransactionRepository.save(generalTransaction1);
             generalTransactionRepository.save(generalTransaction2);
             generalTransactionRepository.save(generalTransaction3);
+
+            //sheet transactions...
+
+            SheetTransaction sheetTransaction1 = new SheetTransaction();
+            sheetTransaction1.setDate(randomDate1);
+            sheetTransaction1.setName("Despesa de Folha 1");
+            sheetTransaction1.setFrequency(Frequency.DAILY);
+            sheetTransaction1.setValue((float)10.1);
+            sheetTransaction1.setGenre(Genre.COST);
+            sheetTransaction1.setType(type1);
+            sheetTransaction1.setEmployee(employee1);
+
+
+            SheetTransaction sheetTransaction2 = new SheetTransaction();
+            sheetTransaction2.setDate(randomDate1);
+            sheetTransaction2.setName("Despesa de Folha 2");
+            sheetTransaction2.setFrequency(Frequency.DAILY);
+            sheetTransaction2.setValue((float)10.1);
+            sheetTransaction2.setGenre(Genre.COST);
+            sheetTransaction2.setType(type1);
+            sheetTransaction2.setSubType(subType1);
+
+
+            SheetTransaction sheetTransaction3 = new SheetTransaction();
+            sheetTransaction3.setDate(randomDate1);
+            sheetTransaction3.setName("Despesa de Folha 3");
+            sheetTransaction3.setFrequency(Frequency.DAILY);
+            sheetTransaction3.setValue((float)120.1);
+            sheetTransaction3.setGenre(Genre.COST);
+            sheetTransaction3.setType(type1);
+            sheetTransaction3.setSubType(subType1);
+            sheetTransaction3.setEmployee(employee1);
+
+            sheetTransaction3.setHoursPerProjectList(new ArrayList<>());
+
+            HoursPerProject hoursPerProject1 = new HoursPerProject();
+            hoursPerProject1.setDuration(Duration.ofHours(4));
+            hoursPerProject1.setProject(project1);
+            sheetTransaction3.getHoursPerProjectList().add(hoursPerProject1);
+
+            sheetTransactionRepository.save(sheetTransaction1);
+            sheetTransactionRepository.save(sheetTransaction2);
+            sheetTransactionRepository.save(sheetTransaction3);
 
         }
     }
