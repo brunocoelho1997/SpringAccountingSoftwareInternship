@@ -167,5 +167,12 @@ public class ProjectController implements WebMvcConfigurer {
         return chartResource;
     }
 
+    @RequestMapping("/get_options_projects")
+    public String getOptionsProjects(Model model) {
+
+        model.addAttribute("projects", projectService.getProjects());
+
+        return "Project/options_project :: options";
+    }
 
 }

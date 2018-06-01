@@ -41,6 +41,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -545,7 +546,7 @@ public class DbLoader implements CommandLineRunner {
             sheetTransaction3.setHoursPerProjectList(new ArrayList<>());
 
             HoursPerProject hoursPerProject1 = new HoursPerProject();
-            hoursPerProject1.setDuration(Duration.ofHours(4));
+            hoursPerProject1.setDuration(LocalTime.of(2,30));
             hoursPerProject1.setProject(project1);
             sheetTransaction3.getHoursPerProjectList().add(hoursPerProject1);
 

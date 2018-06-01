@@ -78,14 +78,14 @@ public class SupplierTransactionSpecifications {
                     predicateFinal = predicateSubType;
             }
 
-//            if(supplier != null)
-//            {
-//                predicateSupplier = cb.equal(root.get(SupplierTransaction_.supplier), supplier);
-//                if(predicateFinal!=null)
-//                    predicateFinal = cb.and(predicateFinal, predicateSupplier);
-//                else
-//                    predicateFinal = predicateSupplier;
-//            }
+            if(supplier != null)
+            {
+                predicateSupplier = cb.equal(root.get(SupplierTransaction_.supplier), supplier);
+                if(predicateFinal!=null)
+                    predicateFinal = cb.and(predicateFinal, predicateSupplier);
+                else
+                    predicateFinal = predicateSupplier;
+            }
 
 
             if(!dateSince.isEmpty())

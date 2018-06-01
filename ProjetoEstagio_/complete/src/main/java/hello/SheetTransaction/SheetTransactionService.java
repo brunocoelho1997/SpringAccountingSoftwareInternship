@@ -37,20 +37,19 @@ public class SheetTransactionService {
 
         Employee employee;
 
-        if(transaction.getEmployee().getId() != null )
+        if(transaction.getEmployee() != null )
         {
             employee = employeeService.getEmployee(transaction.getEmployee().getId());
             transaction.setEmployee(employee);
         }
 
-        if(!transaction.getHoursPerProjectList().isEmpty())
+        if(transaction.getHoursPerProjectList()!=null)
         {
             for(HoursPerProject hoursPerProject : transaction.getHoursPerProjectList()){
                 Project project = projectService.getProject(hoursPerProject.getProject().getId());
                 hoursPerProject.setProject(project);
             }
         }
-
         repository.save(transaction);
     }
 
@@ -118,10 +117,13 @@ public class SheetTransactionService {
 
         transaction.setHoursPerProjectList(new ArrayList<>());
 
-        for(HoursPerProject hoursPerProject : editedTransaction.getHoursPerProjectList()){
-            Project project = projectService.getProject(hoursPerProject.getProject().getId());
-            hoursPerProject.setProject(project);
-            transaction.getHoursPerProjectList().add(hoursPerProject);
+        if(editedTransaction.getHoursPerProjectList() != null)
+        {
+            for(HoursPerProject hoursPerProject : editedTransaction.getHoursPerProjectList()){
+                Project project = projectService.getProject(hoursPerProject.getProject().getId());
+                hoursPerProject.setProject(project);
+                transaction.getHoursPerProjectList().add(hoursPerProject);
+            }
         }
 
         repository.save(transaction);

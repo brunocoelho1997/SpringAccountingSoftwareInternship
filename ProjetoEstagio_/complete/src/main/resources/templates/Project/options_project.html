@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: copy"></head>
+
+<body>
+
+
+    <option th:fragment="options" th:each="project : ${projects}"
+            th:value="${project.getId()}"
+            th:utext="${project.getName()}"/>
+
+
+
+</body>
+</html>

@@ -1,10 +1,12 @@
 package hello.SheetTransaction.Resources;
 
 import hello.Project.Project;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
+import java.time.LocalTime;
 
 @Embeddable
 public class HoursPerProject {
@@ -15,8 +17,9 @@ public class HoursPerProject {
     private Project project;
 
     @Column
+    @DateTimeFormat(pattern = "HH:mm")
     @NotNull
-    private Duration duration;
+    private LocalTime duration;
 
     public Project getProject() {
         return project;
@@ -26,11 +29,11 @@ public class HoursPerProject {
         this.project = project;
     }
 
-    public Duration getDuration() {
+    public LocalTime getDuration() {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(LocalTime duration) {
         this.duration = duration;
     }
 }

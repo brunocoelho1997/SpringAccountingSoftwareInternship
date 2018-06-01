@@ -28,6 +28,7 @@ public class SheetTransactionController {
 
     @Autowired
     SheetTransactionService sheetTransactionService;
+    @Autowired
     TypeService typeService;
     @Autowired
     EmployeeService employeeService;
@@ -62,7 +63,6 @@ public class SheetTransactionController {
 
         Page<SheetTransaction> transactions = sheetTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeId, subTypeId, employeeId, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
 
-
         Pager pager = new Pager(transactions.getTotalPages(), transactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", transactions);
@@ -81,6 +81,7 @@ public class SheetTransactionController {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+
 
         return modelAndView;
     }
@@ -125,7 +126,6 @@ public class SheetTransactionController {
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("employees", employeeService.getEmployees());
         model.addAttribute("projects", projectService.getProjects());
-
 
         return "SheetTransaction/edit_transaction";
     }
