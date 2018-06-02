@@ -1,5 +1,6 @@
 package hello.SheetTransaction;
 
+import hello.Employee.Employee;
 import hello.Employee.EmployeeService;
 import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.Enums.Genre;
@@ -105,17 +106,31 @@ public class SheetTransactionController {
     @PostMapping("/add_transaction")
     public String addTransaction(Model model, @Valid @ModelAttribute("transaction") SheetTransaction transaction, BindingResult bindingResult, RedirectAttributes attributes) {
 
+        ModelAndView modelAndView = new ModelAndView("SheetTransaction/add_transaction");
+
         if (bindingResult.hasErrors()) {
+
             model.addAttribute("types", typeService.getTypes());
             model.addAttribute("employees", employeeService.getEmployees());
             model.addAttribute("projects", projectService.getProjects());
 
-
             return "SheetTransaction/add_transaction";
         }
+
         sheetTransactionService.addTransaction(transaction);
 
-        return "redirect:/sheet_transaction/";
+        model.addAttribute("types", typeService.getTypes());
+        if(transaction.getSubType()!=null)
+        model.addAttribute("subtype_id", transaction.getSubType().getId());
+        model.addAttribute("employees", employeeService.getEmployees());
+        model.addAttribute("projects", projectService.getProjects());
+
+        transaction.setHoursPerProjectList(new ArrayList<>());
+        transaction.setEmployee(null);
+        transaction.setValue(0);
+        model.addAttribute("transaction", transaction);
+
+        return "SheetTransaction/add_transaction";
     }
 
     @GetMapping("/edit_transaction")

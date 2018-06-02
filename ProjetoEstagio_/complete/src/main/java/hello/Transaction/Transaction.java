@@ -50,6 +50,7 @@ public class Transaction extends Entity {
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Type type;
 
+
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_SubType"))
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private SubType subType;

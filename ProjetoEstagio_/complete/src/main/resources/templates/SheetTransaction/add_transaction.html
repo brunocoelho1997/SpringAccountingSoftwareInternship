@@ -82,7 +82,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" th:id="subTypesOfType" th:field="*{subType.id}">
+                                        <select class="form-control" th:id="subTypesOfType" name = "subtype_id" th:data-subtype-id="${subtype_id}" th:field="*{subType.id}">
                                         </select>
                                         <p class="text-danger" th:if="${#fields.hasErrors('subType')}" th:errors="*{subType}">Name Error</p>
                                     </div>

@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Service
 public class SupplierTransactionService {
 
     @Autowired
@@ -68,12 +70,13 @@ public class SupplierTransactionService {
         return supplierTransactions;
     }
 
+
     public SupplierTransaction getEmployeeTransaction(long id)
     {
         return repository.findById(id);
     }
 
-    public void editEmployeeTransaction(@Valid SupplierTransaction editedSupplierTransaction) {
+    public void editTransaction(@Valid SupplierTransaction editedSupplierTransaction) {
         SupplierTransaction employeeTransaction = getEmployeeTransaction((long)editedSupplierTransaction.getId());
 
         employeeTransaction.setGenre(editedSupplierTransaction.getGenre());
