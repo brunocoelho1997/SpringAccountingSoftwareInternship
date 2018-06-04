@@ -12,7 +12,7 @@ public class SubType extends Entity {
     public static final int MAX_NAME_LENGHT = 20;
 
     @NotNull
-    @Length(min=1, max = MAX_NAME_LENGHT)
+    @Length(max = MAX_NAME_LENGHT)
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 

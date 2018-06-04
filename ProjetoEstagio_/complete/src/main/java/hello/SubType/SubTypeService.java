@@ -12,8 +12,8 @@ public class SubTypeService {
     @Autowired
     SubTypeRepository subTypeRepository;
 
-    public void addSubType(SubType subType) {
-        subTypeRepository.save(subType);
+    public SubType addSubType(SubType subType) {
+        return subTypeRepository.save(subType);
     }
 
     public SubType getSubType(Long id) {
@@ -28,4 +28,14 @@ public class SubTypeService {
         aux.setName(editedSubType.getName());
         subTypeRepository.save(aux);
     }
+
+    public void removeSubType(SubType subType) {
+
+        /*
+        TODO: remove-se mesmo nao?
+         */
+        subType.setActived(false);
+        subTypeRepository.save(subType);
+    }
+
 }

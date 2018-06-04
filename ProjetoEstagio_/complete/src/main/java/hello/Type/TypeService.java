@@ -1,5 +1,6 @@
 package hello.Type;
 
+import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
 import hello.Client.ClientSpecifications;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
@@ -23,7 +24,20 @@ public class TypeService {
     SubTypeService subTypeService;
 
     public void addType(Type type) {
-        repository.save(type);
+
+        SubType subType = null;
+
+        if(type.getSubType()!= null && !type.getSubType().getName().isEmpty())
+            subType = subTypeService.addSubType(type.getSubType());
+
+        type.setSubType(null);
+        Type aux = repository.save(type);
+
+        if(aux!=null){
+
+            aux.setSubType(subType);
+            repository.save(aux);
+        }
     }
 
     public Type getType(Long id) {
@@ -86,45 +100,27 @@ public class TypeService {
         type.setName(editedType.getName());
         type.setActived(editedType.isActived());
 
-
-//        type.setSubTypeList(new ArrayList<>());
-//        for(SubType editedSubType : editedType.getSubTypeList()){
-//            type.getSubTypeList().add(editedSubType);
-//        }
-
-//        if subtypelist has changed....
-//        for(SubType editedSubType : editedType.getSubTypeList()){
-//
-//            for(SubType subType : type.getSubTypeList()){
-//
-//
-//
-//                if(editedSubType.getId().equals(subType.getId()))
-//                {
-//                    subType.setActived(editedSubType.isActived());
-//                    subType.setName(editedSubType.getName());
-//
-//
-//                }
-//                else
-//                {
-//
-//                    if(typeContainsSubType(type, editedSubType)){
-//
-//                    }
-//
-//                    type.getSubTypeList().add(editedSubType);
-//                }
-//            }
-//        }
-
+        if(editedType.getSubType()!=null)
+        {
+            if(type.getSubType()!=null)
+            {
+//                if want delete subtype
+                if(editedType.getSubType().getName().isEmpty())
+                {
+                    subTypeService.removeSubType(type.getSubType());
+                    type.setSubType(null);
+                }
+                else
+                    type.getSubType().setName(editedType.getSubType().getName());
+            }
+            else
+            {
+                SubType subType = subTypeService.addSubType(editedType.getSubType());
+                type.setSubType(subType);
+            }
+        }
 
         repository.save(type);
-    }
-
-    private boolean typeContainsSubType(Type type, SubType subtype){
-
-        return false;
     }
 
     public void removeType(Long id) {

@@ -3,6 +3,7 @@ package hello.Type;
 import hello.Client.Client;
 import hello.Pager;
 import hello.SubType.SubType;
+import hello.SubType.SubTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -83,7 +84,6 @@ public class TypeController implements WebMvcConfigurer {
         if (bindingResult.hasErrors()) {
             return "Type/add_type";
         }
-
         typeService.addType(type);
 
         model.addAttribute("listEntitys", typeService.getTypesActived());
@@ -97,6 +97,17 @@ public class TypeController implements WebMvcConfigurer {
         model.addAttribute("type", type);
 
         return "Type/edit_type";
+    }
+
+    @PostMapping("/edit_type")
+    public String editType(@Valid Type type, BindingResult bindingResult,Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "Type/edit_type";
+        }
+
+        typeService.editType(type);
+        return "redirect:/type/";
     }
 
     @RequestMapping("/info_type")
@@ -119,15 +130,5 @@ public class TypeController implements WebMvcConfigurer {
         return "redirect:/type/";
     }
 
-    @PostMapping("/edit_type")
-    public String editType(@Valid Type type, BindingResult bindingResult,Model model) {
 
-
-        if (bindingResult.hasErrors()) {
-            return "Type/edit_type";
-        }
-
-        typeService.editType(type);
-        return "redirect:/type/";
-    }
 }

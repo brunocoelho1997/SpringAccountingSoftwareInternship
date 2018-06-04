@@ -41,6 +41,8 @@ public class EmployeeTransactionService {
     }
 
     public Page<EmployeeTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+
+
         //could receive params to filter de list
         if(value!= null || frequency!=null || typeValue != null || employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
@@ -55,12 +57,10 @@ public class EmployeeTransactionService {
         if(value.isEmpty() && frequency.isEmpty() && typeString.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             return repository.findAllByGenre(pageable, genre);
 
-
-        Specification<EmployeeTransaction> specFilter;
-
         Employee employee = employeeService.getEmployee(employeeId);
 
-        specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeString, subTypeValue, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+        Specification<EmployeeTransaction> specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeString, subTypeValue, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+
 
         projectTransactionsPage = repository.findAll(specFilter, pageable);
 

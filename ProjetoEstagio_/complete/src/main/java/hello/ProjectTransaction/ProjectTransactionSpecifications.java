@@ -6,9 +6,11 @@ import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.SubType.SubType;
+import hello.SubType.SubType_;
 import hello.Transaction.Transaction;
 import hello.Transaction.Transaction_;
 import hello.Type.Type;
+import hello.Type.Type_;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -61,9 +63,9 @@ public class ProjectTransactionSpecifications {
                     predicateFinal = predicateFrequency;
             }
 
-            if(type != null)
+            if(type != null && !type.isEmpty())
             {
-                predicateType = cb.equal(root.get(Transaction_.type).get("name"), type);
+                predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateType);
                 else
@@ -71,7 +73,7 @@ public class ProjectTransactionSpecifications {
             }
             if(subType != null && !subType.isEmpty())
             {
-                predicateSubType = cb.equal(root.get(Transaction_.type).get("subType").get("name"), subType);
+                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateSubType);
                 else

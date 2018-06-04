@@ -92,7 +92,6 @@ public class SupplierTransactionController implements WebMvcConfigurer {
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("suppliers", supplierService.getSuppliers());
 
-
         return "SupplierTransaction/add_transaction";
     }
 

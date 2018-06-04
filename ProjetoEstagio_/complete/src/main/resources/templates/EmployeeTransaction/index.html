@@ -55,7 +55,7 @@
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.Type}"></span>
                             <select class="form-control selectedType" name = "type_value">
-                                <option value=""/>
+                                <option value/>
                                 <option th:each="type : ${types}"
                                         th:value="${type}"
                                         th:utext="${type}"

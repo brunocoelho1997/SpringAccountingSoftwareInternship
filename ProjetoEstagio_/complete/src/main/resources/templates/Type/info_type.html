@@ -30,8 +30,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <br>
-                                <div class="col-sm-2"></div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-12">
                                     <div>
                                         <span th:text="#{Entity.Id}">title</span>:
                                         <span id = "id_value" th:text="${type.getId()}"></span>
@@ -44,24 +43,11 @@
                                         <span th:text="#{Type.Name}">title</span>:
                                         <span th:text="${type.getName()}"></span>
                                     </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <br>
-                                <div class="col-sm-2"></div>
-                                <div class="col-sm-8">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" th:text="#{Subtype.PanelHeader}"></div>
-                                        <table width="100%" class="table table-striped table-hover adresses">
-
-                                            <tbody>
-                                            <tr th:each="ad,rowStat : ${type.subTypeList}" >
-                                                <td><p th:text="${ad.name}"/></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                    <div>
+                                        <span th:text="#{Subtype.Subtype}">title</span>:
+                                        <span th:unless="${type.getSubType() == null}" th:text="${type.getSubType().getName()}"></span>
                                     </div>
+
                                 </div>
                             </div>
                             <div align="right">

@@ -55,11 +55,9 @@
                                     <tr th:unless="${listEntities==null}" th:each="c : ${listEntities}">
                                         <td href="#" th:text="${c.getCategory()}"></td>
                                         <td th:text="${c.getName()}">1</td>
-                                        <td>
-                                            <ul th:each="subtype : ${c.getSubTypeList()}">
-                                                <li th:text="${subtype.getName()}"></li>
-                                            </ul>
-                                        </td>
+                                        <td th:if="${c.getSubType() == null}"></td>
+                                        <td th:unless="${c.getSubType() == null}" th:text="${c.getSubType().getName()}"></td>
+
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:type-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/type/edit_type(id=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
