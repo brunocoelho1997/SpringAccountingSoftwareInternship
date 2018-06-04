@@ -51,8 +51,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="frequency", required=false) String frequency,
-                                        @RequestParam(name="type_id", required=false) Long typeId,
-                                        @RequestParam(name="subtype_id", required=false) Long subTypeId,
+                                        @RequestParam(name="type_value", required=false) String typeValue,
+                                        @RequestParam(name="subtype_value", required=false) String subTypeValue,
                                         @RequestParam(name="project_id", required=false) Long projectId,
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
@@ -72,13 +72,13 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeId, subTypeId, projectId, dateSince, dateUntil, valueSince, valueUntil,Genre.REVENUE);
+        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil,Genre.REVENUE);
 
 
         Pager pager = new Pager(projectsTransactions.getTotalPages(), projectsTransactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", projectsTransactions);
-        modelAndView.addObject("types", typeService.getTypes());
+        modelAndView.addObject("types", typeService.getDistinctTypes());
         modelAndView.addObject("projects", projectService.getProjects());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
@@ -86,8 +86,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
 
         modelAndView.addObject("value_filter", value);
         modelAndView.addObject("frequency", frequency);
-        modelAndView.addObject("type_id", typeId);
-        modelAndView.addObject("subtype_id", subTypeId);
+        modelAndView.addObject("type_value", typeValue);
+        modelAndView.addObject("subtype_value", subTypeValue);
         modelAndView.addObject("project_id", projectId);
         modelAndView.addObject("date_since", dateSince);
         modelAndView.addObject("date_until", dateUntil);
@@ -183,8 +183,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="frequency", required=false) String frequency,
-                                        @RequestParam(name="type_id", required=false) Long typeId,
-                                        @RequestParam(name="subtype_id", required=false) Long subTypeId,
+                                      @RequestParam(name="type_value", required=false) String typeValue,
+                                      @RequestParam(name="subtype_value", required=false) String subTypeValue,
                                         @RequestParam(name="project_id", required=false) Long projectId,
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
@@ -203,13 +203,13 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeId, subTypeId, projectId, dateSince, dateUntil, valueSince, valueUntil,Genre.COST);
+        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil,Genre.COST);
 
 
         Pager pager = new Pager(projectsTransactions.getTotalPages(), projectsTransactions.getNumber(), BUTTONS_TO_SHOW);
 
 
-        modelAndView.addObject("types", typeService.getTypes());
+        modelAndView.addObject("types", typeService.getDistinctTypes());
         modelAndView.addObject("projects", projectService.getProjects());
         modelAndView.addObject("listEntities", projectsTransactions);
         modelAndView.addObject("selectedPageSize", evalPageSize);
@@ -218,8 +218,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
 
         modelAndView.addObject("value_filter", value);
         modelAndView.addObject("frequency", frequency);
-        modelAndView.addObject("type_id", typeId);
-        modelAndView.addObject("subtype_id", subTypeId);
+        modelAndView.addObject("type_value", typeValue);
+        modelAndView.addObject("subtype_value", subTypeValue);
         modelAndView.addObject("project_id", projectId);
         modelAndView.addObject("date_since", dateSince);
         modelAndView.addObject("date_until", dateUntil);

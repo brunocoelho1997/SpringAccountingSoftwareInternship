@@ -46,7 +46,6 @@ public class EmployeeTransactionService {
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
         else
             return repository.findAllByGenre(pageable, genre);
-
     }
 
     private Page<EmployeeTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeString, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {

@@ -53,36 +53,27 @@ public class SheetTransactionService {
         repository.save(transaction);
     }
 
-    public Page<SheetTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<SheetTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         //could receive params to filter de list
-        if(value!= null || frequency!=null || typeId != null || subTypeId != null|| employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
-            return filterTransactions(pageable, value, frequency, typeId, subTypeId, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
+        if(value!= null || frequency!=null || typeValue != null || employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
+            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
         else
             return repository.findAllByGenre(pageable, genre);
 
     }
 
-    private Page<SheetTransaction> filterTransactions(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<SheetTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         Page<SheetTransaction> projectTransactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             return repository.findAllByGenre(pageable, genre);
 
-        Specification<SheetTransaction> specFilter;
-
-        Type type = typeService.getType(typeId);
-
-        SubType subType = null;
-        if(subTypeId!=null)
-            subType= subTypeService.getSubType(subTypeId);
 
         Employee employee = employeeService.getEmployee(employeeId);
 
-
-
-        specFilter= SheetTransactionsSpecifications.filter(value, frequency, type, subType, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+        Specification<SheetTransaction> specFilter = SheetTransactionsSpecifications.filter(value, frequency, typeValue, subTypeValue, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
 
         projectTransactionsPage = repository.findAll(specFilter, pageable);
 

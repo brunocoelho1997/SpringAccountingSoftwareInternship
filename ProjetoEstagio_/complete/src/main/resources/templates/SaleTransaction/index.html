@@ -53,19 +53,19 @@
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.Type}"></span>
-                            <select class="form-control selectedType" name = "type_id">
-                                <option value="0"/>
+                            <select class="form-control selectedType" name = "type_value">
+                                <option value=""/>
                                 <option th:each="type : ${types}"
-                                        th:value="${type.getId()}"
-                                        th:utext="${type.getName()}"
-                                        th:selected="${type.getId() == type_id}"/>
+                                        th:value="${type}"
+                                        th:utext="${type}"
+                                        th:selected="${type== type_value}"/>
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.SubType}"></span>
-                            <select class="form-control" th:id="subTypesOfType" name = "subtype_id" th:data-subtype-id="${subtype_id}">
+                            <select class="form-control" th:id="subTypesOfType" name = "subtype_value" th:data-subtype-value="${subtype_value}">
                             </select>
                         </div>
                     </div>

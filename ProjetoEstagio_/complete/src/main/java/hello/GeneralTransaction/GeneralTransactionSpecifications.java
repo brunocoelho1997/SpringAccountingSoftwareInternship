@@ -13,7 +13,7 @@ import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
 
 public class GeneralTransactionSpecifications {
-    public static Specification<GeneralTransaction> filter(String value, String frequency, Type type, SubType subType, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public static Specification<GeneralTransaction> filter(String value, String frequency, String type, String subType, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -58,15 +58,15 @@ public class GeneralTransactionSpecifications {
 
             if(type != null)
             {
-                predicateType = cb.equal(root.get(Transaction_.type), type);
+                predicateType = cb.equal(root.get(Transaction_.type).get("name"), type);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateType);
                 else
                     predicateFinal = predicateType;
             }
-            if(subType != null)
+            if(subType != null && !subType.isEmpty())
             {
-                predicateSubType = cb.equal(root.get(Transaction_.type).get("subType"), subType);
+                predicateSubType = cb.equal(root.get(Transaction_.type).get("subType").get("name"), subType);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateSubType);
                 else

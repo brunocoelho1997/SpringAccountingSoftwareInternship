@@ -38,8 +38,8 @@ public class SupplierTransactionController implements WebMvcConfigurer {
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="frequency", required=false) String frequency,
-                                        @RequestParam(name="type_id", required=false) Long typeId,
-                                        @RequestParam(name="subtype_id", required=false) Long subTypeId,
+                                        @RequestParam(name="type_value", required=false) String typeValue,
+                                        @RequestParam(name="subtype_value", required=false) String subTypeValue,
                                         @RequestParam(name="supplier_id", required=false) Long supplierId,
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
@@ -59,21 +59,21 @@ public class SupplierTransactionController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<SupplierTransaction> transactions = supplierTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeId, subTypeId, supplierId, dateSince, dateUntil, valueSince, valueUntil, Genre.REVENUE);
+        Page<SupplierTransaction> transactions = supplierTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, supplierId, dateSince, dateUntil, valueSince, valueUntil, Genre.REVENUE);
 
 
         Pager pager = new Pager(transactions.getTotalPages(), transactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", transactions);
-        modelAndView.addObject("types", typeService.getTypes());
+        modelAndView.addObject("types", typeService.getDistinctTypes());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
 
         modelAndView.addObject("value_filter", value);
         modelAndView.addObject("frequency", frequency);
-        modelAndView.addObject("type_id", typeId);
-        modelAndView.addObject("subtype_id", subTypeId);
+        modelAndView.addObject("type_id", typeValue);
+        modelAndView.addObject("subtype_id", subTypeValue);
         modelAndView.addObject("supplier_id", supplierId);
         modelAndView.addObject("date_since", dateSince);
         modelAndView.addObject("date_until", dateUntil);

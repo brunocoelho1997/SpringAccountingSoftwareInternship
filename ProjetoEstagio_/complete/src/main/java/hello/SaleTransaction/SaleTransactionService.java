@@ -23,33 +23,25 @@ public class SaleTransactionService {
     @Autowired
     SubTypeService subTypeService;
 
-    private Page<SaleTransaction> filterTransactions(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<SaleTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         Page<SaleTransaction> saleTransactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             return repository.findAllByGenreAndActived(pageable, genre, true);
 
-        Specification<SaleTransaction> specFilter;
-
-        Type type = typeService.getType(typeId);
-
-        SubType subType = null;
-        if(subTypeId!=null)
-            subType= subTypeService.getSubType(subTypeId);
-
-        specFilter= SaleTransactionSpecifications.filter(value, frequency, type, subType, dateSince, dateUntil,valueSince, valueUntil, genre);
+        Specification<SaleTransaction> specFilter = SaleTransactionSpecifications.filter(value, frequency, typeValue, subTypeValue, dateSince, dateUntil,valueSince, valueUntil, genre);
 
         saleTransactionsPage = repository.findAll(specFilter, pageable);
 
         return saleTransactionsPage;
     }
 
-    public Page<SaleTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, Long typeId, Long subTypeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<SaleTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
         //could receive params to filter de list
-        if(value!= null || frequency!=null || typeId != null || subTypeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
-            return filterTransactions(pageable, value, frequency, typeId, subTypeId, dateSince, dateUntil, valueSince, valueUntil, genre);
+        if(value!= null || frequency!=null || typeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
+            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, genre);
 
         else
             return repository.findAllByGenreAndActived(pageable, genre, true);

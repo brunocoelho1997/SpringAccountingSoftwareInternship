@@ -41,8 +41,8 @@ public class SheetTransactionController {
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="frequency", required=false) String frequency,
-                                        @RequestParam(name="type_id", required=false) Long typeId,
-                                        @RequestParam(name="subtype_id", required=false) Long subTypeId,
+                                        @RequestParam(name="type_value", required=false) String typeValue,
+                                        @RequestParam(name="subtype_value", required=false) String subTypeValue,
                                         @RequestParam(name="employee_id", required=false) Long employeeId,
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
@@ -62,12 +62,12 @@ public class SheetTransactionController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<SheetTransaction> transactions = sheetTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeId, subTypeId, employeeId, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
+        Page<SheetTransaction> transactions = sheetTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
 
         Pager pager = new Pager(transactions.getTotalPages(), transactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", transactions);
-        modelAndView.addObject("types", typeService.getTypes());
+        modelAndView.addObject("types", typeService.getDistinctTypes());
         modelAndView.addObject("employees", employeeService.getEmployees());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
@@ -75,8 +75,8 @@ public class SheetTransactionController {
 
         modelAndView.addObject("value_filter", value);
         modelAndView.addObject("frequency", frequency);
-        modelAndView.addObject("type_id", typeId);
-        modelAndView.addObject("subtype_id", subTypeId);
+        modelAndView.addObject("type_value", typeValue);
+        modelAndView.addObject("subtype_value", subTypeValue);
         modelAndView.addObject("employee_id", employeeId);
         modelAndView.addObject("date_since", dateSince);
         modelAndView.addObject("date_until", dateUntil);
