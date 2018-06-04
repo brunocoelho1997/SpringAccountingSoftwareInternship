@@ -202,7 +202,7 @@ public class ProjectService {
         }
 
         //if do not have subtype
-        if(projectTransaction.getSubType()==null)
+        if(projectTransaction.getType().getSubType()==null)
         {
             //and do not exist in list subtypeNames the subtype "NoSubTypeDefined"
             if(!resource.getSubTypeNames().contains("NoSubTypeDefined") ){
@@ -217,13 +217,13 @@ public class ProjectService {
             }
 
         }
-        else if(!resource.getSubTypeNames().contains(projectTransaction.getSubType().getName())){
-            resource.getSubTypeNames().add(projectTransaction.getSubType().getName());
+        else if(!resource.getSubTypeNames().contains(projectTransaction.getType().getSubType().getName())){
+            resource.getSubTypeNames().add(projectTransaction.getType().getSubType().getName());
             resource.getSubTypeValues().add(projectTransaction.getValue());
         }
         else
         {
-            int index = resource.getSubTypeNames().indexOf(projectTransaction.getSubType().getName());
+            int index = resource.getSubTypeNames().indexOf(projectTransaction.getType().getSubType().getName());
             Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
             resource.getSubTypeValues().set(index, newValue);
         }

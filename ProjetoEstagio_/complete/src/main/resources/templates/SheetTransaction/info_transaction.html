@@ -58,7 +58,7 @@
                                     </div>
                                     <div>
                                         <span th:text="#{Transactions.SubType}" th:remove="tag">title</span>:
-                                        <span th:if="${transaction.getSubType()!=null}" th:text="${transaction.getSubType().getName()}"></span>
+                                        <span th:if="${transaction.getType().getSubType()!=null}" th:text="${transaction.getType().getSubType().getName()}"></span>
                                     </div>
                                     <div th:if="${transaction.getEmployee()!=null}">
                                         <span th:text="#{Transactions.Employee.Employee}" th:remove="tag">title</span>:

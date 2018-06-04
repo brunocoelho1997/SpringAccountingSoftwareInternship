@@ -111,10 +111,12 @@ public class SupplierTransactionController implements WebMvcConfigurer {
     @GetMapping("/edit_transaction")
     public String editTransaction(Model model,@RequestParam("id") Long id) {
 
-        SupplierTransaction revenue = supplierTransactionService.getEmployeeTransaction(id);
-        model.addAttribute("transaction", revenue);
+        SupplierTransaction transaction = supplierTransactionService.getEmployeeTransaction(id);
+        model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("suppliers", supplierService.getSuppliers());
+        if(transaction.getType().getSubType()!=null)
+            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
 
         return "SaleTransaction/edit_transaction";

@@ -54,7 +54,7 @@
                             </div>
                             <div>
                                 <span th:text="#{Transactions.SubType}" th:remove="tag">title</span>:
-                                <span th:if="${transaction.getSubType()!=null}" th:text="${transaction.getSubType().getName()}"></span>
+                                <span th:if="${transaction.getType().getSubType()!=null}" th:text="${transaction.getType().getSubType().getName()}"></span>
                             </div>
                             <div>
                                 <span th:text="#{Transactions.Projects.Project}" th:remove="tag">title</span>:
@@ -82,12 +82,6 @@
 </div>
 </div>
 
-<script>
-    $('#my-element').textfill({
-        explicitWidth: 50
-    });
-
-</script>
 <div id="modal-content"></div>
 <div th:replace="fragments/footer :: copy"></div>
 </body>

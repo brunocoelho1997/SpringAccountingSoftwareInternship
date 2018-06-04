@@ -129,10 +129,12 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     @GetMapping("/edit_transaction")
     public String editTransaction(Model model,@RequestParam("id") Long id) {
 
-        ProjectTransaction revenue = projectTransactionService.getProjectTransaction(id);
-        model.addAttribute("transaction", revenue);
+        ProjectTransaction transaction = projectTransactionService.getProjectTransaction(id);
+        model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("projects", projectService.getProjects());
+        if(transaction.getType().getSubType()!=null)
+            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
         return "ProjectTransaction/edit_transaction";
     }

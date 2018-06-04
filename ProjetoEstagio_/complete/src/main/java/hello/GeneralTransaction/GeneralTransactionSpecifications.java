@@ -66,8 +66,7 @@ public class GeneralTransactionSpecifications {
             }
             if(subType != null)
             {
-
-                predicateSubType = cb.equal(root.get(Transaction_.subType), subType);
+                predicateSubType = cb.equal(root.get(Transaction_.type).get("subType"), subType);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateSubType);
                 else

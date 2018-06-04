@@ -30,9 +30,9 @@ public class TypeController implements WebMvcConfigurer {
 
 
     @RequestMapping("/get_subTypes")
-    public String getSubTypes(@RequestParam("id") Long id, Model model) {
-        Type type = typeService.getType(id);
-        model.addAttribute("listSubTypes", type.getSubTypeList());
+    public String getSubTypes(@RequestParam("value") String typeValue, Model model) {
+        List<String> aux = typeService.getSubTypeList(typeValue);
+        model.addAttribute("listSubTypes", aux);
         return "SubTypes/subtypes_list :: options";
     }
 

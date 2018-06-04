@@ -50,11 +50,6 @@ public class Transaction extends Entity {
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Type type;
 
-
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_SubType"))
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    private SubType subType;
-
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
@@ -116,13 +111,7 @@ public class Transaction extends Entity {
         this.type = type;
     }
 
-    public SubType getSubType() {
-        return subType;
-    }
 
-    public void setSubType(SubType subType) {
-        this.subType = subType;
-    }
 
     @Override
     public String toString() {
@@ -133,7 +122,6 @@ public class Transaction extends Entity {
                 ", frequency=" + frequency +
                 ", genre=" + genre +
                 ", type=" + type +
-                ", subType=" + subType +
                 ", date=" + date +
                 '}';
     }

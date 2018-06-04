@@ -7,8 +7,8 @@
 <body>
 
 <option th:fragment="options" th:each="subtype : ${listSubTypes}"
-        th:value="${subtype.getId()}"
-        th:utext="${subtype.getName()}"/>
+        th:value="${subtype}"
+        th:utext="${subtype}"/>
 
 </body>
 </html>

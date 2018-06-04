@@ -101,9 +101,11 @@ public class GeneralTransactionController {
     @GetMapping("/edit_transaction")
     public String editTransaction(Model model,@RequestParam("id") Long id) {
 
-        GeneralTransaction revenue = generalTransactionService.getGeneralTransaction(id);
-        model.addAttribute("transaction", revenue);
+        GeneralTransaction transaction = generalTransactionService.getGeneralTransaction(id);
+        model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
+        if(transaction.getType().getSubType()!=null)
+            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
         return "GeneralTransaction/edit_transaction";
     }

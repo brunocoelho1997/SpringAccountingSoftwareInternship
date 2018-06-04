@@ -15,26 +15,26 @@ $( ".selectedType" )
             selectedTypeValue = $( this ).val();
         });
 
-        //alert(selectedTypeValue);
 
-        if(selectedTypeValue !=null && selectedTypeValue!="0")
+        // alert(selectedTypeValue);
+
+        if(selectedTypeValue !=null && selectedTypeValue!="")
         {
             var opt = {
                 type: 'GET',
-                url: '/type/get_subTypes?id=' + selectedTypeValue
+                url: '/type/get_subTypes?value=' + selectedTypeValue
             }
 
             $.ajax(opt).done(function (result) {
                 $('#subTypesOfType').html(''); //to clear all options
                 var option = document.createElement("option");
-                option.text = "";
-                option.value = 0;
+                option.value = "";
                 $('#subTypesOfType').append(option);
                 $('#subTypesOfType').append(result);
 
                 // define subtype selected
-                var subtype_id_selected = $('#subTypesOfType').data('subtype-id');
-                $("#subTypesOfType").val(subtype_id_selected);
+                var subtype_value_selected = $('#subTypesOfType').data('subtype-value');
+                $("#subTypesOfType").val(subtype_value_selected);
                 // alert(subtype_id_selected);
 
             }).fail(function (jqXHR, textStatus) {

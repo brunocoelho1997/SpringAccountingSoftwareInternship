@@ -36,8 +36,8 @@ public class EmployeeTransactionController {
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="frequency", required=false) String frequency,
-                                        @RequestParam(name="type_id", required=false) Long typeId,
-                                        @RequestParam(name="subtype_id", required=false) Long subTypeId,
+                                        @RequestParam(name="type_value", required=false) String typeValue,
+                                        @RequestParam(name="subtype_value", required=false) String subTypeValue,
                                         @RequestParam(name="employee_id", required=false) Long employeeId,
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
@@ -57,13 +57,13 @@ public class EmployeeTransactionController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<EmployeeTransaction> employeeTransactions = employeeTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeId, subTypeId, employeeId, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
+        Page<EmployeeTransaction> employeeTransactions = employeeTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
 
 
         Pager pager = new Pager(employeeTransactions.getTotalPages(), employeeTransactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", employeeTransactions);
-        modelAndView.addObject("types", typeService.getTypes());
+        modelAndView.addObject("types", typeService.getDistinctTypes());
         modelAndView.addObject("employees", employeeService.getEmployees());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
@@ -71,8 +71,8 @@ public class EmployeeTransactionController {
 
         modelAndView.addObject("value_filter", value);
         modelAndView.addObject("frequency", frequency);
-        modelAndView.addObject("type_id", typeId);
-        modelAndView.addObject("subtype_id", subTypeId);
+        modelAndView.addObject("type_value", typeValue);
+        modelAndView.addObject("subtype_value", subTypeValue);
         modelAndView.addObject("employee_id", employeeId);
         modelAndView.addObject("date_since", dateSince);
         modelAndView.addObject("date_until", dateUntil);
@@ -117,6 +117,8 @@ public class EmployeeTransactionController {
         EmployeeTransaction transaction = employeeTransactionService.getEmployeeTransaction(id);
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
+        if(transaction.getType().getSubType()!=null)
+            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
         model.addAttribute("employees", employeeService.getEmployees());
 
         return "EmployeeTransaction/edit_transaction";

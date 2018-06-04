@@ -103,16 +103,18 @@ public class SaleTransactionController implements WebMvcConfigurer {
     @GetMapping("/edit_transaction")
     public String editTransaction(Model model,@RequestParam("id") Long id) {
 
-        SaleTransaction revenue = saleTransactionService.getSaleTransaction(id);
-        model.addAttribute("transaction", revenue);
+        SaleTransaction transaction = saleTransactionService.getSaleTransaction(id);
+        model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
-
+        if(transaction.getType().getSubType()!=null)
+            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
         return "SaleTransaction/edit_transaction";
     }
     @PostMapping("/edit_transaction")
     public String editTransaction(Model model, @Valid @ModelAttribute("transaction") SaleTransaction saleTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.getTypes());
+
             return "SaleTransaction/edit_transaction";
         }
         saleTransactionService.editSaleTransaction(saleTransaction);

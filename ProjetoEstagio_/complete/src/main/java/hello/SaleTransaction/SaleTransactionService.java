@@ -78,10 +78,10 @@ public class SaleTransactionService {
 
         Type type = typeService.getType(editedSaleTransaction.getType().getId());
         projectTransaction.setType(type);
-        if(editedSaleTransaction.getSubType() !=null)
+        if(editedSaleTransaction.getType().getSubType() !=null)
         {
-            SubType subType= subTypeService.getSubType(editedSaleTransaction.getSubType().getId());
-            projectTransaction.setSubType(subType);
+            SubType subType= subTypeService.getSubType(editedSaleTransaction.getType().getSubType().getId());
+            projectTransaction.getType().setSubType(subType);
         }
         projectTransaction.setDate(editedSaleTransaction.getDate());
         projectTransaction.setValue(editedSaleTransaction.getValue());

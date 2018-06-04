@@ -46,7 +46,6 @@
                                 <span class="glyphicon glyphicon-plus"></span> <span th:text="#{Transactions.Revenue.Add}"></span>
                             </button>
                         </a>
-
                     </div>
                 </div>
                 <br>
@@ -133,8 +132,8 @@
                                         <td th:text="${r.getName()}">1</td>
                                         <td th:text="${r.getType().getName()}">1</td>
 
-                                        <td th:if="${r.getSubType()!=null}" th:text="${r.getSubType().getName()}">1</td>
-                                        <td th:unless="${r.getSubType()!=null}"></td>
+                                        <td th:if="${r.getType().getSubType()!=null}" th:text="${r.getType().getSubType().getName()}">1</td>
+                                        <td th:unless="${r.getType().getSubType()!=null}"></td>
                                         <td th:text="${r.getValue()}">1</td>
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>

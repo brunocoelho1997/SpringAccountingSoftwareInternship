@@ -101,10 +101,10 @@ public class SheetTransactionService {
 
         Type type = typeService.getType(editedTransaction.getType().getId());
         transaction.setType(type);
-        if(editedTransaction.getSubType() !=null)
+        if(editedTransaction.getType().getSubType() !=null)
         {
-            SubType subType= subTypeService.getSubType(editedTransaction.getSubType().getId());
-            transaction.setSubType(subType);
+            SubType subType= subTypeService.getSubType(editedTransaction.getType().getSubType().getId());
+            transaction.getType().setSubType(subType);
         }
         transaction.setDate(editedTransaction.getDate());
         transaction.setValue(editedTransaction.getValue());

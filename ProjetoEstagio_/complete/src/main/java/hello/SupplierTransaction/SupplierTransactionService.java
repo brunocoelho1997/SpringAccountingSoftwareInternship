@@ -83,10 +83,10 @@ public class SupplierTransactionService {
 
         Type type = typeService.getType(editedSupplierTransaction.getType().getId());
         employeeTransaction.setType(type);
-        if(editedSupplierTransaction.getSubType() !=null)
+        if(editedSupplierTransaction.getType().getSubType() !=null)
         {
-            SubType subType= subTypeService.getSubType(editedSupplierTransaction.getSubType().getId());
-            employeeTransaction.setSubType(subType);
+            SubType subType= subTypeService.getSubType(editedSupplierTransaction.getType().getSubType().getId());
+            employeeTransaction.getType().setSubType(subType);
         }
         employeeTransaction.setDate(editedSupplierTransaction.getDate());
         employeeTransaction.setValue(editedSupplierTransaction.getValue());

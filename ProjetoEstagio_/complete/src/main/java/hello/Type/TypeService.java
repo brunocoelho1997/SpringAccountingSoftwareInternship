@@ -34,6 +34,23 @@ public class TypeService {
         return repository.findAll();
     }
 
+    public List<String> getDistinctTypes()
+    {
+        List<String> stringTypes = new ArrayList<>();
+
+        List<Type> types = repository.findAll();
+
+        /*
+        doing the distinct... TODO: use JPA to do this. HUGO
+         */
+        for(Type type : types){
+            if(!stringTypes.contains(type.getName()))
+                stringTypes.add(type.getName());
+        }
+
+        return stringTypes;
+    }
+
     public List<Type> getTypesActived(){ return repository.findAllByActived(true); }
 
     public Page<Type> findAllPageable(Pageable pageable, String value, String category) {
@@ -76,30 +93,30 @@ public class TypeService {
 //        }
 
 //        if subtypelist has changed....
-        for(SubType editedSubType : editedType.getSubTypeList()){
-
-            for(SubType subType : type.getSubTypeList()){
-
-
-
-                if(editedSubType.getId().equals(subType.getId()))
-                {
-                    subType.setActived(editedSubType.isActived());
-                    subType.setName(editedSubType.getName());
-
-
-                }
-                else
-                {
-
-                    if(typeContainsSubType(type, editedSubType)){
-
-                    }
-
-                    type.getSubTypeList().add(editedSubType);
-                }
-            }
-        }
+//        for(SubType editedSubType : editedType.getSubTypeList()){
+//
+//            for(SubType subType : type.getSubTypeList()){
+//
+//
+//
+//                if(editedSubType.getId().equals(subType.getId()))
+//                {
+//                    subType.setActived(editedSubType.isActived());
+//                    subType.setName(editedSubType.getName());
+//
+//
+//                }
+//                else
+//                {
+//
+//                    if(typeContainsSubType(type, editedSubType)){
+//
+//                    }
+//
+//                    type.getSubTypeList().add(editedSubType);
+//                }
+//            }
+//        }
 
 
         repository.save(type);
@@ -114,6 +131,20 @@ public class TypeService {
         Type type = repository.getOne(id);
         type.setActived(false);
         repository.save(type);
+    }
+
+    public List<String>getSubTypeList(String type)
+    {
+        List<Type> typeList = repository.findByName(type);
+
+        List<String> subTypeList = new ArrayList<>();
+
+        for(Type aux : typeList){
+            if(aux.getSubType()!= null)
+                subTypeList.add(aux.getSubType().getName());
+        }
+
+        return subTypeList;
     }
 
 }

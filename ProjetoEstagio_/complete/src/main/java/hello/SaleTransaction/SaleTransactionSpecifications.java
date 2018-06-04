@@ -4,8 +4,11 @@ import hello.EntityPackage.Entity_;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.SubType.SubType;
+import hello.Transaction.Transaction;
 import hello.Transaction.Transaction_;
 import hello.Type.Type;
+import hello.Type.TypeSpecifications;
+import hello.Type.Type_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
@@ -63,10 +66,10 @@ public class SaleTransactionSpecifications {
                 else
                     predicateFinal = predicateType;
             }
+
             if(subType != null)
             {
-
-                predicateSubType = cb.equal(root.get(Transaction_.subType), subType);
+                predicateSubType = cb.equal(root.get(Transaction_.type).get("subType"), subType);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateSubType);
                 else
