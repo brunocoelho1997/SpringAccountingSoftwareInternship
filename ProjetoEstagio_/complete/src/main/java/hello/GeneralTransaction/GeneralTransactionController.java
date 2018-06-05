@@ -82,7 +82,7 @@ public class GeneralTransactionController {
         GeneralTransaction transaction = new GeneralTransaction();
         transaction.setGenre(Genre.COST);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getTypes());
+        model.addAttribute("types", typeService.getDistinctTypes());
 
         return "GeneralTransaction/add_transaction";
     }

@@ -89,7 +89,7 @@
 
             var opt = {
                 type: 'GET',
-                url: '/client/remove_client?id=' + $(this).attr('client-id')
+                url: '/type/remove_type?id=' + $(this).attr('type-id')
             }
 
             // alert(JSON.stringify(opt));
@@ -107,10 +107,10 @@
     function deleteEntity(id) {
         $.ajax({
             type: 'DELETE',
-            url: '/client/remove_client?id=' + id
+            url: '/type/remove_type?id=' + id
 
         }).done(function (result) {
-            $('a[client-id=' + id + ']').closest('tr').remove();
+            $('a[type-id=' + id + ']').closest('tr').remove();
 
         }).fail(function (jqXHR, textStatus) {
             alert("erro");

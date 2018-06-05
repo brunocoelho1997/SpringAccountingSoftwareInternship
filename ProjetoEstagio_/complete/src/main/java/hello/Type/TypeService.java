@@ -47,10 +47,20 @@ public class TypeService {
     public Type getType(Type type) {
         Type aux = null;
 
+        List<Type> types = null;
+
         if(type.getSubType()== null || type.getSubType().getName().isEmpty())
-            aux = repository.findByNameAndSubTypeNull(type.getName());
+        {
+            types = repository.findByNameAndSubTypeNull(type.getName());
+            if(!types.isEmpty())
+                aux = types.get(0);
+        }
         else
-            aux = repository.findByNameAndSubTypeName(type.getName(), type.getSubType().getName());
+        {
+            types = repository.findByNameAndSubTypeName(type.getName(), type.getSubType().getName());
+            if(!types.isEmpty())
+                aux = types.get(0);
+        }
 
 
         return aux;
@@ -76,6 +86,23 @@ public class TypeService {
 
         return stringTypes;
     }
+    public List<String> getDistinctTypesActived()
+    {
+        List<String> stringTypes = new ArrayList<>();
+
+        List<Type> types = repository.findAllByActived(true);
+
+        /*
+        doing the distinct... TODO: use JPA to do this. HUGO
+         */
+        for(Type type : types){
+            if(!stringTypes.contains(type.getName()))
+                stringTypes.add(type.getName());
+        }
+
+        return stringTypes;
+    }
+
 
     public List<Type> getTypesActived(){ return repository.findAllByActived(true); }
 

@@ -48,8 +48,12 @@ public class GeneralTransactionService {
 
     }
 
-    public void addTransaction(@Valid GeneralTransaction projectTransaction) {
-        repository.save(projectTransaction);
+    public void addTransaction(@Valid GeneralTransaction transaction) {
+
+        Type type = typeService.getType(transaction.getType());
+        transaction.setType(type);
+
+        repository.save(transaction);
     }
 
     public GeneralTransaction getGeneralTransaction(long id)
