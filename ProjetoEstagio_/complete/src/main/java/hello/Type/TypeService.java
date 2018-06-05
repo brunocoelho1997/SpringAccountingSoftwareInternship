@@ -44,6 +44,18 @@ public class TypeService {
         return repository.findById((long)id);
     }
 
+    public Type getType(Type type) {
+        Type aux = null;
+
+        if(type.getSubType()== null || type.getSubType().getName().isEmpty())
+            aux = repository.findByNameAndSubTypeNull(type.getName());
+        else
+            aux = repository.findByNameAndSubTypeName(type.getName(), type.getSubType().getName());
+
+
+        return aux;
+    }
+
     public List<Type> getTypes(){
         return repository.findAll();
     }
@@ -136,8 +148,15 @@ public class TypeService {
         List<String> subTypeList = new ArrayList<>();
 
         for(Type aux : typeList){
-            if(aux.getSubType()!= null)
-                subTypeList.add(aux.getSubType().getName());
+
+                if(aux.getSubType()!= null)
+                {
+                    if(aux.getSubType().isActived())
+                        subTypeList.add(aux.getSubType().getName());
+
+                }
+                else
+                    subTypeList.add(0,""); //put in first position for frontend
         }
 
         return subTypeList;

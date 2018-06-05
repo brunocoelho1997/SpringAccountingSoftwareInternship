@@ -37,6 +37,9 @@ public class EmployeeTransactionService {
     public void addTransaction(@Valid EmployeeTransaction employeeTransaction) {
         Employee employee = employeeService.getEmployee(employeeTransaction.getEmployee().getId());
         employeeTransaction.setEmployee(employee);
+
+        Type type = typeService.getType(employeeTransaction.getType());
+        employeeTransaction.setType(type);
         repository.save(employeeTransaction);
     }
 

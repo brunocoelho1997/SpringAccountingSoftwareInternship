@@ -8,7 +8,6 @@
 
 $( ".selectedType" )
     .change(function () {
-
         var selectedTypeValue;
 
         $( ".selectedType option:selected" ).each(function() {
@@ -26,15 +25,15 @@ $( ".selectedType" )
             }
 
             $.ajax(opt).done(function (result) {
-                $('#subTypesOfType').html(''); //to clear all options
-                var option = document.createElement("option");
-                option.value = "";
-                $('#subTypesOfType').append(option);
-                $('#subTypesOfType').append(result);
+                $('.subTypesOfType').html(''); //to clear all options
+                // var option = document.createElement("option");
+                // option.value = "";
+                // $('#subTypesOfType').append(option);
+                $('.subTypesOfType').append(result);
 
                 // define subtype selected
-                var subtype_value_selected = $('#subTypesOfType').data('subtype-value');
-                $("#subTypesOfType").val(subtype_value_selected);
+                var subtype_value_selected = $('.subTypesOfType').data('subtype-value');
+                $(".subTypesOfType").val(subtype_value_selected);
                 // alert(subtype_id_selected);
 
             }).fail(function (jqXHR, textStatus) {
