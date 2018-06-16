@@ -310,6 +310,7 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction5.setProject(project1);
             projectTransaction5.setGenre(Genre.COST);
             projectTransaction5.setType(type1);
+
             projectTransaction5.getType().setSubType(subType2);
 
             projectTransactionRepository.save(projectTransaction1);
@@ -322,7 +323,7 @@ public class DbLoader implements CommandLineRunner {
 
 //            add posts employess
             PostEmployee postEmployee1 = new PostEmployee();
-            postEmployee1.setName("Programador - beckend");
+            postEmployee1.setName("Programador - backend");
             PostEmployee postEmployee2 = new PostEmployee();
             postEmployee2.setName("Gerente");
             PostEmployee postEmployee3 = new PostEmployee();
