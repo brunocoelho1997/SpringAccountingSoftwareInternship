@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: copy"></head>
+
+
+
+<script src="jquery.min.js"></script>
+<script src="jquery.textfill.min.js"></script>
+
+<body>
+<div id="wrapper">
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div id="page-wrapper">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" th:text="#{Project.Header}"></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+
+                    <br><br>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" th:text="#{Chart.Total.CostsVsRevenuesMonth}"></div>
+                                    <div class="content">
+                                        <div id="expensesVsRevenuesTotalMonth"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" th:text="#{Chart.Total.CostsVsRevenuesYear}"></div>
+                                    <div class="content">
+                                        <div id="expensesVsRevenuesTotalYear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <br><br><br><br>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" th:text="#{Chart.Total.CostsByType}"></div>
+                                    <div class="content">
+                                        <div id="expensesByType"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!--FINANCIAL PROJECTION-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <!--<h1 th:text="#{Project.Header}"></h1>-->
+                <h1> Projeção Financeira </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8 right"></div>
+            <div class="col-sm-4 right">
+                <select class="form-control" th:id="yearSelected">
+                    <!--TODO: melhorar isto. Ir buscar anos as transacoes-->
+                    <option value="2018" th:text="2018"></option>
+                    <option value="2019" th:text="2019"></option>
+                </select>
+            </div>
+        </div>
+        <br>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" th:text="#{Chart.Total.Values}"></div>
+                        <div class="content">
+                            <div id="balancePerMonthProjection"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" th:text="#{Chart.Total.CostsByType}"></div>
+                        <div class="content">
+                            <div id="expensesByTypeProjection"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" th:text="#{Chart.Total.CostsVsRevenuesMonth}"></div>
+                                    <div class="content">
+                                        <div id="expensesVsRevenuesTotalMonthProjection"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" th:text="#{Chart.Total.CostsVsRevenuesYear}"></div>
+                                    <div class="content">
+                                        <div id="expensesVsRevenuesTotalYearProjection"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" th:text="#{Chart.Month.CostsVsRevenuesByMonth}"></div>
+                        <div class="content">
+                            <div id="expensesVsRevenuesByMonth"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+
+
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: copy"></div>
+
+<!-- Morris Charts JavaScript -->
+<script src="../assets/vendor/raphael/raphael.min.js"></script>
+<script src="../assets/vendor/morrisjs/morris.min.js"></script>
+<!--mine-->
+<script src="../get_chartResource.js"></script>
+<script src="../get_financialChartResource.js"></script>
+
+
+
+</body>
+</html>

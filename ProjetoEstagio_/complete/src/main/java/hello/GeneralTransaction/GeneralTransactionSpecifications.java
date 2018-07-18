@@ -13,9 +13,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
+import java.util.List;
 
 public class GeneralTransactionSpecifications {
-    public static Specification<GeneralTransaction> filter(String value, String frequency, String type, String subType, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public static Specification<GeneralTransaction> filter(String value, String frequency, String type, List<SubType> subTypeList, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -58,7 +59,7 @@ public class GeneralTransactionSpecifications {
                     predicateFinal = predicateFrequency;
             }
 
-            if(type != null && !type.isEmpty())
+            if(type!= null && !type.isEmpty())
             {
                 predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
                 if(predicateFinal!=null)
@@ -66,9 +67,12 @@ public class GeneralTransactionSpecifications {
                 else
                     predicateFinal = predicateType;
             }
-            if(subType != null && !subType.isEmpty())
+            if(subTypeList != null)
             {
-                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
+
+                String typeName = subTypeList.get(0).getType().getName();
+
+                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateSubType);
                 else

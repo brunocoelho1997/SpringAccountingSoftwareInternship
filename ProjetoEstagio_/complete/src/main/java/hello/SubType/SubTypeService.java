@@ -4,29 +4,34 @@ package hello.SubType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SubTypeService {
 
     @Autowired
-    SubTypeRepository subTypeRepository;
+    SubTypeRepository repository;
 
     public SubType addSubType(SubType subType) {
-        return subTypeRepository.save(subType);
+        return repository.save(subType);
     }
 
     public SubType getSubType(Long id) {
-        return subTypeRepository.findById((long)id);
+        return repository.findById((long)id);
+    }
+
+    public List<SubType> getSubType(String name) {
+        return repository.findByName(name);
     }
 
     public void editSubType(SubType editedSubType) {
 
-        SubType aux = subTypeRepository.findById((long)editedSubType.getId());
+        SubType aux = repository.findById((long)editedSubType.getId());
 
         aux.setActived(editedSubType.isActived());
         aux.setName(editedSubType.getName());
-        subTypeRepository.save(aux);
+        repository.save(aux);
     }
 
     public void removeSubType(SubType subType) {
@@ -35,7 +40,27 @@ public class SubTypeService {
         TODO: remove-se mesmo nao?
          */
         subType.setActived(false);
-        subTypeRepository.save(subType);
+        repository.save(subType);
     }
 
+    public List<String> getDistinctSubTypesActived()
+    {
+        List<String> stringTypes = new ArrayList<>();
+
+        List<SubType> subTypeList = repository.findAllByActived(true);
+
+        /*
+        doing the distinct... TODO: use JPA to do this. HUGO
+         */
+        for(SubType subType : subTypeList){
+            if(!stringTypes.contains(subType.getName()))
+                stringTypes.add(subType.getName());
+        }
+
+        return stringTypes;
+    }
+
+    public List<SubType> findByName(String name){
+        return repository.findByName(name);
+    }
 }

@@ -120,8 +120,8 @@ public class SheetTransactionController {
         sheetTransactionService.addTransaction(transaction);
 
         model.addAttribute("types", typeService.getTypes());
-        if(transaction.getType().getSubType()!=null)
-        model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+//        if(transaction.getType().getSubType()!=null)
+//        model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
         model.addAttribute("employees", employeeService.getEmployees());
         model.addAttribute("projects", projectService.getProjects());
 
@@ -141,8 +141,8 @@ public class SheetTransactionController {
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("employees", employeeService.getEmployees());
         model.addAttribute("projects", projectService.getProjects());
-        if(transaction.getType().getSubType()!=null)
-            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+//        if(transaction.getType().getSubType()!=null)
+//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
         return "SheetTransaction/edit_transaction";
     }

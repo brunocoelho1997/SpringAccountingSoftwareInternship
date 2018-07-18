@@ -69,11 +69,11 @@ public class ProjectTransactionService {
 
         Type type = typeService.getType(editedProjectTransaction.getType().getId());
         projectTransaction.setType(type);
-        if(editedProjectTransaction.getType().getSubType() !=null)
-        {
-            SubType subType= subTypeService.getSubType(editedProjectTransaction.getType().getSubType().getId());
-            projectTransaction.getType().setSubType(subType);
-        }
+//        if(editedProjectTransaction.getType().getSubType() !=null)
+//        {
+//            SubType subType= subTypeService.getSubType(editedProjectTransaction.getType().getSubType().getId());
+//            projectTransaction.getType().setSubType(subType);
+//        }
         projectTransaction.setDate(editedProjectTransaction.getDate());
         projectTransaction.setValue(editedProjectTransaction.getValue());
         projectTransaction.setFrequency(editedProjectTransaction.getFrequency());

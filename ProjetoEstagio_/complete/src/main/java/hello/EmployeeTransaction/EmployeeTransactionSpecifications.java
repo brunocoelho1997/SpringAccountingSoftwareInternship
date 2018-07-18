@@ -9,18 +9,27 @@ import hello.Project.Project_;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransaction_;
 import hello.SubType.SubType;
+import hello.SubType.SubTypeService;
 import hello.SubType.SubType_;
+import hello.Transaction.Transaction;
 import hello.Transaction.Transaction_;
 import hello.Type.Type;
+import hello.Type.TypeRepository;
+import hello.Type.TypeService;
 import hello.Type.Type_;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.*;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 public class EmployeeTransactionSpecifications {
 
-    public static Specification<EmployeeTransaction> filter(String value, String frequency, String type, String subType, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+
+
+    public static Specification<EmployeeTransaction> filter(String value, String frequency, String type, List<SubType> subTypeList, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -35,8 +44,6 @@ public class EmployeeTransactionSpecifications {
             Predicate predicateValueSince;
             Predicate predicateValueUntil;
             Predicate predicateGenre;
-
-
 
             if(!value.isEmpty())
             {
@@ -64,7 +71,7 @@ public class EmployeeTransactionSpecifications {
                     predicateFinal = predicateFrequency;
             }
 
-            if(type != null && !type.isEmpty())
+            if(type!= null && !type.isEmpty())
             {
                 predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
                 if(predicateFinal!=null)
@@ -72,9 +79,12 @@ public class EmployeeTransactionSpecifications {
                 else
                     predicateFinal = predicateType;
             }
-            if(subType != null && !subType.isEmpty())
+            if(subTypeList != null)
             {
-                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
+
+                String typeName = subTypeList.get(0).getType().getName();
+
+                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
                 if(predicateFinal!=null)
                     predicateFinal = cb.and(predicateFinal, predicateSubType);
                 else

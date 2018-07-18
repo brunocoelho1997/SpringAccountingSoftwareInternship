@@ -4,6 +4,7 @@ import hello.Employee.EmployeeService;
 import hello.Enums.Genre;
 import hello.Pager;
 import hello.Project.ProjectService;
+import hello.SubType.SubTypeService;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,9 @@ public class EmployeeTransactionController {
     EmployeeTransactionService employeeTransactionService;
     @Autowired
     TypeService typeService;
+    @Autowired
+    SubTypeService subTypeService;
+
     @Autowired
     EmployeeService employeeService;
 
@@ -63,7 +67,11 @@ public class EmployeeTransactionController {
         Pager pager = new Pager(employeeTransactions.getTotalPages(), employeeTransactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", employeeTransactions);
+
+//        ISTO E' APENAS PARA QUANDO NAO TEM A APRESENTAR SUBTYPES DE TYPES
         modelAndView.addObject("types", typeService.getDistinctTypes());
+        modelAndView.addObject("subTypes", subTypeService.getDistinctSubTypesActived());
+
         modelAndView.addObject("employees", employeeService.getEmployees());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
@@ -102,7 +110,7 @@ public class EmployeeTransactionController {
             model.addAttribute("employees", employeeService.getEmployees());
 
             model.addAttribute("type_value", employeeTransaction.getType().getName());
-            model.addAttribute("subtype_value", employeeTransaction.getType().getSubType().getName());
+//            model.addAttribute("subtype_value", employeeTransaction.getType().getSubType().getName());
             /*
             TODO: caso nos nos engamos em algo... ao validar dps o subtyppe fica desselecionado!! Verificar
              */
@@ -119,8 +127,8 @@ public class EmployeeTransactionController {
         EmployeeTransaction transaction = employeeTransactionService.getEmployeeTransaction(id);
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
-        if(transaction.getType().getSubType()!=null)
-            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+//        if(transaction.getType().getSubType()!=null)
+//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
         model.addAttribute("employees", employeeService.getEmployees());
 
         return "EmployeeTransaction/edit_transaction";

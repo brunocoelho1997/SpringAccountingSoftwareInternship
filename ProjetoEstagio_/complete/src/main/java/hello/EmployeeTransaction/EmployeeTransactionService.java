@@ -9,6 +9,7 @@ import hello.ProjectTransaction.ProjectTransaction;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
 import hello.Type.Type;
+import hello.Type.TypeRepository;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,27 +49,37 @@ public class EmployeeTransactionService {
 
 
         //could receive params to filter de list
-        if(value!= null || frequency!=null || typeValue != null || employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
+        if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
         else
             return repository.findAllByGenre(pageable, genre);
     }
 
-    private Page<EmployeeTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeString, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<EmployeeTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
-        Page<EmployeeTransaction> projectTransactionsPage = null;
+        Page<EmployeeTransaction> transactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeString.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             return repository.findAllByGenre(pageable, genre);
 
         Employee employee = employeeService.getEmployee(employeeId);
 
-        Specification<EmployeeTransaction> specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeString, subTypeValue, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+        List<SubType> subTypeList = null;
+        if(!subTypeValue.isEmpty()){
+            subTypeList = subTypeService.getSubType(subTypeValue);
+        }
+
+        Specification<EmployeeTransaction> specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, subTypeList, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+
+        transactionsPage = repository.findAll(specFilter, pageable);
+
+//        for(EmployeeTransaction employeeTransaction : filtredList){
+//            if(!employeeTransaction.getType().getSubTypeList().contains(subTypeList))
+//                filtredList.remove(employeeTransaction);
+//        }
 
 
-        projectTransactionsPage = repository.findAll(specFilter, pageable);
-
-        return projectTransactionsPage;
+        return transactionsPage;
     }
 
     public EmployeeTransaction getEmployeeTransaction(long id)
@@ -82,11 +94,11 @@ public class EmployeeTransactionService {
 
         Type type = typeService.getType(editedEmployeeTransaction.getType().getId());
         employeeTransaction.setType(type);
-        if(editedEmployeeTransaction.getType().getSubType() !=null)
-        {
-            SubType subType= subTypeService.getSubType(editedEmployeeTransaction.getType().getSubType().getId());
-            employeeTransaction.getType().setSubType(subType);
-        }
+//        if(editedEmployeeTransaction.getType().getSubType() !=null)
+//        {
+//            SubType subType= subTypeService.getSubType(editedEmployeeTransaction.getType().getSubType().getId());
+//            employeeTransaction.getType().setSubType(subType);
+//        }
         employeeTransaction.setDate(editedEmployeeTransaction.getDate());
         employeeTransaction.setValue(editedEmployeeTransaction.getValue());
         employeeTransaction.setFrequency(editedEmployeeTransaction.getFrequency());

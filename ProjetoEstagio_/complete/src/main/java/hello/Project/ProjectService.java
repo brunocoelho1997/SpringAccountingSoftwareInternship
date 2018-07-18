@@ -202,31 +202,31 @@ public class ProjectService {
         }
 
         //if do not have subtype
-        if(projectTransaction.getType().getSubType()==null)
-        {
-            //and do not exist in list subtypeNames the subtype "NoSubTypeDefined"
-            if(!resource.getSubTypeNames().contains("NoSubTypeDefined") ){
-                resource.getSubTypeNames().add("NoSubTypeDefined");
-                resource.getSubTypeValues().add(projectTransaction.getValue());
-            }
-            else
-            {
-                int index = resource.getSubTypeNames().indexOf("NoSubTypeDefined");
-                Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
-                resource.getSubTypeValues().set(index, newValue);
-            }
-
-        }
-        else if(!resource.getSubTypeNames().contains(projectTransaction.getType().getSubType().getName())){
-            resource.getSubTypeNames().add(projectTransaction.getType().getSubType().getName());
-            resource.getSubTypeValues().add(projectTransaction.getValue());
-        }
-        else
-        {
-            int index = resource.getSubTypeNames().indexOf(projectTransaction.getType().getSubType().getName());
-            Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
-            resource.getSubTypeValues().set(index, newValue);
-        }
+//        if(projectTransaction.getType().getSubType()==null)
+//        {
+//            //and do not exist in list subtypeNames the subtype "NoSubTypeDefined"
+//            if(!resource.getSubTypeNames().contains("NoSubTypeDefined") ){
+//                resource.getSubTypeNames().add("NoSubTypeDefined");
+//                resource.getSubTypeValues().add(projectTransaction.getValue());
+//            }
+//            else
+//            {
+//                int index = resource.getSubTypeNames().indexOf("NoSubTypeDefined");
+//                Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
+//                resource.getSubTypeValues().set(index, newValue);
+//            }
+//
+//        }
+//        else if(!resource.getSubTypeNames().contains(projectTransaction.getType().getSubType().getName())){
+//            resource.getSubTypeNames().add(projectTransaction.getType().getSubType().getName());
+//            resource.getSubTypeValues().add(projectTransaction.getValue());
+//        }
+//        else
+//        {
+//            int index = resource.getSubTypeNames().indexOf(projectTransaction.getType().getSubType().getName());
+//            Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
+//            resource.getSubTypeValues().set(index, newValue);
+//        }
     }
 
     public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {

@@ -114,8 +114,8 @@ public class SupplierTransactionController implements WebMvcConfigurer {
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("suppliers", supplierService.getSuppliers());
-        if(transaction.getType().getSubType()!=null)
-            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+//        if(transaction.getType().getSubType()!=null)
+//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
 
         return "SaleTransaction/edit_transaction";

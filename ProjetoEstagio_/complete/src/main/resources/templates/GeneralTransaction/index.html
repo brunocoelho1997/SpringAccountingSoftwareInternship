@@ -54,12 +54,14 @@
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.Type}"></span>
-                            <select class="form-control selectedType" name = "type_value">
+                            <select class="form-control selectedType" name = "type_value" th:data-type-value="${type_value}">
                                 <option value/>
-                                <option th:each="type : ${types}"
-                                        th:value="${type}"
-                                        th:utext="${type}"
-                                        th:selected="${type== type_value}"/>
+
+                                <!--ISTO E' APENAS PARA QUANDO NAO TEM A APRESENTAR SUBTYPES DE TYPES-->
+                                <option th:each="entity : ${types}"
+                                        th:value="${entity}"
+                                        th:utext="${entity}"
+                                        th:selected="${entity== type_value}"/>
                             </select>
                         </div>
                     </div>
@@ -67,6 +69,13 @@
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.SubType}"></span>
                             <select class="form-control subTypesOfType" name = "subtype_value" th:data-subtype-value="${subtype_value}">
+                                <option value/>
+
+                                <!--ISTO E' APENAS PARA QUANDO NAO TEM A APRESENTAR SUBTYPES DE TYPES-->
+                                <option th:each="entity : ${subTypes}"
+                                        th:value="${entity}"
+                                        th:utext="${entity}"
+                                        th:selected="${entity== subtype_value}"/>
                             </select>
                         </div>
                     </div>
@@ -145,8 +154,11 @@
                                         <td th:text="${r.getName()}">1</td>
                                         <td th:text="${r.getType().getName()}">1</td>
 
-                                        <td th:if="${r.getType().getSubType()!=null}" th:text="${r.getType().getSubType().getName()}">1</td>
-                                        <td th:unless="${r.getType().getSubType()!=null}"></td>
+                                        <td th:if="${r.getType().getSubTypeList()!=null}">
+                                            <div th:each="subtype : ${r.getType().getSubTypeList()}" style="display:inline">
+                                                <p th:text="${subtype.getName()}" style="display:inline"></p>;
+                                            </div>
+                                        </td>
                                         <td th:text="${r.getValue()}">1</td>
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>

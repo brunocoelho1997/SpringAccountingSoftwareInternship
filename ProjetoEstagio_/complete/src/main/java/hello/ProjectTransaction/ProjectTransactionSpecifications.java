@@ -71,14 +71,14 @@ public class ProjectTransactionSpecifications {
                 else
                     predicateFinal = predicateType;
             }
-            if(subType != null && !subType.isEmpty())
-            {
-                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateSubType);
-                else
-                    predicateFinal = predicateSubType;
-            }
+//            if(subType != null && !subType.isEmpty())
+//            {
+//                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
+//                if(predicateFinal!=null)
+//                    predicateFinal = cb.and(predicateFinal, predicateSubType);
+//                else
+//                    predicateFinal = predicateSubType;
+//            }
 
             if(project != null)
             {

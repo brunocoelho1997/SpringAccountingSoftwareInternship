@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 public interface SaleTransactionRepository extends JpaRepository<SaleTransaction, Long>, JpaSpecificationExecutor {
@@ -15,5 +17,7 @@ public interface SaleTransactionRepository extends JpaRepository<SaleTransaction
     Page<SaleTransaction> findAllByGenreAndActived(Pageable pageable, Genre genre, boolean actived);
 
     List<SaleTransaction> findDistinctByGenreAndActived(Genre genre, boolean actived);
+
+    Collection<SaleTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
 
 }

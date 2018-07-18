@@ -14,14 +14,14 @@ public interface TypeRepository extends JpaRepository<Type, Long>, JpaSpecificat
 
     Type findById(long id);
 
-    List<Type> findByNameAndSubTypeName(String name, String subTypeName);
+//    List<Type> findByNameAndSubTypeName(String name, String subTypeName);
 
     /*
     TODO: list?? Caso tenha mais do que um com o mesmo nome.... Como resolver?
     o mesmo devia acontecer para findByNameAndSubTypeName.
     Como resolver???
      */
-    List<Type> findByNameAndSubTypeNull(String name);
+//    List<Type> findByNameAndSubTypeNull(String name);
 
 
     List<Type>findByName(String name);

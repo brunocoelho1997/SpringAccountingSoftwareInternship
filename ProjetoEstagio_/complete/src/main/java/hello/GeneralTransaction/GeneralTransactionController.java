@@ -2,6 +2,7 @@ package hello.GeneralTransaction;
 
 import hello.Enums.Genre;
 import hello.Pager;
+import hello.SubType.SubTypeService;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,10 @@ public class GeneralTransactionController {
     GeneralTransactionService generalTransactionService;
     @Autowired
     TypeService typeService;
+
+    @Autowired
+    SubTypeService subTypeService;
+
 
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -59,7 +64,10 @@ public class GeneralTransactionController {
         Pager pager = new Pager(saleTransactions.getTotalPages(), saleTransactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", saleTransactions);
+
+        //        ISTO E' APENAS PARA QUANDO NAO TEM A APRESENTAR SUBTYPES DE TYPES
         modelAndView.addObject("types", typeService.getDistinctTypes());
+        modelAndView.addObject("subTypes", subTypeService.getDistinctSubTypesActived());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
@@ -104,8 +112,8 @@ public class GeneralTransactionController {
         GeneralTransaction transaction = generalTransactionService.getGeneralTransaction(id);
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
-        if(transaction.getType().getSubType()!=null)
-            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+//        if(transaction.getType().getSubType()!=null)
+//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
         return "GeneralTransaction/edit_transaction";
     }

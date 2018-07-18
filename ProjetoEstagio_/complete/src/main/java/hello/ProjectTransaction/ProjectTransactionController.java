@@ -133,8 +133,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
         model.addAttribute("projects", projectService.getProjects());
-        if(transaction.getType().getSubType()!=null)
-            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+//        if(transaction.getType().getSubType()!=null)
+//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
         return "ProjectTransaction/edit_transaction";
     }

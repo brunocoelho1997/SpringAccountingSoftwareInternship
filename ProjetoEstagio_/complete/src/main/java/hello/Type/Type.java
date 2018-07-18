@@ -6,6 +6,7 @@ import hello.SubType.SubType;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,10 @@ public class Type extends Entity {
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Type_SubType"))
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    private SubType subType;
+    //    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SubType> subTypeList;
+
 
     public Category getCategory() {
         return category;
@@ -46,12 +48,12 @@ public class Type extends Entity {
         this.name = name;
     }
 
-    public SubType getSubType() {
-        return subType;
+    public List<SubType> getSubTypeList() {
+        return subTypeList;
     }
 
-    public void setSubType(SubType subType) {
-        this.subType = subType;
+    public void setSubTypeList(List<SubType> subTypeList) {
+        this.subTypeList = subTypeList;
     }
 
     @Override

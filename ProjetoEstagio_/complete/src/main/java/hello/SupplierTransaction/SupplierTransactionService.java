@@ -72,11 +72,11 @@ public class SupplierTransactionService {
 
         Type type = typeService.getType(editedSupplierTransaction.getType().getId());
         employeeTransaction.setType(type);
-        if(editedSupplierTransaction.getType().getSubType() !=null)
-        {
-            SubType subType= subTypeService.getSubType(editedSupplierTransaction.getType().getSubType().getId());
-            employeeTransaction.getType().setSubType(subType);
-        }
+//        if(editedSupplierTransaction.getType().getSubType() !=null)
+//        {
+//            SubType subType= subTypeService.getSubType(editedSupplierTransaction.getType().getSubType().getId());
+//            employeeTransaction.getType().setSubType(subType);
+//        }
         employeeTransaction.setDate(editedSupplierTransaction.getDate());
         employeeTransaction.setValue(editedSupplierTransaction.getValue());
         employeeTransaction.setFrequency(editedSupplierTransaction.getFrequency());

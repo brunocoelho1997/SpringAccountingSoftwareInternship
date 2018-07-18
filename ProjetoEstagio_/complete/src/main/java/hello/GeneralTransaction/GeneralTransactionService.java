@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 public class GeneralTransactionService {
@@ -30,7 +31,12 @@ public class GeneralTransactionService {
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             return repository.findAllByGenreAndActived(pageable, genre, true);
 
-        Specification<GeneralTransaction> specFilter = GeneralTransactionSpecifications.filter(value, frequency, typeValue, subTypeValue, dateSince, dateUntil,valueSince, valueUntil, genre);
+        List<SubType> subTypeList = null;
+        if(!subTypeValue.isEmpty()){
+            subTypeList = subTypeService.getSubType(subTypeValue);
+        }
+
+        Specification<GeneralTransaction> specFilter = GeneralTransactionSpecifications.filter(value, frequency, typeValue, subTypeList, dateSince, dateUntil,valueSince, valueUntil, genre);
 
         saleTransactionsPage = repository.findAll(specFilter, pageable);
 
@@ -74,11 +80,11 @@ public class GeneralTransactionService {
 
         Type type = typeService.getType(editedSaleTransaction.getType().getId());
         projectTransaction.setType(type);
-        if(editedSaleTransaction.getType().getSubType() !=null)
-        {
-            SubType subType= subTypeService.getSubType(editedSaleTransaction.getType().getSubType().getId());
-            projectTransaction.getType().setSubType(subType);
-        }
+//        if(editedSaleTransaction.getType().getSubType() !=null)
+//        {
+//            SubType subType= subTypeService.getSubType(editedSaleTransaction.getType().getSubType().getId());
+//            projectTransaction.getType().setSubType(subType);
+//        }
         projectTransaction.setDate(editedSaleTransaction.getDate());
         projectTransaction.setValue(editedSaleTransaction.getValue());
         projectTransaction.setFrequency(editedSaleTransaction.getFrequency());

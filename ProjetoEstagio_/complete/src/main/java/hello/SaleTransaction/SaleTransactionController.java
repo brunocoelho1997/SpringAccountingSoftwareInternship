@@ -106,8 +106,8 @@ public class SaleTransactionController implements WebMvcConfigurer {
         SaleTransaction transaction = saleTransactionService.getSaleTransaction(id);
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getTypes());
-        if(transaction.getType().getSubType()!=null)
-            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+//        if(transaction.getType().getSubType()!=null)
+//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
         return "SaleTransaction/edit_transaction";
     }
     @PostMapping("/edit_transaction")

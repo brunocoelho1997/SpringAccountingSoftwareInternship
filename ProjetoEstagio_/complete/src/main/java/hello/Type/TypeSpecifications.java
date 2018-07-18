@@ -10,14 +10,14 @@ import javax.persistence.criteria.Predicate;
 
 public class TypeSpecifications {
 
-    public static Specification<Type> filterSubType(Predicate predicateFinal, SubType subType) {
-        return (root, query, cb) -> {
-            Predicate aux = cb.equal(root.get(Type_.subType), subType);
-
-            return cb.equal(predicateFinal, aux);
-
-        };
-    }
+//    public static Specification<Type> filterSubType(Predicate predicateFinal, SubType subType) {
+//        return (root, query, cb) -> {
+//            Predicate aux = cb.equal(root.get(Type_.subType), subType);
+//
+//            return cb.equal(predicateFinal, aux);
+//
+//        };
+//    }
 
     public static Specification<Type> filter(String value, String category) {
         return (root, query, cb) -> {

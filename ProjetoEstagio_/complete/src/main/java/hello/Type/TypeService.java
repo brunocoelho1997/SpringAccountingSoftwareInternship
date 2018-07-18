@@ -3,6 +3,7 @@ package hello.Type;
 import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
 import hello.Client.ClientSpecifications;
 import hello.SubType.SubType;
+import hello.SubType.SubTypeRepository;
 import hello.SubType.SubTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,17 +28,17 @@ public class TypeService {
 
         SubType subType = null;
 
-        if(type.getSubType()!= null && !type.getSubType().getName().isEmpty())
-            subType = subTypeService.addSubType(type.getSubType());
-
-        type.setSubType(null);
-        Type aux = repository.save(type);
-
-        if(aux!=null){
-
-            aux.setSubType(subType);
-            repository.save(aux);
-        }
+//        if(type.getSubType()!= null && !type.getSubType().getName().isEmpty())
+//            subType = subTypeService.addSubType(type.getSubType());
+//
+//        type.setSubType(null);
+//        Type aux = repository.save(type);
+//
+//        if(aux!=null){
+//
+//            aux.setSubType(subType);
+//            repository.save(aux);
+//        }
     }
 
     public Type getType(Long id) {
@@ -49,18 +50,18 @@ public class TypeService {
 
         List<Type> types = null;
 
-        if(type.getSubType()== null || type.getSubType().getName().isEmpty())
-        {
-            types = repository.findByNameAndSubTypeNull(type.getName());
-            if(!types.isEmpty())
-                aux = types.get(0);
-        }
-        else
-        {
-            types = repository.findByNameAndSubTypeName(type.getName(), type.getSubType().getName());
-            if(!types.isEmpty())
-                aux = types.get(0);
-        }
+//        if(type.getSubType()== null || type.getSubType().getName().isEmpty())
+//        {
+//            types = repository.findByNameAndSubTypeNull(type.getName());
+//            if(!types.isEmpty())
+//                aux = types.get(0);
+//        }
+//        else
+//        {
+//            types = repository.findByNameAndSubTypeName(type.getName(), type.getSubType().getName());
+//            if(!types.isEmpty())
+//                aux = types.get(0);
+//        }
 
 
         return aux;
@@ -139,25 +140,25 @@ public class TypeService {
         type.setName(editedType.getName());
         type.setActived(editedType.isActived());
 
-        if(editedType.getSubType()!=null)
-        {
-            if(type.getSubType()!=null)
-            {
-//                if want delete subtype
-                if(editedType.getSubType().getName().isEmpty())
-                {
-                    subTypeService.removeSubType(type.getSubType());
-                    type.setSubType(null);
-                }
-                else
-                    type.getSubType().setName(editedType.getSubType().getName());
-            }
-            else
-            {
-                SubType subType = subTypeService.addSubType(editedType.getSubType());
-                type.setSubType(subType);
-            }
-        }
+//        if(editedType.getSubType()!=null)
+//        {
+//            if(type.getSubType()!=null)
+//            {
+////                if want delete subtype
+//                if(editedType.getSubType().getName().isEmpty())
+//                {
+//                    subTypeService.removeSubType(type.getSubType());
+//                    type.setSubType(null);
+//                }
+//                else
+//                    type.getSubType().setName(editedType.getSubType().getName());
+//            }
+//            else
+//            {
+//                SubType subType = subTypeService.addSubType(editedType.getSubType());
+//                type.setSubType(subType);
+//            }
+//        }
 
         repository.save(type);
     }
@@ -167,26 +168,58 @@ public class TypeService {
         type.setActived(false);
         repository.save(type);
     }
+    public List<Type> getType(String name) {
+        return repository.findByName(name);
+    }
 
+    //when we select type and need to return the subtypes of this type
     public List<String>getSubTypeList(String type)
     {
-        List<Type> typeList = repository.findByName(type);
+        List<Type> typeList = null;
 
         List<String> subTypeList = new ArrayList<>();
 
-        for(Type aux : typeList){
+        if(type.equals("")){
+            subTypeList = subTypeService.getDistinctSubTypesActived();
 
-                if(aux.getSubType()!= null)
+        }
+        else
+        {
+            typeList = repository.findByName(type);
+            for(Type aux : typeList){
+
+                if(aux.getSubTypeList()!= null)
                 {
-                    if(aux.getSubType().isActived())
-                        subTypeList.add(aux.getSubType().getName());
-
+                    for(SubType subTypeAux : aux.getSubTypeList()){
+                        if(subTypeAux.isActived())
+                            subTypeList.add(subTypeAux.getName());
+                    }
                 }
                 else
                     subTypeList.add(0,""); //put in first position for frontend
+            }
         }
 
         return subTypeList;
     }
 
+    //when we select a subtype and need return list of types that contains that subtype
+    public List<String>getTypeList(String subType)
+    {
+        List<String> typeList = new ArrayList<>();;
+
+        List<SubType> subTypeList = null;
+
+        if(subType.equals("")){
+            typeList = getDistinctTypes();
+        }
+        else
+        {
+            subTypeList = subTypeService.findByName(subType);
+            for(SubType aux : subTypeList){
+                typeList.add(aux.getType().getName());
+            }
+        }
+        return typeList;
+    }
 }

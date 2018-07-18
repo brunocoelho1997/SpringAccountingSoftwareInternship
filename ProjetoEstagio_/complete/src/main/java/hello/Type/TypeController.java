@@ -37,6 +37,13 @@ public class TypeController implements WebMvcConfigurer {
         return "SubTypes/subtypes_list :: options";
     }
 
+    @RequestMapping("/get_types")
+    public String getTypes(@RequestParam("value") String subTypeValue, Model model) {
+        List<String> aux = typeService.getTypeList(subTypeValue);
+        model.addAttribute("listTypes", aux);
+        return "Type/types_list :: options";
+    }
+
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
                                         @RequestParam("page") Optional<Integer> page,
