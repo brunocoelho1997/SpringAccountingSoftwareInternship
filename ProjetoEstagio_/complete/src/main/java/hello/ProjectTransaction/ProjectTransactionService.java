@@ -1,26 +1,19 @@
 package hello.ProjectTransaction;
 
-import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.Project.ProjectService;
-import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
 import hello.Type.Type;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProjectTransactionService {
@@ -95,6 +88,11 @@ public class ProjectTransactionService {
         else
             return repository.findAllByGenreAndActived(pageable, genre,true);
 
+    }
+
+    public List<ProjectTransaction> findAllByGenreAndActived(Genre genre, boolean actived)
+    {
+        return repository.findAllByGenreAndActived(genre, actived);
     }
 
     private Page<ProjectTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {

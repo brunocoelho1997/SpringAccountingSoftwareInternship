@@ -271,8 +271,14 @@ public class DbLoader implements CommandLineRunner {
             long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
             long maxDay = LocalDate.of(2015, 12, 31).toEpochDay();
             long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+
             LocalDate randomDate1 = LocalDate.ofEpochDay(randomDay);
             LocalDate randomDate2 = LocalDate.ofEpochDay(randomDay);
+            LocalDate date3 = LocalDate.of(2018,2,12);
+            LocalDate date4 = LocalDate.of(2018,1,23);
+            LocalDate date5 = LocalDate.now();
+
+
             project1.setInitialDate(randomDate1);
             project1.setFinalDate(randomDate2);
             project1.setScope("Scope1");
@@ -285,7 +291,7 @@ public class DbLoader implements CommandLineRunner {
 
 
             ProjectTransaction projectTransaction1 = new ProjectTransaction();
-            projectTransaction1.setDate(randomDate1);
+            projectTransaction1.setDate(date3);
             projectTransaction1.setName("Receita de Projeto 1");
             projectTransaction1.setFrequency(Frequency.DAILY);
             projectTransaction1.setValue((float)20.3);
@@ -303,7 +309,7 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction2.setType(type2);
 
             ProjectTransaction projectTransaction3 = new ProjectTransaction();
-            projectTransaction3.setDate(randomDate1);
+            projectTransaction3.setDate(date4);
             projectTransaction3.setName("Despesa de Projeto 3");
             projectTransaction3.setFrequency(Frequency.DAILY);
             projectTransaction3.setValue((float)35.1);
@@ -333,11 +339,24 @@ public class DbLoader implements CommandLineRunner {
 
 //            projectTransaction5.getType().setSubType(subType2);
 
+
+
+            ProjectTransaction projectTransaction6 = new ProjectTransaction();
+            projectTransaction6.setDate(date4);
+            projectTransaction6.setName("Receita de Projeto 6");
+            projectTransaction6.setFrequency(Frequency.DAILY);
+            projectTransaction6.setValue((float)12.3);
+            projectTransaction6.setProject(project1);
+            projectTransaction6.setGenre(Genre.REVENUE);
+            projectTransaction6.setType(type2);
+
             projectTransactionRepository.save(projectTransaction1);
             projectTransactionRepository.save(projectTransaction2);
             projectTransactionRepository.save(projectTransaction3);
             projectTransactionRepository.save(projectTransaction4);
             projectTransactionRepository.save(projectTransaction5);
+            projectTransactionRepository.save(projectTransaction6);
+
 
 
 
@@ -450,7 +469,7 @@ public class DbLoader implements CommandLineRunner {
             employeeTransaction1.setType(type2);
 
             EmployeeTransaction employeeTransaction2 = new EmployeeTransaction();
-            employeeTransaction2.setDate(randomDate1);
+            employeeTransaction2.setDate(date5);
             employeeTransaction2.setName("Despesa de Funcionário 2");
             employeeTransaction2.setFrequency(Frequency.DAILY);
             employeeTransaction2.setValue((float)20.3);
@@ -461,7 +480,7 @@ public class DbLoader implements CommandLineRunner {
 
 
             EmployeeTransaction employeeTransaction3 = new EmployeeTransaction();
-            employeeTransaction3.setDate(randomDate1);
+            employeeTransaction3.setDate(date3);
             employeeTransaction3.setName("Despesa de Funcionário 3");
             employeeTransaction3.setFrequency(Frequency.DAILY);
             employeeTransaction3.setValue((float)20.3);
@@ -477,7 +496,7 @@ public class DbLoader implements CommandLineRunner {
 
 //            about sale transactiosn
             SaleTransaction saleTransaction1 = new SaleTransaction();
-            saleTransaction1.setDate(randomDate1);
+            saleTransaction1.setDate(date5);
             saleTransaction1.setName("Receita de Venda 1");
             saleTransaction1.setFrequency(Frequency.DAILY);
             saleTransaction1.setValue((float)20.3);
@@ -516,7 +535,7 @@ public class DbLoader implements CommandLineRunner {
             generalTransaction1.setType(type2);
 
             GeneralTransaction generalTransaction2 = new GeneralTransaction();
-            generalTransaction2.setDate(randomDate1);
+            generalTransaction2.setDate(date3);
             generalTransaction2.setName("Despesa Geral 2");
             generalTransaction2.setFrequency(Frequency.MONTHLY);
             generalTransaction2.setValue((float)120.3);
@@ -539,7 +558,7 @@ public class DbLoader implements CommandLineRunner {
             //sheet transactions...
 
             SheetTransaction sheetTransaction1 = new SheetTransaction();
-            sheetTransaction1.setDate(randomDate1);
+            sheetTransaction1.setDate(date5);
             sheetTransaction1.setName("Despesa de Folha 1");
             sheetTransaction1.setFrequency(Frequency.DAILY);
             sheetTransaction1.setValue((float)10.1);
@@ -549,7 +568,7 @@ public class DbLoader implements CommandLineRunner {
 
 
             SheetTransaction sheetTransaction2 = new SheetTransaction();
-            sheetTransaction2.setDate(randomDate1);
+            sheetTransaction2.setDate(date4);
             sheetTransaction2.setName("Despesa de Folha 2");
             sheetTransaction2.setFrequency(Frequency.DAILY);
             sheetTransaction2.setValue((float)10.1);

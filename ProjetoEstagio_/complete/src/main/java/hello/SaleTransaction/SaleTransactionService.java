@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 public class SaleTransactionService {
@@ -35,6 +36,10 @@ public class SaleTransactionService {
         saleTransactionsPage = repository.findAll(specFilter, pageable);
 
         return saleTransactionsPage;
+    }
+    public List<SaleTransaction> findAllByGenreAndActived(Genre genre, boolean actived)
+    {
+        return repository.findAllByGenreAndActived(genre, actived);
     }
 
     public Page<SaleTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
