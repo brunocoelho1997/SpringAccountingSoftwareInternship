@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: copy"></head>
+<body>
+
+<div id="newContact">
+    <tr>
+        <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].name}" required th:maxlength="${T(hello.Contact.Contact).MAX_NAME_LENGHT}"/></td>
+        <td><input class="form-control" type="email" th:field="*{contacts[__${rowStat.index}__].email}" required th:maxlength="${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}"/></td>
+        <td><input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].numberPhone}" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/></td>
+        <td class="center">
+            <a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a>
+        </td>
+
+
+        <td><input class="form-control" type="text" id="contacts'+iContacts+'.name" name="contacts[' + iContacts + '].name" required th:maxlength="${T(hello.Contact.Contact).MAX_NAME_LENGHT}"/></td>
+        <td><input class="form-control" type="email" id="contacts'+iContacts+'.email" name="contacts[' + iContacts + '].email" required th:maxlength="${T(hello.Contact.Contact).MAX_EMAIL_LENGHT}"/></td>
+        <td><input class="form-control" type="text" id="contacts'+iContacts+'.numberPhone" name="contacts[' + iContacts + '].numberPhone" required th:maxlength="${T(hello.Contact.Contact).MAX_NUMBERPHONE_LENGHT}"/></td>
+        <td><a class="btn btn-default pull-right" id="removeContact"><i class="glyphicon glyphicon-remove"></i></a></td>' +
+
+
+    </tr>
+</div>
+<div th:replace="fragments/footer :: copy"></div>
+</body>
+</html>
