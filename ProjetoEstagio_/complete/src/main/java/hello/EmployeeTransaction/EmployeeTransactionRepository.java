@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 public interface EmployeeTransactionRepository extends JpaRepository<EmployeeTransaction, Long>, JpaSpecificationExecutor {
@@ -15,5 +17,6 @@ public interface EmployeeTransactionRepository extends JpaRepository<EmployeeTra
     Page<EmployeeTransaction> findAll(Pageable pageable);
     Page<EmployeeTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
+    Collection<EmployeeTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
 
 }

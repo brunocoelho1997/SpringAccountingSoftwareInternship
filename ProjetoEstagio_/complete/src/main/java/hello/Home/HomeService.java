@@ -1,5 +1,7 @@
 package hello.Home;
 
+import hello.Employee.EmployeeRepository;
+import hello.EmployeeTransaction.EmployeeTransactionRepository;
 import hello.Enums.Genre;
 import hello.Home.Resources.ChartResourceStatics;
 import hello.Home.Resources.FinancialChartResource;
@@ -29,6 +31,8 @@ public class HomeService {
     SaleTransactionRepository saleTransactionRepository;
     @Autowired
     ProjectTransactionRepository projectTransactionRepository;
+    @Autowired
+    EmployeeTransactionRepository employeeTransactionRepository;
 
 
 
@@ -60,40 +64,40 @@ public class HomeService {
         LocalDate dateMonth = LocalDate.of(year,month,1);
 
 
+
+        /*
+
+        ---Get all transactions for month and for year
+         */
+
+        List<Transaction> listRevenuesMonth = new ArrayList<>();
+        List<Transaction> listCostsMonth = new ArrayList<>();
+
+        List<Transaction> listRevenuesYear = new ArrayList<>();
+        List<Transaction> listCostsYear = new ArrayList<>();
+
+        listRevenuesMonth.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateMonth));
+        listRevenuesMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateMonth));
+
+        listCostsMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateMonth));
+
+        /*
+        TODO: falta fazer para o resto dos tipos de despesas...
+         */
+
+
        /*
 
         ----Total month revenues and expenses
 
         */
 
-        List<Transaction> listTransactions = new ArrayList<>();
-        listTransactions.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateMonth));
-        listTransactions.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateMonth));
-
-//        System.out.println("\n\n\n\n" + listTransactions);
-//        chartResourceStatics.setTotalExpensesMonth(new Random().nextFloat() *10);
-
-        double totalValueMonth = getTotal(listTransactions);
+        double totalValueMonth = getTotal(listRevenuesMonth);
         chartResourceStatics.setTotalRevenuesMonth((float)totalValueMonth);
 
 
-//        chartResourceStatics.setTotalRevenuesMonth(new Random().nextFloat() *10);
-
-        listTransactions = new ArrayList<>();
-        listTransactions.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateMonth));
-
-        /*
-        TODO: falta fazer para o resto dos tipos de despesas...
-         */
-        totalValueMonth = getTotal(listTransactions);
+        totalValueMonth = getTotal(listCostsMonth);
         chartResourceStatics.setTotalExpensesMonth((float)totalValueMonth);
-
-//        listTransactions = new ArrayList<>();
-//
-//        totalValueMonth = getTotal(listTransactions);
-//        chartResourceStatics.setTotalRevenuesMonth(totalValueMonth);
-
-
 
         /*
 
@@ -101,24 +105,18 @@ public class HomeService {
 
         */
 
-//        chartResourceStatics.setTotalExpensesYear(new Random().nextFloat() *10);
-//        chartResourceStatics.setTotalRevenuesYear(new Random().nextFloat() *10);
+        listRevenuesYear.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
+        listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
 
-
-
-        listTransactions = new ArrayList<>();
-        listTransactions.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
-        listTransactions.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
-
-        totalValueMonth = getTotal(listTransactions);
+        totalValueMonth = getTotal(listRevenuesYear);
         chartResourceStatics.setTotalRevenuesYear((float)totalValueMonth);
-        listTransactions = new ArrayList<>();
-        listTransactions.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
+//        listCostsYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
+        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
 
         /*
         TODO: falta fazer para o resto dos tipos de despesas...
          */
-        totalValueMonth = getTotal(listTransactions);
+        totalValueMonth = getTotal(listCostsYear);
         chartResourceStatics.setTotalExpensesYear((float)totalValueMonth);
 
 
@@ -141,16 +139,32 @@ public class HomeService {
 
          */
 
-        List<String> typeListString = typeService.getDistinctTypes();
+        List<String> typeListString = new ArrayList<>();
+        List<Float> valuePerType = new ArrayList<>();
+
+        for(Transaction transaction : listCostsYear){
+            //if dont has this type add
+            if(!typeListString.contains(transaction.getType().getName()))
+            {
+                typeListString.add(transaction.getType().getName());
+                valuePerType.add(new Float(0));
+            }
+
+            int i = typeListString.indexOf(transaction.getType().getName());
+            Float oldValue = valuePerType.get(i);
+            valuePerType.set(i, oldValue+transaction.getValue());
+
+
+
+        }
+
+
 
         chartResourceStatics.setExpensesList(typeListString);
-        chartResourceStatics.setValueExpensesList(new ArrayList<>());
+        chartResourceStatics.setValueExpensesList(valuePerType);
 
-        for(int i= 0 ; i<typeListString.size(); i++)
-            chartResourceStatics.getValueExpensesList().add(new Random().nextFloat() *10 );
-
-
-
+//        for(int i= 0 ; i<typeListString.size(); i++)
+//            chartResourceStatics.getValueExpensesList().add(new Random().nextFloat() *10 );
 
 
         return chartResourceStatics;
