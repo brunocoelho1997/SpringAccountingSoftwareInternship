@@ -12,8 +12,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@MappedSuperclass
-public class Transaction extends Entity {
+
+
+
+@javax.persistence.Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Transaction extends Entity {
 
     public static final int MAX_NAME_LENGHT = 30;
     public static final int MAX_DESCRIPTION_LENGHT = 30;
@@ -67,6 +71,10 @@ public class Transaction extends Entity {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Currency"), nullable = false)
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     private Currency currency;
+
+    public Transaction() {
+        installments = 1;
+    }
 
     public String getName() {
         return name;

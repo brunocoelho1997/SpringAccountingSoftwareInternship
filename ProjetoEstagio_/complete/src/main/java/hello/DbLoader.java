@@ -645,9 +645,67 @@ public class DbLoader implements CommandLineRunner {
             hoursPerProject1.setProject(project1);
             sheetTransaction3.getHoursPerProjectList().add(hoursPerProject1);
 
+
+
+            SheetTransaction sheetTransaction4 = new SheetTransaction();
+            sheetTransaction4.setDate(date4);
+            sheetTransaction4.setName("Despesa Salarial 1");
+            sheetTransaction4.setFrequency(Frequency.MONTHLY);
+            sheetTransaction4.setValue((float)10.1);
+            sheetTransaction4.setGenre(Genre.COST);
+            sheetTransaction4.setType(type1);
+            sheetTransaction4.setExecuted(false);
+            sheetTransaction4.setCurrency(brlCurrency);
+            sheetTransaction4.setInstallments(10);
+            sheetTransaction4.setEmployee(employee1);
+
+            SheetTransaction sheetTransaction5 = new SheetTransaction();
+            sheetTransaction5.setDate(date4);
+            sheetTransaction5.setName("Despesa Premio Outubro");
+            sheetTransaction5.setFrequency(Frequency.SEMESTER);
+            sheetTransaction5.setValue((float)12.1);
+            sheetTransaction5.setGenre(Genre.COST);
+            sheetTransaction5.setType(type2);
+            sheetTransaction5.setExecuted(false);
+            sheetTransaction5.setCurrency(brlCurrency);
+            sheetTransaction5.setInstallments(1);
+            sheetTransaction5.setEmployee(employee1);
+
+            SheetTransaction sheetTransaction6 = new SheetTransaction();
+            sheetTransaction6.setDate(date4);
+            sheetTransaction6.setName("Despesa Salarial 2");
+            sheetTransaction6.setFrequency(Frequency.MONTHLY);
+            sheetTransaction6.setValue((float)110.1);
+            sheetTransaction6.setGenre(Genre.COST);
+            sheetTransaction6.setType(type1);
+            sheetTransaction6.setExecuted(false);
+            sheetTransaction6.setCurrency(brlCurrency);
+            sheetTransaction6.setInstallments(10);
+            sheetTransaction6.setEmployee(employee2);
+
+            SheetTransaction sheetTransaction7 = new SheetTransaction();
+            sheetTransaction7.setDate(date4);
+            sheetTransaction7.setName("Despesa Premio Outubro");
+            sheetTransaction7.setFrequency(Frequency.SEMESTER);
+            sheetTransaction7.setValue((float)122.1);
+            sheetTransaction7.setGenre(Genre.COST);
+            sheetTransaction7.setType(type2);
+            sheetTransaction7.setExecuted(false);
+            sheetTransaction7.setCurrency(brlCurrency);
+            sheetTransaction7.setInstallments(1);
+            sheetTransaction7.setEmployee(employee2);
+
+
+
             sheetTransactionRepository.save(sheetTransaction1);
             sheetTransactionRepository.save(sheetTransaction2);
             sheetTransactionRepository.save(sheetTransaction3);
+            sheetTransactionRepository.save(sheetTransaction4);
+            sheetTransactionRepository.save(sheetTransaction5);
+            sheetTransactionRepository.save(sheetTransaction6);
+            sheetTransactionRepository.save(sheetTransaction7);
+
+
 
         }
     }

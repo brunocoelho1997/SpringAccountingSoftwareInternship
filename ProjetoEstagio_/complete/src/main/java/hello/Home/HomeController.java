@@ -10,6 +10,7 @@ import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionService;
 import hello.SaleTransaction.SaleTransactionService;
 import hello.Transaction.Transaction;
+import hello.Transaction.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,8 +41,8 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView index(@RequestParam("pageSize") Optional<Integer> pageSize)
-
     {
+
         ModelAndView modelAndView = new ModelAndView("Home/index");
 
         // Evaluate page size. If requested parameter is null, return initial
