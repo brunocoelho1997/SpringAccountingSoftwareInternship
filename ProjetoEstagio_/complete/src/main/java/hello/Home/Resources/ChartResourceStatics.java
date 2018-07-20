@@ -1,12 +1,13 @@
 package hello.Home.Resources;
 
+import hello.Currency.Currency;
 import hello.Project.Resources.TypeSubtypeResource;
 
 import java.util.List;
 
 public class ChartResourceStatics {
 
-
+    private String selectedCurrency;
 
     private List<String> yearMonthList;
 
@@ -114,6 +115,14 @@ public class ChartResourceStatics {
 
     public void setTotalExpensesByMonth(List<Float> totalExpensesByMonth) {
         this.totalExpensesByMonth = totalExpensesByMonth;
+    }
+
+    public String getSelectedCurrency() {
+        return selectedCurrency;
+    }
+
+    public void setSelectedCurrency(String selectedCurrency) {
+        this.selectedCurrency = selectedCurrency;
     }
 
     @Override

@@ -295,6 +295,7 @@ public class DbLoader implements CommandLineRunner {
             Currency brlCurrency = new Currency();
             brlCurrency.setName("BRL");
             brlCurrency.setSymbol("R$");
+            brlCurrency.setSelected(true);
             currencyRepository.save(brlCurrency);
 
             ProjectTransaction projectTransaction1 = new ProjectTransaction();

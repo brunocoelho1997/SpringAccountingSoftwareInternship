@@ -1,5 +1,6 @@
 package hello.Currency;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -11,10 +12,14 @@ import javax.validation.constraints.NotNull;
 public class Currency extends hello.EntityPackage.Entity {
     @NotNull
     @Column(nullable = false)
-    String name;
+    private String name;
     @NotNull
     @Column(nullable = false)
-    String symbol;
+    private String symbol;
+
+    @Column(nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean selected;
 
     public String getName() {
         return name;
@@ -32,8 +37,20 @@ public class Currency extends hello.EntityPackage.Entity {
         this.symbol = symbol;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     @Override
     public String toString() {
-        return ""+symbol;
+        return "Currency{" +
+                "name='" + name + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", selected=" + selected +
+                '}';
     }
 }

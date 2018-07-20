@@ -59,7 +59,7 @@ $( "#yearSelected" )
                             {value: result.totalRevenuesYear, label: 'Receitas'},
                             {value: result.totalExpensesYear, label: 'Despesas'}
                         ],
-                        formatter: function (x) { return x + "€"}
+                        formatter: function (x) { return x + "" + result.selectedCurrency}
                     }).on('click', function(i, row){
                         console.log(i, row);
                     });

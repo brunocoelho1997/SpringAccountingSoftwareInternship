@@ -1,5 +1,8 @@
 package hello.Home;
 
+import hello.Application;
+import hello.Currency.Currency;
+import hello.Currency.CurrencyRepository;
 import hello.Employee.EmployeeRepository;
 import hello.EmployeeTransaction.EmployeeTransactionRepository;
 import hello.Enums.Genre;
@@ -43,7 +46,8 @@ public class HomeService {
     SheetTransactionRepository sheetTransactionRepository;
     @Autowired
     SupplierTransactionRepository supplierTransactionRepository;
-
+    @Autowired
+    CurrencyRepository currencyRepository;
 
 
     private double getTotal(List<Transaction> listTransactions){
@@ -177,6 +181,8 @@ public class HomeService {
         chartResourceStatics.setExpensesList(typeListString);
         chartResourceStatics.setValueExpensesList(valuePerType);
 
+        chartResourceStatics.setSelectedCurrency(currencyRepository.findBySelected(true).getSymbol());
+
         return chartResourceStatics;
     }
 
@@ -251,7 +257,6 @@ public class HomeService {
         financialChartResource.setValueExpensesList(valuePerType);
 
 
-
         /*
         ---Total year revenues and expenses in
          */
@@ -275,6 +280,7 @@ public class HomeService {
             financialChartResource.getTotalRevenueByMonth().add(new Random().nextFloat() *10 );
         }
 
+        financialChartResource.setSelectedCurrency(currencyRepository.findBySelected(true).getSymbol());
 
 
         return  financialChartResource;

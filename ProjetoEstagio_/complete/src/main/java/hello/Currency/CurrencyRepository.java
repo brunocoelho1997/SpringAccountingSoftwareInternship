@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface CurrencyRepository extends JpaRepository<Currency, Long>, JpaSpecificationExecutor {
 
+    Currency findByName(String name);
+    Currency findBySelected(boolean selected);
+
 }
