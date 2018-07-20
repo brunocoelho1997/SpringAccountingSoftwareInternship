@@ -1,9 +1,9 @@
 package hello.Transaction;
 
+import hello.Currency.Currency;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.EntityPackage.Entity;
-import hello.SubType.SubType;
 import hello.Type.Type;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -54,6 +54,19 @@ public class Transaction extends Entity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private LocalDate date;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean executed;
+
+    @NotNull
+    @Column(nullable = false)
+    private int installments;
+
+    @NotNull
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Currency"), nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    private Currency currency;
 
     public String getName() {
         return name;
@@ -111,7 +124,29 @@ public class Transaction extends Entity {
         this.type = type;
     }
 
+    public boolean isExecuted() {
+        return executed;
+    }
 
+    public void setExecuted(boolean executed) {
+        this.executed = executed;
+    }
+
+    public int getInstallments() {
+        return installments;
+    }
+
+    public void setInstallments(int installments) {
+        this.installments = installments;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
 
     @Override
     public String toString() {

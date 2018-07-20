@@ -230,18 +230,14 @@ public class HomeService {
          */
 
          /*
-
         -------GENERAL - dates
-
          */
         financialChartResource.setYearMonthList(getMonthsList((int)(long)year));
 
 
 
         /*
-
         -----------------expensesByType
-
          */
 
 
@@ -253,8 +249,6 @@ public class HomeService {
 
         financialChartResource.setExpensesList(typeListString);
         financialChartResource.setValueExpensesList(valuePerType);
-
-
 
 
 
