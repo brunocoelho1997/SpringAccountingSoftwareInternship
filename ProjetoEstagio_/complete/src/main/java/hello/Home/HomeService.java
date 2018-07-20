@@ -241,11 +241,9 @@ public class HomeService {
         financialChartResource.setYearMonthList(getMonthsList((int)(long)year));
 
 
-
         /*
         -----------------expensesByType
          */
-
 
 
         List<String> typeListString = new ArrayList<>();
@@ -281,7 +279,6 @@ public class HomeService {
         }
 
         financialChartResource.setSelectedCurrency(currencyRepository.findBySelected(true).getSymbol());
-
 
         return  financialChartResource;
     }
