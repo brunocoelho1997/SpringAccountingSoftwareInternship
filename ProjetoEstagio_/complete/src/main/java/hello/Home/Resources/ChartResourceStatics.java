@@ -6,6 +6,10 @@ import java.util.List;
 
 public class ChartResourceStatics {
 
+
+
+    private List<String> yearMonthList;
+
     private List<Float> balanceList;
     private List<Float> profitList;
 
@@ -22,6 +26,15 @@ public class ChartResourceStatics {
     //to indicate value per month (will has 12 values in a full year)
     private List<Float> totalRevenueByMonth;
     private List<Float> totalExpensesByMonth;
+
+
+    public List<String> getYearMonthList() {
+        return yearMonthList;
+    }
+
+    public void setYearMonthList(List<String> yearMonthList) {
+        this.yearMonthList = yearMonthList;
+    }
 
     public List<Float> getBalanceList() {
         return balanceList;
@@ -106,6 +119,7 @@ public class ChartResourceStatics {
     @Override
     public String toString() {
         return "ChartResourceStatics{" +
+                "yearMonthList=" + yearMonthList +
                 ", balanceList=" + balanceList +
                 ", profitList=" + profitList +
                 ", expensesList=" + expensesList +

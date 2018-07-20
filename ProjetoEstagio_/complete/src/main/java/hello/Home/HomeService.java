@@ -138,6 +138,18 @@ public class HomeService {
         totalValueMonth = getTotal(listCostsYear);
         chartResourceStatics.setTotalExpensesYear((float)totalValueMonth);
 
+
+        /*
+
+        -------GENERAL - dates
+
+         */
+        chartResourceStatics.setYearMonthList(getMonthsList(year));
+
+
+
+
+
         /*
 
         -----------------expensesByType
@@ -201,6 +213,8 @@ public class HomeService {
 
         return years;
     }
+
+
 
     public FinancialChartResource getStatistic(Long year) {
 
