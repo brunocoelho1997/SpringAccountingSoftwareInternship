@@ -19,5 +19,7 @@ public interface SaleTransactionRepository extends JpaRepository<SaleTransaction
     List<SaleTransaction> findDistinctByGenreAndActived(Genre genre, boolean actived);
 
     Collection<SaleTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
+    Collection<SaleTransaction> findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore);
+
     List<SaleTransaction> findAllByGenreAndActived(Genre genre, boolean actived);
 }

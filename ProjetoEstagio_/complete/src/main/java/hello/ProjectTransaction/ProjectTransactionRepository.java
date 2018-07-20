@@ -21,5 +21,7 @@ public interface ProjectTransactionRepository extends JpaRepository<ProjectTrans
 
     List<ProjectTransaction> findDistinctByProjectAndGenreAndActived(Project project, Genre genre, boolean actived);
     Collection<ProjectTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
+    Collection<ProjectTransaction> findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore);
+
     List<ProjectTransaction> findAllByGenreAndActived(Genre genre, boolean actived);
 }

@@ -18,5 +18,6 @@ public interface EmployeeTransactionRepository extends JpaRepository<EmployeeTra
     Page<EmployeeTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
     Collection<EmployeeTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
+    Collection<EmployeeTransaction> findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore);
 
 }

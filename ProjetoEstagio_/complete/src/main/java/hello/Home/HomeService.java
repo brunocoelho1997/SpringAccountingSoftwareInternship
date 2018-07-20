@@ -65,6 +65,20 @@ public class HomeService {
         return months;
     }
 
+    private void getExpensesByType(List<String> typeListString, List<Transaction> listCostsYear, List<Float> valuePerType){
+        for(Transaction transaction : listCostsYear){
+            //if dont has this type add
+            if(!typeListString.contains(transaction.getType().getName()))
+            {
+                typeListString.add(transaction.getType().getName());
+                valuePerType.add(new Float(0));
+            }
+            int i = typeListString.indexOf(transaction.getType().getName());
+            Float oldValue = valuePerType.get(i);
+            valuePerType.set(i, oldValue+transaction.getValue());
+        }
+    }
+
     public ChartResourceStatics getStatistic() {
 
         ChartResourceStatics chartResourceStatics = new ChartResourceStatics();
@@ -122,7 +136,6 @@ public class HomeService {
         ----Total year revenues and expenses
 
         */
-
         listRevenuesYear.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
         listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
 
@@ -135,8 +148,8 @@ public class HomeService {
         /*
         TODO: falta fazer para o resto dos tipos de despesas...
          */
-        totalValueMonth = getTotal(listCostsYear);
-        chartResourceStatics.setTotalExpensesYear((float)totalValueMonth);
+        double totalValueYear = getTotal(listCostsYear);
+        chartResourceStatics.setTotalExpensesYear((float)totalValueYear);
 
 
         /*
@@ -159,30 +172,10 @@ public class HomeService {
         List<String> typeListString = new ArrayList<>();
         List<Float> valuePerType = new ArrayList<>();
 
-        for(Transaction transaction : listCostsYear){
-            //if dont has this type add
-            if(!typeListString.contains(transaction.getType().getName()))
-            {
-                typeListString.add(transaction.getType().getName());
-                valuePerType.add(new Float(0));
-            }
-
-            int i = typeListString.indexOf(transaction.getType().getName());
-            Float oldValue = valuePerType.get(i);
-            valuePerType.set(i, oldValue+transaction.getValue());
-
-
-
-        }
-
-
+        getExpensesByType(typeListString, listCostsYear, valuePerType);
 
         chartResourceStatics.setExpensesList(typeListString);
         chartResourceStatics.setValueExpensesList(valuePerType);
-
-//        for(int i= 0 ; i<typeListString.size(); i++)
-//            chartResourceStatics.getValueExpensesList().add(new Random().nextFloat() *10 );
-
 
         return chartResourceStatics;
     }
@@ -219,6 +212,22 @@ public class HomeService {
     public FinancialChartResource getStatistic(Long year) {
 
         FinancialChartResource financialChartResource = new FinancialChartResource();
+        List<Transaction> listRevenuesYear = new ArrayList<>();
+        List<Transaction> listCostsYear = new ArrayList<>();
+
+
+        LocalDate beginOfYear = LocalDate.of((int)(long)year,1,1);
+        LocalDate finalOfYear = LocalDate.of((int)(long)year,12,31);
+
+
+        listRevenuesYear.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre.REVENUE, true, beginOfYear,finalOfYear));
+        listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre.REVENUE, true, beginOfYear,finalOfYear));
+
+
+        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre.COST, true, beginOfYear,finalOfYear));
+        /*
+        TODO: falta fazer para o resto dos tipos de despesas...
+         */
 
          /*
 
@@ -229,43 +238,38 @@ public class HomeService {
 
 
 
-//        LocalDate dateYear = LocalDate.of((int)year,1,1);
-
         /*
 
         -----------------expensesByType
 
          */
 
-        List<String> typeListString = typeService.getDistinctTypes();
+
+
+        List<String> typeListString = new ArrayList<>();
+        List<Float> valuePerType = new ArrayList<>();
+
+        getExpensesByType(typeListString, listCostsYear, valuePerType);
 
         financialChartResource.setExpensesList(typeListString);
-        financialChartResource.setValueExpensesList(new ArrayList<>());
+        financialChartResource.setValueExpensesList(valuePerType);
 
-        for(int i= 0 ; i<typeListString.size(); i++)
-            financialChartResource.getValueExpensesList().add(new Random().nextFloat() *10 );
 
 
 
 
         /*
-
-
         ---Total year revenues and expenses in
-
-
          */
-        financialChartResource.setTotalExpensesYear(new Random().nextFloat() *10);
-        financialChartResource.setTotalRevenuesYear(new Random().nextFloat() *10);
+        double totalValueYear = getTotal(listCostsYear);
+        financialChartResource.setTotalExpensesYear((float)totalValueYear);
 
+        totalValueYear = getTotal(listRevenuesYear);
+        financialChartResource.setTotalRevenuesYear((float)totalValueYear);
 
 
         /*
-
-
         ---Total revenues and expenses by month
-
-
          */
         financialChartResource.setTotalExpensesByMonth(new ArrayList<>());
         financialChartResource.setTotalRevenueByMonth(new ArrayList<>());
