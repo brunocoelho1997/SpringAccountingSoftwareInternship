@@ -3,12 +3,16 @@ package hello.Home;
 import hello.Employee.EmployeeRepository;
 import hello.EmployeeTransaction.EmployeeTransactionRepository;
 import hello.Enums.Genre;
+import hello.GeneralTransaction.GeneralTransactionRepository;
 import hello.Home.Resources.ChartResourceStatics;
 import hello.Home.Resources.FinancialChartResource;
 import hello.Project.Resources.ChartResource;
 import hello.Project.Resources.TypeSubtypeResource;
 import hello.ProjectTransaction.ProjectTransactionRepository;
 import hello.SaleTransaction.SaleTransactionRepository;
+import hello.SheetTransaction.SheetTransactionRepository;
+import hello.SupplierTransaction.SupplierTransaction;
+import hello.SupplierTransaction.SupplierTransactionRepository;
 import hello.Transaction.Transaction;
 import hello.Type.Type;
 import hello.Type.TypeService;
@@ -33,6 +37,12 @@ public class HomeService {
     ProjectTransactionRepository projectTransactionRepository;
     @Autowired
     EmployeeTransactionRepository employeeTransactionRepository;
+    @Autowired
+    GeneralTransactionRepository generalTransactionRepository;
+    @Autowired
+    SheetTransactionRepository sheetTransactionRepository;
+    @Autowired
+    SupplierTransactionRepository supplierTransactionRepository;
 
 
 
@@ -46,6 +56,14 @@ public class HomeService {
         return (double) Math.round(total * 100.0) / 100.0;
     }
 
+    private List<String>getMonthsList(Integer year){
+        List<String> months = new ArrayList<>();
+
+        for(int i=0; i<12; i++)
+            months.add("" + year + "-" + String.format("%02d", (i+1))  );
+
+        return months;
+    }
 
     public ChartResourceStatics getStatistic() {
 
@@ -110,28 +128,15 @@ public class HomeService {
 
         totalValueMonth = getTotal(listRevenuesYear);
         chartResourceStatics.setTotalRevenuesYear((float)totalValueMonth);
-//        listCostsYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
         listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
+//        listCostsYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
+//        listCostsYear.addAll(generalTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
 
         /*
         TODO: falta fazer para o resto dos tipos de despesas...
          */
         totalValueMonth = getTotal(listCostsYear);
         chartResourceStatics.setTotalExpensesYear((float)totalValueMonth);
-
-
-        /*
-
-        -------GENERAL - dates
-
-         */
-        chartResourceStatics.setYearMonthList(new ArrayList<>());
-        for(int i=0; i<12; i++)
-            chartResourceStatics.getYearMonthList().add("" + year + "-" + String.format("%02d", (i+1))  );
-
-
-
-
 
         /*
 
@@ -170,41 +175,47 @@ public class HomeService {
         return chartResourceStatics;
     }
 
+
+    public List<String>getAllYears(){
+        List<String> years = new ArrayList<>();
+
+        List<Transaction> listRevenues = new ArrayList<>();
+        List<Transaction> listCosts = new ArrayList<>();
+
+        listRevenues.addAll(saleTransactionRepository.findAllByGenreAndActived(Genre.REVENUE, true));
+        listRevenues.addAll(projectTransactionRepository.findAllByGenreAndActived(Genre.REVENUE, true));
+
+
+        listCosts.addAll(projectTransactionRepository.findAllByGenreAndActived(Genre.COST, true));
+
+        /*
+        TODO: falta fazer para o resto dos tipos de despesas...
+         */
+
+
+        for(Transaction transaction : listRevenues){
+            String stringYear = String.valueOf(transaction.getDate().getYear());
+            if(!years.contains(stringYear))
+                years.add(stringYear);
+        }
+
+        return years;
+    }
+
     public FinancialChartResource getStatistic(Long year) {
 
         FinancialChartResource financialChartResource = new FinancialChartResource();
-
 
          /*
 
         -------GENERAL - dates
 
          */
-        financialChartResource.setYearMonthList(new ArrayList<>());
-        for(int i=0; i<12; i++)
-            financialChartResource.getYearMonthList().add("" + year + "-" + String.format("%02d", (i+1))  );
+        financialChartResource.setYearMonthList(getMonthsList((int)(long)year));
+
 
 
 //        LocalDate dateYear = LocalDate.of((int)year,1,1);
-
-
-        /*
-
-        -----------------balancePerMonth
-
-         */
-        financialChartResource.setBalanceList(new ArrayList<>());
-        financialChartResource.setProfitList(new ArrayList<>());
-
-        for(int i=0; i<12; i++)
-        {
-            financialChartResource.getBalanceList().add(new Random().nextFloat() *10 );
-            if(new Random().nextBoolean())
-                financialChartResource.getProfitList().add(new Random().nextFloat() *10);
-            else
-                financialChartResource.getProfitList().add((float)0);
-        }
-
 
         /*
 

@@ -4,11 +4,7 @@ import java.util.List;
 
 public class FinancialChartResource {
 
-
     private List<String> yearMonthList;
-
-    private List<Float> balanceList;
-    private List<Float> profitList;
 
     private List<String> expensesList;
     private List<Float> valueExpensesList;
@@ -21,29 +17,12 @@ public class FinancialChartResource {
     private List<Float> totalRevenueByMonth;
     private List<Float> totalExpensesByMonth;
 
-
     public List<String> getYearMonthList() {
         return yearMonthList;
     }
 
     public void setYearMonthList(List<String> yearMonthList) {
         this.yearMonthList = yearMonthList;
-    }
-
-    public List<Float> getBalanceList() {
-        return balanceList;
-    }
-
-    public void setBalanceList(List<Float> balanceList) {
-        this.balanceList = balanceList;
-    }
-
-    public List<Float> getProfitList() {
-        return profitList;
-    }
-
-    public void setProfitList(List<Float> profitList) {
-        this.profitList = profitList;
     }
 
     public List<String> getExpensesList() {

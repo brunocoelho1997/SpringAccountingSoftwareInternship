@@ -71,6 +71,8 @@ public class HomeController {
         List<Transaction> pageTransactions = new ArrayList<>(transactionList.subList(0,n));
 
         modelAndView.addObject("listEntities", pageTransactions);
+        modelAndView.addObject("yearsToSelect", homeService.getAllYears());
+
 
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
