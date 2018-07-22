@@ -91,7 +91,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6"></div>
+                    <div class="col-sm-5"></div>
+
+                    <div class="col-sm-1">
+                        <label> Eliminados</label>
+                        <label class="switch">
+                            <input type="checkbox" name = "switch_deleted_entities" th:checked="${switch_deleted_entities}">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -136,15 +144,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" >
                                 <div class="row">
-                                    <div class="col-sm-4" th:text="#{Transactions.Revenue.PanelHeading}" />
-                                    <div class="col-sm-8" th:align="right">
-                                        <a th:href="${#httpServletRequest.requestURI} + 'recovery'">
-                                            <button type="button" class="btn btn-default btn-sm">
-                                                <span class="glyphicon glyphicon-trash"></span>
-                                                <span th:text="#{System.Recovery}"></span>
-                                            </button>
-                                        </a>
-                                    </div>
+                                    <div class="col-sm-12" th:text="#{Transactions.Revenue.PanelHeading}" />
                                 </div>
                             </div>
                             <!-- /.panel-heading -->
@@ -178,7 +178,9 @@
                                         <td th:text="${r.getEmployee().getName()}"></td>
                                         <td th:text="${r.getValue()}"></td>
                                         <td class="center">
-                                            <a class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+
+                                            <a class="btn btn-default trash pull-right" th:if="${r.actived==true}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default recovery pull-right" th:if="${r.actived==false}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/employee_transaction/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/employee_transaction/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                         </td>
@@ -225,12 +227,43 @@
             });
         });
 
+        $('a.recovery').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/employee_transaction/recovery_transaction?id=' + $(this).attr('transaction-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#recovery-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
+
     });
 
     function deleteEntity(id) {
         $.ajax({
             type: 'DELETE',
             url: '/employee_transaction/remove_transaction?id=' + id
+
+        }).done(function (result) {
+            $('a[transaction-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+
+    }
+
+    function recoveryEntity(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/employee_transaction/recovery_transaction?id=' + id
 
         }).done(function (result) {
             $('a[transaction-id=' + id + ']').closest('tr').remove();

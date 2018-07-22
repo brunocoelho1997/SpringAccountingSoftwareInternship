@@ -1,35 +1,18 @@
-package hello.EmployeeTransaction;
+package hello.Transaction;
 
-import hello.Employee.Employee;
 import hello.EntityPackage.Entity_;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
-import hello.Project.Project;
-import hello.Project.Project_;
-import hello.ProjectTransaction.ProjectTransaction;
-import hello.ProjectTransaction.ProjectTransaction_;
 import hello.SubType.SubType;
-import hello.SubType.SubTypeService;
-import hello.SubType.SubType_;
-import hello.Transaction.Transaction;
-import hello.Transaction.Transaction_;
-import hello.Type.Type;
-import hello.Type.TypeRepository;
-import hello.Type.TypeService;
 import hello.Type.Type_;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
-public class EmployeeTransactionSpecifications {
-
-
-
-    public static Specification<EmployeeTransaction> filter(String value, String frequency, String type, List<SubType> subTypeList, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre) {
+public class TransactionSpecifications {
+    public static Specification<Transaction> filterToFinancialProjection(String value, String frequency, String type, List<SubType> subTypeList, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -44,9 +27,6 @@ public class EmployeeTransactionSpecifications {
             Predicate predicateValueSince;
             Predicate predicateValueUntil;
             Predicate predicateGenre;
-            Predicate predicateDeletedEntities;
-
-
 
             if(!value.isEmpty())
             {
@@ -93,16 +73,6 @@ public class EmployeeTransactionSpecifications {
                 else
                     predicateFinal = predicateSubType;
             }
-
-            if(employee != null)
-            {
-                predicateProject = cb.equal(root.get(EmployeeTransaction_.employee), employee);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateProject);
-                else
-                    predicateFinal = predicateProject;
-            }
-
 
             if(!dateSince.isEmpty())
             {
@@ -163,17 +133,6 @@ public class EmployeeTransactionSpecifications {
                     ; //ignore
                 }
             }
-
-            if(deletedEntities != false)
-            {
-                predicateDeletedEntities = cb.equal(root.get(Entity_.actived), !(deletedEntities));
-
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateDeletedEntities);
-                else
-                    predicateFinal = predicateDeletedEntities;
-            }
-
 
             //define Genre
             predicateGenre = cb.equal(root.get(Transaction_.genre), genre);

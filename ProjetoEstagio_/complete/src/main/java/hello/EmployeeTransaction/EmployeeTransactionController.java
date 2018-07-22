@@ -46,7 +46,8 @@ public class EmployeeTransactionController {
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
 
     {
         ModelAndView modelAndView = new ModelAndView("EmployeeTransaction/index");
@@ -61,7 +62,7 @@ public class EmployeeTransactionController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<EmployeeTransaction> employeeTransactions = employeeTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
+        Page<EmployeeTransaction> employeeTransactions = employeeTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, Genre.COST, true);
 
 
         Pager pager = new Pager(employeeTransactions.getTotalPages(), employeeTransactions.getNumber(), BUTTONS_TO_SHOW);
@@ -86,6 +87,8 @@ public class EmployeeTransactionController {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+
 
         return modelAndView;
     }
@@ -168,5 +171,19 @@ public class EmployeeTransactionController {
 
         model.addAttribute("transaction", transaction);
         return "EmployeeTransaction/info_transaction";
+    }
+
+    @RequestMapping("/recovery_transaction")
+    public String recoveryTransaction(@RequestParam("id") Long id, Model model) {
+
+        EmployeeTransaction projectTransaction = employeeTransactionService.getEmployeeTransaction(id);
+        model.addAttribute("transaction", projectTransaction);
+
+        return "EmployeeTransaction/recovery_transaction :: modal";
+    }
+    @PostMapping("/recovery_transaction")
+    public @ResponseBody String recoveryTransaction(@RequestParam("id") Long id) {
+        employeeTransactionService.recoveryTransaction(id);
+        return "redirect:/employee_transaction/";
     }
 }

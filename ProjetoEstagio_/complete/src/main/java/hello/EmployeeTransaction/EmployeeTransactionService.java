@@ -45,22 +45,24 @@ public class EmployeeTransactionService {
         repository.save(employeeTransaction);
     }
 
-    public Page<EmployeeTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<EmployeeTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
 
         //could receive params to filter de list
-        if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
-            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, genre);
+        if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || employeeId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
+            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return repository.findAllByGenre(pageable, genre);
+            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
     }
 
-    private Page<EmployeeTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<EmployeeTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long employeeId, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
         Page<EmployeeTransaction> transactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
-            return repository.findAllByGenre(pageable, genre);
+        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
+            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+
+        deletedEntities = (deletedEntities == null ? false : true);
 
         Employee employee = employeeService.getEmployee(employeeId);
 
@@ -69,7 +71,7 @@ public class EmployeeTransactionService {
             subTypeList = subTypeService.getSubType(subTypeValue);
         }
 
-        Specification<EmployeeTransaction> specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, subTypeList, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+        Specification<EmployeeTransaction> specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, subTypeList, employee, dateSince, dateUntil,valueSince, valueUntil, deletedEntities, genre);
 
         transactionsPage = repository.findAll(specFilter, pageable);
 
@@ -113,6 +115,12 @@ public class EmployeeTransactionService {
 
     public void removeEmployeeTransaction(Long id) {
         EmployeeTransaction employeeTransaction = getEmployeeTransaction((long)id);
-        repository.delete(employeeTransaction);
+        employeeTransaction.setActived(false);
+        repository.save(employeeTransaction);
+    }
+    public void recoveryTransaction(Long id) {
+        EmployeeTransaction employeeTransaction = getEmployeeTransaction((long)id);
+        employeeTransaction.setActived(true);
+        repository.save(employeeTransaction);
     }
 }

@@ -658,6 +658,13 @@ public class DbLoader implements CommandLineRunner {
             sheetTransaction4.setCurrency(brlCurrency);
             sheetTransaction4.setInstallments(10);
             sheetTransaction4.setEmployee(employee1);
+            sheetTransaction4.setHoursPerProjectList(new ArrayList<>());
+
+            HoursPerProject hoursPerProject2 = new HoursPerProject();
+            hoursPerProject2.setDuration(LocalTime.of(5,30));
+            hoursPerProject2.setProject(project1);
+            sheetTransaction4.getHoursPerProjectList().add(hoursPerProject2);
+
 
             SheetTransaction sheetTransaction5 = new SheetTransaction();
             sheetTransaction5.setDate(date4);
@@ -683,19 +690,6 @@ public class DbLoader implements CommandLineRunner {
             sheetTransaction6.setInstallments(10);
             sheetTransaction6.setEmployee(employee2);
 
-            SheetTransaction sheetTransaction7 = new SheetTransaction();
-            sheetTransaction7.setDate(date4);
-            sheetTransaction7.setName("Despesa Premio Outubro");
-            sheetTransaction7.setFrequency(Frequency.SEMESTER);
-            sheetTransaction7.setValue((float)122.1);
-            sheetTransaction7.setGenre(Genre.COST);
-            sheetTransaction7.setType(type2);
-            sheetTransaction7.setExecuted(false);
-            sheetTransaction7.setCurrency(brlCurrency);
-            sheetTransaction7.setInstallments(1);
-            sheetTransaction7.setEmployee(employee2);
-
-
 
             sheetTransactionRepository.save(sheetTransaction1);
             sheetTransactionRepository.save(sheetTransaction2);
@@ -703,10 +697,35 @@ public class DbLoader implements CommandLineRunner {
             sheetTransactionRepository.save(sheetTransaction4);
             sheetTransactionRepository.save(sheetTransaction5);
             sheetTransactionRepository.save(sheetTransaction6);
-            sheetTransactionRepository.save(sheetTransaction7);
 
 
 
+
+            GeneralTransaction generalTransaction4 = new GeneralTransaction();
+            generalTransaction4.setDate(randomDate1);
+            generalTransaction4.setName("Despesa Geral 4 - PF");
+            generalTransaction4.setFrequency(Frequency.DAILY);
+            generalTransaction4.setValue((float)230.1);
+            generalTransaction4.setGenre(Genre.COST);
+            generalTransaction4.setType(type1);
+            generalTransaction4.setExecuted(false);
+            generalTransaction4.setCurrency(brlCurrency);
+
+            generalTransactionRepository.save(generalTransaction4);
+
+
+            EmployeeTransaction employeeTransaction4 = new EmployeeTransaction();
+            employeeTransaction4.setDate(date3);
+            employeeTransaction4.setName("Despesa de Funcionário 4 - PF");
+            employeeTransaction4.setFrequency(Frequency.DAILY);
+            employeeTransaction4.setValue((float)18.3);
+            employeeTransaction4.setEmployee(employee2);
+            employeeTransaction4.setGenre(Genre.COST);
+            employeeTransaction4.setType(type2);
+            employeeTransaction4.setExecuted(false);
+            employeeTransaction4.setCurrency(brlCurrency);
+
+            employeeTransactionRepository.save(employeeTransaction4);
         }
     }
 }

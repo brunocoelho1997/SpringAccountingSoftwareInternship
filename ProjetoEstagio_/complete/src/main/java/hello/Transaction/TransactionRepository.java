@@ -13,4 +13,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
 
     Page<Transaction> findAllByGenreAndExecuted(Pageable pageable, Genre genre, boolean executed);
 
+    Transaction findById(long id);
 }
