@@ -1,18 +1,15 @@
 package hello.FinancialProjection;
 
-import hello.Employee.Employee;
 import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.Enums.Genre;
-import hello.FinancialProjection.Resources.FinancialProjectionAproved;
+import hello.FinancialProjection.Resources.FinancialProjectionValidated;
 import hello.GeneralTransaction.GeneralTransaction;
-import hello.ProjectTransaction.ProjectTransaction;
 import hello.SheetTransaction.SheetTransaction;
 import hello.SheetTransaction.SheetTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
 import hello.Transaction.Transaction;
 import hello.Transaction.TransactionRepository;
-import hello.Transaction.TransactionService;
 import hello.Transaction.TransactionSpecifications;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +39,7 @@ public class FinancialProjectionService {
         if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, genre);
         else
-            return transactionRepository.findAllByGenreAndExecuted(pageable, genre, false);
+            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, false, true);
     }
 
     private Page<Transaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
@@ -50,7 +47,7 @@ public class FinancialProjectionService {
         Page<Transaction> transactionsPage = null;
 
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
-            return transactionRepository.findAllByGenreAndExecuted(pageable, genre, false);
+            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, false, true);
 
         List<SubType> subTypeList = null;
         if(!subTypeValue.isEmpty()){
@@ -69,10 +66,10 @@ public class FinancialProjectionService {
         return transactionRepository.findById(id);
     }
 
-    public void aproveTransaction(FinancialProjectionAproved financialProjectionAproved)
+    public void aproveTransaction(FinancialProjectionValidated financialProjectionValidated)
     {
 
-        Transaction transaction = transactionRepository.findById((long)financialProjectionAproved.getId());
+        Transaction transaction = transactionRepository.findById((long) financialProjectionValidated.getId());
 
         //used if transaction has more than one installment
         Transaction transactionAux = null;
@@ -87,7 +84,7 @@ public class FinancialProjectionService {
         else
         {
 
-            for(int i = 0; i<financialProjectionAproved.getInstallments(); i++) {
+            for(int i = 0; i< financialProjectionValidated.getInstallments(); i++) {
 
 
                 //if the last element... otherwise the transaction will has installments = 0
@@ -103,7 +100,7 @@ public class FinancialProjectionService {
                 if (transaction instanceof SheetTransaction) {
                     transactionAux = new SheetTransaction();
                     ((SheetTransaction) transactionAux).setHoursPerProjectList(new ArrayList<>());
-                    ((SheetTransaction) transactionAux).getHoursPerProjectList().addAll(financialProjectionAproved.getHoursPerProjectList());
+                    ((SheetTransaction) transactionAux).getHoursPerProjectList().addAll(financialProjectionValidated.getHoursPerProjectList());
 
                     ((SheetTransaction) transactionAux).setEmployee(((SheetTransaction) transaction).getEmployee());
 
@@ -118,13 +115,12 @@ public class FinancialProjectionService {
                 if (transaction.getDescription() != null)
                     transactionAux.setDescription(transaction.getDescription());
                 transactionAux.setFrequency(transaction.getFrequency());
-                transactionAux.setDate(financialProjectionAproved.getDate());
+                transactionAux.setDate(financialProjectionValidated.getDate());
                 transactionAux.setCurrency(transaction.getCurrency());
                 transactionAux.setValue(transaction.getValue());
                 transactionAux.setGenre(transaction.getGenre());
                 transactionAux.setType(transaction.getType());
                 transactionAux.setExecuted(true);
-
 
                 if (transactionAux != null)
                     transactionRepository.save(transactionAux);
@@ -132,11 +128,17 @@ public class FinancialProjectionService {
 
 
             //we need this if otherwise the last transaction will have 0 installments
-            if(transaction.getInstallments() == financialProjectionAproved.getInstallments() )
+            if(transaction.getInstallments() == financialProjectionValidated.getInstallments() )
                 transaction.setInstallments(1);
             else
-                transaction.setInstallments(transaction.getInstallments() - financialProjectionAproved.getInstallments());
+                transaction.setInstallments(transaction.getInstallments() - financialProjectionValidated.getInstallments());
         }
+        transactionRepository.save(transaction);
+    }
+
+    public void removeTransaction(Long id) {
+        Transaction transaction = getTransaction((long)id);
+        transaction.setActived(false);
         transactionRepository.save(transaction);
     }
 }

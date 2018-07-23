@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor {
 
-    Page<Transaction> findAllByGenreAndExecuted(Pageable pageable, Genre genre, boolean executed);
+    Page<Transaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
 
     Transaction findById(long id);
 }

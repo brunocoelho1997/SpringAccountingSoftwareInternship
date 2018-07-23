@@ -180,44 +180,44 @@
 <script src="../pagination.js"></script>
 
 
-<!--<script>-->
+<script>
 
-    <!--$( document ).ready(function () {-->
+    $( document ).ready(function () {
 
-        <!--$('a.trash').click(function (e) {-->
+        $('a.trash').click(function (e) {
 
-            <!--var opt = {-->
-                <!--type: 'GET',-->
-                <!--url: '/employee_transaction/remove_transaction?id=' + $(this).attr('transaction-id')-->
-            <!--}-->
+            var opt = {
+                type: 'GET',
+                url: '/financial_projection/remove_transaction?id=' + $(this).attr('transaction-id')
+            }
 
-            <!--// alert(JSON.stringify(opt));-->
+            // alert(JSON.stringify(opt));
 
-            <!--$.ajax(opt).done(function (result) {-->
-                <!--$('#modal-content').html(result);-->
-                <!--$('#remove-modal').modal();-->
-            <!--}).fail(function (jqXHR, textStatus) {-->
-                <!--alert(textStatus);-->
-            <!--});-->
-        <!--});-->
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#remove-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
 
-    <!--});-->
+    });
 
-    <!--function deleteEntity(id) {-->
-        <!--$.ajax({-->
-            <!--type: 'DELETE',-->
-            <!--url: '/employee_transaction/remove_transaction?id=' + id-->
+    function deleteEntity(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/financial_projection/remove_transaction?id=' + id
 
-        <!--}).done(function (result) {-->
-            <!--$('a[transaction-id=' + id + ']').closest('tr').remove();-->
+        }).done(function (result) {
+            $('a[transaction-id=' + id + ']').closest('tr').remove();
 
-        <!--}).fail(function (jqXHR, textStatus) {-->
-            <!--alert("erro");-->
-        <!--});-->
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
 
-    <!--}-->
+    }
 
-<!--</script>-->
+</script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>
 </html>

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class FinancialProjectionAproved {
+public class FinancialProjectionValidated {
 
     @NotNull
     private Long id;
@@ -53,7 +53,7 @@ public class FinancialProjectionAproved {
 
     @Override
     public String toString() {
-        return "FinancialProjectionAproved{" +
+        return "FinancialProjectionValidated{" +
                 "id=" + id +
                 ", hoursPerProjectList=" + hoursPerProjectList +
                 ", installments=" + installments +

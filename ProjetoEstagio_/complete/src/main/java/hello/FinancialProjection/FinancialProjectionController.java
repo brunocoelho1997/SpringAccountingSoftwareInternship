@@ -1,10 +1,9 @@
 package hello.FinancialProjection;
 
 import hello.Enums.Genre;
-import hello.FinancialProjection.Resources.FinancialProjectionAproved;
+import hello.FinancialProjection.Resources.FinancialProjectionValidated;
 import hello.Pager;
 import hello.Project.ProjectService;
-import hello.SheetTransaction.Resources.HoursPerProject;
 import hello.SubType.SubTypeService;
 import hello.Transaction.Transaction;
 import hello.Type.TypeService;
@@ -19,8 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static hello.Application.*;
@@ -99,16 +96,28 @@ public class FinancialProjectionController {
         return "FinancialProjection/executed_transaction";
     }
     @PostMapping("/transaction_executed")
-    public String executedTransaction(Model model, @Valid @ModelAttribute("financialProjectionAproved") FinancialProjectionAproved financialProjectionAproved, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String executedTransaction(Model model, @Valid @ModelAttribute("financialProjectionAproved") FinancialProjectionValidated financialProjectionValidated, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             return "FinancialProjection/executed_transaction";
         }
-        System.out.print(financialProjectionAproved);
 
-        financialProjectionService.aproveTransaction(financialProjectionAproved);
-
+        financialProjectionService.aproveTransaction(financialProjectionValidated);
 
         return "redirect:/financial_projection/costs";
 
+    }
+
+    @RequestMapping("/remove_transaction")
+    public String removeTransaction(@RequestParam("id") Long id, Model model) {
+
+        Transaction transaction = financialProjectionService.getTransaction(id);
+        model.addAttribute("transaction", transaction);
+
+        return "FinancialProjection/remove_transaction :: modal";
+    }
+    @DeleteMapping("/remove_transaction")
+    public @ResponseBody String removeTransaction(@RequestParam("id") Long id) {
+        financialProjectionService.removeTransaction(id);
+        return "redirect:/financial_projection/costs";
     }
 }
