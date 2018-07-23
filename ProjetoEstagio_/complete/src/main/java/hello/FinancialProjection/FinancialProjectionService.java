@@ -1,6 +1,13 @@
 package hello.FinancialProjection;
 
+import hello.Employee.Employee;
+import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.Enums.Genre;
+import hello.FinancialProjection.Resources.FinancialProjectionAproved;
+import hello.GeneralTransaction.GeneralTransaction;
+import hello.ProjectTransaction.ProjectTransaction;
+import hello.SheetTransaction.SheetTransaction;
+import hello.SheetTransaction.SheetTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
 import hello.Transaction.Transaction;
@@ -14,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +33,8 @@ public class FinancialProjectionService {
     TypeService typeService;
     @Autowired
     SubTypeService subTypeService;
+    @Autowired
+    SheetTransactionRepository sheetTransactionRepository;
 
     public Page<Transaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
 
@@ -57,5 +67,76 @@ public class FinancialProjectionService {
     public Transaction getTransaction(long id)
     {
         return transactionRepository.findById(id);
+    }
+
+    public void aproveTransaction(FinancialProjectionAproved financialProjectionAproved)
+    {
+
+        Transaction transaction = transactionRepository.findById((long)financialProjectionAproved.getId());
+
+        //used if transaction has more than one installment
+        Transaction transactionAux = null;
+
+        if(transaction.getInstallments() == 1){
+            transaction.setExecuted(true);
+
+            if(transaction instanceof SheetTransaction)
+                ((SheetTransaction)transaction).setHoursPerProjectList(((SheetTransaction) transaction).getHoursPerProjectList());
+
+        }
+        else
+        {
+
+            for(int i = 0; i<financialProjectionAproved.getInstallments(); i++) {
+
+
+                //if the last element... otherwise the transaction will has installments = 0
+                if(i==transaction.getInstallments()-1)
+                {
+                    transaction.setExecuted(true);
+                    break;
+                }
+
+                /*
+                TODO: need to do all this contidions for all entities
+                 */
+                if (transaction instanceof SheetTransaction) {
+                    transactionAux = new SheetTransaction();
+                    ((SheetTransaction) transactionAux).setHoursPerProjectList(new ArrayList<>());
+                    ((SheetTransaction) transactionAux).getHoursPerProjectList().addAll(financialProjectionAproved.getHoursPerProjectList());
+
+                    ((SheetTransaction) transactionAux).setEmployee(((SheetTransaction) transaction).getEmployee());
+
+
+                } else if (transaction instanceof EmployeeTransaction) {
+                    transactionAux = new EmployeeTransaction();
+                    ((EmployeeTransaction) transactionAux).setEmployee(((EmployeeTransaction) transaction).getEmployee());
+                } else
+                    transactionAux = new GeneralTransaction();
+
+                transactionAux.setName(transaction.getName());
+                if (transaction.getDescription() != null)
+                    transactionAux.setDescription(transaction.getDescription());
+                transactionAux.setFrequency(transaction.getFrequency());
+                transactionAux.setDate(financialProjectionAproved.getDate());
+                transactionAux.setCurrency(transaction.getCurrency());
+                transactionAux.setValue(transaction.getValue());
+                transactionAux.setGenre(transaction.getGenre());
+                transactionAux.setType(transaction.getType());
+                transactionAux.setExecuted(true);
+
+
+                if (transactionAux != null)
+                    transactionRepository.save(transactionAux);
+            }
+
+
+            //we need this if otherwise the last transaction will have 0 installments
+            if(transaction.getInstallments() == financialProjectionAproved.getInstallments() )
+                transaction.setInstallments(1);
+            else
+                transaction.setInstallments(transaction.getInstallments() - financialProjectionAproved.getInstallments());
+        }
+        transactionRepository.save(transaction);
     }
 }

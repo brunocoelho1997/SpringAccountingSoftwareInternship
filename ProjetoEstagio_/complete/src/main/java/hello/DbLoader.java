@@ -711,7 +711,20 @@ public class DbLoader implements CommandLineRunner {
             generalTransaction4.setExecuted(false);
             generalTransaction4.setCurrency(brlCurrency);
 
+            GeneralTransaction generalTransaction5 = new GeneralTransaction();
+            generalTransaction5.setDate(randomDate1);
+            generalTransaction5.setName("Despesa Geral 5 - PF");
+            generalTransaction5.setFrequency(Frequency.DAILY);
+            generalTransaction5.setValue((float)120.1);
+            generalTransaction5.setGenre(Genre.COST);
+            generalTransaction5.setType(type1);
+            generalTransaction5.setExecuted(false);
+            generalTransaction5.setInstallments(4);
+            generalTransaction5.setCurrency(brlCurrency);
+
+            generalTransactionRepository.save(generalTransaction5);
             generalTransactionRepository.save(generalTransaction4);
+
 
 
             EmployeeTransaction employeeTransaction4 = new EmployeeTransaction();
@@ -725,7 +738,21 @@ public class DbLoader implements CommandLineRunner {
             employeeTransaction4.setExecuted(false);
             employeeTransaction4.setCurrency(brlCurrency);
 
+            EmployeeTransaction employeeTransaction5 = new EmployeeTransaction();
+            employeeTransaction5.setDate(date3);
+            employeeTransaction5.setName("Despesa de Funcionário 5 - PF");
+            employeeTransaction5.setFrequency(Frequency.DAILY);
+            employeeTransaction5.setValue((float)82.3);
+            employeeTransaction5.setEmployee(employee2);
+            employeeTransaction5.setGenre(Genre.COST);
+            employeeTransaction5.setType(type2);
+            employeeTransaction5.setExecuted(false);
+            employeeTransaction5.setInstallments(5);
+            employeeTransaction5.setCurrency(brlCurrency);
+
             employeeTransactionRepository.save(employeeTransaction4);
+            employeeTransactionRepository.save(employeeTransaction5);
+
         }
     }
 }

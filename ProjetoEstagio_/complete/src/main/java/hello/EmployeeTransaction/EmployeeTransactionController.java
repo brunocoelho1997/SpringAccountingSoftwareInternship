@@ -1,5 +1,6 @@
 package hello.EmployeeTransaction;
 
+import hello.Currency.CurrencyService;
 import hello.Employee.EmployeeService;
 import hello.Enums.Genre;
 import hello.Pager;
@@ -30,10 +31,10 @@ public class EmployeeTransactionController {
     TypeService typeService;
     @Autowired
     SubTypeService subTypeService;
-
     @Autowired
     EmployeeService employeeService;
-
+    @Autowired
+    CurrencyService currencyService;
 
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -88,6 +89,8 @@ public class EmployeeTransactionController {
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
         modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
+
 
 
         return modelAndView;

@@ -45,8 +45,10 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Date}"></label>
                                     <div class="col-sm-6">
-                                        <p th:text="*{date}"></p>
-                                        <input class="form-control" th:type="hidden" th:field="*{date}" />
+                                        <!--<p th:text="*{date}"></p>-->
+                                        <!--<input class="form-control" th:type="hidden" th:field="*{date}" />-->
+                                        <input type="date" class="form-control" th:field="*{date}" required/>
+
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -82,25 +84,51 @@
                                     <div class="col-sm-3"></div>
                                 </div>
 
-                                atributos consoante despesa;
+                                <!--atributos consoante despesa;
+
+
+
+
+                                -->
 
                                 <div th:if="${transaction instanceof T(hello.SheetTransaction.SheetTransaction)}">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" th:text="#{HousPerProject.PanelHeader}"></div>
-                                        <table width="100%" class="table table-striped table-hover adresses">
-                                            <thead>
-                                            <tr>
-                                                <th th:text="#{HousPerProject.Project}"></th>
-                                                <th th:text="#{HousPerProject.Hours}"></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody th:if="*{hoursPerProjectList != null}">
-                                            <tr th:each="aux,rowStat : *{hoursPerProjectList}" >
-                                                <td><p th:text="${aux.project.getName()}"/></td>
-                                                <td><p th:text="${aux.duration}"/></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" th:text="#{HousPerProject.PanelHeader}"></div>
+                                                <table width="100%" class="table table-striped table-hover adresses">
+                                                    <thead>
+                                                    <tr>
+                                                        <th th:text="#{HousPerProject.Project}"></th>
+                                                        <th th:text="#{HousPerProject.Hours}"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody th:id="listHoursPerProject">
+                                                    <tr th:each="ad,rowStat : *{hoursPerProjectList}" >
+                                                        <td>
+                                                            <select class="form-control" th:field="*{hoursPerProjectList[__${rowStat.index}__].project.id}" required>
+                                                                <option th:each="project : ${projects}"
+                                                                        th:value="${project.getId()}"
+                                                                        th:utext="${project.getName()}"/>
+                                                            </select>
+                                                            <p class="text-danger" th:if="${#fields.hasErrors('hoursPerProjectList[__${rowStat.index}__].project')}" th:errors="*{hoursPerProjectList[__${rowStat.index}__].project}">Name Error</p>
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" type="time" th:field="*{hoursPerProjectList[__${rowStat.index}__].duration}" required />
+                                                            <p class="text-danger" th:if="${#fields.hasErrors('hoursPerProjectList[__${rowStat.index}__].duration')}" th:errors="*{hoursPerProjectList[__${rowStat.index}__].duration}">Name Error</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div align="right">
+                                                <a class="btn btn-danger pull-right" id="removeHoursPerProject"><i class="glyphicon glyphicon-remove"></i></a>
+                                                <a class="btn btn-default pull-right" th:text="#{System.Add}" id="addHoursPerProject"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3"></div>
                                     </div>
                                 </div>
 
@@ -113,23 +141,6 @@
                                         <div class="col-sm-3"></div>
                                     </div>
                                 </div>
-
-
-
-                                <!--provavelmente tem de ser submito tudo e nao apenas o id da transacao... -->
-                                <!--e até dá para o fazer visto que o subtipo nem é obrigatório portanto...-->
-                                <!--temos de fazer isto pq quando subtemos uma sheet transaction o professor vai querer colocar horas investidas-->
-                                <!--para cada projeto...-->
-
-
-
-
-
-
-                                <!--<div th:if="${!(transaction instanceof T(hello.SheetTransaction.SheetTransaction))}">-->
-                                    <!--nao é de projeto-->
-                                <!--</div>-->
-
 
 
                                 <div class="form-group">
@@ -159,6 +170,7 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Value}"></label>
                                     <div class="col-sm-6">
                                         <p th:text="*{value}"></p>
+                                        <input class="form-control" th:type="hidden" th:field="*{value}" />
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -180,6 +192,9 @@
         </div>
     </div>
 </div>
+
+<script src="../add_remove_hoursPerProject.js"></script>
+
 <script>
     var select = $(".number_installments");
 

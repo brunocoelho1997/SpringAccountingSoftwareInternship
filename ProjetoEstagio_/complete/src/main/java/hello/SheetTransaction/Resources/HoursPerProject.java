@@ -36,4 +36,12 @@ public class HoursPerProject {
     public void setDuration(LocalTime duration) {
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return "HoursPerProject{" +
+                "project=" + project +
+                ", duration=" + duration +
+                '}';
+    }
 }
