@@ -100,6 +100,11 @@ public class EmployeeTransactionController {
     public String addTransaction(Model model) {
 
         EmployeeTransaction transaction = new EmployeeTransaction();
+
+        /*
+        todo: isot nao devia ser assim...
+         */
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
         transaction.setGenre(Genre.COST);
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getDistinctTypesActived());
@@ -120,6 +125,8 @@ public class EmployeeTransactionController {
             /*
             TODO: caso nos nos engamos em algo... ao validar dps o subtyppe fica desselecionado!! Verificar
              */
+
+            System.out.println("\n\n\naqui: " + bindingResult.toString());
             return "EmployeeTransaction/add_transaction";
         }
         employeeTransactionService.addTransaction(employeeTransaction);

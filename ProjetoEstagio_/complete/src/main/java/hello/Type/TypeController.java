@@ -3,6 +3,7 @@ package hello.Type;
 import hello.Client.Client;
 import hello.Pager;
 import hello.SubType.SubType;
+import hello.SubType.SubTypeRepository;
 import hello.SubType.SubTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,10 +30,15 @@ public class TypeController implements WebMvcConfigurer {
     @Autowired
     TypeService typeService;
 
+    @Autowired
+    SubTypeRepository subTypeRepository;
 
     @RequestMapping("/get_subTypes")
     public String getSubTypes(@RequestParam("value") String typeValue, Model model) {
-        List<String> aux = typeService.getSubTypeList(typeValue);
+
+        List<SubType> aux = subTypeRepository.findByTypeName(typeValue);
+
+//        System.out.println("\n\n\n\n" + typeValue + " \n " + aux);
         model.addAttribute("listSubTypes", aux);
         return "SubTypes/subtypes_list :: options";
     }

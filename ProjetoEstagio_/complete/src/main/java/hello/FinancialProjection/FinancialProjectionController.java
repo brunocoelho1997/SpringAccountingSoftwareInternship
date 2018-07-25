@@ -37,7 +37,7 @@ public class FinancialProjectionController {
     ProjectService projectService;
 
     @GetMapping("/costs")
-    public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
+    public ModelAndView costsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="frequency", required=false) String frequency,
@@ -119,5 +119,55 @@ public class FinancialProjectionController {
     public @ResponseBody String removeTransaction(@RequestParam("id") Long id) {
         financialProjectionService.removeTransaction(id);
         return "redirect:/financial_projection/costs";
+    }
+
+    @GetMapping("/revenues")
+    public ModelAndView revenuesPage(@RequestParam("pageSize") Optional<Integer> pageSize,
+                                        @RequestParam("page") Optional<Integer> page,
+                                        @RequestParam(name="value_filter", required=false) String value,
+                                        @RequestParam(name="frequency", required=false) String frequency,
+                                        @RequestParam(name="type_value", required=false) String typeValue,
+                                        @RequestParam(name="subtype_value", required=false) String subTypeValue,
+                                        @RequestParam(name="date_since", required=false) String dateSince,
+                                        @RequestParam(name="date_until", required=false) String dateUntil,
+                                        @RequestParam(name="value_since", required=false) String valueSince,
+                                        @RequestParam(name="value_until", required=false) String valueUntil)
+
+    {
+        ModelAndView modelAndView = new ModelAndView("FinancialProjection/index");
+
+        // Evaluate page size. If requested parameter is null, return initial
+        // page size
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+
+
+        // Evaluate page. If requested parameter is null or less than 0 (to
+        // prevent exception), return initial size. Otherwise, return value of
+        // param. decreased by 1.
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+
+        Page<Transaction> transactions = financialProjectionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, Genre.REVENUE);
+
+        Pager pager = new Pager(transactions.getTotalPages(), transactions.getNumber(), BUTTONS_TO_SHOW);
+
+        modelAndView.addObject("listEntities", transactions);
+
+        //        ISTO E' APENAS PARA QUANDO NAO TEM A APRESENTAR SUBTYPES DE TYPES
+        modelAndView.addObject("types", typeService.getDistinctTypes());
+        modelAndView.addObject("subTypes", subTypeService.getDistinctSubTypesActived());
+
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+        modelAndView.addObject("pager", pager);
+
+        modelAndView.addObject("value_filter", value);
+        modelAndView.addObject("frequency", frequency);
+        modelAndView.addObject("type_value", typeValue);
+        modelAndView.addObject("subtype_value", subTypeValue);
+        modelAndView.addObject("date_since", dateSince);
+        modelAndView.addObject("date_until", dateUntil);
+        modelAndView.addObject("value_since", valueSince);
+        modelAndView.addObject("value_until", valueUntil);
+        return modelAndView;
     }
 }

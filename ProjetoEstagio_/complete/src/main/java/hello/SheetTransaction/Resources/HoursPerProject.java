@@ -16,10 +16,9 @@ public class HoursPerProject {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
     private Project project;
 
-    @Column
-    @DateTimeFormat(pattern = "HH:mm")
     @NotNull
-    private LocalTime duration;
+    @Column(nullable = false)
+    private float duration;
 
     public Project getProject() {
         return project;
@@ -29,11 +28,11 @@ public class HoursPerProject {
         this.project = project;
     }
 
-    public LocalTime getDuration() {
+    public float getDuration() {
         return duration;
     }
 
-    public void setDuration(LocalTime duration) {
+    public void setDuration(float duration) {
         this.duration = duration;
     }
 

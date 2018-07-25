@@ -132,15 +132,7 @@ public class DbLoader implements CommandLineRunner {
 
 
 //            associate types with subtypes
-            type1.setSubTypeList(new ArrayList<>());
-            type1.getSubTypeList().add(subType1);
-
             subType1.setType(type1);
-
-            type2.setSubTypeList(new ArrayList<>());
-            type2.getSubTypeList().add(subType2);
-            type2.getSubTypeList().add(subType3);
-
             subType2.setType(type2);
             subType3.setType(type2);
 
@@ -491,6 +483,10 @@ public class DbLoader implements CommandLineRunner {
             employeeTransaction1.setCurrency(brlCurrency);
 
 
+
+
+
+
             EmployeeTransaction employeeTransaction2 = new EmployeeTransaction();
             employeeTransaction2.setDate(date5);
             employeeTransaction2.setName("Despesa de Funcionário 2");
@@ -504,6 +500,37 @@ public class DbLoader implements CommandLineRunner {
 
 //            employeeTransaction2.getType().setSubType(subType1);
 
+            employeeTransactionRepository.save(employeeTransaction1);
+            employeeTransactionRepository.save(employeeTransaction2);
+
+
+
+
+            /*
+            OU SEJa:
+            tipos tem uma lista de subtipos....
+            subtipos tem a identificacao dos tipos...
+
+            quando criamos subtipos definimos logo qual o seu subtipo...
+            só criamos um tipo quando criarmos uma transacao e aí definimos os tipos que queremos...
+
+
+            quando for para criar uma transacao:
+            X -mandamos todos os nomes possiveis de tipos (apenas nomes, getDistinctTypeNames() )
+            Y -quando for para definir o seu subtipo vamos buscar todos os nomes do subtipos (apenas q tenham aquele tipo)
+
+            por fim:
+            criar um novo tipo com nome X e a lista de subtipos selecionados
+
+             */
+            Type type4 = new Type();
+            type4.setName("Desenvolvimento");
+            type4.setCategory(Category.PROJECTS);
+            typeRepository.save(type4);
+
+            type4.setSubTypeList(new ArrayList<>());
+            type4.getSubTypeList().add(subType2);
+            typeRepository.save(type4);
 
             EmployeeTransaction employeeTransaction3 = new EmployeeTransaction();
             employeeTransaction3.setDate(date3);
@@ -512,15 +539,33 @@ public class DbLoader implements CommandLineRunner {
             employeeTransaction3.setValue((float)28.3);
             employeeTransaction3.setEmployee(employee2);
             employeeTransaction3.setGenre(Genre.COST);
-            employeeTransaction3.setType(type2);
+            employeeTransaction3.setType(type4);
             employeeTransaction3.setExecuted(true);
             employeeTransaction3.setCurrency(brlCurrency);
-
-
-            employeeTransactionRepository.save(employeeTransaction1);
-            employeeTransactionRepository.save(employeeTransaction2);
             employeeTransactionRepository.save(employeeTransaction3);
 
+
+            Type type5 = new Type();
+            type5.setName("Desenvolvimento");
+            type5.setCategory(Category.PROJECTS);
+            typeRepository.save(type5);
+
+            type5.setSubTypeList(new ArrayList<>());
+            type5.getSubTypeList().add(subType2);
+            type5.getSubTypeList().add(subType3);
+            typeRepository.save(type5);
+
+            EmployeeTransaction employeeTransaction6 = new EmployeeTransaction();
+            employeeTransaction6.setDate(date3);
+            employeeTransaction6.setName("Despesa de Funcionário 6");
+            employeeTransaction6.setFrequency(Frequency.DAILY);
+            employeeTransaction6.setValue((float)28.3);
+            employeeTransaction6.setEmployee(employee2);
+            employeeTransaction6.setGenre(Genre.COST);
+            employeeTransaction6.setType(type5);
+            employeeTransaction6.setExecuted(true);
+            employeeTransaction6.setCurrency(brlCurrency);
+            employeeTransactionRepository.save(employeeTransaction6);
 
 //            about sale transactiosn
             SaleTransaction saleTransaction1 = new SaleTransaction();
@@ -641,7 +686,7 @@ public class DbLoader implements CommandLineRunner {
             sheetTransaction3.setHoursPerProjectList(new ArrayList<>());
 
             HoursPerProject hoursPerProject1 = new HoursPerProject();
-            hoursPerProject1.setDuration(LocalTime.of(2,30));
+            hoursPerProject1.setDuration((float)2.3);
             hoursPerProject1.setProject(project1);
             sheetTransaction3.getHoursPerProjectList().add(hoursPerProject1);
 
@@ -661,7 +706,7 @@ public class DbLoader implements CommandLineRunner {
             sheetTransaction4.setHoursPerProjectList(new ArrayList<>());
 
             HoursPerProject hoursPerProject2 = new HoursPerProject();
-            hoursPerProject2.setDuration(LocalTime.of(5,30));
+            hoursPerProject2.setDuration((float)5.5);
             hoursPerProject2.setProject(project1);
             sheetTransaction4.getHoursPerProjectList().add(hoursPerProject2);
 
@@ -752,6 +797,33 @@ public class DbLoader implements CommandLineRunner {
 
             employeeTransactionRepository.save(employeeTransaction4);
             employeeTransactionRepository.save(employeeTransaction5);
+
+
+            ProjectTransaction projectTransaction7 = new ProjectTransaction();
+            projectTransaction7.setDate(date5);
+            projectTransaction7.setName("Receita de Projeto 7 - PF");
+            projectTransaction7.setFrequency(Frequency.DAILY);
+            projectTransaction7.setValue((float)24.3);
+            projectTransaction7.setProject(project1);
+            projectTransaction7.setGenre(Genre.REVENUE);
+            projectTransaction7.setType(type2);
+            projectTransaction7.setExecuted(false);
+            projectTransaction7.setCurrency(brlCurrency);
+
+            ProjectTransaction projectTransaction8 = new ProjectTransaction();
+            projectTransaction8.setDate(date5);
+            projectTransaction8.setName("Receita de Projeto 8 - PF");
+            projectTransaction8.setFrequency(Frequency.DAILY);
+            projectTransaction8.setValue((float)124.3);
+            projectTransaction8.setProject(project1);
+            projectTransaction8.setGenre(Genre.REVENUE);
+            projectTransaction8.setType(type2);
+            projectTransaction8.setExecuted(false);
+            projectTransaction8.setCurrency(brlCurrency);
+
+            projectTransactionRepository.save(projectTransaction7);
+            projectTransactionRepository.save(projectTransaction8);
+
 
         }
     }

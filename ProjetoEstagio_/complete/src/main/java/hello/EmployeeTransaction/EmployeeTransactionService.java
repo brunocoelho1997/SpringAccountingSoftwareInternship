@@ -2,6 +2,7 @@ package hello.EmployeeTransaction;
 
 import hello.Employee.Employee;
 import hello.Employee.EmployeeService;
+import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.Project.ProjectService;
@@ -27,7 +28,7 @@ public class EmployeeTransactionService {
     @Autowired
     EmployeeTransactionRepository repository;
     @Autowired
-    TypeService typeService;
+    TypeRepository typeRepository;
     @Autowired
     SubTypeService subTypeService;
     @Autowired
@@ -40,8 +41,23 @@ public class EmployeeTransactionService {
         Employee employee = employeeService.getEmployee(employeeTransaction.getEmployee().getId());
         employeeTransaction.setEmployee(employee);
 
-        Type type = typeService.getType(employeeTransaction.getType());
-        employeeTransaction.setType(type);
+
+        System.out.println("\n\n\n\n\n antes:" + employeeTransaction);
+
+        Type typeAux = new Type(employeeTransaction.getType().getName());
+        typeAux.setCategory(Category.SUPPLIERS);
+        typeRepository.save(typeAux);
+
+        typeAux.setSubTypeList(new ArrayList<>());
+        for(SubType subTypeAux : employeeTransaction.getType().getSubTypeList())
+            typeAux.getSubTypeList().add(subTypeAux);
+
+        typeRepository.save(typeAux);
+
+        employeeTransaction.setType(typeAux);
+        employeeTransaction.setExecuted(true);
+        System.out.println("\n\n\n\n\n depois" + employeeTransaction);
+
         repository.save(employeeTransaction);
     }
 
@@ -94,7 +110,7 @@ public class EmployeeTransactionService {
 
         employeeTransaction.setGenre(editedEmployeeTransaction.getGenre());
 
-        Type type = typeService.getType(editedEmployeeTransaction.getType().getId());
+        Type type = typeRepository.findById((long)editedEmployeeTransaction.getType().getId());
         employeeTransaction.setType(type);
 //        if(editedEmployeeTransaction.getType().getSubType() !=null)
 //        {

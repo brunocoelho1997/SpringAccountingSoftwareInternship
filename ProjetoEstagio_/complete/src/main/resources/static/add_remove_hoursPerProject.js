@@ -39,7 +39,7 @@ $('#addHoursPerProject').click(function() {
         aux += '</select>' +
             '</td>' +
             '<td>' +
-            '<input type="time" class="form-control" id="hoursPerProjectList'+numberHoursPerProject+'.duration" type="text" name="hoursPerProjectList[' + numberHoursPerProject + '].duration" required />' +
+            '<input type="number" step="0.1" min="0" value = "0" class="form-control" id="hoursPerProjectList'+numberHoursPerProject+'.duration" type="text" name="hoursPerProjectList[' + numberHoursPerProject + '].duration" required />' +
             '</td>' +
             '</tr>';
         listHoursPerProject.append(aux);

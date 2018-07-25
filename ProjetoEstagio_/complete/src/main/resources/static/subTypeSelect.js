@@ -16,56 +16,56 @@
 //     $(this).parents('form').submit();
 // })
 
-// // $('.buttonResetTypes').click(function() {
-// //
-// //
-// //     // $(".selectedType").prop('disabled', false);
-// //     // $(".selectedType").val(0);
-// //
-// //     var selectedTypeValue = "";
-// //     var opt = {
-// //         type: 'GET',
-// //         url: '/type/get_subTypes?value=' + selectedTypeValue
-// //     }
-// //
-// //     $.ajax(opt).done(function (result) {
-// //         $('.subTypesOfType').html(''); //to clear all options
-// //         var option = document.createElement("option");
-// //         option.value = "";
-// //         $('.subTypesOfType').append(option);
-// //         $('.subTypesOfType').append(result);
-// //
-// //         // alert("aqui");
-// //     }).fail(function (jqXHR, textStatus) {
-// //         alert(textStatus);
-// //     });
+// $('.buttonResetTypes').click(function() {
 //
 //
+//     // $(".selectedType").prop('disabled', false);
+//     // $(".selectedType").val(0);
 //
-//     // $(".subTypesOfType").prop('disabled', false);
-//     // $(".subTypesOfType").val(0);
-//     //
-//     var selectedSubTypeValue;
-//     $( ".subTypesOfType option:selected" ).each(function() {
-//         selectedSubTypeValue = $( this ).val();
-//     });
-//     var selectedSubTypeValue = "";
+//     var selectedTypeValue = "";
 //     var opt = {
 //         type: 'GET',
-//         url: '/type/get_types?value=' + selectedSubTypeValue
+//         url: '/type/get_subTypes?value=' + selectedTypeValue
 //     }
 //
-//     $.ajax(opt).done(function (result2) {
-//         $('.selectedType').html(''); //to clear all options
+//     $.ajax(opt).done(function (result) {
+//         $('.subTypesOfType').html(''); //to clear all options
 //         var option = document.createElement("option");
 //         option.value = "";
-//         $('.selectedType').append(option);
-//         $('.selectedType').append(result2);
+//         $('.subTypesOfType').append(option);
+//         $('.subTypesOfType').append(result);
 //
+//         // alert("aqui");
 //     }).fail(function (jqXHR, textStatus) {
 //         alert(textStatus);
 //     });
-//
+
+
+
+    // $(".subTypesOfType").prop('disabled', false);
+    // $(".subTypesOfType").val(0);
+    //
+    // var selectedSubTypeValue;
+    // $( ".subTypesOfType option:selected" ).each(function() {
+    //     selectedSubTypeValue = $( this ).val();
+    // });
+    // var selectedSubTypeValue = "";
+    // var opt = {
+    //     type: 'GET',
+    //     url: '/type/get_types?value=' + selectedSubTypeValue
+    // }
+    //
+    // $.ajax(opt).done(function (result2) {
+    //     $('.selectedType').html(''); //to clear all options
+    //     var option = document.createElement("option");
+    //     option.value = "";
+    //     $('.selectedType').append(option);
+    //     $('.selectedType').append(result2);
+    //
+    // }).fail(function (jqXHR, textStatus) {
+    //     alert(textStatus);
+    // });
+
 // })
 
 
@@ -81,62 +81,61 @@
 
 
 //
-// $( ".selectedType" )
-//     .change(function () {
-//
-//         //get type value
-//         var selectedTypeValue;
-//         $( ".selectedType option:selected" ).each(function() {
-//             selectedTypeValue = $( this ).val();
-//         });
-//
-//         //get Subtype value
-//         var selectedSubTypeValue;
-//         $( ".subTypesOfType option:selected" ).each(function() {
-//             selectedSubTypeValue = $( this ).val();
-//         });
-//
-//
-//
-//         //if a subtype isn't selected we will get the subtypes of this type
-//         // if(selectedTypeValue == "")
-//         // {
-//             var opt = {
-//                 type: 'GET',
-//                 url: '/type/get_subTypes?value=' + selectedTypeValue
-//             }
-//
-//             $.ajax(opt).done(function (result) {
-//
-//
-//                 // alert(selectedSubTypeValue);
-//
-//                 // if(!result.includes(selectedSubTypeValue) || selectedSubTypeValue=="")
-//                 // {
-//                     // alert("aqui");
-//
-//                     $('.subTypesOfType').html(''); //to clear all options
-//                     var option = document.createElement("option");
-//                     option.value = "";
-//                     $('.subTypesOfType').append(option);
-//                     $('.subTypesOfType').append(result);
-//
-//
-//                     var subtype_value_selected = $('.subTypesOfType').data('subtype-value');
-//                     $(".subTypesOfType").val(subtype_value_selected);
-//                 // }
-//                 // else
-//                 // {
-//                 //
-//                 // }
-//
-//             }).fail(function (jqXHR, textStatus) {
-//                 alert(textStatus);
-//             });
-//         // }
-//
-//     })
-//     .change();
+$( ".selectedType" )
+    .change(function () {
+
+        //get type value
+        var selectedTypeValue;
+        $( ".selectedType option:selected" ).each(function() {
+            selectedTypeValue = $( this ).val();
+        });
+
+        //get Subtype value
+        var selectedSubTypeValue;
+        $( ".subTypesOfType option:selected" ).each(function() {
+            selectedSubTypeValue = $( this ).val();
+        });
+
+
+
+        //if a subtype isn't selected we will get the subtypes of this type
+        // if(selectedTypeValue == "")
+        // {
+            var opt = {
+                type: 'GET',
+                url: '/type/get_subTypes?value=' + selectedTypeValue
+            }
+
+            $.ajax(opt).done(function (result) {
+
+                // alert(selectedSubTypeValue);
+
+                // if(!result.includes(selectedSubTypeValue) || selectedSubTypeValue=="")
+                // {
+                    // alert("aqui");
+
+                    $('.subTypesOfType').html(''); //to clear all options
+                    // var option = document.createElement("option");
+                    // option.value = "";
+                    // $('.subTypesOfType').append(option);
+                    $('.subTypesOfType').append(result);
+
+
+                    var subtype_value_selected = $('.subTypesOfType').data('subtype-value');
+                    $(".subTypesOfType").val(subtype_value_selected);
+                // }
+                // else
+                // {
+                //
+                // }
+
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        // }
+
+    })
+    .change();
 //
 //
 // //for subtype

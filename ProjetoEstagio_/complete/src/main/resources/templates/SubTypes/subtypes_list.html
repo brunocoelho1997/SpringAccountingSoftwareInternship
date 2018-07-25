@@ -6,9 +6,11 @@
 </head>
 <body>
 
-<option th:fragment="options" th:each="subtype : ${listSubTypes}"
-        th:value="${subtype}"
-        th:utext="${subtype}"/>
+<option th:fragment="options" th:each="subtype,rowStat : ${listSubTypes}"
+
+        th:value="*{listSubTypes[__${rowStat.index}__].id}"
+        th:utext="*{listSubTypes[__${rowStat.index}__].name}"
+/>
 
 </body>
 </html>

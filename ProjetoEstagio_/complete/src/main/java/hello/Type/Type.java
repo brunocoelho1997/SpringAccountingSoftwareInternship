@@ -27,9 +27,17 @@ public class Type extends Entity {
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
-    //    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_Transaction_Type"), nullable = false)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubType> subTypeList;
+
+    public Type(@NotNull @Length(min = 1, max = MAX_NAME_LENGHT) String name) {
+        this.name = name;
+        this.subTypeList = new ArrayList<>();
+    }
+    public Type() {
+        this.subTypeList = new ArrayList<>();
+    }
 
 
     public Category getCategory() {
@@ -59,8 +67,9 @@ public class Type extends Entity {
     @Override
     public String toString() {
         return "Type{" +
-                ", category=" + category +
+                "category=" + category +
                 ", name='" + name + '\'' +
+                ", subTypeList=" + subTypeList +
                 '}';
     }
 }
