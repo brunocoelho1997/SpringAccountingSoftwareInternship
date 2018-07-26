@@ -25,7 +25,8 @@ public interface TypeRepository extends JpaRepository<Type, Long>, JpaSpecificat
 
 
     List<Type>findByName(String name);
-    Page<Type> findAllByActived(Pageable pageable, boolean actived);
+    Page<Type> findAllByActivedAndManuallyCreated(Pageable pageable, boolean actived, boolean manuallyCreated);
+
     List<Type> findAllByActived(boolean actived);
 
 

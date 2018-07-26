@@ -31,6 +31,10 @@ public class Type extends Entity {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubType> subTypeList;
 
+    //if the type was created by User
+    @Column(nullable = false)
+    private boolean manuallyCreated;
+
     public Type(@NotNull @Length(min = 1, max = MAX_NAME_LENGHT) String name) {
         this.name = name;
         this.subTypeList = new ArrayList<>();
@@ -62,6 +66,14 @@ public class Type extends Entity {
 
     public void setSubTypeList(List<SubType> subTypeList) {
         this.subTypeList = subTypeList;
+    }
+
+    public boolean isManuallyCreated() {
+        return manuallyCreated;
+    }
+
+    public void setManuallyCreated(boolean manuallyCreated) {
+        this.manuallyCreated = manuallyCreated;
     }
 
     @Override

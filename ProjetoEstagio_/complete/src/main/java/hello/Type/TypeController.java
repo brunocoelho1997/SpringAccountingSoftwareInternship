@@ -31,6 +31,9 @@ public class TypeController implements WebMvcConfigurer {
     TypeService typeService;
 
     @Autowired
+    SubTypeService subTypeService;
+
+    @Autowired
     SubTypeRepository subTypeRepository;
 
     @RequestMapping("/get_subTypes")
@@ -69,11 +72,11 @@ public class TypeController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Type> types= typeService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, category);
+        Page<Type> subTypes= typeService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, category);
 
-        Pager pager = new Pager(types.getTotalPages(), types.getNumber(), BUTTONS_TO_SHOW);
+        Pager pager = new Pager(subTypes.getTotalPages(), subTypes.getNumber(), BUTTONS_TO_SHOW);
 
-        modelAndView.addObject("listEntities", types);
+        modelAndView.addObject("listEntities", subTypes);
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
@@ -126,7 +129,12 @@ public class TypeController implements WebMvcConfigurer {
     @RequestMapping("/info_type")
     public String infoType(@RequestParam("id") Long id, Model model) {
         Type type = typeService.getType(id);
+
+        List<SubType> subTypes = subTypeService.getSubTypes(type);
+
         model.addAttribute("type", type);
+        model.addAttribute("subtypes", subTypes);
+
 
         return "Type/info_type";
     }

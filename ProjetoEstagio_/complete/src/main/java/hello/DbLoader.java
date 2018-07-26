@@ -118,16 +118,19 @@ public class DbLoader implements CommandLineRunner {
             Type type1 = new Type();
             type1.setCategory(Category.PROJECTS);
             type1.setName("Manutenção");
+            type1.setManuallyCreated(true);
             type1 = typeRepository.save(type1);
 
             Type type2 = new Type();
             type2.setCategory(Category.PROJECTS);
             type2.setName("Desenvolvimento");
+            type2.setManuallyCreated(true);
             type2 = typeRepository.save(type2);
 
             Type type3 = new Type();
             type3.setCategory(Category.SHEET);
             type3.setName("Salário");
+            type3.setManuallyCreated(true);
             type3 = typeRepository.save(type3);
 
 
@@ -511,9 +514,11 @@ public class DbLoader implements CommandLineRunner {
             tipos tem uma lista de subtipos....
             subtipos tem a identificacao dos tipos...
 
-            quando criamos subtipos definimos logo qual o seu subtipo...
+            quando criamos subtipos definimos logo qual o seu tipo...
             só criamos um tipo quando criarmos uma transacao e aí definimos os tipos que queremos...
 
+            (DIA 2) - para a gestão de tipos e afins... criamos tipos so com nome... com a lista de subtipos vazia...
+            e caso estes tipos tenham subtipos criamos os seus subtipomos e identificamos os tipos nestes.
 
             quando for para criar uma transacao:
             X -mandamos todos os nomes possiveis de tipos (apenas nomes, getDistinctTypeNames() )

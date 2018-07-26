@@ -1,7 +1,10 @@
 package hello.SubType;
 
 
+import hello.Type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,5 +65,14 @@ public class SubTypeService {
 
     public List<SubType> findByName(String name){
         return repository.findByName(name);
+    }
+
+
+    public List<SubType> getSubTypes(Type type){
+        return repository.findByTypeName(type.getName());
+    }
+
+    public Page<SubType> findAllByActived(Pageable pageable, boolean actived){
+        return repository.findAllByActived(pageable, actived);
     }
 }

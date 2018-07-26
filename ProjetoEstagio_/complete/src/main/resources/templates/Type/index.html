@@ -53,10 +53,17 @@
                                     <tbody>
                                     <tr th:if="${listEntities==null}"><td>Null</td></tr>
                                     <tr th:unless="${listEntities==null}" th:each="c : ${listEntities}">
-                                        <td href="#" th:text="${c.getCategory()}"></td>
-                                        <td th:text="${c.getName()}">1</td>
-                                        <td th:if="${c.getSubType() == null}"></td>
-                                        <td th:unless="${c.getSubType() == null}" th:text="${c.getSubType().getName()}"></td>
+                                        <td href="#" th:text="#{Category.+ ${c.category}}"></td>
+                                        <td th:text="${c.name}">1</td>
+                                        <td></td>
+
+                                        <!--<td th:if="${r.getType().getSubTypeList()!=null}">-->
+                                            <!--<div th:each="subtype : ${r.getType().getSubTypeList()}" style="display:inline">-->
+                                                <!--<p th:text="${subtype.getName()}" style="display:inline"></p>;-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td th:unless="${r.getType().getSubTypeList()!=null}"></td>-->
+
 
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:type-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>

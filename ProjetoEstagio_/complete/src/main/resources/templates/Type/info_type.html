@@ -37,7 +37,7 @@
                                     </div>
                                     <div>
                                         <span th:text="#{Type.Category}">title</span>:
-                                        <span th:text="${type.getCategory()}"></span>
+                                        <span th:text="#{Category.+ ${type.category}}"></span>
                                     </div>
                                     <div>
                                         <span th:text="#{Type.Name}">title</span>:
@@ -45,7 +45,11 @@
                                     </div>
                                     <div>
                                         <span th:text="#{Subtype.Subtype}">title</span>:
-                                        <span th:unless="${type.getSubType() == null}" th:text="${type.getSubType().getName()}"></span>
+                                        <span th:if="${subtypes !=null}">
+                                            <div th:each="subtype : ${subtypes}" style="display:inline">
+                                                <p th:text="${subtype.name}" style="display:inline"></p>;
+                                            </div>
+                                        </span>
                                     </div>
 
                                 </div>

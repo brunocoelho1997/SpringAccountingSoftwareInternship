@@ -1,9 +1,6 @@
 package hello.Type;
 
-import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
-import hello.Client.ClientSpecifications;
 import hello.SubType.SubType;
-import hello.SubType.SubTypeRepository;
 import hello.SubType.SubTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +19,7 @@ public class TypeService {
 
     @Autowired
     SubTypeService subTypeService;
+
 
     public void addType(Type type) {
 
@@ -115,7 +112,11 @@ public class TypeService {
             return filterTypes(pageable, value, category);
 
         else
-            return repository.findAllByActived(pageable, true);
+            return repository.findAllByActivedAndManuallyCreated(pageable, true, true);
+
+
+
+//            return repository.findAllByActived(pageable, true);
 
     }
 
@@ -124,7 +125,8 @@ public class TypeService {
         Page<Type> page = null;
 
         if(category.isEmpty())
-            return repository.findAllByActived(pageable, true);
+            return repository.findAllByActivedAndManuallyCreated(pageable, true, true);
+
 
         Specification<Type> specFilter;
         specFilter= TypeSpecifications.filter(value, category);
