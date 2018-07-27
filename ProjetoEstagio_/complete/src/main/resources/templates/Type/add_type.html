@@ -54,14 +54,36 @@
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"  th:text="#{Subtype.Subtype}"></label>
+                                    <div class="col-sm-3"></div>
+
                                     <div class="col-sm-6">
-                                        <input class="form-control" th:field="*{subType.name}" th:maxlength="${T(hello.SubType.SubType).MAX_NAME_LENGHT}"/>
-                                        <p class="text-danger" th:if="${#fields.hasErrors('subType.name')}" th:errors="*{subType.name}">Name Error</p>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" th:text="#{Subtype.PanelHeader}"></div>
+
+                                            <table width="100%" class="table" style="background-color: transparent;">
+                                                <thead>
+                                                <tr>
+                                                    <th th:text="#{Type.Name}"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody th:id="listSubtypes">
+                                                <tr th:each="subtype,rowStat : *{subTypeList}">
+                                                    <td>SubType Name</td>
+                                                    <td>
+                                                        <input class="form-control" th:field="*{subTypeList[__${rowStat.index}__].name}" th:maxlength="${T(hello.SubType.SubType).MAX_NAME_LENGHT}"/>
+                                                        <p class="text-danger" th:if="${#fields.hasErrors('subTypeList[__${rowStat.index}__].name')}" th:errors="*{subTypeList[__${rowStat.index}__].name}">Name Error</p>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div align="right">
+                                            <a class="btn btn-danger pull-right" id="removeSubtype"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default pull-right" th:text="#{Subtype.add}" id="addSubtype"></a>
+                                        </div>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
-
                             </div>
                         </form>
                     </div>

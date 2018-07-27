@@ -102,7 +102,7 @@ public class TypeController implements WebMvcConfigurer {
         }
         typeService.addType(type);
 
-        model.addAttribute("listEntitys", typeService.getTypesActived());
+        model.addAttribute("listEntities", typeService.getTypesActived());
 
         return "redirect:/type/";
     }
@@ -119,6 +119,7 @@ public class TypeController implements WebMvcConfigurer {
     public String editType(@Valid Type type, BindingResult bindingResult,Model model) {
 
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
             return "Type/edit_type";
         }
 

@@ -16,7 +16,7 @@ public class SubTypeService {
     @Autowired
     SubTypeRepository repository;
 
-    public SubType addSubType(SubType subType) {
+    public SubType save(SubType subType) {
         return repository.save(subType);
     }
 
@@ -75,4 +75,9 @@ public class SubTypeService {
     public Page<SubType> findAllByActived(Pageable pageable, boolean actived){
         return repository.findAllByActived(pageable, actived);
     }
+
+    public List<SubType>findByTypeNameAndActived(String typeName, boolean actived){
+        return repository.findByTypeNameAndActived(typeName,actived);
+    }
+
 }

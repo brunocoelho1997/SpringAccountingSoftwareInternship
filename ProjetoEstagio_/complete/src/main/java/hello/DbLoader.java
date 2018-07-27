@@ -113,7 +113,6 @@ public class DbLoader implements CommandLineRunner {
             subTypeRepository.save(subType2);
             subTypeRepository.save(subType3);
 
-
 //      add types
             Type type1 = new Type();
             type1.setCategory(Category.PROJECTS);

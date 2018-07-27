@@ -23,23 +23,29 @@ public class TypeService {
 
     public void addType(Type type) {
 
-        SubType subType = null;
+        List<SubType> subTypeList = type.getSubTypeList();
 
-//        if(type.getSubType()!= null && !type.getSubType().getName().isEmpty())
-//            subType = subTypeService.addSubType(type.getSubType());
-//
-//        type.setSubType(null);
-//        Type aux = repository.save(type);
-//
-//        if(aux!=null){
-//
-//            aux.setSubType(subType);
-//            repository.save(aux);
-//        }
+        type.setSubTypeList(new ArrayList<>());
+        type.setManuallyCreated(true);
+        type = repository.save(type);
+
+        if(!subTypeList.isEmpty())
+        {
+            for(SubType subType: subTypeList){
+                subType.setType(type);
+                subTypeService.save(subType);
+            }
+        }
     }
 
     public Type getType(Long id) {
-        return repository.findById((long)id);
+        Type type = repository.findById((long)id);
+
+        List<SubType> subtypes = subTypeService.findByTypeNameAndActived(type.getName(), true);
+
+        type.getSubTypeList().addAll(subtypes);
+
+        return type;
     }
 
     public Type getType(Type type) {
@@ -137,10 +143,78 @@ public class TypeService {
     }
 
     public void editType(Type editedType){
+
+        System.out.print("\n------------\n\n edited:" + editedType);
+
         Type type = getType(editedType.getId());
-        type.setCategory(editedType.getCategory());
-        type.setName(editedType.getName());
-        type.setActived(editedType.isActived());
+
+
+        System.out.print("\n\n\n type:" + type);
+
+
+        List<SubType> subTypeList = type.getSubTypeList();
+
+        //a type manually created need to has empty subtype list
+        type.setSubTypeList(new ArrayList<>());
+
+        //need to change the name to all types with that name
+        List<Type> listAux = repository.findByName(type.getName());
+        for(Type typeAux : listAux)
+        {
+            typeAux.setName(editedType.getName());
+            typeAux.setCategory(editedType.getCategory());
+            repository.save(typeAux);
+        }
+
+
+
+        //define all subtypes as deleted...  In future the subtypes presented in editedType will be activated
+        for(SubType subType : subTypeList)
+        {
+            subType.setActived(false);
+            subTypeService.save(subType);
+        }
+
+        for(SubType editedSubType : editedType.getSubTypeList())
+        {
+            //if id  = 0 is a new SubType
+            if(editedSubType.getId()==null)
+            {
+                editedSubType.setType(type);
+                editedSubType.setActived(true);
+                subTypeService.save(editedSubType);
+            }
+            else
+            {
+                SubType subTypeAux = subTypeService.getSubType(editedSubType.getId());
+                subTypeAux.setActived(true);
+                subTypeAux.setName(editedSubType.getName());
+                subTypeService.save(subTypeAux);
+            }
+        }
+
+
+//        type.setCategory(editedType.getCategory());
+//        type.setName(editedType.getName());
+//
+//        List<SubType> subTypeList = type.getSubTypeList();
+//
+//        //verify which subtypes was deleted
+//        for(SubType subType: subTypeList){
+//
+//            if(!editedType.getSubTypeList().contains(subType))
+//                subType.setActived(false);
+//
+//            subTypeService.save(subType);
+//        }
+
+        //verify new subtypes
+
+
+//        Type type = getType(editedType.getId());
+//        type.setCategory(editedType.getCategory());
+//        type.setName(editedType.getName());
+//        type.setActived(editedType.isActived());
 
 //        if(editedType.getSubType()!=null)
 //        {
@@ -157,12 +231,11 @@ public class TypeService {
 //            }
 //            else
 //            {
-//                SubType subType = subTypeService.addSubType(editedType.getSubType());
+//                SubType subType = subTypeService.save(editedType.getSubType());
 //                type.setSubType(subType);
 //            }
 //        }
 
-        repository.save(type);
     }
 
     public void removeType(Long id) {

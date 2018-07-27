@@ -15,6 +15,8 @@ public interface SubTypeRepository extends JpaRepository<SubType, Long>, JpaSpec
     List<SubType>findByName(String name);
 
     List<SubType>findByTypeName(String typeName);
+    List<SubType>findByTypeNameAndActived(String typeName, boolean actived);
+
 
     Page<SubType> findAllByActived(Pageable pageable, boolean actived);
 

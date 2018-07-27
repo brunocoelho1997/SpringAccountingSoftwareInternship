@@ -41,6 +41,8 @@ public class SubType extends Entity {
     public String toString() {
         return "SubType{" +
                 "name='" + name + '\'' +
+                ", id=" + getId()+
+
                 '}';
     }
 }
