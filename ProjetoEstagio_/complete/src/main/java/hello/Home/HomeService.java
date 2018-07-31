@@ -23,10 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.time.YearMonth;
+import java.util.*;
 
 @Service
 public class HomeService {
@@ -145,7 +143,7 @@ public class HomeService {
 
         totalValueMonth = getTotal(listRevenuesYear);
         chartResourceStatics.setTotalRevenuesYear((float)totalValueMonth);
-        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
+        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
 //        listCostsYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
 //        listCostsYear.addAll(generalTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
 
@@ -230,7 +228,7 @@ public class HomeService {
         listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre.REVENUE, true, beginOfYear,finalOfYear));
 
 
-        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre.COST, true, beginOfYear,finalOfYear));
+        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfYear,finalOfYear,true));
         /*
         TODO: falta fazer para o resto dos tipos de despesas...
          */
@@ -271,11 +269,37 @@ public class HomeService {
         financialChartResource.setTotalExpensesByMonth(new ArrayList<>());
         financialChartResource.setTotalRevenueByMonth(new ArrayList<>());
 
+        LocalDate beginOfMonth = null;
+        LocalDate finalOfMonth = null;
+        List<Transaction> listAuxCostsByMonth = new ArrayList<>();
+        List<Transaction> listAuxRevenuesByMonth = new ArrayList<>();
+        float totalCostsByMonth = 0;
+        float totalRevenuesByMonth = 0;
 
-        for(int i= 0 ; i<12; i++)
+        for(int i= 1 ; i<=12; i++)
         {
-            financialChartResource.getTotalExpensesByMonth().add(new Random().nextFloat() *10 );
-            financialChartResource.getTotalRevenueByMonth().add(new Random().nextFloat() *10 );
+            beginOfMonth = LocalDate.of((int)(long)year,i,1);
+
+
+            finalOfMonth = i!=12? LocalDate.of((int)(long)year,i+1,1) : LocalDate.of((int)(long)year, 12,31);
+
+
+            listAuxCostsByMonth.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfMonth,finalOfMonth,true));
+            listAuxRevenuesByMonth.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.REVENUE, true, beginOfMonth,finalOfMonth,true));
+
+
+            totalCostsByMonth = (float) getTotal(listAuxCostsByMonth);
+            totalRevenuesByMonth = (float) getTotal(listAuxRevenuesByMonth);
+
+
+            financialChartResource.getTotalExpensesByMonth().add(totalCostsByMonth);
+            financialChartResource.getTotalRevenueByMonth().add(totalRevenuesByMonth);
+
+            listAuxCostsByMonth.clear();
+            listAuxRevenuesByMonth.clear();
+            totalCostsByMonth = 0;
+            totalRevenuesByMonth = 0;
+
         }
 
         financialChartResource.setSelectedCurrency(currencyRepository.findBySelected(true).getSymbol());

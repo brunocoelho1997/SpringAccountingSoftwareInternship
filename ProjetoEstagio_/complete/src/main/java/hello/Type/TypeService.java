@@ -90,11 +90,11 @@ public class TypeService {
 
         return stringTypes;
     }
-    public List<String> getDistinctTypesActived()
+    public List<String> getDistinctTypesActivedAndManuallyCreated()
     {
         List<String> stringTypes = new ArrayList<>();
 
-        List<Type> types = repository.findAllByActived(true);
+        List<Type> types = repository.findAllByActivedAndManuallyCreated(true, true);
 
         /*
         doing the distinct... TODO: use JPA to do this. HUGO

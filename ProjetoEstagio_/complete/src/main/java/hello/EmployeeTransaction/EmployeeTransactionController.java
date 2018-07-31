@@ -107,7 +107,7 @@ public class EmployeeTransactionController {
         transaction.setCurrency(currencyService.getCurrentCurrencySelected());
         transaction.setGenre(Genre.COST);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getDistinctTypesActived());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
         model.addAttribute("employees", employeeService.getEmployees());
 
         return "EmployeeTransaction/add_transaction";
@@ -117,7 +117,7 @@ public class EmployeeTransactionController {
     public String addTransaction(Model model, @Valid @ModelAttribute("transaction") EmployeeTransaction employeeTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getDistinctTypesActived());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("employees", employeeService.getEmployees());
 
             model.addAttribute("type_value", employeeTransaction.getType().getName());

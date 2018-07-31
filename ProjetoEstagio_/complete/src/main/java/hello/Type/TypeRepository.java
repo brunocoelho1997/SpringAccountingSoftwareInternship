@@ -29,5 +29,8 @@ public interface TypeRepository extends JpaRepository<Type, Long>, JpaSpecificat
 
     List<Type> findAllByActived(boolean actived);
 
+    List<Type> findAllByActivedAndManuallyCreated(boolean actived, boolean manuallyCreated);
+
+
 
 }
