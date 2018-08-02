@@ -32,5 +32,8 @@ public interface TypeRepository extends JpaRepository<Type, Long>, JpaSpecificat
     List<Type> findAllByActivedAndManuallyCreated(boolean actived, boolean manuallyCreated);
 
 
+    //lixo
+    List<Type> findByManuallyCreated(boolean manuallyCreated);
+    List<Type> findByManuallyCreatedAndSubTypeListContaining(boolean manuallyCreated, SubType subType);
 
 }
