@@ -87,7 +87,18 @@ public class EmployeeTransactionService {
             subTypeList = subTypeService.getSubType(subTypeValue);
         }
 
-        Specification<EmployeeTransaction> specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, subTypeList, employee, dateSince, dateUntil,valueSince, valueUntil, deletedEntities, genre);
+        Specification<EmployeeTransaction> specFilter;
+
+
+        specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, employee, dateSince, dateUntil,valueSince, valueUntil, deletedEntities, genre);
+
+        if(!subTypeValue.isEmpty()){
+            for(SubType subType : subTypeList)
+                specFilter = specFilter.or(EmployeeTransactionSpecifications.filter(subType.getType().getName()));
+
+        }
+
+
 
         transactionsPage = repository.findAll(specFilter, pageable);
 

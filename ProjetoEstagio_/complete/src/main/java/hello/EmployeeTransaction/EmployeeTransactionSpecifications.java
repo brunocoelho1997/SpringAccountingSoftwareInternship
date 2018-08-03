@@ -27,9 +27,21 @@ import java.util.List;
 
 public class EmployeeTransactionSpecifications {
 
+    public static Specification<EmployeeTransaction> filter(String typeName) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
 
 
-    public static Specification<EmployeeTransaction> filter(String value, String frequency, String type, List<SubType> subTypeList, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre) {
+            predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
+
+
+            return predicateFinal;
+
+        };
+    }
+
+
+    public static Specification<EmployeeTransaction> filter(String value, String frequency, String type, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -82,17 +94,23 @@ public class EmployeeTransactionSpecifications {
                 else
                     predicateFinal = predicateType;
             }
-            if(subTypeList != null)
-            {
-
-                String typeName = subTypeList.get(0).getType().getName();
-
-                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateSubType);
-                else
-                    predicateFinal = predicateSubType;
-            }
+//            if(subTypeList != null)
+//            {
+//
+//                SubType subType = subTypeList.get(0);
+//
+//
+//                predicateSubType = cb.isMember(subType,root.get(Transaction_.type).get(Type_.subTypeList).get());
+//
+//
+//
+////                String typeName = subTypeList.get(0).getType().getName();
+////                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
+//                if(predicateFinal!=null)
+//                    predicateFinal = cb.or(predicateFinal, predicateSubType);
+//                else
+//                    predicateFinal = predicateSubType;
+//            }
 
             if(employee != null)
             {
