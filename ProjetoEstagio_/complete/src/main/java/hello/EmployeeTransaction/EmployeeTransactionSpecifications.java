@@ -45,7 +45,19 @@ public class EmployeeTransactionSpecifications {
         return (root, query, cb) -> {
             Predicate predicateFinal = null;
 
-            predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
+            if(!nameType.isEmpty())
+                predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<EmployeeTransaction> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
 
             return predicateFinal;
 
@@ -53,8 +65,7 @@ public class EmployeeTransactionSpecifications {
     }
 
 
-
-    public static Specification<EmployeeTransaction> filter(String value, String frequency, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre) {
+    public static Specification<EmployeeTransaction> filter(String value, String frequency, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -168,17 +179,6 @@ public class EmployeeTransactionSpecifications {
                     ; //ignore
                 }
             }
-
-            if(deletedEntities != false)
-            {
-                predicateDeletedEntities = cb.equal(root.get(Entity_.actived), !(deletedEntities));
-
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateDeletedEntities);
-                else
-                    predicateFinal = predicateDeletedEntities;
-            }
-
 
             //define Genre
             predicateGenre = cb.equal(root.get(Transaction_.genre), genre);
