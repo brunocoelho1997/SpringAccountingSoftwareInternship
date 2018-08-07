@@ -92,7 +92,10 @@ public class EmployeeTransactionService {
         Specification<EmployeeTransaction> specFilter = null;
 
 
-//        specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, employee, dateSince, dateUntil,valueSince, valueUntil, deletedEntities, genre);
+        if(value.isEmpty() && frequency.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+            System.out.println("aqui");
+        else
+            specFilter= EmployeeTransactionSpecifications.filter(value, frequency, employee, dateSince, dateUntil,valueSince, valueUntil, deletedEntities, genre);
 
 //        if(!subTypeValue.isEmpty()){
 //            for(SubType subType : subTypeList)
@@ -110,19 +113,29 @@ public class EmployeeTransactionService {
             {
                 for(Type type1: types)
                 {
+
+
                     if(!type1.isManuallyCreated() && !Collections.disjoint(type1.getSubTypeList(), subTypeList))
                     {
                         System.out.println("\n\n Type: " + type1);
 
                         if(specFilter==null)
-                            specFilter = EmployeeTransactionSpecifications.filter(type1);
+                            specFilter = EmployeeTransactionSpecifications.filterByType(type1);
                         else
-                            specFilter = specFilter.or(EmployeeTransactionSpecifications.filter(type1));
+                            specFilter = specFilter.or(EmployeeTransactionSpecifications.filterByType(type1));
                     }
                 }
             }
-
         }
+        else
+        {
+            if(specFilter==null)
+                specFilter = EmployeeTransactionSpecifications.filterByNameType(typeValue);
+            else
+                specFilter = specFilter.or(EmployeeTransactionSpecifications.filterByNameType(typeValue));
+        }
+
+
 
 
         transactionsPage = repository.findAll(specFilter, pageable);

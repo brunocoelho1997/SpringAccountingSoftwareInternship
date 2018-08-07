@@ -28,7 +28,7 @@ import java.util.List;
 public class EmployeeTransactionSpecifications {
 
 
-    public static Specification<EmployeeTransaction> filter(Type type) {
+    public static Specification<EmployeeTransaction> filterByType(Type type) {
         return (root, query, cb) -> {
             Predicate predicateFinal = null;
 
@@ -41,13 +41,11 @@ public class EmployeeTransactionSpecifications {
         };
     }
 
-    public static Specification<EmployeeTransaction> filter(String typeName) {
+    public static Specification<EmployeeTransaction> filterByNameType(String nameType) {
         return (root, query, cb) -> {
             Predicate predicateFinal = null;
 
-
-            predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
-
+            predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
 
             return predicateFinal;
 
@@ -55,7 +53,8 @@ public class EmployeeTransactionSpecifications {
     }
 
 
-    public static Specification<EmployeeTransaction> filter(String value, String frequency, String type, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre) {
+
+    public static Specification<EmployeeTransaction> filter(String value, String frequency, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -99,32 +98,6 @@ public class EmployeeTransactionSpecifications {
                 else
                     predicateFinal = predicateFrequency;
             }
-
-            if(type!= null && !type.isEmpty())
-            {
-                predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateType);
-                else
-                    predicateFinal = predicateType;
-            }
-//            if(subTypeList != null)
-//            {
-//
-//                SubType subType = subTypeList.get(0);
-//
-//
-//                predicateSubType = cb.isMember(subType,root.get(Transaction_.type).get(Type_.subTypeList).get());
-//
-//
-//
-////                String typeName = subTypeList.get(0).getType().getName();
-////                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
-//                if(predicateFinal!=null)
-//                    predicateFinal = cb.or(predicateFinal, predicateSubType);
-//                else
-//                    predicateFinal = predicateSubType;
-//            }
 
             if(employee != null)
             {
