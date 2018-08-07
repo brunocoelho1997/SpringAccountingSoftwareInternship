@@ -27,6 +27,20 @@ import java.util.List;
 
 public class EmployeeTransactionSpecifications {
 
+
+    public static Specification<EmployeeTransaction> filter(Type type) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+
+            predicateFinal = cb.equal(root.get(Transaction_.type), type);
+
+
+            return predicateFinal;
+
+        };
+    }
+
     public static Specification<EmployeeTransaction> filter(String typeName) {
         return (root, query, cb) -> {
             Predicate predicateFinal = null;

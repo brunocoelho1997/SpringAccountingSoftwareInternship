@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -85,19 +86,43 @@ public class EmployeeTransactionService {
         List<SubType> subTypeList = null;
         if(!subTypeValue.isEmpty()){
             subTypeList = subTypeService.getSubType(subTypeValue);
+            System.out.println("\n\n\n\n subTypeList: " + subTypeList);
         }
 
-        Specification<EmployeeTransaction> specFilter;
+        Specification<EmployeeTransaction> specFilter = null;
 
 
-        specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, employee, dateSince, dateUntil,valueSince, valueUntil, deletedEntities, genre);
+//        specFilter= EmployeeTransactionSpecifications.filter(value, frequency, typeValue, employee, dateSince, dateUntil,valueSince, valueUntil, deletedEntities, genre);
 
-        if(!subTypeValue.isEmpty()){
-            for(SubType subType : subTypeList)
-                specFilter = specFilter.or(EmployeeTransactionSpecifications.filter(subType.getType().getName()));
+//        if(!subTypeValue.isEmpty()){
+//            for(SubType subType : subTypeList)
+//                specFilter = specFilter.or(EmployeeTransactionSpecifications.filter(subType.getType().getName()));
+//
+//        }
+
+
+
+        if(subTypeValue!= null && !subTypeValue.isEmpty())
+        {
+            List<Type> types = typeRepository.findByName(typeValue);
+
+            if(!types.isEmpty())
+            {
+                for(Type type1: types)
+                {
+                    if(!type1.isManuallyCreated() && !Collections.disjoint(type1.getSubTypeList(), subTypeList))
+                    {
+                        System.out.println("\n\n Type: " + type1);
+
+                        if(specFilter==null)
+                            specFilter = EmployeeTransactionSpecifications.filter(type1);
+                        else
+                            specFilter = specFilter.or(EmployeeTransactionSpecifications.filter(type1));
+                    }
+                }
+            }
 
         }
-
 
 
         transactionsPage = repository.findAll(specFilter, pageable);
