@@ -162,13 +162,10 @@ public class EmployeeTransactionService {
 
         employeeTransaction.setGenre(editedEmployeeTransaction.getGenre());
 
-        Type type = typeRepository.findById((long)editedEmployeeTransaction.getType().getId());
-        employeeTransaction.setType(type);
-//        if(editedEmployeeTransaction.getType().getSubType() !=null)
-//        {
-//            SubType subType= subTypeService.getSubType(editedEmployeeTransaction.getType().getSubType().getId());
-//            employeeTransaction.getType().setSubType(subType);
-//        }
+        Type type = employeeTransaction.getType();
+        type.setName(editedEmployeeTransaction.getType().getName());
+        type.setSubTypeList(editedEmployeeTransaction.getType().getSubTypeList());
+
         employeeTransaction.setDate(editedEmployeeTransaction.getDate());
         employeeTransaction.setValue(editedEmployeeTransaction.getValue());
         employeeTransaction.setFrequency(editedEmployeeTransaction.getFrequency());

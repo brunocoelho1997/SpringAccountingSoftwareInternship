@@ -52,30 +52,14 @@ public class TypeController implements WebMvcConfigurer {
 
         if(transactionId!=null)
         {
-            System.out.println("\n\n\n\n transactionId: " + transactionId);
-
             Optional<Transaction> transaction = transactionRepository.findById(transactionId);
-
-            System.out.println("\n\n\n\n transactionId: " + transaction.get());
-
-
-            System.out.println("\n\n\n\n " + transaction.get().getType());
-
             List<String>subtypes_string = new ArrayList<>();
-
             for(SubType subType: transaction.get().getType().getSubTypeList())
             {
                 subtypes_string.add(subType.getName());
             }
-
-            System.out.println("\n\n\n\n " + subtypes_string);
-
-
             model.addAttribute("listSubTypesSelected", subtypes_string);
         }
-
-
-//        System.out.println("\n\n\n\n" + typeValue + " \n " + aux);
         model.addAttribute("listSubTypes", aux);
         return "SubTypes/subtypes_list :: options";
     }

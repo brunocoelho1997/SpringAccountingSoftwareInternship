@@ -52,9 +52,15 @@
                                 <span th:text="#{Transactions.Type}" th:remove="tag">title</span>:
                                 <span th:text="${transaction.getType().getName()}"></span>
                             </div>
+
+
                             <div>
                                 <span th:text="#{Transactions.SubType}" th:remove="tag">title</span>:
-                                <span th:if="${transaction.getType().getSubType()!=null}" th:text="${transaction.getType().getSubType().getName()}"></span>
+                                <span th:if="${transaction.getType().getSubTypeList() !=null}">
+                                    <div th:each="subtype : ${transaction.getType().getSubTypeList()}" style="display:inline">
+                                        <p th:text="${subtype.name}" style="display:inline"></p>;
+                                    </div>
+                                </span>
                             </div>
                             <div>
                                 <span th:text="#{Transactions.Employee.Employee}" th:remove="tag">title</span>:

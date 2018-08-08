@@ -146,9 +146,7 @@ public class EmployeeTransactionController {
         }
         employeeTransactionService.editEmployeeTransaction(employeeTransaction);
 
-
         return "redirect:/employee_transaction/";
-
     }
 
     @RequestMapping("/remove_transaction")
