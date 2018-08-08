@@ -19,6 +19,8 @@ public class Transaction_ {
     public static volatile SingularAttribute<Transaction, Genre> genre;
     public static volatile SingularAttribute<Transaction, Type> type;
     public static volatile SingularAttribute<Transaction, LocalDate> date;
+    public static volatile SingularAttribute<Transaction, Boolean> executed;
+
 
 
 

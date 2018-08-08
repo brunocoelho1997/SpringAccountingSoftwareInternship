@@ -119,14 +119,7 @@ public class EmployeeTransactionController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("employees", employeeService.getEmployees());
-
             model.addAttribute("type_value", employeeTransaction.getType().getName());
-//            model.addAttribute("subtype_value", employeeTransaction.getType().getSubType().getName());
-            /*
-            TODO: caso nos nos engamos em algo... ao validar dps o subtyppe fica desselecionado!! Verificar
-             */
-
-            System.out.println("\n\n\naqui: " + bindingResult.toString());
             return "EmployeeTransaction/add_transaction";
         }
         employeeTransactionService.addTransaction(employeeTransaction);
@@ -139,9 +132,7 @@ public class EmployeeTransactionController {
 
         EmployeeTransaction transaction = employeeTransactionService.getEmployeeTransaction(id);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getTypes());
-//        if(transaction.getType().getSubType()!=null)
-//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
         model.addAttribute("employees", employeeService.getEmployees());
 
         return "EmployeeTransaction/edit_transaction";

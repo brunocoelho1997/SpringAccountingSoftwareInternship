@@ -8,9 +8,8 @@
 
 <option th:fragment="options" th:each="subtype,rowStat : ${listSubTypes}"
 
-        th:value="*{listSubTypes[__${rowStat.index}__].id}"
+        th:value="*{listSubTypes[__${rowStat.index}__].name}"
         th:utext="*{listSubTypes[__${rowStat.index}__].name}"
-        th:selected="${#lists.contains(listSubTypesSelected, '' + subtype.name)}"
 />
 
 </body>

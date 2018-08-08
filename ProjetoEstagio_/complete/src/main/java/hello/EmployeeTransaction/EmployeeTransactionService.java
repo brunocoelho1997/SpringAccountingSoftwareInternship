@@ -88,8 +88,6 @@ public class EmployeeTransactionService {
 
 
 
-
-
         if(value.isEmpty() && frequency.isEmpty() && employeeId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
             ;
         else
@@ -98,10 +96,11 @@ public class EmployeeTransactionService {
 
         }
 
+        //types and subtypes
         List<SubType> subTypeList = null;
         if(!subTypeValue.isEmpty()){
             subTypeList = subTypeService.getSubType(subTypeValue);
-            System.out.println("\n\n\n\n subTypeList: " + subTypeList);
+//            System.out.println("\n\n\n\n subTypeList: " + subTypeList);
         }
         if(subTypeValue!= null && !subTypeValue.isEmpty())
         {
@@ -113,7 +112,7 @@ public class EmployeeTransactionService {
                 {
                     if(!type1.isManuallyCreated() && !Collections.disjoint(type1.getSubTypeList(), subTypeList))
                     {
-                        System.out.println("\n\n Type: " + type1);
+//                        System.out.println("\n\n Type: " + type1);
 
                         if(specFilter==null)
                             specFilter = EmployeeTransactionSpecifications.filterByType(type1);
@@ -132,6 +131,7 @@ public class EmployeeTransactionService {
         }
 
 
+        //deleted entities
         deletedEntities = (deletedEntities == null ? false : true);
 
         if(specFilter==null)
@@ -140,6 +140,11 @@ public class EmployeeTransactionService {
             specFilter = specFilter.and(EmployeeTransactionSpecifications.filterDeleletedEntities(deletedEntities));
 
 
+        //executed
+        if(specFilter==null)
+            specFilter = EmployeeTransactionSpecifications.filterExecuted(true);
+        else
+            specFilter = specFilter.and(EmployeeTransactionSpecifications.filterExecuted(true));
 
 
         transactionsPage = repository.findAll(specFilter, pageable);

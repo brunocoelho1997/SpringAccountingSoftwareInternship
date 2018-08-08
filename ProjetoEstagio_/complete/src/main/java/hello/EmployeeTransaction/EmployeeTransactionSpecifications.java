@@ -28,16 +28,12 @@ import java.util.List;
 public class EmployeeTransactionSpecifications {
 
 
+
     public static Specification<EmployeeTransaction> filterByType(Type type) {
         return (root, query, cb) -> {
             Predicate predicateFinal = null;
-
-
             predicateFinal = cb.equal(root.get(Transaction_.type), type);
-
-
             return predicateFinal;
-
         };
     }
 
@@ -64,6 +60,13 @@ public class EmployeeTransactionSpecifications {
         };
     }
 
+    public static Specification<EmployeeTransaction> filterExecuted(Boolean executed) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.executed), executed);
+            return predicateFinal;
+        };
+    }
 
     public static Specification<EmployeeTransaction> filter(String value, String frequency, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {

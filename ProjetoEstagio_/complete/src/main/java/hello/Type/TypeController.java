@@ -5,6 +5,8 @@ import hello.Pager;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
 import hello.SubType.SubTypeService;
+import hello.Transaction.Transaction;
+import hello.Transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,14 +38,55 @@ public class TypeController implements WebMvcConfigurer {
     @Autowired
     SubTypeRepository subTypeRepository;
 
+    @Autowired
+    TransactionRepository transactionRepository;
+
+    //for add,edit, etc
     @RequestMapping("/get_subTypes")
-    public String getSubTypes(@RequestParam("value") String typeValue, Model model) {
+    public String getSubTypes(@RequestParam(name="value", required=true) String typeValue,@RequestParam(name="id", required=false) Long transactionId, Model model) {
 
         List<SubType> aux = subTypeRepository.findByTypeName(typeValue);
+
+        model.addAttribute("listSubTypesSelected", new ArrayList<>());
+
+
+        if(transactionId!=null)
+        {
+            System.out.println("\n\n\n\n transactionId: " + transactionId);
+
+            Optional<Transaction> transaction = transactionRepository.findById(transactionId);
+
+            System.out.println("\n\n\n\n transactionId: " + transaction.get());
+
+
+            System.out.println("\n\n\n\n " + transaction.get().getType());
+
+            List<String>subtypes_string = new ArrayList<>();
+
+            for(SubType subType: transaction.get().getType().getSubTypeList())
+            {
+                subtypes_string.add(subType.getName());
+            }
+
+            System.out.println("\n\n\n\n " + subtypes_string);
+
+
+            model.addAttribute("listSubTypesSelected", subtypes_string);
+        }
+
 
 //        System.out.println("\n\n\n\n" + typeValue + " \n " + aux);
         model.addAttribute("listSubTypes", aux);
         return "SubTypes/subtypes_list :: options";
+    }
+
+
+    @RequestMapping("/get_subTypes_filters")
+    public String getSubTypesFilters(@RequestParam("value") String typeValue, Model model) {
+
+        List<SubType> aux = subTypeRepository.findByTypeName(typeValue);
+        model.addAttribute("listSubTypes", aux);
+        return "SubTypes/subtypes_list_filters :: options";
     }
 
     @RequestMapping("/get_types")

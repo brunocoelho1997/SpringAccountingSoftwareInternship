@@ -15,7 +15,7 @@
         <div class="row" th:if="${transaction != null}">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" th:text="#{Transactions.Revenue.Add}"> Adicionar
+                    <div class="panel-heading" th:text="#{Transactions.Cost.Add}"> Adicionar
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -91,7 +91,7 @@
                                     <div class="col-sm-6">
                                         <select multiple class="form-control subTypesOfType" th:field="*{type.subTypeList}">
                                         </select>
-                                        <p class="text-danger" th:if="${#fields.hasErrors('type.subTypeList')}" th:errors="*{type.subType.name}">Name Error</p>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('type.subTypeList')}" th:errors="*{type.subTypeList}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
