@@ -1,10 +1,15 @@
 package hello.ProjectTransaction;
 
+import hello.EmployeeTransaction.EmployeeTransaction;
+import hello.EmployeeTransaction.EmployeeTransactionSpecifications;
+import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.Project.ProjectService;
+import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
 import hello.Type.Type;
+import hello.Type.TypeRepository;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +18,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,21 +34,33 @@ public class ProjectTransactionService {
     TypeService typeService;
     @Autowired
     SubTypeService subTypeService;
-
+    @Autowired
+    TypeRepository typeRepository;
 
 //    public List<ProjectTransaction> getProjectsTransactionsByGenre(Genre genre){
 //        List<ProjectTransaction> projectTransactions = repository.findByGenre(genre);
 //        return projectTransactions;
 //    }
 
-    public void addTransaction(@Valid ProjectTransaction projectTransaction) {
+    public void addTransaction(@Valid ProjectTransaction transaction) {
 
-        Project project = projectService.getProject(projectTransaction.getProject().getId());
-        projectTransaction.setProject(project);
+        Project project = projectService.getProject(transaction.getProject().getId());
+        transaction.setProject(project);
 
-//        if(projectTransaction.getSubType().getId()==0)
-//            projectTransaction.setSubType(null);
-        repository.save(projectTransaction);
+        Type typeAux = new Type(transaction.getType().getName());
+        typeAux.setCategory(Category.SUPPLIERS);
+        typeRepository.save(typeAux);
+
+        typeAux.setSubTypeList(new ArrayList<>());
+        for(SubType subTypeAux : transaction.getType().getSubTypeList())
+            typeAux.getSubTypeList().add(subTypeAux);
+
+        typeRepository.save(typeAux);
+
+        transaction.setType(typeAux);
+        transaction.setExecuted(true);
+
+        repository.save(transaction);
     }
 
     public ProjectTransaction getProjectTransaction(long id)
@@ -60,13 +79,10 @@ public class ProjectTransactionService {
 
         projectTransaction.setGenre(editedProjectTransaction.getGenre());
 
-        Type type = typeService.getType(editedProjectTransaction.getType().getId());
-        projectTransaction.setType(type);
-//        if(editedProjectTransaction.getType().getSubType() !=null)
-//        {
-//            SubType subType= subTypeService.getSubType(editedProjectTransaction.getType().getSubType().getId());
-//            projectTransaction.getType().setSubType(subType);
-//        }
+        Type type = projectTransaction.getType();
+        type.setName(editedProjectTransaction.getType().getName());
+        type.setSubTypeList(editedProjectTransaction.getType().getSubTypeList());
+
         projectTransaction.setDate(editedProjectTransaction.getDate());
         projectTransaction.setValue(editedProjectTransaction.getValue());
         projectTransaction.setFrequency(editedProjectTransaction.getFrequency());
@@ -80,13 +96,13 @@ public class ProjectTransactionService {
         repository.save(projectTransaction);
     }
 
-    public Page<ProjectTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<ProjectTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
         //could receive params to filter de list
-        if(value!= null || frequency!=null || typeValue != null || projectId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
-            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil, genre);
+        if(value!= null || frequency!=null || typeValue != null || projectId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
+            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return repository.findAllByGenreAndActived(pageable, genre,true);
+            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
 
     }
 
@@ -95,19 +111,96 @@ public class ProjectTransactionService {
         return repository.findAllByGenreAndActived(genre, actived);
     }
 
-    private Page<ProjectTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<ProjectTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
-        Page<ProjectTransaction> projectTransactionsPage = null;
+        Page<ProjectTransaction> transactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && projectId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
-            return repository.findAllByGenreAndActived(pageable, genre, true);
+        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && projectId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
+            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
 
         Project project = projectService.getProject(projectId);
-        Specification<ProjectTransaction> specFilter = ProjectTransactionSpecifications.filter(value, frequency, typeValue, subTypeValue, project, dateSince, dateUntil,valueSince, valueUntil, genre);
+//        Specification<ProjectTransaction> specFilter = ProjectTransactionSpecifications.filter(value, frequency, typeValue, subTypeValue, project, dateSince, dateUntil,valueSince, valueUntil, genre);
 
-        projectTransactionsPage = repository.findAll(specFilter, pageable);
+        Specification<ProjectTransaction> specFilter = null;
 
-        return projectTransactionsPage;
+
+
+        if(value.isEmpty() && frequency.isEmpty() && projectId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+            ;
+        else
+        {
+            if(specFilter==null)
+                specFilter = ProjectTransactionSpecifications.filter(value, frequency, project, dateSince, dateUntil,valueSince, valueUntil);
+            else
+                specFilter.and(ProjectTransactionSpecifications.filter(value, frequency, project, dateSince, dateUntil,valueSince, valueUntil));
+
+        }
+
+        //types and subtypes
+        List<SubType> subTypeList = null;
+        if(!subTypeValue.isEmpty()){
+            subTypeList = subTypeService.getSubType(subTypeValue);
+//            System.out.println("\n\n\n\n subTypeList: " + subTypeList);
+        }
+        if(subTypeValue!= null && !subTypeValue.isEmpty())
+        {
+            List<Type> types = typeRepository.findByName(typeValue);
+
+            if(!types.isEmpty())
+            {
+                for(Type type1: types)
+                {
+                    if(!type1.isManuallyCreated() && !Collections.disjoint(type1.getSubTypeList(), subTypeList))
+                    {
+//                        System.out.println("\n\n Type: " + type1);
+
+                        if(specFilter==null)
+                            specFilter = ProjectTransactionSpecifications.filterByType(type1);
+                        else
+                            specFilter = specFilter.or(ProjectTransactionSpecifications.filterByType(type1));
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(specFilter==null)
+                specFilter = ProjectTransactionSpecifications.filterByNameType(typeValue);
+            else
+                specFilter = specFilter.or(ProjectTransactionSpecifications.filterByNameType(typeValue));
+        }
+
+
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
+
+        if(specFilter==null)
+            specFilter = ProjectTransactionSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(ProjectTransactionSpecifications.filterDeleletedEntities(deletedEntities));
+
+
+        //executed
+        if(specFilter==null)
+            specFilter = ProjectTransactionSpecifications.filterExecuted(true);
+        else
+            specFilter = specFilter.and(ProjectTransactionSpecifications.filterExecuted(true));
+
+
+        //genre
+        if(specFilter==null)
+            specFilter = ProjectTransactionSpecifications.filterGenre(genre);
+        else
+            specFilter = specFilter.and(ProjectTransactionSpecifications.filterGenre(genre));
+        transactionsPage = repository.findAll(specFilter, pageable);
+
+
+        return transactionsPage;
     }
 
+    public void recoveryTransaction(Long id) {
+        ProjectTransaction projectTransaction = getProjectTransaction((long)id);
+        projectTransaction.setActived(true);
+        repository.save(projectTransaction);
+    }
 }

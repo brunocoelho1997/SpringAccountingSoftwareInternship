@@ -52,8 +52,6 @@
                                 <span th:text="#{Transactions.Type}" th:remove="tag">title</span>:
                                 <span th:text="${transaction.getType().getName()}"></span>
                             </div>
-
-
                             <div>
                                 <span th:text="#{Transactions.SubType}" th:remove="tag">title</span>:
                                 <span th:if="${transaction.getType().getSubTypeList() !=null}">

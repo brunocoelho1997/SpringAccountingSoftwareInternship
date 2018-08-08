@@ -43,8 +43,6 @@ public class EmployeeTransactionService {
         employeeTransaction.setEmployee(employee);
 
 
-        System.out.println("\n\n\n\n\n antes:" + employeeTransaction);
-
         Type typeAux = new Type(employeeTransaction.getType().getName());
         typeAux.setCategory(Category.SUPPLIERS);
         typeRepository.save(typeAux);
@@ -57,7 +55,6 @@ public class EmployeeTransactionService {
 
         employeeTransaction.setType(typeAux);
         employeeTransaction.setExecuted(true);
-        System.out.println("\n\n\n\n\n depois" + employeeTransaction);
 
         repository.save(employeeTransaction);
     }
@@ -92,7 +89,10 @@ public class EmployeeTransactionService {
             ;
         else
         {
-            specFilter.and(EmployeeTransactionSpecifications.filter(value, frequency, employee, dateSince, dateUntil,valueSince, valueUntil, genre));
+            if(specFilter==null)
+                specFilter = EmployeeTransactionSpecifications.filter(value, frequency, employee, dateSince, dateUntil,valueSince, valueUntil, genre);
+            else
+                specFilter.and(EmployeeTransactionSpecifications.filter(value, frequency, employee, dateSince, dateUntil,valueSince, valueUntil, genre));
 
         }
 

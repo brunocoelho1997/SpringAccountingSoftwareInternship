@@ -17,8 +17,8 @@ public interface ProjectTransactionRepository extends JpaRepository<ProjectTrans
     ProjectTransaction findById(long id);
     List<ProjectTransaction> findByProject(Project project);
     Page<ProjectTransaction> findAll(Pageable pageable);
-    Page<ProjectTransaction> findAllByGenreAndActived(Pageable pageable, Genre genre, boolean actived);
 
+    Page<ProjectTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
     List<ProjectTransaction> findDistinctByProjectAndGenreAndActived(Project project, Genre genre, boolean actived);
     Collection<ProjectTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
     Collection<ProjectTransaction> findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore);

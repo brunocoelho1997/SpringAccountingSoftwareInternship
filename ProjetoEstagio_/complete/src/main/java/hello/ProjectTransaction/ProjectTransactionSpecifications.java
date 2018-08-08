@@ -1,6 +1,7 @@
 package hello.ProjectTransaction;
 
 import hello.Client.Client;
+import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.EntityPackage.Entity_;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
@@ -19,7 +20,54 @@ import java.time.LocalDate;
 
 public class ProjectTransactionSpecifications {
 
-    public static Specification<ProjectTransaction> filter(String value, String frequency, String type, String subType, Project project, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public static Specification<ProjectTransaction> filterByType(Type type) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.type), type);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<ProjectTransaction> filterByNameType(String nameType) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            if(!nameType.isEmpty())
+                predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<ProjectTransaction> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<ProjectTransaction> filterExecuted(Boolean executed) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.executed), executed);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<ProjectTransaction> filterGenre(Genre genre) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.genre), genre);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<ProjectTransaction> filter(String value, String frequency, Project project, String dateSince, String dateUntil, String valueSince, String valueUntil) {
         return (root, query, cb) -> {
 
 
@@ -62,23 +110,6 @@ public class ProjectTransactionSpecifications {
                 else
                     predicateFinal = predicateFrequency;
             }
-
-            if(type != null && !type.isEmpty())
-            {
-                predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateType);
-                else
-                    predicateFinal = predicateType;
-            }
-//            if(subType != null && !subType.isEmpty())
-//            {
-//                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
-//                if(predicateFinal!=null)
-//                    predicateFinal = cb.and(predicateFinal, predicateSubType);
-//                else
-//                    predicateFinal = predicateSubType;
-//            }
 
             if(project != null)
             {
@@ -150,10 +181,7 @@ public class ProjectTransactionSpecifications {
                 }
             }
 
-            //define Genre
-            predicateGenre = cb.equal(root.get(Transaction_.genre), genre);
 
-            predicateFinal = cb.and(predicateFinal, predicateGenre);
             return predicateFinal;
 
         };

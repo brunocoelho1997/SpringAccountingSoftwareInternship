@@ -1,5 +1,6 @@
 package hello.ProjectTransaction;
 
+import hello.Currency.CurrencyService;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.Pager;
@@ -38,6 +39,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     @Autowired
     ProjectService projectService;
 
+    @Autowired
+    CurrencyService currencyService;
 
 //    @GetMapping("/revenue")
 //    public String indexRevenue(Model model) {
@@ -57,7 +60,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
 
     {
         ModelAndView modelAndView = new ModelAndView("ProjectTransaction/index");
@@ -72,7 +76,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil,Genre.REVENUE);
+        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil,deletedEntities, Genre.REVENUE, true);
 
 
         Pager pager = new Pager(projectsTransactions.getTotalPages(), projectsTransactions.getNumber(), BUTTONS_TO_SHOW);
@@ -93,6 +97,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
 
         return modelAndView;
     }
@@ -100,10 +106,12 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     @GetMapping("/add_revenue")
     public String addRevenue(Model model) {
 
-        ProjectTransaction revenue = new ProjectTransaction();
-        revenue.setGenre(Genre.REVENUE);
-        model.addAttribute("transaction", revenue);
-        model.addAttribute("types", typeService.getTypes());
+        ProjectTransaction transaction = new ProjectTransaction();
+        transaction.setGenre(Genre.REVENUE);
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+
         model.addAttribute("projects", projectService.getProjects());
 
         return "ProjectTransaction/add_transaction";
@@ -131,10 +139,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
 
         ProjectTransaction transaction = projectTransactionService.getProjectTransaction(id);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getTypes());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
         model.addAttribute("projects", projectService.getProjects());
-//        if(transaction.getType().getSubType()!=null)
-//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
 
         return "ProjectTransaction/edit_transaction";
     }
@@ -183,13 +189,14 @@ public class ProjectTransactionController implements WebMvcConfigurer {
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="frequency", required=false) String frequency,
-                                      @RequestParam(name="type_value", required=false) String typeValue,
-                                      @RequestParam(name="subtype_value", required=false) String subTypeValue,
+                                        @RequestParam(name="type_value", required=false) String typeValue,
+                                        @RequestParam(name="subtype_value", required=false) String subTypeValue,
                                         @RequestParam(name="project_id", required=false) Long projectId,
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
     {
         ModelAndView modelAndView = new ModelAndView("ProjectTransaction/index");
 
@@ -203,7 +210,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil,Genre.COST);
+        Page<ProjectTransaction> projectsTransactions = projectTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, Genre.COST, true);
 
 
         Pager pager = new Pager(projectsTransactions.getTotalPages(), projectsTransactions.getNumber(), BUTTONS_TO_SHOW);
@@ -225,6 +232,8 @@ public class ProjectTransactionController implements WebMvcConfigurer {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
 
         return modelAndView;
 
@@ -233,13 +242,28 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     @GetMapping("/add_cost")
     public String addCost(Model model) {
 
-        ProjectTransaction cost = new ProjectTransaction();
-        cost.setGenre(Genre.COST);
-        model.addAttribute("transaction", cost);
-        model.addAttribute("types", typeService.getTypes());
+        ProjectTransaction transaction = new ProjectTransaction();
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
+        transaction.setGenre(Genre.COST);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+
         model.addAttribute("projects", projectService.getProjects());
 
         return "ProjectTransaction/add_transaction";
     }
 
+    @RequestMapping("/recovery_transaction")
+    public String recoveryTransaction(@RequestParam("id") Long id, Model model) {
+
+        ProjectTransaction projectTransaction = projectTransactionService.getProjectTransaction(id);
+        model.addAttribute("transaction", projectTransaction);
+
+        return "ProjectTransaction/recovery_transaction :: modal";
+    }
+    @PostMapping("/recovery_transaction")
+    public @ResponseBody String recoveryTransaction(@RequestParam("id") Long id) {
+        projectTransactionService.recoveryTransaction(id);
+        return "redirect:/revenue/";
+    }
 }
