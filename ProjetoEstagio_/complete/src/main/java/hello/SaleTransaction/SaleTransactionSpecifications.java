@@ -16,7 +16,47 @@ import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
 
 public class SaleTransactionSpecifications {
-    public static Specification<SaleTransaction> filter(String value, String frequency, String type, String subType, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+
+    public static Specification<SaleTransaction> filterByType(Type type) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.type), type);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<SaleTransaction> filterByNameType(String nameType) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            if(!nameType.isEmpty())
+                predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<SaleTransaction> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<SaleTransaction> filterExecuted(Boolean executed) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.executed), executed);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<SaleTransaction> filter(String value, String frequency, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -25,11 +65,13 @@ public class SaleTransactionSpecifications {
             Predicate predicateFrequency;
             Predicate predicateType;
             Predicate predicateSubType;
+            Predicate predicateProject;
             Predicate predicateDateSince;
             Predicate predicateDateUntil;
             Predicate predicateValueSince;
             Predicate predicateValueUntil;
             Predicate predicateGenre;
+            Predicate predicateDeletedEntities;
 
 
 
@@ -58,23 +100,6 @@ public class SaleTransactionSpecifications {
                 else
                     predicateFinal = predicateFrequency;
             }
-
-            if(type != null && !type.isEmpty())
-            {
-                predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateType);
-                else
-                    predicateFinal = predicateType;
-            }
-//            if(subType != null && !subType.isEmpty())
-//            {
-//                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
-//                if(predicateFinal!=null)
-//                    predicateFinal = cb.and(predicateFinal, predicateSubType);
-//                else
-//                    predicateFinal = predicateSubType;
-//            }
 
             if(!dateSince.isEmpty())
             {

@@ -1,8 +1,10 @@
 package hello.SaleTransaction;
 
 
+import hello.Currency.CurrencyService;
 import hello.Enums.Genre;
 import hello.Pager;
+import hello.SubType.SubTypeService;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,10 @@ public class SaleTransactionController implements WebMvcConfigurer {
 
     @Autowired
     TypeService typeService;
+    @Autowired
+    CurrencyService currencyService;
+    @Autowired
+    SubTypeService subTypeService;
 
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -40,7 +46,8 @@ public class SaleTransactionController implements WebMvcConfigurer {
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
 
     {
         ModelAndView modelAndView = new ModelAndView("SaleTransaction/index");
@@ -55,13 +62,14 @@ public class SaleTransactionController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<SaleTransaction> saleTransactions = saleTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, Genre.REVENUE);
+        Page<SaleTransaction> saleTransactions = saleTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, Genre.REVENUE, true);
 
 
         Pager pager = new Pager(saleTransactions.getTotalPages(), saleTransactions.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("listEntities", saleTransactions);
         modelAndView.addObject("types", typeService.getDistinctTypes());
+        modelAndView.addObject("subTypes", subTypeService.getDistinctSubTypesActived());
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
@@ -74,6 +82,8 @@ public class SaleTransactionController implements WebMvcConfigurer {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
 
         return modelAndView;
     }
@@ -81,10 +91,11 @@ public class SaleTransactionController implements WebMvcConfigurer {
     @GetMapping("/add_transaction")
     public String addRevenue(Model model) {
 
-        SaleTransaction revenue = new SaleTransaction();
-        revenue.setGenre(Genre.REVENUE);
-        model.addAttribute("transaction", revenue);
-        model.addAttribute("types", typeService.getTypes());
+        SaleTransaction transaction = new SaleTransaction();
+        transaction.setGenre(Genre.REVENUE);
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
 
         return "SaleTransaction/add_transaction";
     }
@@ -93,7 +104,8 @@ public class SaleTransactionController implements WebMvcConfigurer {
     public String addRevenue(Model model, @Valid @ModelAttribute("transaction") SaleTransaction saleTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+            model.addAttribute("type_value", saleTransaction.getType().getName());
             return "SaleTransaction/add_transaction";
         }
         saleTransactionService.addTransaction(saleTransaction);
@@ -105,16 +117,13 @@ public class SaleTransactionController implements WebMvcConfigurer {
 
         SaleTransaction transaction = saleTransactionService.getSaleTransaction(id);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getTypes());
-//        if(transaction.getType().getSubType()!=null)
-//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
         return "SaleTransaction/edit_transaction";
     }
     @PostMapping("/edit_transaction")
     public String editTransaction(Model model, @Valid @ModelAttribute("transaction") SaleTransaction saleTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
-
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             return "SaleTransaction/edit_transaction";
         }
         saleTransactionService.editSaleTransaction(saleTransaction);
@@ -144,5 +153,19 @@ public class SaleTransactionController implements WebMvcConfigurer {
 
         model.addAttribute("transaction", saleTransaction);
         return "SaleTransaction/info_transaction";
+    }
+    @RequestMapping("/recovery_transaction")
+    public String recoveryTransaction(@RequestParam("id") Long id, Model model) {
+
+        SaleTransaction projectTransaction = saleTransactionService.getSaleTransaction(id);
+        model.addAttribute("transaction", projectTransaction);
+
+        return "EmployeeTransaction/recovery_transaction :: modal";
+    }
+    @PostMapping("/recovery_transaction")
+    public @ResponseBody
+    String recoveryTransaction(@RequestParam("id") Long id) {
+        saleTransactionService.recoveryTransaction(id);
+        return "redirect:/employee_transaction/";
     }
 }

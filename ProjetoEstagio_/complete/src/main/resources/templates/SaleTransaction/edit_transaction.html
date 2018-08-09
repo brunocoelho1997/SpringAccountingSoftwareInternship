@@ -26,6 +26,8 @@
                         <form th:action="@{/sale_transaction/edit_transaction}" th:object="${transaction}" method="post">
                             <div class="form-horizontal">
                                 <input th:type="hidden" th:field="*{genre}"/>
+                                <input th:type="hidden" th:field="*{currency}"/>
+
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Entity.Id}"></label>
                                     <div class="col-sm-6">
@@ -74,21 +76,21 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Type}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control selectedType" th:field="*{type.id}" required>
+                                        <select class="form-control selectedType" th:field="*{type.name}" required>
                                             <option th:each="type : ${types}"
-                                                    th:value="${type.getId()}"
-                                                    th:utext="${type.getName()}"/>
+                                                    th:value="${type}"
+                                                    th:utext="${type}"/>
                                         </select>
-                                        <p class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name Error</p>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('type.name')}" th:errors="*{type.name}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" th:id="subTypesOfType" name = "subtype_id" th:data-subtype-id="${subtype_id}">
+                                        <select multiple class="form-control subTypesOfType" th:field="*{type.subTypeList}">
                                         </select>
-                                        <p class="text-danger" th:if="${#fields.hasErrors('type.subType')}" th:errors="*{type.subType}">Name Error</p>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('type.subTypeList')}" th:errors="*{type.subTypeList}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>

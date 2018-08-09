@@ -14,9 +14,9 @@ public interface SaleTransactionRepository extends JpaRepository<SaleTransaction
 
     SaleTransaction findById(long id);
     Page<SaleTransaction> findAll(Pageable pageable);
-    Page<SaleTransaction> findAllByGenreAndActived(Pageable pageable, Genre genre, boolean actived);
 
-    List<SaleTransaction> findDistinctByGenreAndActived(Genre genre, boolean actived);
+    Page<SaleTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean actived);
+    Page<SaleTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
 
     Collection<SaleTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
     Collection<SaleTransaction> findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore);
