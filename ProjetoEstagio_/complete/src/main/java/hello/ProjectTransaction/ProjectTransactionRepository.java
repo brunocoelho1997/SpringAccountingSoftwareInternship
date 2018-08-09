@@ -19,7 +19,7 @@ public interface ProjectTransactionRepository extends JpaRepository<ProjectTrans
     Page<ProjectTransaction> findAll(Pageable pageable);
 
     Page<ProjectTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
-    List<ProjectTransaction> findDistinctByProjectAndGenreAndActived(Project project, Genre genre, boolean actived);
+    List<ProjectTransaction> findDistinctByProjectAndGenreAndActivedAndExecuted(Project project, Genre genre, boolean actived, boolean executed);
     Collection<ProjectTransaction> findAllByGenreAndActivedAndDateAfter(Genre genre, boolean actived, LocalDate dateAfter);
     Collection<ProjectTransaction> findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore);
 
