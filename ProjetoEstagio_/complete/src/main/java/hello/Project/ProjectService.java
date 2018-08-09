@@ -174,7 +174,8 @@ public class ProjectService {
             {
                 TypeSubtypeResource resource = new TypeSubtypeResource();
                 resource.setTypeName(projectTransaction.getType().getName());
-                resource.setTypeValueTotal(projectTransaction.getValue());
+                Float newValue = (float)(Math.round(projectTransaction.getValue() * 100D) / 100D);
+                resource.setTypeValueTotal(newValue);
 
                 processSubType(resource, projectTransaction);
 
@@ -186,8 +187,8 @@ public class ProjectService {
             {
                 int index = nameTypesProcessed.indexOf(projectTransaction.getType().getName());
                 TypeSubtypeResource resource = typeSubtypeResources.get(index);
-                resource.setTypeValueTotal(resource.getTypeValueTotal() + projectTransaction.getValue());
-
+                Float newValue = (float)(Math.round((resource.getTypeValueTotal() + projectTransaction.getValue()) * 100D) / 100D);
+                resource.setTypeValueTotal(newValue);
                 processSubType(resource, projectTransaction);
             }
         }
@@ -201,34 +202,6 @@ public class ProjectService {
             resource.setSubTypeNames(new ArrayList<>());
             resource.setSubTypeValues(new ArrayList<>());
         }
-
-        //if do not have subtype
-//        if(projectTransaction.getType().getSubTypeList()==null)
-//        {
-//            //and do not exist in list subtypeNames the subtype "NoSubTypeDefined"
-//            if(!resource.getSubTypeNames().contains("NoSubTypeDefined") ){
-//                resource.getSubTypeNames().add("NoSubTypeDefined");
-//                resource.getSubTypeValues().add(projectTransaction.getValue());
-//            }
-//            else
-//            {
-//                int index = resource.getSubTypeNames().indexOf("NoSubTypeDefined");
-//                Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
-//                resource.getSubTypeValues().set(index, newValue);
-//            }
-//
-//        }
-//        else if(!resource.getSubTypeNames().contains(projectTransaction.getType().getSubType().getName())){
-//            resource.getSubTypeNames().add(projectTransaction.getType().getSubType().getName());
-//            resource.getSubTypeValues().add(projectTransaction.getValue());
-//        }
-//        //if already exists subtype..
-//        else
-//        {
-//            int index = resource.getSubTypeNames().indexOf(projectTransaction.getType().getSubType().getName());
-//            Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
-//            resource.getSubTypeValues().set(index, newValue);
-//        }
 
         if(projectTransaction.getType().getSubTypeList().isEmpty())
         {
@@ -266,13 +239,16 @@ public class ProjectService {
 
             if(!resource.getSubTypeNames().contains(name)){
                 resource.getSubTypeNames().add(name);
-                resource.getSubTypeValues().add(projectTransaction.getValue());
+
+                Float newValue = (float)(Math.round(projectTransaction.getValue() * 100D) / 100D);
+                resource.getSubTypeValues().add(newValue);
             }
             //if already exists subtype..
             else
             {
                 int index = resource.getSubTypeNames().indexOf(name);
                 Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
+                newValue = (float)(Math.round(newValue * 100D) / 100D);
                 resource.getSubTypeValues().set(index, newValue);
             }
         }

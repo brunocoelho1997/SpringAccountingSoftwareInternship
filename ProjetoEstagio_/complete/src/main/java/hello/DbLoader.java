@@ -324,7 +324,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction2 = new ProjectTransaction();
             projectTransaction2.setDate(randomDate1);
-            projectTransaction2.setName("Despesa de Projeto 2");
+            projectTransaction2.setName("Despesa de Projeto 1");
             projectTransaction2.setFrequency(Frequency.MONTHLY);
             projectTransaction2.setValue((float)135.3);
             projectTransaction2.setProject(project1);
@@ -341,7 +341,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction3 = new ProjectTransaction();
             projectTransaction3.setDate(date4);
-            projectTransaction3.setName("Despesa de Projeto 3");
+            projectTransaction3.setName("Despesa de Projeto 2");
             projectTransaction3.setFrequency(Frequency.DAILY);
             projectTransaction3.setValue((float)35.1);
             projectTransaction3.setProject(project1);
@@ -362,7 +362,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction4 = new ProjectTransaction();
             projectTransaction4.setDate(randomDate1);
-            projectTransaction4.setName("Receita de Projeto 4");
+            projectTransaction4.setName("Receita de Projeto 2");
             projectTransaction4.setFrequency(Frequency.DAILY);
             projectTransaction4.setValue((float)261.9);
             projectTransaction4.setProject(project1);
@@ -384,7 +384,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction5 = new ProjectTransaction();
             projectTransaction5.setDate(randomDate1);
-            projectTransaction5.setName("Despesa de Projeto 5");
+            projectTransaction5.setName("Despesa de Projeto 3");
             projectTransaction5.setFrequency(Frequency.DAILY);
             projectTransaction5.setValue((float)23.2);
             projectTransaction5.setProject(project1);
@@ -406,7 +406,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction6 = new ProjectTransaction();
             projectTransaction6.setDate(date4);
-            projectTransaction6.setName("Receita de Projeto 6");
+            projectTransaction6.setName("Receita de Projeto 3");
             projectTransaction6.setFrequency(Frequency.DAILY);
             projectTransaction6.setValue((float)12.3);
             projectTransaction6.setProject(project1);
@@ -415,12 +415,36 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction6.setExecuted(true);
             projectTransaction6.setCurrency(brlCurrency);
 
+
+
+            Type type = new Type();
+            type.setName("Manutenção");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
+            type.setSubTypeList(new ArrayList<>());
+            type.getSubTypeList().add(subType1);
+            typeRepository.save(type);
+
+            ProjectTransaction projectTransaction7 = new ProjectTransaction();
+            projectTransaction7.setDate(randomDate1);
+            projectTransaction7.setName("Despesa de Projeto 4");
+            projectTransaction7.setFrequency(Frequency.DAILY);
+            projectTransaction7.setValue((float)73.2);
+            projectTransaction7.setProject(project1);
+            projectTransaction7.setGenre(Genre.COST);
+            projectTransaction7.setType(type);
+            projectTransaction7.setExecuted(true);
+            projectTransaction7.setCurrency(brlCurrency);
+
+
             projectTransactionRepository.save(projectTransaction1);
             projectTransactionRepository.save(projectTransaction2);
             projectTransactionRepository.save(projectTransaction3);
             projectTransactionRepository.save(projectTransaction4);
             projectTransactionRepository.save(projectTransaction5);
             projectTransactionRepository.save(projectTransaction6);
+            projectTransactionRepository.save(projectTransaction7);
+
 
 
 
@@ -706,7 +730,7 @@ public class DbLoader implements CommandLineRunner {
 
 
 
-            Type type = new Type();
+            type = new Type();
             type.setName("Desenvolvimento");
             type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
@@ -1012,16 +1036,16 @@ public class DbLoader implements CommandLineRunner {
             type12.getSubTypeList().add(subType1);
             typeRepository.save(type12);
 
-            ProjectTransaction projectTransaction7 = new ProjectTransaction();
-            projectTransaction7.setDate(date5);
-            projectTransaction7.setName("Receita de Projeto 7 - PF");
-            projectTransaction7.setFrequency(Frequency.DAILY);
-            projectTransaction7.setValue((float)24.3);
-            projectTransaction7.setProject(project1);
-            projectTransaction7.setGenre(Genre.REVENUE);
-            projectTransaction7.setType(type12);
-            projectTransaction7.setExecuted(false);
-            projectTransaction7.setCurrency(brlCurrency);
+            ProjectTransaction projectTransaction9 = new ProjectTransaction();
+            projectTransaction9.setDate(date5);
+            projectTransaction9.setName("Receita de Projeto 7 - PF");
+            projectTransaction9.setFrequency(Frequency.DAILY);
+            projectTransaction9.setValue((float)24.3);
+            projectTransaction9.setProject(project1);
+            projectTransaction9.setGenre(Genre.REVENUE);
+            projectTransaction9.setType(type12);
+            projectTransaction9.setExecuted(false);
+            projectTransaction9.setCurrency(brlCurrency);
 
             Type type13 = new Type();
             type13.setName("Desenvolvimento");
@@ -1043,7 +1067,7 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction8.setExecuted(false);
             projectTransaction8.setCurrency(brlCurrency);
 
-            projectTransactionRepository.save(projectTransaction7);
+            projectTransactionRepository.save(projectTransaction9);
             projectTransactionRepository.save(projectTransaction8);
 
 
