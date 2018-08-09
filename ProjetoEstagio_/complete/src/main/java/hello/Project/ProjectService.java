@@ -12,6 +12,7 @@ import hello.Project.Resources.TypeSubtypeResource;
 import hello.ProjectTransaction.ProjectTransaction;
 import hello.ProjectTransaction.ProjectTransactionRepository;
 import hello.ProjectTransaction.ProjectTransactionSpecifications;
+import hello.SubType.SubType;
 import hello.Type.Type;
 import hello.Type.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,7 +179,7 @@ public class ProjectService {
                 processSubType(resource, projectTransaction);
 
                 typeSubtypeResources.add(resource);
-                //indicate this type is exist
+                //indicate this type exist
                 nameTypesProcessed.add(projectTransaction.getType().getName());
             }
             else
@@ -202,7 +203,7 @@ public class ProjectService {
         }
 
         //if do not have subtype
-//        if(projectTransaction.getType().getSubType()==null)
+//        if(projectTransaction.getType().getSubTypeList()==null)
 //        {
 //            //and do not exist in list subtypeNames the subtype "NoSubTypeDefined"
 //            if(!resource.getSubTypeNames().contains("NoSubTypeDefined") ){
@@ -221,12 +222,60 @@ public class ProjectService {
 //            resource.getSubTypeNames().add(projectTransaction.getType().getSubType().getName());
 //            resource.getSubTypeValues().add(projectTransaction.getValue());
 //        }
+//        //if already exists subtype..
 //        else
 //        {
 //            int index = resource.getSubTypeNames().indexOf(projectTransaction.getType().getSubType().getName());
 //            Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
 //            resource.getSubTypeValues().set(index, newValue);
 //        }
+
+        if(projectTransaction.getType().getSubTypeList().isEmpty())
+        {
+            //and do not exist in list subtypeNames the subtype "NoSubTypeDefined"
+            if(!resource.getSubTypeNames().contains("NoSubTypeDefined") ){
+                resource.getSubTypeNames().add("NoSubTypeDefined");
+                resource.getSubTypeValues().add(projectTransaction.getValue());
+            }
+            else
+            {
+                int index = resource.getSubTypeNames().indexOf("NoSubTypeDefined");
+                Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
+                resource.getSubTypeValues().set(index, newValue);
+            }
+
+        }
+        else
+        {
+            String name = "";
+
+            if(projectTransaction.getType().getSubTypeList().size() == 1) //if just has one subtype...
+                name = projectTransaction.getType().getSubTypeList().get(0).getName();
+            else
+            {
+                SubType subType;
+                for(int i = 0; i<projectTransaction.getType().getSubTypeList().size(); i++)
+                {
+                    subType = projectTransaction.getType().getSubTypeList().get(i);
+                    if(i==projectTransaction.getType().getSubTypeList().size()-1)
+                        name += " " + subType.getName() + "";
+                    else
+                        name += " " + subType.getName() + ";";
+                }
+            }
+
+            if(!resource.getSubTypeNames().contains(name)){
+                resource.getSubTypeNames().add(name);
+                resource.getSubTypeValues().add(projectTransaction.getValue());
+            }
+            //if already exists subtype..
+            else
+            {
+                int index = resource.getSubTypeNames().indexOf(name);
+                Float newValue = resource.getSubTypeValues().get(index) + projectTransaction.getValue();
+                resource.getSubTypeValues().set(index, newValue);
+            }
+        }
     }
 
     public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
