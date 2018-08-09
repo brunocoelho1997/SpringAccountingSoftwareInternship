@@ -13,8 +13,9 @@ public interface GeneralTransactionRepository extends JpaRepository<GeneralTrans
 
     GeneralTransaction findById(long id);
     Page<GeneralTransaction> findAll(Pageable pageable);
-    Page<GeneralTransaction> findAllByGenreAndActived(Pageable pageable, Genre genre, boolean actived);
 
+
+    Page<GeneralTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
     List<GeneralTransaction> findDistinctByGenreAndActived(Genre genre, boolean actived);
 
 }

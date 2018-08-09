@@ -1,9 +1,11 @@
 package hello.GeneralTransaction;
 
+import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
 import hello.Type.Type;
+import hello.Type.TypeRepository;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,42 +26,116 @@ public class GeneralTransactionService {
     @Autowired
     TypeService typeService;
     @Autowired
+    TypeRepository typeRepository;
+    @Autowired
     SubTypeService subTypeService;
 
-    private Page<GeneralTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<GeneralTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
-        Page<GeneralTransaction> saleTransactionsPage = null;
+        Page<GeneralTransaction> transactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
-            return repository.findAllByGenreAndActived(pageable, genre, true);
 
+        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
+            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+
+
+        Specification<GeneralTransaction> specFilter = null;
+
+
+
+        if(value.isEmpty() && frequency.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+            ;
+        else
+        {
+            if(specFilter==null)
+                specFilter = GeneralTransactionSpecifications.filter(value, frequency, dateSince, dateUntil,valueSince, valueUntil, genre);
+            else
+                specFilter.and(GeneralTransactionSpecifications.filter(value, frequency, dateSince, dateUntil,valueSince, valueUntil, genre));
+
+        }
+
+        //types and subtypes
         List<SubType> subTypeList = null;
         if(!subTypeValue.isEmpty()){
             subTypeList = subTypeService.getSubType(subTypeValue);
+//            System.out.println("\n\n\n\n subTypeList: " + subTypeList);
+        }
+        if(subTypeValue!= null && !subTypeValue.isEmpty())
+        {
+            List<Type> types = typeRepository.findByName(typeValue);
+
+            if(!types.isEmpty())
+            {
+                for(Type type1: types)
+                {
+                    if(!type1.isManuallyCreated() && !Collections.disjoint(type1.getSubTypeList(), subTypeList))
+                    {
+//                        System.out.println("\n\n Type: " + type1);
+
+                        if(specFilter==null)
+                            specFilter = GeneralTransactionSpecifications.filterByType(type1);
+                        else
+                            specFilter = specFilter.or(GeneralTransactionSpecifications.filterByType(type1));
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(specFilter==null)
+                specFilter = GeneralTransactionSpecifications.filterByNameType(typeValue);
+            else
+                specFilter = specFilter.or(GeneralTransactionSpecifications.filterByNameType(typeValue));
         }
 
-        Specification<GeneralTransaction> specFilter = GeneralTransactionSpecifications.filter(value, frequency, typeValue, subTypeList, dateSince, dateUntil,valueSince, valueUntil, genre);
 
-        saleTransactionsPage = repository.findAll(specFilter, pageable);
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
 
-        return saleTransactionsPage;
+        if(specFilter==null)
+            specFilter = GeneralTransactionSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(GeneralTransactionSpecifications.filterDeleletedEntities(deletedEntities));
+
+
+        //executed
+        if(specFilter==null)
+            specFilter = GeneralTransactionSpecifications.filterExecuted(true);
+        else
+            specFilter = specFilter.and(GeneralTransactionSpecifications.filterExecuted(true));
+
+
+        transactionsPage = repository.findAll(specFilter, pageable);
+
+        return transactionsPage;
     }
 
-    public Page<GeneralTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<GeneralTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
         //could receive params to filter de list
-        if(value!= null || frequency!=null || typeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
-            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, genre);
+        if(value!= null || frequency!=null || typeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
+            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
 
         else
-            return repository.findAllByGenreAndActived(pageable, genre, true);
+            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+
 
     }
 
     public void addTransaction(@Valid GeneralTransaction transaction) {
 
-        Type type = typeService.getType(transaction.getType());
-        transaction.setType(type);
+        Type typeAux = new Type(transaction.getType().getName());
+        typeAux.setCategory(Category.SUPPLIERS);
+        typeRepository.save(typeAux);
+
+        typeAux.setSubTypeList(new ArrayList<>());
+        for(SubType subTypeAux : transaction.getType().getSubTypeList())
+            typeAux.getSubTypeList().add(subTypeAux);
+
+        typeRepository.save(typeAux);
+        transaction.setType(typeAux);
+        transaction.setExecuted(true);
+
 
         repository.save(transaction);
     }
@@ -74,23 +152,26 @@ public class GeneralTransactionService {
     }
 
     public void editTransaction(@Valid GeneralTransaction editedSaleTransaction) {
-        GeneralTransaction projectTransaction = getGeneralTransaction((long)editedSaleTransaction.getId());
+        GeneralTransaction transaction = getGeneralTransaction((long)editedSaleTransaction.getId());
 
-        projectTransaction.setGenre(editedSaleTransaction.getGenre());
+        transaction.setGenre(editedSaleTransaction.getGenre());
 
-        Type type = typeService.getType(editedSaleTransaction.getType().getId());
-        projectTransaction.setType(type);
-//        if(editedSaleTransaction.getType().getSubType() !=null)
-//        {
-//            SubType subType= subTypeService.getSubType(editedSaleTransaction.getType().getSubType().getId());
-//            projectTransaction.getType().setSubType(subType);
-//        }
-        projectTransaction.setDate(editedSaleTransaction.getDate());
-        projectTransaction.setValue(editedSaleTransaction.getValue());
-        projectTransaction.setFrequency(editedSaleTransaction.getFrequency());
-        projectTransaction.setDescription(editedSaleTransaction.getDescription());
-        projectTransaction.setName(editedSaleTransaction.getName());
+        Type type = transaction.getType();
+        type.setName(editedSaleTransaction.getType().getName());
+        type.setSubTypeList(editedSaleTransaction.getType().getSubTypeList());
 
-        repository.save(projectTransaction);
+        transaction.setDate(editedSaleTransaction.getDate());
+        transaction.setValue(editedSaleTransaction.getValue());
+        transaction.setFrequency(editedSaleTransaction.getFrequency());
+        transaction.setDescription(editedSaleTransaction.getDescription());
+        transaction.setName(editedSaleTransaction.getName());
+
+        repository.save(transaction);
+    }
+
+    public void recoveryTransaction(Long id) {
+        GeneralTransaction transaction = getGeneralTransaction((long)id);
+        transaction.setActived(true);
+        repository.save(transaction);
     }
 }

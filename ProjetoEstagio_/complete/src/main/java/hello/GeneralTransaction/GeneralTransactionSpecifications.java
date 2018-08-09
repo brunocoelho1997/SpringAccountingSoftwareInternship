@@ -16,7 +16,46 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class GeneralTransactionSpecifications {
-    public static Specification<GeneralTransaction> filter(String value, String frequency, String type, List<SubType> subTypeList, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public static Specification<GeneralTransaction> filterByType(Type type) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.type), type);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<GeneralTransaction> filterByNameType(String nameType) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            if(!nameType.isEmpty())
+                predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<GeneralTransaction> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<GeneralTransaction> filterExecuted(Boolean executed) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.executed), executed);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<GeneralTransaction> filter(String value, String frequency, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -25,11 +64,13 @@ public class GeneralTransactionSpecifications {
             Predicate predicateFrequency;
             Predicate predicateType;
             Predicate predicateSubType;
+            Predicate predicateProject;
             Predicate predicateDateSince;
             Predicate predicateDateUntil;
             Predicate predicateValueSince;
             Predicate predicateValueUntil;
             Predicate predicateGenre;
+            Predicate predicateDeletedEntities;
 
 
 
@@ -57,26 +98,6 @@ public class GeneralTransactionSpecifications {
                     predicateFinal = cb.and(predicateFinal, predicateFrequency);
                 else
                     predicateFinal = predicateFrequency;
-            }
-
-            if(type!= null && !type.isEmpty())
-            {
-                predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateType);
-                else
-                    predicateFinal = predicateType;
-            }
-            if(subTypeList != null)
-            {
-
-                String typeName = subTypeList.get(0).getType().getName();
-
-                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateSubType);
-                else
-                    predicateFinal = predicateSubType;
             }
 
             if(!dateSince.isEmpty())

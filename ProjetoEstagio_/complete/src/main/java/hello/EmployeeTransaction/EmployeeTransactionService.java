@@ -184,8 +184,8 @@ public class EmployeeTransactionService {
         repository.save(employeeTransaction);
     }
     public void recoveryTransaction(Long id) {
-        EmployeeTransaction employeeTransaction = getEmployeeTransaction((long)id);
-        employeeTransaction.setActived(true);
-        repository.save(employeeTransaction);
+        EmployeeTransaction transaction = getEmployeeTransaction((long)id);
+        transaction.setActived(true);
+        repository.save(transaction);
     }
 }

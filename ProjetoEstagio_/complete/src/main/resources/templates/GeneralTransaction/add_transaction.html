@@ -22,6 +22,8 @@
                         <form th:action="@{/general_transaction/add_transaction}" th:object="${transaction}" method="post">
                             <div class="form-horizontal">
                                 <input th:type="hidden" th:field="*{genre}"/>
+                                <input th:type="hidden" th:field="*{currency}"/>
+
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Frequency}"></label>
                                     <div class="col-sm-6">
@@ -74,9 +76,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.SubType}"></label>
                                     <div class="col-sm-6">
-                                        <select class="form-control subTypesOfType" th:field="*{type.subType.name}">
+                                        <select multiple class="form-control subTypesOfType" th:field="*{type.subTypeList}">
                                         </select>
-                                        <p class="text-danger" th:if="${#fields.hasErrors('type.subType.name')}" th:errors="*{type.subType.name}">Name Error</p>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('type.subTypeList')}" th:errors="*{type.subTypeList}">Name Error</p>
                                     </div>
                                     <div class="col-sm-3"></div>
                                 </div>
@@ -89,7 +91,7 @@
                                     <div class="col-sm-3"></div>
                                 </div>
                                 <div class="form-group" align="right">
-                                    <input type="submit"  class="btn btn-default" th:value="#{System.Save}" />
+                                    <input type="submit"  class="btn btn-default" th:value="#{System.Add}" />
                                     <input type="reset"  class="btn btn-default" th:value="#{System.Clean}" />
                                     <a th:href="@{/general_transaction/}">
                                         <input class="btn btn-default" th:value="#{System.Back}" />

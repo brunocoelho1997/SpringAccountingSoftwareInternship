@@ -1,5 +1,7 @@
 package hello.GeneralTransaction;
 
+import hello.Currency.CurrencyService;
+import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.Enums.Genre;
 import hello.Pager;
 import hello.SubType.SubTypeService;
@@ -31,7 +33,8 @@ public class GeneralTransactionController {
 
     @Autowired
     SubTypeService subTypeService;
-
+    @Autowired
+    CurrencyService currencyService;
 
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -43,7 +46,8 @@ public class GeneralTransactionController {
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
 
     {
         ModelAndView modelAndView = new ModelAndView("GeneralTransaction/index");
@@ -58,7 +62,7 @@ public class GeneralTransactionController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<GeneralTransaction> saleTransactions = generalTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
+        Page<GeneralTransaction> saleTransactions = generalTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, Genre.COST, true);
 
 
         Pager pager = new Pager(saleTransactions.getTotalPages(), saleTransactions.getNumber(), BUTTONS_TO_SHOW);
@@ -80,6 +84,8 @@ public class GeneralTransactionController {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
 
         return modelAndView;
     }
@@ -88,9 +94,10 @@ public class GeneralTransactionController {
     public String addRevenue(Model model) {
 
         GeneralTransaction transaction = new GeneralTransaction();
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
         transaction.setGenre(Genre.COST);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getDistinctTypes());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
 
         return "GeneralTransaction/add_transaction";
     }
@@ -99,7 +106,7 @@ public class GeneralTransactionController {
     public String addRevenue(Model model, @Valid @ModelAttribute("transaction") GeneralTransaction transaction, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             return "GeneralTransaction/add_transaction";
         }
         generalTransactionService.addTransaction(transaction);
@@ -111,9 +118,7 @@ public class GeneralTransactionController {
 
         GeneralTransaction transaction = generalTransactionService.getGeneralTransaction(id);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getTypes());
-//        if(transaction.getType().getSubType()!=null)
-//            model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
 
         return "GeneralTransaction/edit_transaction";
     }
@@ -150,5 +155,18 @@ public class GeneralTransactionController {
 
         model.addAttribute("transaction", transaction);
         return "GeneralTransaction/info_transaction";
+    }
+    @RequestMapping("/recovery_transaction")
+    public String recoveryTransaction(@RequestParam("id") Long id, Model model) {
+
+        GeneralTransaction transaction = generalTransactionService.getGeneralTransaction(id);
+        model.addAttribute("transaction", transaction);
+
+        return "GeneralTransaction/recovery_transaction :: modal";
+    }
+    @PostMapping("/recovery_transaction")
+    public @ResponseBody String recoveryTransaction(@RequestParam("id") Long id) {
+        generalTransactionService.recoveryTransaction(id);
+        return "redirect:/general_transaction/";
     }
 }

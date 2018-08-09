@@ -29,7 +29,7 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{Transactions.Frequency}">frequency </span>
-                            <select class="form-control" name="frequency" required>
+                            <select class="form-control" name="frequency">
                                 <option value=""/>
                                 <option th:each="freq : ${T(hello.Enums.Frequency).values()}"
                                         th:value="${freq}"
@@ -79,7 +79,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6"></div>
+                    <div class="col-sm-5"></div>
+
+                    <div class="col-sm-1">
+                        <label> Eliminados</label>
+                        <label class="switch">
+                            <input type="checkbox" name = "switch_deleted_entities" th:checked="${switch_deleted_entities}">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -105,17 +113,17 @@
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{System.Since}"></span>
                             <input type="number" step="0.01" th:value="${value_since}" name="value_since" class="form-control" >
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
+                            <span class="input-group-addon"><i th:text="${currency.symbol}"></i></span>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{System.Until}"></span>
                             <input type="number" step="0.01" th:value="${value_until}" name="value_until" class="form-control" >
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
+                            <span class="input-group-addon"><i th:text="${currency.symbol}"></i></span>
                         </div>
                     </div>
-                    <a class="col-sm-6" align="right"onclick="$(form).submit()"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
+                    <a class="col-sm-6 myButton" align="right"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
                 </div>
 
                 <br>
@@ -124,15 +132,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" >
                                 <div class="row">
-                                    <div class="col-sm-4" th:text="#{Transactions.Revenue.PanelHeading}" />
-                                    <div class="col-sm-8" th:align="right">
-                                        <a th:href="${#httpServletRequest.requestURI} + 'recovery'">
-                                            <button type="button" class="btn btn-default btn-sm">
-                                                <span class="glyphicon glyphicon-trash"></span>
-                                                <span th:text="#{System.Recovery}"></span>
-                                            </button>
-                                        </a>
-                                    </div>
+                                    <div class="col-sm-12" th:text="#{Transactions.Revenue.PanelHeading}" />
                                 </div>
                             </div>
                             <!-- /.panel-heading -->
@@ -159,9 +159,13 @@
                                                 <p th:text="${subtype.getName()}" style="display:inline"></p>;
                                             </div>
                                         </td>
-                                        <td th:text="${r.getValue()}">1</td>
+                                        <td>
+                                            <label class="inline" th:text="${r.getValue()}"> </label>
+                                            <label class="inline" th:text="${currency.symbol}"> </label>
+                                        </td>
                                         <td class="center">
-                                            <a class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default trash pull-right" th:if="${r.actived==true}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default recovery pull-right" th:if="${r.actived==false}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/general_transaction/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/general_transaction/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                         </td>
@@ -183,7 +187,7 @@
 </div>
 <div id="modal-content"></div>
 
-<script src="../subTypeSelect.js"></script>
+<script src="../subTypeSelectFilters.js"></script>
 <script src="../pagination.js"></script>
 
 
@@ -208,12 +212,42 @@
             });
         });
 
+        $('a.recovery').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/general_transaction/recovery_transaction?id=' + $(this).attr('transaction-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#recovery-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
+
     });
 
     function deleteEntity(id) {
         $.ajax({
             type: 'DELETE',
             url: '/general_transaction/remove_transaction?id=' + id
+
+        }).done(function (result) {
+            $('a[transaction-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+    }
+
+    function recoveryEntity(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/general_transaction/recovery_transaction?id=' + id
 
         }).done(function (result) {
             $('a[transaction-id=' + id + ']').closest('tr').remove();

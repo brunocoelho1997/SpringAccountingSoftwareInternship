@@ -174,7 +174,10 @@
                                         <td th:unless="${r.getType().getSubTypeList()!=null}"></td>
 
                                         <td th:text="${r.getProject().getName()}">1</td>
-                                        <td th:text="${r.getValue()}">1</td>
+                                        <td>
+                                            <label class="inline" th:text="${r.getValue()}"> </label>
+                                            <label class="inline" th:text="${currency.symbol}"> </label>
+                                        </td>
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:if="${r.actived==true}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
                                             <a class="btn btn-default recovery pull-right" th:if="${r.actived==false}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
