@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: copy"></head>
+
+<script src="jquery.min.js"></script>
+<script src="jquery.textfill.min.js"></script>
+
+<body>
+<div id="wrapper">
+
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div id="page-wrapper">
+
+
+        <div th:object="${transaction}">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" th:if="${transaction !=null}">
+                        <h1 th:text="#{Transactions.Comission.Cost.Header}" th:remove="tag" />
+                        <label th:text="${transaction.getName()}"/>
+                    </h1>
+                    <h1 class="page-header" th:unless="${transaction!=null}"> <label th:text="#{Transactions.NotFound}"/></h1>
+                </div>
+            </div>
+            <div class="row" th:unless="${transaction !=null}" th:text="#{Transactions.NotFoundDescription}"></div>
+            <div class="row" th:if="${transaction != null}">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div>
+                                <span th:text="#{Entity.Id}" th:remove="tag">title</span>:
+                                <span id = "id_value" th:text="${transaction.getId()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Transactions.Frequency}" th:remove="tag">title</span>:
+                                <span   th:text="#{Frequency.+ ${transaction.getFrequency()}}"   ></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Transactions.Date}" th:remove="tag">title</span>:
+                                <span th:text="${transaction.getDate()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Transactions.Name}" th:remove="tag">title</span>:
+                                <span th:text="${transaction.getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Transactions.Description}" th:remove="tag">title</span>:
+                                <span th:text="${transaction.getDescription()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Transactions.Type}" th:remove="tag">title</span>:
+                                <span th:text="${transaction.getType().getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Transactions.SubType}" th:remove="tag">title</span>:
+                                <span th:if="${transaction.getType().getSubTypeList() !=null}">
+                                    <div th:each="subtype : ${transaction.getType().getSubTypeList()}" style="display:inline">
+                                        <p th:text="${subtype.name}" style="display:inline"></p>;
+                                    </div>
+                                </span>
+                            </div>
+                            <div>
+                                <span th:text="#{Transactions.Projects.Project}" th:remove="tag">title</span>:
+                                <span th:text="${transaction.getProject().getName()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{Client.Info.Header}" th:remove="tag">title</span>:
+                                <span th:text="${transaction.getClient().getName()}"></span>
+                            </div>
+
+                            <div>
+                                <span th:text="#{Transactions.Value}" th:remove="tag">title</span>:
+                                <span th:text="${transaction.getValue()}"></span>
+                            </div>
+                        </div>
+
+                        <div align="right">
+                            <a th:href="@{/employee_transaction/}">
+                                <input class="btn btn-default" th:value="#{System.Back}" />
+                            </a>
+                        </div>
+                        <br>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $('#my-element').textfill({
+        explicitWidth: 50
+    });
+
+</script>
+<div id="modal-content"></div>
+<div th:replace="fragments/footer :: copy"></div>
+</body>
+</html>

@@ -3,6 +3,8 @@ package hello;
 import hello.Adress.Adress;
 import hello.Client.Client;
 import hello.Client.ClientRepository;
+import hello.ComissionTransaction.ComissionTransaction;
+import hello.ComissionTransaction.ComissionTransactionRepository;
 import hello.Contact.Contact;
 import hello.CostCenter.CostCenter;
 import hello.CostCenter.CostCenterRepository;
@@ -94,6 +96,9 @@ public class DbLoader implements CommandLineRunner {
 
     @Autowired
     private SupplierTransactionRepository supplierTransactionRepository;
+
+    @Autowired
+    private ComissionTransactionRepository comissionTransactionRepository;
 
     @Autowired
     CurrencyRepository currencyRepository;
@@ -1141,6 +1146,48 @@ public class DbLoader implements CommandLineRunner {
             supplierTransaction.setExecuted(true);
             supplierTransaction.setCurrency(brlCurrency);
             supplierTransactionRepository.save(supplierTransaction);
+
+
+            type = new Type();
+            type.setName("Manutenção");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
+
+            type.setSubTypeList(new ArrayList<>());
+            type.getSubTypeList().add(subType1);
+            typeRepository.save(type);
+
+            ComissionTransaction comissionTransaction= new ComissionTransaction();
+            comissionTransaction.setDate(date3);
+            comissionTransaction.setName("Despesa de Comissão 1");
+            comissionTransaction.setFrequency(Frequency.DAILY);
+            comissionTransaction.setValue((float)60.3);
+            comissionTransaction.setClient(client1);
+            comissionTransaction.setProject(project1);
+            comissionTransaction.setGenre(Genre.COST);
+            comissionTransaction.setType(type);
+            comissionTransaction.setExecuted(true);
+            comissionTransaction.setCurrency(brlCurrency);
+            comissionTransactionRepository.save(comissionTransaction);
+
+            type = new Type();
+            type.setName("Desenvolvimento");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
+
+
+            comissionTransaction= new ComissionTransaction();
+            comissionTransaction.setDate(date3);
+            comissionTransaction.setName("Despesa de Comissão 2");
+            comissionTransaction.setFrequency(Frequency.DAILY);
+            comissionTransaction.setValue((float)60.3);
+            comissionTransaction.setClient(client2);
+            comissionTransaction.setProject(project1);
+            comissionTransaction.setGenre(Genre.COST);
+            comissionTransaction.setType(type);
+            comissionTransaction.setExecuted(true);
+            comissionTransaction.setCurrency(brlCurrency);
+            comissionTransactionRepository.save(comissionTransaction);
         }
     }
 }
