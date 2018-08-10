@@ -35,6 +35,8 @@ import hello.SubType.SubTypeRepository;
 import hello.Supplier.Resources.StringContact;
 import hello.Supplier.Supplier;
 import hello.Supplier.SupplierRepository;
+import hello.SupplierTransaction.SupplierTransaction;
+import hello.SupplierTransaction.SupplierTransactionRepository;
 import hello.Type.Type;
 import hello.Type.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +91,9 @@ public class DbLoader implements CommandLineRunner {
 
     @Autowired
     private SheetTransactionRepository sheetTransactionRepository;
+
+    @Autowired
+    private SupplierTransactionRepository supplierTransactionRepository;
 
     @Autowired
     CurrencyRepository currencyRepository;
@@ -1071,6 +1076,71 @@ public class DbLoader implements CommandLineRunner {
             projectTransactionRepository.save(projectTransaction8);
 
 
+
+
+            type = new Type();
+            type.setName("Desenvolvimento");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
+
+            type.setSubTypeList(new ArrayList<>());
+            type.getSubTypeList().add(subType2);
+            typeRepository.save(type);
+
+            SupplierTransaction supplierTransaction = new SupplierTransaction();
+            supplierTransaction.setDate(date3);
+            supplierTransaction.setName("Despesa de Fornecedor 1");
+            supplierTransaction.setFrequency(Frequency.DAILY);
+            supplierTransaction.setValue((float)28.3);
+            supplierTransaction.setSupplier(supplier1);
+            supplierTransaction.setGenre(Genre.COST);
+            supplierTransaction.setType(type);
+            supplierTransaction.setExecuted(true);
+            supplierTransaction.setCurrency(brlCurrency);
+            supplierTransactionRepository.save(supplierTransaction);
+
+            type = new Type();
+            type.setName("Desenvolvimento");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
+
+            type.setSubTypeList(new ArrayList<>());
+            type.getSubTypeList().add(subType2);
+            type.getSubTypeList().add(subType3);
+            typeRepository.save(type);
+
+            supplierTransaction = new SupplierTransaction();
+            supplierTransaction.setDate(date3);
+            supplierTransaction.setName("Despesa de Fornecedor 2");
+            supplierTransaction.setFrequency(Frequency.DAILY);
+            supplierTransaction.setValue((float)148.3);
+            supplierTransaction.setSupplier(supplier2);
+            supplierTransaction.setGenre(Genre.COST);
+            supplierTransaction.setType(type);
+            supplierTransaction.setExecuted(true);
+            supplierTransaction.setCurrency(brlCurrency);
+            supplierTransactionRepository.save(supplierTransaction);
+
+            type = new Type();
+            type.setName("Manutenção");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
+
+            type.setSubTypeList(new ArrayList<>());
+            type.getSubTypeList().add(subType1);
+            typeRepository.save(type);
+
+            supplierTransaction = new SupplierTransaction();
+            supplierTransaction.setDate(date3);
+            supplierTransaction.setName("Despesa de Fornecedor 3");
+            supplierTransaction.setFrequency(Frequency.DAILY);
+            supplierTransaction.setValue((float)12.3);
+            supplierTransaction.setSupplier(supplier2);
+            supplierTransaction.setGenre(Genre.COST);
+            supplierTransaction.setType(type);
+            supplierTransaction.setExecuted(true);
+            supplierTransaction.setCurrency(brlCurrency);
+            supplierTransactionRepository.save(supplierTransaction);
         }
     }
 }

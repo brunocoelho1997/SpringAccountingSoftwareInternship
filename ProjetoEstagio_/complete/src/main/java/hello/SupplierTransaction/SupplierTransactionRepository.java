@@ -12,4 +12,6 @@ public interface SupplierTransactionRepository extends JpaRepository<SupplierTra
     Page<SupplierTransaction> findAll(Pageable pageable);
     Page<SupplierTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
+    Page<SupplierTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
+
 }
