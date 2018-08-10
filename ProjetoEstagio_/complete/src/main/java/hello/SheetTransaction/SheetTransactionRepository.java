@@ -12,4 +12,6 @@ public interface SheetTransactionRepository extends JpaRepository<SheetTransacti
     Page<SheetTransaction> findAll(Pageable pageable);
     Page<SheetTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
+    Page<SheetTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
+
 }

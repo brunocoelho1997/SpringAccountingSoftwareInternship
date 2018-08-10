@@ -1,7 +1,7 @@
 package hello.SheetTransaction;
 
+
 import hello.Employee.Employee;
-import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.EmployeeTransaction.EmployeeTransaction_;
 import hello.EntityPackage.Entity_;
 import hello.Enums.Frequency;
@@ -17,7 +17,46 @@ import javax.persistence.criteria.Predicate;
 import java.time.LocalDate;
 
 public class SheetTransactionsSpecifications {
-    public static Specification<SheetTransaction> filter(String value, String frequency, String type, String subType, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public static Specification<SheetTransaction> filterByType(Type type) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.type), type);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<SheetTransaction> filterByNameType(String nameType) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            if(!nameType.isEmpty())
+                predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<SheetTransaction> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<SheetTransaction> filterExecuted(Boolean executed) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.executed), executed);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<SheetTransaction> filter(String value, String frequency, Employee employee, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -32,6 +71,7 @@ public class SheetTransactionsSpecifications {
             Predicate predicateValueSince;
             Predicate predicateValueUntil;
             Predicate predicateGenre;
+            Predicate predicateDeletedEntities;
 
 
 
@@ -60,24 +100,6 @@ public class SheetTransactionsSpecifications {
                 else
                     predicateFinal = predicateFrequency;
             }
-
-
-            if(type != null && !type.isEmpty())
-            {
-                predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateType);
-                else
-                    predicateFinal = predicateType;
-            }
-//            if(subType != null && !subType.isEmpty())
-//            {
-//                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.subType).get(SubType_.name), subType);
-//                if(predicateFinal!=null)
-//                    predicateFinal = cb.and(predicateFinal, predicateSubType);
-//                else
-//                    predicateFinal = predicateSubType;
-//            }
 
             if(employee != null)
             {

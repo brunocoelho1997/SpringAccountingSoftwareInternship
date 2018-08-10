@@ -1,5 +1,6 @@
 package hello.SheetTransaction;
 
+import hello.Currency.CurrencyService;
 import hello.Employee.Employee;
 import hello.Employee.EmployeeService;
 import hello.EmployeeTransaction.EmployeeTransaction;
@@ -35,6 +36,8 @@ public class SheetTransactionController {
     EmployeeService employeeService;
     @Autowired
     ProjectService projectService;
+    @Autowired
+    CurrencyService currencyService;
 
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -47,7 +50,8 @@ public class SheetTransactionController {
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
 
     {
         ModelAndView modelAndView = new ModelAndView("SheetTransaction/index");
@@ -62,7 +66,7 @@ public class SheetTransactionController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<SheetTransaction> transactions = sheetTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
+        Page<SheetTransaction> transactions = sheetTransactionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, employeeId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, Genre.COST, true);
 
         Pager pager = new Pager(transactions.getTotalPages(), transactions.getNumber(), BUTTONS_TO_SHOW);
 
@@ -82,6 +86,8 @@ public class SheetTransactionController {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
 
 
         return modelAndView;
@@ -94,8 +100,10 @@ public class SheetTransactionController {
         transaction.setGenre(Genre.COST);
         transaction.setHoursPerProjectList(new ArrayList<>());
 
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
+        transaction.setGenre(Genre.COST);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getTypes());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
         model.addAttribute("employees", employeeService.getEmployees());
         model.addAttribute("projects", projectService.getProjects());
 
@@ -110,11 +118,12 @@ public class SheetTransactionController {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("employees", employeeService.getEmployees());
             model.addAttribute("projects", projectService.getProjects());
 
             return "SheetTransaction/add_transaction";
+
         }
 
         sheetTransactionService.addTransaction(transaction);
@@ -130,7 +139,8 @@ public class SheetTransactionController {
         transaction.setValue(0);
         model.addAttribute("transaction", transaction);
 
-        return "SheetTransaction/add_transaction";
+        return "redirect:/sheet_transaction/";
+
     }
 
     @GetMapping("/edit_transaction")
@@ -138,7 +148,7 @@ public class SheetTransactionController {
 
         SheetTransaction transaction = sheetTransactionService.getTransaction(id);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("types", typeService.getTypes());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
         model.addAttribute("employees", employeeService.getEmployees());
         model.addAttribute("projects", projectService.getProjects());
 //        if(transaction.getType().getSubType()!=null)
@@ -182,4 +192,19 @@ public class SheetTransactionController {
         model.addAttribute("transaction", transaction);
         return "SheetTransaction/info_transaction";
     }
+    @RequestMapping("/recovery_transaction")
+    public String recoveryTransaction(@RequestParam("id") Long id, Model model) {
+
+        SheetTransaction transaction = sheetTransactionService.getTransaction(id);
+        model.addAttribute("transaction", transaction);
+
+        return "EmployeeTransaction/recovery_transaction :: modal";
+    }
+    @PostMapping("/recovery_transaction")
+    public @ResponseBody String recoveryTransaction(@RequestParam("id") Long id) {
+        sheetTransactionService.recoveryTransaction(id);
+        return "redirect:/employee_transaction/";
+    }
+
+
 }
