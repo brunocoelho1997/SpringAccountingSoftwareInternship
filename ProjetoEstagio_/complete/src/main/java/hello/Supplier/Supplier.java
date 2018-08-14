@@ -1,8 +1,7 @@
 package hello.Supplier;
 
 import hello.Adress.Adress;
-import hello.Person.Person;
-import hello.Supplier.Resources.StringContact;
+import hello.Supplier.Resources.TextContact;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -23,18 +22,18 @@ public class Supplier extends hello.EntityPackage.Entity{
     @ElementCollection
     @CollectionTable(foreignKey = @ForeignKey(name = "FK_Supplier_StringContact"))
     @Valid
-    private List<StringContact> contacts;
+    private List<TextContact> contacts;
 
     @ElementCollection
     @CollectionTable(foreignKey = @ForeignKey(name = "FK_Supplier_Adress"))
     @Valid
     private List<Adress> adresses;
 
-    public List<StringContact> getContacts() {
+    public List<TextContact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<StringContact> contacts) {
+    public void setContacts(List<TextContact> contacts) {
         this.contacts = contacts;
     }
 

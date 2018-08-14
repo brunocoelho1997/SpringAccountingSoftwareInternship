@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 @Embeddable
-public class StringContact {
+public class TextContact {
 
     public static final int MAX_CONTACT_LENGHT = 30;
 

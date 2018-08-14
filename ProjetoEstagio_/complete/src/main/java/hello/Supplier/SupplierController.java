@@ -1,9 +1,8 @@
 package hello.Supplier;
 
 import hello.Adress.Adress;
-import hello.Employee.Employee;
 import hello.Pager;
-import hello.Supplier.Resources.StringContact;
+import hello.Supplier.Resources.TextContact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,8 +74,8 @@ public class SupplierController {
         adressList.add(new Adress());
         supplier.setAdresses(adressList);
 
-        List<StringContact> contacts = new ArrayList<>();
-        contacts.add(new StringContact());
+        List<TextContact> contacts = new ArrayList<>();
+        contacts.add(new TextContact());
         supplier.setContacts(contacts);
 
         model.addAttribute("supplier", supplier);

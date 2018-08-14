@@ -24,6 +24,11 @@ public class Person extends Entity {
     @Column(nullable = false, length = MAX_NAME_LENGHT)
     private String name;
 
+    @NotNull
+    @Length(min=1, max = MAX_NUMBERPHONE_LENGHT)
+    @Column(nullable = false, length = MAX_NUMBERPHONE_LENGHT)
+    private String numberPhone;
+
     @Email
     @Length(min=1, max = MAX_EMAIL_LENGHT)
     @Column(nullable = false, length = MAX_EMAIL_LENGHT)
@@ -34,10 +39,7 @@ public class Person extends Entity {
     @Valid
     private List<Adress> adresses;
 
-    @NotNull
-    @Length(min=1, max = MAX_NUMBERPHONE_LENGHT)
-    @Column(nullable = false, length = MAX_NUMBERPHONE_LENGHT)
-    private String numberPhone;
+
 
     public String getName() {
         return name;

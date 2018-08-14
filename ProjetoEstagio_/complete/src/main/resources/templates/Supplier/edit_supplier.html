@@ -106,7 +106,7 @@
                                                 <tbody th:id="listStringContacts">
                                                 <tr th:each="ad,rowStat : *{contacts}" >
                                                     <td>
-                                                        <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].contact}" required th:maxlength="${T(hello.Supplier.Resources.StringContact).MAX_CONTACT_LENGHT}"/>
+                                                        <input class="form-control" type="text" th:field="*{contacts[__${rowStat.index}__].contact}" required th:maxlength="${T(hello.Supplier.Resources.TextContact).MAX_CONTACT_LENGHT}"/>
                                                         <p class="text-danger" th:if="${#fields.hasErrors('contacts[__${rowStat.index}__].contact')}" th:errors="*{contacts[__${rowStat.index}__].contact}">Name Error</p>
                                                     </td>
                                                 </tr>

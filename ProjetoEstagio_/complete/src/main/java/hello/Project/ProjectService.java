@@ -101,7 +101,6 @@ public class ProjectService {
         project.setInitialDate(editedProject.getInitialDate());
         project.setName(editedProject.getName());
         project.setDescription(editedProject.getDescription());
-        project.setBalance(editedProject.getBalance());
 
         Client c = clientService.getClient(editedProject.getClient().getId());
         Contact contact = clientService.getContact(c.getId(), editedProject.getContact().getId());

@@ -38,10 +38,6 @@ public class Project extends Entity {
     @Column(nullable = false)
     private LocalDate finalDate;
 
-    @NotNull
-    @Column(nullable = false)
-    private float balance;
-
     @Size(max = MAX_SCOPE_LENGHT)
     @Column(length = MAX_SCOPE_LENGHT)
     private String scope;
@@ -93,14 +89,6 @@ public class Project extends Entity {
         this.finalDate = finalDate;
     }
 
-    public float getBalance() {
-        return balance;
-    }
-
-    public void setBalance(float balance) {
-        this.balance = balance;
-    }
-
     public String getScope() {
         return scope;
     }
@@ -140,7 +128,6 @@ public class Project extends Entity {
                 ", description='" + description + '\'' +
                 ", initialDate=" + initialDate +
                 ", finalDate=" + finalDate +
-                ", balance=" + balance +
                 ", scope='" + scope + '\'' +
                 ", client=" + client +
                 ", contact=" + contact +

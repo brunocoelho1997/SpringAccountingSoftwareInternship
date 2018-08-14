@@ -34,7 +34,7 @@ import hello.SheetTransaction.SheetTransaction;
 import hello.SheetTransaction.SheetTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeRepository;
-import hello.Supplier.Resources.StringContact;
+import hello.Supplier.Resources.TextContact;
 import hello.Supplier.Supplier;
 import hello.Supplier.SupplierRepository;
 import hello.SupplierTransaction.SupplierTransaction;
@@ -45,11 +45,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -118,10 +115,20 @@ public class DbLoader implements CommandLineRunner {
             SubType subType3 = new SubType();
             subType3.setName("Base dados");
 
+            SubType subType4 = new SubType();
+            subType4.setName("Back-End");
+
+            SubType subType5 = new SubType();
+            subType5.setName("Front-End");
+
 
             subTypeRepository.save(subType1);
             subTypeRepository.save(subType2);
             subTypeRepository.save(subType3);
+            subTypeRepository.save(subType4);
+            subTypeRepository.save(subType5);
+
+
 
 //      add types
             Type type1 = new Type();
@@ -147,6 +154,10 @@ public class DbLoader implements CommandLineRunner {
             subType1.setType(type1);
             subType2.setType(type2);
             subType3.setType(type2);
+
+            subType4.setType(type2);
+            subType5.setType(type2);
+
 
 
             subTypeRepository.save(subType1);
@@ -233,20 +244,30 @@ public class DbLoader implements CommandLineRunner {
             contact3.getAdresses().add(adress3);
             contact3.setPostContact(postContact3);
 
-//            create clients
+
+            /*
+            -
+            -
+            -
+            -
+            -
+            CLIENTS
+            -
+            -
+             */
             Client client1 = new Client();
-            client1.setRegistrationCode("CODEClient1");
+            client1.setRegistrationCode("CODESicat");
             client1.setNumberPhone("234432234");
-            client1.setName("Cliente1");
+            client1.setName("SICAT");
             client1.setAdresses(new ArrayList<>());
             client1.setContacts(new ArrayList<>());
             client1.getAdresses().add(adress4);
             client1.getContacts().add(contact3);
 
             Client client2 = new Client();
-            client2.setRegistrationCode("CODEClient2");
+            client2.setRegistrationCode("CODESiger");
             client2.setNumberPhone("234432234");
-            client2.setName("Cliente2");
+            client2.setName("SIGER");
             client2.setAdresses(new ArrayList<>());
             client2.setContacts(new ArrayList<>());
             client2.getAdresses().add(adress5);
@@ -270,13 +291,24 @@ public class DbLoader implements CommandLineRunner {
             costCenter1 = costCenterRepository.save(costCenter1);
             costCenter2 = costCenterRepository.save(costCenter2);
 
-//            create projects
+
+            /*
+            -
+            -
+            -
+            -
+            -
+            PROJECTS
+            -
+            -
+            -
+             */
 
             Project project1 = new Project();
             project1.setClient(client1);
             project1.setContact(contact1);
             project1.setDescription("Descrição1");
-            project1.setName("Projecto1");
+            project1.setName("COMPSIS");
             long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
             long maxDay = LocalDate.of(2015, 12, 31).toEpochDay();
             long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
@@ -291,10 +323,33 @@ public class DbLoader implements CommandLineRunner {
             project1.setInitialDate(randomDate1);
             project1.setFinalDate(randomDate2);
             project1.setScope("Scope1");
-            project1.setBalance(0);
             project1.setCostCenter(costCenter1);
 
             project1 = projectRepository.save(project1);
+
+            Project project2 = new Project();
+            project2.setClient(client2);
+            project2.setContact(contact2);
+            project2.setDescription("Descrição1");
+            project2.setName("IMAGEM");
+            minDay = LocalDate.of(1970, 1, 1).toEpochDay();
+            maxDay = LocalDate.of(2015, 12, 31).toEpochDay();
+            randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+
+            randomDate1 = LocalDate.ofEpochDay(randomDay);
+            randomDate2 = LocalDate.ofEpochDay(randomDay);
+            date3 = LocalDate.of(2018,2,12);
+            date4 = LocalDate.of(2018,1,23);
+            date5 = LocalDate.now();
+
+
+            project2.setInitialDate(randomDate1);
+            project2.setFinalDate(randomDate2);
+            project2.setScope("Scope1");
+            project2.setCostCenter(costCenter1);
+
+            project2 = projectRepository.save(project2);
+
 
             Currency brlCurrency = new Currency();
             brlCurrency.setName("BRL");
@@ -304,19 +359,18 @@ public class DbLoader implements CommandLineRunner {
 
 
             Type type14 = new Type();
-            type14.setName("Desenvolvimento");
+            type14.setName("Manutenção");
             type14.setCategory(Category.PROJECTS);
             typeRepository.save(type14);
             type14.setSubTypeList(new ArrayList<>());
-            type14.getSubTypeList().add(subType2);
-            type14.getSubTypeList().add(subType3);
+            type14.getSubTypeList().add(subType4);
             typeRepository.save(type14);
 
             ProjectTransaction projectTransaction1 = new ProjectTransaction();
             projectTransaction1.setDate(date3);
-            projectTransaction1.setName("Receita de Projeto 1");
+            projectTransaction1.setName("Manutenção Serviço XPTO");
             projectTransaction1.setFrequency(Frequency.DAILY);
-            projectTransaction1.setValue((float)20.3);
+            projectTransaction1.setValue((float)27850.3);
             projectTransaction1.setProject(project1);
             projectTransaction1.setGenre(Genre.REVENUE);
             projectTransaction1.setType(type14);
@@ -328,13 +382,10 @@ public class DbLoader implements CommandLineRunner {
             type15.setName("Desenvolvimento");
             type15.setCategory(Category.PROJECTS);
             typeRepository.save(type15);
-            type15.setSubTypeList(new ArrayList<>());
-            type15.getSubTypeList().add(subType3);
-            typeRepository.save(type15);
 
             ProjectTransaction projectTransaction2 = new ProjectTransaction();
             projectTransaction2.setDate(randomDate1);
-            projectTransaction2.setName("Despesa de Projeto 1");
+            projectTransaction2.setName("Aluguer de base de dados 10GB.");
             projectTransaction2.setFrequency(Frequency.MONTHLY);
             projectTransaction2.setValue((float)135.3);
             projectTransaction2.setProject(project1);
@@ -347,14 +398,17 @@ public class DbLoader implements CommandLineRunner {
             type16.setName("Manutenção");
             type16.setCategory(Category.PROJECTS);
             typeRepository.save(type16);
-
+            type14.setSubTypeList(new ArrayList<>());
+            type14.getSubTypeList().add(subType5);
+            typeRepository.save(type14);
 
             ProjectTransaction projectTransaction3 = new ProjectTransaction();
             projectTransaction3.setDate(date4);
-            projectTransaction3.setName("Despesa de Projeto 2");
+            projectTransaction3.setName("Correção de Erros");
+            projectTransaction3.setDescription("Projeto ainda em garantia.");
             projectTransaction3.setFrequency(Frequency.DAILY);
-            projectTransaction3.setValue((float)35.1);
-            projectTransaction3.setProject(project1);
+            projectTransaction3.setValue((float)3500.1);
+            projectTransaction3.setProject(project2);
             projectTransaction3.setGenre(Genre.COST);
             projectTransaction3.setType(type16);
             projectTransaction3.setExecuted(true);
@@ -363,19 +417,19 @@ public class DbLoader implements CommandLineRunner {
 //            projectTransaction3.getType().setSubType(subType1);
 
             Type type17 = new Type();
-            type17.setName("Manutenção");
+            type17.setName("Desenvolvimento");
             type17.setCategory(Category.PROJECTS);
             typeRepository.save(type17);
             type17.setSubTypeList(new ArrayList<>());
-            type17.getSubTypeList().add(subType1);
+            type17.getSubTypeList().add(subType4);
             typeRepository.save(type17);
 
             ProjectTransaction projectTransaction4 = new ProjectTransaction();
             projectTransaction4.setDate(randomDate1);
-            projectTransaction4.setName("Receita de Projeto 2");
+            projectTransaction4.setName("Desenvolvimento de APP XPTO.");
             projectTransaction4.setFrequency(Frequency.DAILY);
-            projectTransaction4.setValue((float)261.9);
-            projectTransaction4.setProject(project1);
+            projectTransaction4.setValue((float)9461.9);
+            projectTransaction4.setProject(project2);
             projectTransaction4.setGenre(Genre.REVENUE);
             projectTransaction4.setType(type17);
             projectTransaction4.setExecuted(true);
@@ -394,9 +448,9 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction5 = new ProjectTransaction();
             projectTransaction5.setDate(randomDate1);
-            projectTransaction5.setName("Despesa de Projeto 3");
+            projectTransaction5.setName("REST Service");
             projectTransaction5.setFrequency(Frequency.DAILY);
-            projectTransaction5.setValue((float)23.2);
+            projectTransaction5.setValue((float)15000.2);
             projectTransaction5.setProject(project1);
             projectTransaction5.setGenre(Genre.COST);
             projectTransaction5.setType(type18);
@@ -459,13 +513,21 @@ public class DbLoader implements CommandLineRunner {
 
 
 
-//            add posts employess
+            /*
+            -
+            -
+            -
+            EMPLOYEES
+            -
+            -
+            -
+             */
             PostEmployee postEmployee1 = new PostEmployee();
-            postEmployee1.setName("Programador - backend");
+            postEmployee1.setName("Programador - back-end");
             PostEmployee postEmployee2 = new PostEmployee();
             postEmployee2.setName("Gerente");
             PostEmployee postEmployee3 = new PostEmployee();
-            postEmployee3.setName("Programador - frontend");
+            postEmployee3.setName("Programador - front-end");
 
             postEmployeeRepository.save(postEmployee1);
             postEmployeeRepository.save(postEmployee2);
@@ -483,8 +545,8 @@ public class DbLoader implements CommandLineRunner {
             employee1.setAdresses(new ArrayList<>());
             employee1.getAdresses().add(adress6);
             employee1.setNumberPhone("939898345");
-            employee1.setEmail("funcionario1@isec.pt");
-            employee1.setName("Funcionário1");
+            employee1.setEmail("nakasato@isec.pt");
+            employee1.setName("NAKASATO");
             employee1.setPostEmployee(postEmployee1);
 
             Employee employee2 = new Employee();
@@ -499,15 +561,39 @@ public class DbLoader implements CommandLineRunner {
             employee2.setAdresses(new ArrayList<>());
             employee2.getAdresses().add(adress7);
             employee2.setNumberPhone("939898345");
-            employee2.setEmail("funcionario1@isec.pt");
-            employee2.setName("Funcionário2");
+            employee2.setEmail("caio@isec.pt");
+            employee2.setName("CAIO");
 
+            Employee employee3 = new Employee();
+            employee3.setPostEmployee(postEmployee3);
+
+            Adress adress = new Adress();
+            adress7.setCity("Leiria");
+            adress7.setZipCode("2550-143");
+            adress7.setNumber(300);
+            adress7.setAdressName("Rua De Leiria");
+
+            employee3.setAdresses(new ArrayList<>());
+            employee3.getAdresses().add(adress7);
+            employee3.setNumberPhone("939898345");
+            employee3.setEmail("naresh@isec.pt");
+            employee3.setName("NARESH");
 
             employeeRepository.save(employee1);
             employeeRepository.save(employee2);
+            employeeRepository.save(employee3);
 
 
-//            add supplier
+
+            /*
+            -
+            -
+            -
+            SUPPLIERS
+            -
+            -
+            -
+             */
             Supplier supplier1 = new Supplier();
 
             Adress adress8 = new Adress();
@@ -516,18 +602,18 @@ public class DbLoader implements CommandLineRunner {
             adress8.setNumber(3);
             adress8.setAdressName("Rua De Faro");
 
-            StringContact stringContact1 = new StringContact();
-            stringContact1.setContact("912345654");
+            TextContact textContact1 = new TextContact();
+            textContact1.setContact("912345654");
 
-            StringContact stringContact2 = new StringContact();
-            stringContact2.setContact("fornecedor1@isec.pt");
+            TextContact textContact2 = new TextContact();
+            textContact2.setContact("google@isec.pt");
 
 
-            supplier1.setName("Fornecedor1");
+            supplier1.setName("GOOGLE");
 
             supplier1.setContacts(new ArrayList<>());
-            supplier1.getContacts().add(stringContact1);
-            supplier1.getContacts().add(stringContact2);
+            supplier1.getContacts().add(textContact1);
+            supplier1.getContacts().add(textContact2);
 
             supplier1.setAdresses(new ArrayList<>());
             supplier1.getAdresses().add(adress8);
@@ -540,15 +626,15 @@ public class DbLoader implements CommandLineRunner {
             adress9.setNumber(3);
             adress9.setAdressName("Rua De Faro");
 
-            StringContact stringContact3 = new StringContact();
-            stringContact3.setContact("234432345");
+            TextContact textContact3 = new TextContact();
+            textContact3.setContact("234432345");
 
             Supplier supplier2 = new Supplier();
             supplier2.setAdresses(new ArrayList<>());
             supplier2.getAdresses().add(adress9);
-            supplier2.setName("Fornecedor2");
+            supplier2.setName("ATLASSIAN");
             supplier2.setContacts(new ArrayList<>());
-            supplier2.getContacts().add(stringContact3);
+            supplier2.getContacts().add(textContact3);
 
 
 
@@ -1146,6 +1232,22 @@ public class DbLoader implements CommandLineRunner {
             supplierTransaction.setExecuted(true);
             supplierTransaction.setCurrency(brlCurrency);
             supplierTransactionRepository.save(supplierTransaction);
+
+
+
+            /*
+            -
+            -
+            -
+
+            COMISSION
+
+            -
+             -
+             -
+             -
+             -
+             */
 
 
             type = new Type();
