@@ -49,6 +49,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -81,28 +82,87 @@ public class FinancialProjectionService {
     @Autowired
     ComissionTransactionRepository comissionTransactionRepository;
 
-    public Page<Transaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public Page<Transaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
         //could receive params to filter de list
-        if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null)
-            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, genre);
+        if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
+            return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, false, true);
+            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
     }
 
-    private Page<Transaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    private Page<Transaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
         Page<Transaction> transactionsPage = null;
 
-        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
-            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, false, true);
+        if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty()&& deletedEntities==null)
+            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
 
+        Specification<Transaction> specFilter = null;
+
+
+
+        if(value.isEmpty() && frequency.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty())
+            ;
+        else
+        {
+            if(specFilter==null)
+                specFilter = TransactionSpecifications.filter(value, frequency, dateSince, dateUntil,valueSince, valueUntil, genre);
+            else
+                specFilter.and(TransactionSpecifications.filter(value, frequency, dateSince, dateUntil,valueSince, valueUntil, genre));
+
+        }
+
+        //types and subtypes
         List<SubType> subTypeList = null;
         if(!subTypeValue.isEmpty()){
             subTypeList = subTypeService.getSubType(subTypeValue);
+//            System.out.println("\n\n\n\n subTypeList: " + subTypeList);
+        }
+        if(subTypeValue!= null && !subTypeValue.isEmpty())
+        {
+            List<Type> types = typeRepository.findByName(typeValue);
+
+            if(!types.isEmpty())
+            {
+                for(Type type1: types)
+                {
+                    if(!type1.isManuallyCreated() && !Collections.disjoint(type1.getSubTypeList(), subTypeList))
+                    {
+//                        System.out.println("\n\n Type: " + type1);
+
+                        if(specFilter==null)
+                            specFilter = TransactionSpecifications.filterByType(type1);
+                        else
+                            specFilter = specFilter.or(TransactionSpecifications.filterByType(type1));
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(specFilter==null)
+                specFilter = TransactionSpecifications.filterByNameType(typeValue);
+            else
+                specFilter = specFilter.or(TransactionSpecifications.filterByNameType(typeValue));
         }
 
-        Specification<Transaction> specFilter= TransactionSpecifications.filterToFinancialProjection(value, frequency, typeValue, subTypeList, dateSince, dateUntil,valueSince, valueUntil, genre);
+
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
+
+        if(specFilter==null)
+            specFilter = TransactionSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(TransactionSpecifications.filterDeleletedEntities(deletedEntities));
+
+
+        //executed
+        if(specFilter==null)
+            specFilter = TransactionSpecifications.filterExecuted(executed);
+        else
+            specFilter = specFilter.and(TransactionSpecifications.filterExecuted(executed));
+
 
         transactionsPage = transactionRepository.findAll(specFilter, pageable);
 
@@ -333,5 +393,11 @@ public class FinancialProjectionService {
 //        transactionRepository.save(transaction);
 
 
+    }
+
+    public void recoveryTransaction(Long id) {
+        Transaction transaction = getTransaction((long)id);
+        transaction.setActived(true);
+        transactionRepository.save(transaction);
     }
 }

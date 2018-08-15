@@ -12,6 +12,7 @@ import hello.Project.ProjectService;
 import hello.SubType.SubTypeService;
 import hello.Supplier.SupplierService;
 import hello.Transaction.Transaction;
+import hello.Transaction.TransactionService;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,6 +52,7 @@ public class FinancialProjectionController {
     @Autowired
     CurrencyService currencyService;
 
+
     @GetMapping("/costs")
     public ModelAndView costsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
                                         @RequestParam("page") Optional<Integer> page,
@@ -61,7 +63,8 @@ public class FinancialProjectionController {
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                  @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
 
     {
         ModelAndView modelAndView = new ModelAndView("FinancialProjection/index");
@@ -76,7 +79,7 @@ public class FinancialProjectionController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Transaction> transactions = financialProjectionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, Genre.COST);
+        Page<Transaction> transactions = financialProjectionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, Genre.COST, false);
 
         Pager pager = new Pager(transactions.getTotalPages(), transactions.getNumber(), BUTTONS_TO_SHOW);
 
@@ -98,6 +101,8 @@ public class FinancialProjectionController {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
         return modelAndView;
     }
 
@@ -122,19 +127,7 @@ public class FinancialProjectionController {
 
     }
 
-    @RequestMapping("/remove_transaction")
-    public String removeTransaction(@RequestParam("id") Long id, Model model) {
 
-        Transaction transaction = financialProjectionService.getTransaction(id);
-        model.addAttribute("transaction", transaction);
-
-        return "FinancialProjection/remove_transaction :: modal";
-    }
-    @DeleteMapping("/remove_transaction")
-    public @ResponseBody String removeTransaction(@RequestParam("id") Long id) {
-        financialProjectionService.removeTransaction(id);
-        return "redirect:/financial_projection/costs";
-    }
 
     @GetMapping("/revenues")
     public ModelAndView revenuesPage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -146,7 +139,8 @@ public class FinancialProjectionController {
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
                                         @RequestParam(name="value_since", required=false) String valueSince,
-                                        @RequestParam(name="value_until", required=false) String valueUntil)
+                                        @RequestParam(name="value_until", required=false) String valueUntil,
+                                     @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
 
     {
         ModelAndView modelAndView = new ModelAndView("FinancialProjection/index");
@@ -161,7 +155,7 @@ public class FinancialProjectionController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Transaction> transactions = financialProjectionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, Genre.REVENUE);
+        Page<Transaction> transactions = financialProjectionService.findAllPageableByGenre(PageRequest.of(evalPage, evalPageSize), value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, Genre.REVENUE, false);
 
         Pager pager = new Pager(transactions.getTotalPages(), transactions.getNumber(), BUTTONS_TO_SHOW);
 
@@ -183,6 +177,8 @@ public class FinancialProjectionController {
         modelAndView.addObject("date_until", dateUntil);
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
         return modelAndView;
     }
 
@@ -267,4 +263,33 @@ public class FinancialProjectionController {
 //            return "redirect:/project_transaction/cost";
 //
 //    }
+
+
+    @RequestMapping("/remove_transaction")
+    public String removeTransaction(@RequestParam("id") Long id, Model model) {
+
+        Transaction transaction = financialProjectionService.getTransaction(id);
+        model.addAttribute("transaction", transaction);
+
+        return "FinancialProjection/remove_transaction :: modal";
+    }
+    @DeleteMapping("/remove_transaction")
+    public @ResponseBody String removeTransaction(@RequestParam("id") Long id) {
+        financialProjectionService.removeTransaction(id);
+        return "redirect:/financial_projection/costs";
+    }
+
+    @RequestMapping("/recovery_transaction")
+    public String recoveryTransaction(@RequestParam("id") Long id, Model model) {
+
+        Transaction transaction = financialProjectionService.getTransaction(id);
+        model.addAttribute("transaction", transaction);
+
+        return "FinancialProjection/recovery_transaction :: modal";
+    }
+    @PostMapping("/recovery_transaction")
+    public @ResponseBody String recoveryTransaction(@RequestParam("id") Long id) {
+        financialProjectionService.recoveryTransaction(id);
+        return "redirect:/financial_projection/";
+    }
 }

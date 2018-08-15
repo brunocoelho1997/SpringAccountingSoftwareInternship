@@ -77,7 +77,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6"></div>
+                    <div class="col-sm-5"></div>
+
+                    <div class="col-sm-1">
+                        <label> Eliminados</label>
+                        <label class="switch">
+                            <input type="checkbox" name = "switch_deleted_entities" th:checked="${switch_deleted_entities}">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -103,14 +111,14 @@
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{System.Since}"></span>
                             <input type="number" step="0.01" th:value="${value_since}" name="value_since" class="form-control" >
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
+                            <span class="input-group-addon"><i th:text="${currency.symbol}"></i></span>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group">
                             <span class="input-group-addon" th:text="#{System.Until}"></span>
                             <input type="number" step="0.01" th:value="${value_until}" name="value_until" class="form-control" >
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
+                            <span class="input-group-addon"><i th:text="${currency.symbol}"></i></span>
                         </div>
                     </div>
                     <a class="col-sm-6 myButton" align="right"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
@@ -150,10 +158,14 @@
                                         </td>
                                         <td th:unless="${r.getType().getSubTypeList()!=null}"></td>
                                         <td th:text="${r.getInstallments()}"></td>
-                                        <td th:text="${r.getValue()}"></td>
+                                        <td>
+                                            <label class="inline" th:text="${r.getValue()}"> </label>
+                                            <label class="inline" th:text="${currency.symbol}"> </label>
+                                        </td>
                                         <td th:text="${r.getValue() * r.getInstallments()}"></td>
                                         <td class="center">
-                                            <a class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default trash pull-right" th:if="${r.actived==true}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default recovery pull-right" th:if="${r.actived==false}" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/financial_projection/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/financial_projection/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/financial_projection/transaction_executed(id=${r.getId()})}"><i class="glyphicon glyphicon-ok"></i></a>
@@ -176,7 +188,7 @@
 </div>
 <div id="modal-content"></div>
 
-<script src="../subTypeSelect.js"></script>
+<script src="../subTypeSelectFilters.js"></script>
 <script src="../pagination.js"></script>
 
 
@@ -200,6 +212,22 @@
                 alert(textStatus);
             });
         });
+        $('a.recovery').click(function (e) {
+
+            var opt = {
+                type: 'GET',
+                url: '/financial_projection/recovery_transaction?id=' + $(this).attr('transaction-id')
+            }
+
+            // alert(JSON.stringify(opt));
+
+            $.ajax(opt).done(function (result) {
+                $('#modal-content').html(result);
+                $('#recovery-modal').modal();
+            }).fail(function (jqXHR, textStatus) {
+                alert(textStatus);
+            });
+        });
 
     });
 
@@ -207,6 +235,20 @@
         $.ajax({
             type: 'DELETE',
             url: '/financial_projection/remove_transaction?id=' + id
+
+        }).done(function (result) {
+            $('a[transaction-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+
+    }
+
+    function recoveryEntity(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/financial_projection/recovery_transaction?id=' + id
 
         }).done(function (result) {
             $('a[transaction-id=' + id + ']').closest('tr').remove();

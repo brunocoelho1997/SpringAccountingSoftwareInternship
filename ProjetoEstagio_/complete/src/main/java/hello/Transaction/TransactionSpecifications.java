@@ -4,6 +4,7 @@ import hello.EntityPackage.Entity_;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
 import hello.SubType.SubType;
+import hello.Type.Type;
 import hello.Type.Type_;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -12,7 +13,46 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class TransactionSpecifications {
-    public static Specification<Transaction> filterToFinancialProjection(String value, String frequency, String type, List<SubType> subTypeList, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
+    public static Specification<Transaction> filterByType(Type type) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.type), type);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<Transaction> filterByNameType(String nameType) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            if(!nameType.isEmpty())
+                predicateFinal = cb.equal(root.get(Transaction_.type).get(Type_.name), nameType);
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<Transaction> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<Transaction> filterExecuted(Boolean executed) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+            predicateFinal = cb.equal(root.get(Transaction_.executed), executed);
+            return predicateFinal;
+        };
+    }
+
+    public static Specification<Transaction> filter(String value, String frequency, String dateSince, String dateUntil, String valueSince, String valueUntil, Genre genre) {
         return (root, query, cb) -> {
 
 
@@ -27,6 +67,9 @@ public class TransactionSpecifications {
             Predicate predicateValueSince;
             Predicate predicateValueUntil;
             Predicate predicateGenre;
+            Predicate predicateDeletedEntities;
+
+
 
             if(!value.isEmpty())
             {
@@ -52,26 +95,6 @@ public class TransactionSpecifications {
                     predicateFinal = cb.and(predicateFinal, predicateFrequency);
                 else
                     predicateFinal = predicateFrequency;
-            }
-
-            if(type!= null && !type.isEmpty())
-            {
-                predicateType = cb.equal(root.get(Transaction_.type).get(Type_.name), type);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateType);
-                else
-                    predicateFinal = predicateType;
-            }
-            if(subTypeList != null)
-            {
-
-                String typeName = subTypeList.get(0).getType().getName();
-
-                predicateSubType = cb.equal(root.get(Transaction_.type).get(Type_.name), typeName);
-                if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateSubType);
-                else
-                    predicateFinal = predicateSubType;
             }
 
             if(!dateSince.isEmpty())
