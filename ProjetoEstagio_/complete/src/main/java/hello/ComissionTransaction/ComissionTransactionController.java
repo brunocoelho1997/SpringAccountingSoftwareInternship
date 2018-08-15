@@ -149,7 +149,7 @@ public class ComissionTransactionController {
     @PostMapping("/edit_transaction")
     public String editTransaction(Model model, @Valid @ModelAttribute("transaction") ComissionTransaction transaction, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("clients", clientService.getClientsActived());
             model.addAttribute("projects", projectService.getProjectsActived());
             return "EmployeeTransaction/edit_transaction";

@@ -125,7 +125,7 @@ public class GeneralTransactionController {
     @PostMapping("/edit_transaction")
     public String editTransaction(Model model, @Valid @ModelAttribute("transaction") GeneralTransaction transaction, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             return "GeneralTransaction/edit_transaction";
         }
         generalTransactionService.editTransaction(transaction);

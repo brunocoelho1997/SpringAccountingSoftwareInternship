@@ -140,7 +140,7 @@ public class EmployeeTransactionController {
     @PostMapping("/edit_transaction")
     public String editTransaction(Model model, @Valid @ModelAttribute("transaction") EmployeeTransaction employeeTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("employees", employeeService.getEmployees());
             return "EmployeeTransaction/edit_transaction";
         }

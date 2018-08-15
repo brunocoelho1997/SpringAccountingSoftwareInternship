@@ -121,7 +121,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     public String addRevenue(Model model, @Valid @ModelAttribute("transaction") ProjectTransaction projectTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("projects", projectService.getProjects());
             return "ProjectTransaction/add_transaction";
         }
@@ -147,7 +147,7 @@ public class ProjectTransactionController implements WebMvcConfigurer {
     @PostMapping("/edit_transaction")
     public String editTransaction(Model model, @Valid @ModelAttribute("transaction") ProjectTransaction projectTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("projects", projectService.getProjects());
             return "ProjectTransaction/edit_transaction";
         }

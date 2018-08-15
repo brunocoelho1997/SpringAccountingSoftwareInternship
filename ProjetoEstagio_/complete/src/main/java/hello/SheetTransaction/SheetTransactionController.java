@@ -128,7 +128,8 @@ public class SheetTransactionController {
 
         sheetTransactionService.addTransaction(transaction);
 
-        model.addAttribute("types", typeService.getTypes());
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+
 //        if(transaction.getType().getSubType()!=null)
 //        model.addAttribute("subtype_id", transaction.getType().getSubType().getId());
         model.addAttribute("employees", employeeService.getEmployees());
@@ -159,7 +160,7 @@ public class SheetTransactionController {
     @PostMapping("/edit_transaction")
     public String editTransaction(Model model, @Valid @ModelAttribute("transaction") SheetTransaction transaction, BindingResult bindingResult, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("types", typeService.getTypes());
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
             model.addAttribute("employees", employeeService.getEmployees());
             return "SheetTransaction/edit_transaction";
         }

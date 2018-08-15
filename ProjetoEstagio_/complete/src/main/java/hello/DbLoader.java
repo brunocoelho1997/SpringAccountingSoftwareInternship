@@ -387,7 +387,7 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction2.setDate(randomDate1);
             projectTransaction2.setName("Aluguer de base de dados 10GB.");
             projectTransaction2.setFrequency(Frequency.MONTHLY);
-            projectTransaction2.setValue((float)135.3);
+            projectTransaction2.setValue((float)2135.3);
             projectTransaction2.setProject(project1);
             projectTransaction2.setGenre(Genre.COST);
             projectTransaction2.setType(type15);
@@ -495,7 +495,7 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction7.setName("Alteração na base de dados");
             projectTransaction7.setDescription("Pequena alteração na base de dados. Convenções estavam incorretas.");
             projectTransaction7.setFrequency(Frequency.DAILY);
-            projectTransaction7.setValue((float)273.2);
+            projectTransaction7.setValue((float)1273.2);
             projectTransaction7.setProject(project1);
             projectTransaction7.setGenre(Genre.COST);
             projectTransaction7.setType(type);
