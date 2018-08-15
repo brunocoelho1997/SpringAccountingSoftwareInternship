@@ -21,6 +21,10 @@ public class SupplierService {
     public List<Supplier> getSuppliers(){
         return repository.findAll();
     }
+    public List<Supplier> getActivedSuppliers(){
+        return repository.findAllByActived(true);
+    }
+
     public Page<Supplier> findAllPageable(Pageable pageable, String value) {
 
 

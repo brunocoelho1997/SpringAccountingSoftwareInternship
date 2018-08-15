@@ -73,4 +73,8 @@ public class EmployeeService{
     public List<Employee> getEmployees() {
         return repository.findAll();
     }
+    public List<Employee> getActivedEmployees() {
+        return repository.findAllByActived(true);
+    }
+
 }

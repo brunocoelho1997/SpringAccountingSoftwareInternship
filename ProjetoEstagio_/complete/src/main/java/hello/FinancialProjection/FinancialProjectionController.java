@@ -1,10 +1,16 @@
 package hello.FinancialProjection;
 
+import hello.Client.ClientService;
+import hello.Currency.CurrencyService;
+import hello.Employee.EmployeeService;
 import hello.Enums.Genre;
+import hello.FinancialProjection.Resources.FinancialProjection;
 import hello.FinancialProjection.Resources.FinancialProjectionValidated;
+import hello.GeneralTransaction.GeneralTransaction;
 import hello.Pager;
 import hello.Project.ProjectService;
 import hello.SubType.SubTypeService;
+import hello.Supplier.SupplierService;
 import hello.Transaction.Transaction;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +41,15 @@ public class FinancialProjectionController {
     SubTypeService subTypeService;
     @Autowired
     ProjectService projectService;
+    @Autowired
+    EmployeeService employeeService;
+    @Autowired
+    ClientService clientService;
+    @Autowired
+    SupplierService supplierService;
+
+    @Autowired
+    CurrencyService currencyService;
 
     @GetMapping("/costs")
     public ModelAndView costsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -169,5 +184,38 @@ public class FinancialProjectionController {
         modelAndView.addObject("value_since", valueSince);
         modelAndView.addObject("value_until", valueUntil);
         return modelAndView;
+    }
+
+    @GetMapping("/add_cost")
+    public String addRevenue(Model model) {
+
+        FinancialProjection transaction = new FinancialProjection(); //e' apenas um resource... apenas para ser preenchido e dps e' tratado
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
+        transaction.setGenre(Genre.COST);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+        model.addAttribute("projects", projectService.getProjectsActived());
+        model.addAttribute("employees", employeeService.getActivedEmployees());
+        model.addAttribute("suppliers", supplierService.getActivedSuppliers());
+        model.addAttribute("clients", clientService.getClientsActived());
+
+
+        return "FinancialProjection/add_transaction";
+    }
+
+    @PostMapping("/add_transaction")
+    public String addRevenue(Model model, @Valid @ModelAttribute("transaction") FinancialProjection transaction, BindingResult bindingResult, RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+            return "GeneralTransaction/add_transaction";
+        }
+        financialProjectionService.addTransaction(transaction);
+
+        if(transaction.getGenre().equals(Genre.REVENUE))
+            return "redirect:/financial_projection/revenues";
+        else
+            return "redirect:/financial_projection/costs";
+
     }
 }
