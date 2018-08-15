@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public abstract class Transaction extends Entity {
 
     public static final int MAX_NAME_LENGHT = 30;
-    public static final int MAX_DESCRIPTION_LENGHT = 30;
+    public static final int MAX_DESCRIPTION_LENGHT = 255;
 
     @NotNull
     @Length(min = 1, max = MAX_NAME_LENGHT)

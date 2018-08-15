@@ -405,7 +405,7 @@ public class DbLoader implements CommandLineRunner {
             ProjectTransaction projectTransaction3 = new ProjectTransaction();
             projectTransaction3.setDate(date4);
             projectTransaction3.setName("Correção de Erros");
-            projectTransaction3.setDescription("Projeto ainda em garantia.");
+            projectTransaction3.setDescription("Correção de alguns erros - Projeto ainda em garantia.");
             projectTransaction3.setFrequency(Frequency.DAILY);
             projectTransaction3.setValue((float)3500.1);
             projectTransaction3.setProject(project2);
@@ -426,7 +426,7 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction4 = new ProjectTransaction();
             projectTransaction4.setDate(randomDate1);
-            projectTransaction4.setName("Desenvolvimento de APP XPTO.");
+            projectTransaction4.setName("APP Android XPTO.");
             projectTransaction4.setFrequency(Frequency.DAILY);
             projectTransaction4.setValue((float)9461.9);
             projectTransaction4.setProject(project2);
@@ -452,7 +452,7 @@ public class DbLoader implements CommandLineRunner {
             projectTransaction5.setFrequency(Frequency.DAILY);
             projectTransaction5.setValue((float)15000.2);
             projectTransaction5.setProject(project1);
-            projectTransaction5.setGenre(Genre.COST);
+            projectTransaction5.setGenre(Genre.REVENUE);
             projectTransaction5.setType(type18);
             projectTransaction5.setExecuted(true);
             projectTransaction5.setCurrency(brlCurrency);
@@ -470,10 +470,11 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction6 = new ProjectTransaction();
             projectTransaction6.setDate(date4);
-            projectTransaction6.setName("Receita de Projeto 3");
+            projectTransaction6.setName("Alteração Estrutura");
+            projectTransaction6.setDescription("Alteração base do projeto. Tinha problemas de eficiência.");
             projectTransaction6.setFrequency(Frequency.DAILY);
-            projectTransaction6.setValue((float)12.3);
-            projectTransaction6.setProject(project1);
+            projectTransaction6.setValue((float)6812.3);
+            projectTransaction6.setProject(project2);
             projectTransaction6.setGenre(Genre.REVENUE);
             projectTransaction6.setType(type19);
             projectTransaction6.setExecuted(true);
@@ -491,9 +492,10 @@ public class DbLoader implements CommandLineRunner {
 
             ProjectTransaction projectTransaction7 = new ProjectTransaction();
             projectTransaction7.setDate(randomDate1);
-            projectTransaction7.setName("Despesa de Projeto 4");
+            projectTransaction7.setName("Alteração na base de dados");
+            projectTransaction7.setDescription("Pequena alteração na base de dados. Convenções estavam incorretas.");
             projectTransaction7.setFrequency(Frequency.DAILY);
-            projectTransaction7.setValue((float)73.2);
+            projectTransaction7.setValue((float)273.2);
             projectTransaction7.setProject(project1);
             projectTransaction7.setGenre(Genre.COST);
             projectTransaction7.setType(type);

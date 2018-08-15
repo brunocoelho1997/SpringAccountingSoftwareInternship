@@ -176,7 +176,7 @@
 
         $.ajax(opt).done(function (result) {
 
-            if(result.percentageCosts != 0 && result.percentageRevenues != 0)
+            if(result.percentageCosts != 0 || result.percentageRevenues != 0)
             {
                 Morris.Donut({
                     element: 'percentage-revenues-costs',
