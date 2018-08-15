@@ -248,21 +248,25 @@ public class FinancialProjectionController {
 
 
     }
-//    @PostMapping("/edit_transaction")
-//    public String editTransaction(Model model, @Valid @ModelAttribute("transaction") ProjectTransaction projectTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("types", typeService.getTypes());
-//            model.addAttribute("projects", projectService.getProjects());
-//            return "ProjectTransaction/edit_transaction";
-//        }
-//        projectTransactionService.editProjectTransaction(projectTransaction);
-//
-//        if(projectTransaction.getGenre().equals(Genre.REVENUE))
-//            return "redirect:/project_transaction/revenue";
-//        else
-//            return "redirect:/project_transaction/cost";
-//
-//    }
+    @PostMapping("/edit_transaction")
+    public String editTransaction(Model model, @Valid @ModelAttribute("transaction") FinancialProjection transaction, BindingResult bindingResult, RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("transaction", transaction);
+            model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+            model.addAttribute("projects", projectService.getProjectsActived());
+            model.addAttribute("employees", employeeService.getActivedEmployees());
+            model.addAttribute("suppliers", supplierService.getActivedSuppliers());
+            model.addAttribute("clients", clientService.getClientsActived());
+            return "ProjectTransaction/edit_transaction";
+        }
+        financialProjectionService.editTransaction(transaction);
+
+        if(transaction.getGenre().equals(Genre.REVENUE))
+            return "redirect:/financial_projection/revenue";
+        else
+            return "redirect:/financial_projection/cost";
+
+    }
 
 
     @RequestMapping("/remove_transaction")

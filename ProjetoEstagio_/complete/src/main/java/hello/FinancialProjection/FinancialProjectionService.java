@@ -201,6 +201,7 @@ public class FinancialProjectionService {
             financialProjection.setProject(((ProjectTransaction) transaction).getProject());
         }
 
+        financialProjection.setId(transaction.getId());
         financialProjection.setName(transaction.getName());
         if (transaction.getDescription() != null)
             financialProjection.setDescription(transaction.getDescription());
@@ -392,6 +393,82 @@ public class FinancialProjectionService {
 
 //        transactionRepository.save(transaction);
 
+    }
+
+    public void editTransaction(@Valid FinancialProjection projection) {
+
+        Transaction transaction = transactionRepository.findById((long)projection.getId());
+
+
+        if(projection.getProject()!=null)
+        {
+
+            if(projection.getClient()!= null)
+            {
+                Client client = clientRepository.findById((long)projection.getClient().getId());
+                ((ComissionTransaction)transaction).setClient(client);
+                Project project = projectRepository.findById((long)projection.getProject().getId());
+                ((ComissionTransaction)transaction).setProject(project);
+
+            }
+            else
+            {
+                Project project = projectRepository.findById((long)projection.getProject().getId());
+                ((ProjectTransaction)transaction).setProject(project);
+            }
+        }
+        else if(projection.getEmployee()!=null)
+        {
+            if(projection.getHoursPerProjectList()!=null)
+            {
+                Employee employee = employeeRepository.findById((long)projection.getEmployee().getId());
+                ((SheetTransaction)transaction).setEmployee(employee);
+                ((SheetTransaction) transaction).setHoursPerProjectList(new ArrayList<>());
+                ((SheetTransaction) transaction).getHoursPerProjectList().addAll(projection.getHoursPerProjectList());
+
+            }
+            else
+            {
+                Employee employee = employeeRepository.findById((long)projection.getEmployee().getId());
+                ((EmployeeTransaction)transaction).setEmployee(employee);
+            }
+        }
+
+
+        transaction.setInstallments(projection.getInstallments());
+        transaction.setExecuted(false);
+        transaction.setGenre(projection.getGenre());
+        transaction.setValue(projection.getValue());
+        transaction.setInstallments(projection.getInstallments());
+
+        transaction.setFrequency(projection.getFrequency());
+        transaction.setDate(projection.getDate());
+        transaction.setCurrency(projection.getCurrency());
+        transaction.setName(projection.getName());
+        transaction.setDescription(projection.getDescription());
+
+
+        Type type = transaction.getType();
+        type.setName(projection.getType().getName());
+        type.setSubTypeList(projection.getType().getSubTypeList());
+
+        transaction.setType(type);
+
+        if(transaction instanceof SaleTransaction)
+            saleTransactionRepository.save((SaleTransaction)transaction);
+        else if(transaction instanceof GeneralTransaction)
+            generalTransactionRepository.save((GeneralTransaction) transaction);
+        else if(transaction instanceof ProjectTransaction)
+            projectTransactionRepository.save((ProjectTransaction) transaction);
+        else if(transaction instanceof EmployeeTransaction)
+            employeeTransactionRepository.save((EmployeeTransaction) transaction);
+        else if(transaction instanceof SheetTransaction)
+            sheetTransactionRepository.save((SheetTransaction) transaction);
+        else if(transaction instanceof ComissionTransaction)
+            comissionTransactionRepository.save((ComissionTransaction) transaction);
+
+
+//        transactionRepository.save(transaction);
 
     }
 

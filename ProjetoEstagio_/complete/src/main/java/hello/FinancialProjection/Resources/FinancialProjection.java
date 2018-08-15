@@ -23,6 +23,8 @@ public class FinancialProjection {
     public static final int MAX_NAME_LENGHT = 30;
     public static final int MAX_DESCRIPTION_LENGHT = 255;
 
+    private Long id;
+
     @NotNull
     @Length(min = 1, max = MAX_NAME_LENGHT)
     private String name;
@@ -189,4 +191,11 @@ public class FinancialProjection {
         this.currency = currency;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
