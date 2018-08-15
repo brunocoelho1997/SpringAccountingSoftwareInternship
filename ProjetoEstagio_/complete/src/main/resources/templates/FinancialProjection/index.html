@@ -122,7 +122,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" >
                                 <div class="row">
-                                    <div class="col-sm-12" th:text="#{FinancialProjection.Costs.PanelHeader}" />
+                                    <div class="col-sm-12" th:text="${#httpServletRequest.requestURI.contains('/revenues')} ? #{FinancialProjection.Revenues.PanelHeader} : #{FinancialProjection.Costs.PanelHeader}" />
                                 </div>
                             </div>
                             <!-- /.panel-heading -->
@@ -154,8 +154,8 @@
                                         <td th:text="${r.getValue() * r.getInstallments()}"></td>
                                         <td class="center">
                                             <a class="btn btn-default trash pull-right" th:transaction-id="${r.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
-                                            <a class="btn btn-default pull-right" th:href="@{/employee_transaction/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
-                                            <a class="btn btn-default pull-right" th:href="@{/employee_transaction/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/financial_projection/edit_transaction(id=${r.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
+                                            <a class="btn btn-default pull-right" th:href="@{/financial_projection/info_transaction(id=${r.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/financial_projection/transaction_executed(id=${r.getId()})}"><i class="glyphicon glyphicon-ok"></i></a>
                                         </td>
                                     </tr>

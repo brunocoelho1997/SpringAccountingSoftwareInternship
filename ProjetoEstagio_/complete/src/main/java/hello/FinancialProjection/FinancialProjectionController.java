@@ -187,11 +187,28 @@ public class FinancialProjectionController {
     }
 
     @GetMapping("/add_cost")
-    public String addRevenue(Model model) {
+    public String addCost(Model model) {
 
         FinancialProjection transaction = new FinancialProjection(); //e' apenas um resource... apenas para ser preenchido e dps e' tratado
         transaction.setCurrency(currencyService.getCurrentCurrencySelected());
         transaction.setGenre(Genre.COST);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+        model.addAttribute("projects", projectService.getProjectsActived());
+        model.addAttribute("employees", employeeService.getActivedEmployees());
+        model.addAttribute("suppliers", supplierService.getActivedSuppliers());
+        model.addAttribute("clients", clientService.getClientsActived());
+
+
+        return "FinancialProjection/add_transaction";
+    }
+
+    @GetMapping("/add_revenue")
+    public String addRevenue(Model model) {
+
+        FinancialProjection transaction = new FinancialProjection(); //e' apenas um resource... apenas para ser preenchido e dps e' tratado
+        transaction.setCurrency(currencyService.getCurrentCurrencySelected());
+        transaction.setGenre(Genre.REVENUE);
         model.addAttribute("transaction", transaction);
         model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
         model.addAttribute("projects", projectService.getProjectsActived());
@@ -218,4 +235,36 @@ public class FinancialProjectionController {
             return "redirect:/financial_projection/costs";
 
     }
+
+    @GetMapping("/edit_transaction")
+    public String editTransaction(Model model,@RequestParam("id") Long id) {
+
+        FinancialProjection transaction = financialProjectionService.getFinancialProjection(id);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("types", typeService.getDistinctTypesActivedAndManuallyCreated());
+        model.addAttribute("projects", projectService.getProjectsActived());
+        model.addAttribute("employees", employeeService.getActivedEmployees());
+        model.addAttribute("suppliers", supplierService.getActivedSuppliers());
+        model.addAttribute("clients", clientService.getClientsActived());
+
+
+        return "FinancialProjection/edit_transaction";
+
+
+    }
+//    @PostMapping("/edit_transaction")
+//    public String editTransaction(Model model, @Valid @ModelAttribute("transaction") ProjectTransaction projectTransaction, BindingResult bindingResult, RedirectAttributes attributes) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("types", typeService.getTypes());
+//            model.addAttribute("projects", projectService.getProjects());
+//            return "ProjectTransaction/edit_transaction";
+//        }
+//        projectTransactionService.editProjectTransaction(projectTransaction);
+//
+//        if(projectTransaction.getGenre().equals(Genre.REVENUE))
+//            return "redirect:/project_transaction/revenue";
+//        else
+//            return "redirect:/project_transaction/cost";
+//
+//    }
 }

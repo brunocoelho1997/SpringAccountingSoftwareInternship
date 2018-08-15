@@ -114,6 +114,48 @@ public class FinancialProjectionService {
         return transactionRepository.findById(id);
     }
 
+    public FinancialProjection getFinancialProjection(long id)
+    {
+        Transaction transaction = transactionRepository.findById(id);
+        FinancialProjection financialProjection = new FinancialProjection();
+
+
+        if (transaction instanceof SheetTransaction) {
+            financialProjection.setHoursPerProjectList(new ArrayList<>());
+            financialProjection.getHoursPerProjectList().addAll(((SheetTransaction)transaction).getHoursPerProjectList());
+
+            financialProjection.setEmployee(((SheetTransaction) transaction).getEmployee());
+
+
+        } else if (transaction instanceof EmployeeTransaction) {
+            financialProjection.setEmployee(((EmployeeTransaction) transaction).getEmployee());
+        }
+        else if (transaction instanceof SupplierTransaction) {
+            financialProjection.setSupplier(((SupplierTransaction) transaction).getSupplier());
+        }
+        else if (transaction instanceof ComissionTransaction) {
+            financialProjection.setClient(((ComissionTransaction) transaction).getClient());
+            financialProjection.setProject(((ComissionTransaction) transaction).getProject());
+        }
+        else if (transaction instanceof ProjectTransaction) {
+            financialProjection.setProject(((ProjectTransaction) transaction).getProject());
+        }
+
+        financialProjection.setName(transaction.getName());
+        if (transaction.getDescription() != null)
+            financialProjection.setDescription(transaction.getDescription());
+        financialProjection.setFrequency(transaction.getFrequency());
+        financialProjection.setDate(transaction.getDate());
+        financialProjection.setCurrency(transaction.getCurrency());
+        financialProjection.setValue(transaction.getValue());
+        financialProjection.setGenre(transaction.getGenre());
+        financialProjection.setType(transaction.getType());
+        financialProjection.setExecuted(true);
+
+
+        return financialProjection;
+    }
+
     public void aproveTransaction(FinancialProjectionValidated financialProjectionValidated)
     {
 

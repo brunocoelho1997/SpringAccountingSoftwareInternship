@@ -102,12 +102,12 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Type}"></label>
                                     <div class="col-sm-6">
                                         <select id="transaction_type" class="form-control">
-                                            <option value="1" th:text="#{Transactions.General.General}"></option>
-                                            <option value="2" th:text="#{Transactions.Employee.Employee}"></option>
-                                            <option value="3" th:text="#{Transactions.Sheet.Cost.Header}"></option>
-                                            <option value="4" th:text="#{Transactions.Supplier.Supplier}"></option>
-                                            <option value="5" th:text="#{Transactions.Projects.Project}"></option>
-                                            <option value="6" th:text="#{Transactions.Comission.Comission}"></option>
+                                            <option value="1" th:text="#{Transactions.General.General}" selected></option>
+                                            <option value="2" th:text="#{Transactions.Employee.Employee}" th:selected="${transaction.getEmployee()!=null && transaction.getHoursPerProjectList()==null}"></option>
+                                            <option value="3" th:text="#{Transactions.Sheet.Cost.Header}" th:selected="${transaction.getEmployee()!=null && transaction.getHoursPerProjectList()!=null}"></option>
+                                            <option value="4" th:text="#{Transactions.Supplier.Supplier}" th:selected="${transaction.getSupplier()!=null}"></option>
+                                            <option value="5" th:text="#{Transactions.Projects.Project}" th:selected="${transaction.getProject()!=null && transaction.getClient()==null}"></option>
+                                            <option value="6" th:text="#{Transactions.Comission.Comission}" th:selected="${transaction.getProject()!=null && transaction.getClient()!=null}"></option>
                                         </select>
                                     </div>
                                     <div class="col-sm-3"></div>
@@ -261,6 +261,13 @@
 <script src="../add_remove_hoursPerProject.js"></script>
 
 <script>
+
+
+    $( document ).ready(function() {
+        console.log( "ready!" );
+    });
+
+
     jQuery(function($) {
         $('#transaction_type').change('change', function() {
             //use toggle for ease of use
@@ -282,8 +289,8 @@
             $("#comission_transaction").toggle(this.value == 6);
             $("#comission_transaction .selectProject").attr("disabled", !(this.value == 6));
             $("#comission_transaction .selectClient").attr("disabled", !(this.value == 6));
-        });
-    })
+        }).change();
+    });
 
     //select with 100 options
     var select = $(".number_installments");
