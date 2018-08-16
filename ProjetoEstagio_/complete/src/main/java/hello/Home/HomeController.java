@@ -54,8 +54,8 @@ public class HomeController {
 
         List<Transaction> transactionList = new ArrayList();
 
-        transactionList.addAll(projectTransactionService.findAllByGenreAndActived(Genre.REVENUE, true));
-        transactionList.addAll(saleTransactionService.findAllByGenreAndActived(Genre.REVENUE, true));
+        transactionList.addAll(projectTransactionService.findAllByGenreAndActivedAndExecuted(Genre.REVENUE, true,true));
+        transactionList.addAll(saleTransactionService.findAllByGenreAndActivedAndExecuted(Genre.REVENUE, true,true));
         Collections.sort(transactionList, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction transaction, Transaction t1) {

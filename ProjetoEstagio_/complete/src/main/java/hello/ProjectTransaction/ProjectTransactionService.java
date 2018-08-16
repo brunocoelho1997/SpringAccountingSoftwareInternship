@@ -106,9 +106,9 @@ public class ProjectTransactionService {
 
     }
 
-    public List<ProjectTransaction> findAllByGenreAndActived(Genre genre, boolean actived)
+    public List<ProjectTransaction> findAllByGenreAndActivedAndExecuted(Genre genre, boolean actived, boolean executed)
     {
-        return repository.findAllByGenreAndActived(genre, actived);
+        return repository.findAllByGenreAndActivedAndExecuted(genre, actived,executed);
     }
 
     private Page<ProjectTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long projectId, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {

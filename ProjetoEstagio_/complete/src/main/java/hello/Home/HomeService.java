@@ -1,6 +1,7 @@
 package hello.Home;
 
 import hello.Application;
+import hello.ComissionTransaction.ComissionTransactionRepository;
 import hello.Currency.Currency;
 import hello.Currency.CurrencyRepository;
 import hello.Employee.EmployeeRepository;
@@ -46,6 +47,8 @@ public class HomeService {
     SupplierTransactionRepository supplierTransactionRepository;
     @Autowired
     CurrencyRepository currencyRepository;
+    @Autowired
+    ComissionTransactionRepository comissionTransactionRepository;
 
 
     private double getTotal(List<Transaction> listTransactions){
@@ -110,14 +113,16 @@ public class HomeService {
         List<Transaction> listRevenuesYear = new ArrayList<>();
         List<Transaction> listCostsYear = new ArrayList<>();
 
-        listRevenuesMonth.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateMonth));
-        listRevenuesMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateMonth));
+        listRevenuesMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.REVENUE, true, dateMonth,true));
+        listRevenuesMonth.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.REVENUE, true, dateMonth,true));
 
-        listCostsMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateMonth));
+        listCostsMonth.addAll(generalTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateMonth,true));
+        listCostsMonth.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateMonth,true));
+        listCostsMonth.addAll(sheetTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateMonth,true));
+        listCostsMonth.addAll(supplierTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateMonth,true));
+        listCostsMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateMonth,true));
+        listCostsMonth.addAll(comissionTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateMonth,true));
 
-        /*
-        TODO: falta fazer para o resto dos tipos de despesas...
-         */
 
 
        /*
@@ -138,18 +143,20 @@ public class HomeService {
         ----Total year revenues and expenses
 
         */
-        listRevenuesYear.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
-        listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.REVENUE, true, dateYear));
+        listRevenuesYear.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.REVENUE, true, dateYear,true));
+        listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.REVENUE, true, dateYear,true));
 
         totalValueMonth = getTotal(listRevenuesYear);
         chartResourceStatics.setTotalRevenuesYear((float)totalValueMonth);
-        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
-//        listCostsYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
-//        listCostsYear.addAll(generalTransactionRepository.findAllByGenreAndActivedAndDateAfter(Genre.COST, true, dateYear));
 
-        /*
-        TODO: falta fazer para o resto dos tipos de despesas...
-         */
+        listCostsYear.addAll(generalTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
+        listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
+        listCostsYear.addAll(sheetTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
+        listCostsYear.addAll(supplierTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
+        listCostsYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
+        listCostsYear.addAll(comissionTransactionRepository.findAllByGenreAndActivedAndDateAfterAndExecuted(Genre.COST, true, dateYear,true));
+
+
         double totalValueYear = getTotal(listCostsYear);
         chartResourceStatics.setTotalExpensesYear((float)totalValueYear);
 
@@ -191,15 +198,16 @@ public class HomeService {
         List<Transaction> listRevenues = new ArrayList<>();
         List<Transaction> listCosts = new ArrayList<>();
 
-        listRevenues.addAll(saleTransactionRepository.findAllByGenreAndActived(Genre.REVENUE, true));
-        listRevenues.addAll(projectTransactionRepository.findAllByGenreAndActived(Genre.REVENUE, true));
+        listRevenues.addAll(saleTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.REVENUE, true,true));
+        listRevenues.addAll(projectTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.REVENUE, true,true));
 
 
-        listCosts.addAll(projectTransactionRepository.findAllByGenreAndActived(Genre.COST, true));
-
-        /*
-        TODO: falta fazer para o resto dos tipos de despesas...
-         */
+        listCosts.addAll(generalTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.COST, true,true));
+        listCosts.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.COST, true,true));
+        listCosts.addAll(sheetTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.COST, true,true));
+        listCosts.addAll(supplierTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.COST, true,true));
+        listCosts.addAll(projectTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.COST, true,true));
+        listCosts.addAll(comissionTransactionRepository.findAllByGenreAndActivedAndExecuted(Genre.COST, true,true));
 
 
         for(Transaction transaction : listRevenues){
@@ -224,14 +232,16 @@ public class HomeService {
         LocalDate finalOfYear = LocalDate.of((int)(long)year,12,31);
 
 
-        listRevenuesYear.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre.REVENUE, true, beginOfYear,finalOfYear));
-        listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBefore(Genre.REVENUE, true, beginOfYear,finalOfYear));
+        listRevenuesYear.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.REVENUE, true, beginOfYear,finalOfYear,true));
+        listRevenuesYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.REVENUE, true, beginOfYear,finalOfYear,true));
 
 
+        listCostsYear.addAll(generalTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfYear,finalOfYear,true));
         listCostsYear.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfYear,finalOfYear,true));
-        /*
-        TODO: falta fazer para o resto dos tipos de despesas...
-         */
+        listCostsYear.addAll(sheetTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfYear,finalOfYear,true));
+        listCostsYear.addAll(supplierTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfYear,finalOfYear,true));
+        listCostsYear.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfYear,finalOfYear,true));
+        listCostsYear.addAll(comissionTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfYear,finalOfYear,true));
 
          /*
         -------GENERAL - dates
@@ -283,9 +293,15 @@ public class HomeService {
 
             finalOfMonth = i!=12? LocalDate.of((int)(long)year,i+1,1) : LocalDate.of((int)(long)year, 12,31);
 
+            listAuxRevenuesByMonth.addAll(saleTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.REVENUE, true, beginOfMonth,finalOfMonth,true));
+            listAuxRevenuesByMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.REVENUE, true, beginOfMonth,finalOfMonth,true));
 
+            listAuxCostsByMonth.addAll(generalTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfMonth,finalOfMonth,true));
             listAuxCostsByMonth.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfMonth,finalOfMonth,true));
-            listAuxRevenuesByMonth.addAll(employeeTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.REVENUE, true, beginOfMonth,finalOfMonth,true));
+            listAuxCostsByMonth.addAll(sheetTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfMonth,finalOfMonth,true));
+            listAuxCostsByMonth.addAll(supplierTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfMonth,finalOfMonth,true));
+            listAuxCostsByMonth.addAll(projectTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfMonth,finalOfMonth,true));
+            listAuxCostsByMonth.addAll(comissionTransactionRepository.findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre.COST, true, beginOfMonth,finalOfMonth,true));
 
 
             totalCostsByMonth = (float) getTotal(listAuxCostsByMonth);

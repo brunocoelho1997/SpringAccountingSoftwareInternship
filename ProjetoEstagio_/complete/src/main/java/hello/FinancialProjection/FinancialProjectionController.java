@@ -268,6 +268,14 @@ public class FinancialProjectionController {
 
     }
 
+    @GetMapping("/info_transaction")
+    public String infoTransaction(Model model, @RequestParam("id") Long id) {
+
+        Transaction transaction = financialProjectionService.getTransaction(id);
+        model.addAttribute("transaction", transaction);
+        return "FinancialProjection/info_transaction";
+    }
+
 
     @RequestMapping("/remove_transaction")
     public String removeTransaction(@RequestParam("id") Long id, Model model) {

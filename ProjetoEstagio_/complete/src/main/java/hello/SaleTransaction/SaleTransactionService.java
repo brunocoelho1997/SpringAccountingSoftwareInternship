@@ -108,9 +108,9 @@ public class SaleTransactionService {
 
         return transactionsPage;
     }
-    public List<SaleTransaction> findAllByGenreAndActived(Genre genre, boolean actived)
+    public List<SaleTransaction> findAllByGenreAndActivedAndExecuted(Genre genre, boolean actived, boolean executed)
     {
-        return repository.findAllByGenreAndActived(genre, actived);
+        return repository.findAllByGenreAndActivedAndExecuted(genre, actived, executed);
     }
 
     public Page<SaleTransaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {

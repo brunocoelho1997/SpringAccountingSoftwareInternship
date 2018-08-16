@@ -303,19 +303,16 @@
     //select with 100 options
     var select = $(".number_installments");
 
+    var subtype_value_selected = select.data('number-installments');
+
     var arr = [];
     for (var i = 0; i < 100; i++) {
-        arr.push({val : i+1, text: '' + (i+1)});
+        arr.push({val : i+1, text: '' + (i+1), selected: i==subtype_value_selected});
     }
 
     $(arr).each(function() {
-        select.append($("<option>").attr('value',this.val).text(this.text));
+        select.append($("<option>").attr('value',this.val).text(this.text).attr('selected', this.selected));
     });
-
-    var subtype_value_selected = select.data('number-installments');
-    alert(subtype_value_selected);
-    select.selectedIndex = subtype_value_selected;
-
 
 </script>
 

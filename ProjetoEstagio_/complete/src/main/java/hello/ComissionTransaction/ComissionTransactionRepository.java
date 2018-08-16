@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 public interface ComissionTransactionRepository extends JpaRepository<ComissionTransaction, Long>, JpaSpecificationExecutor {
 
@@ -18,6 +19,7 @@ public interface ComissionTransactionRepository extends JpaRepository<ComissionT
 
     Collection<ComissionTransaction> findAllByGenreAndActivedAndDateAfterAndExecuted(Genre genre, boolean actived, LocalDate dateAfter, boolean executed);
     Collection<ComissionTransaction> findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore,boolean executed);
+    List<ComissionTransaction> findAllByGenreAndActivedAndExecuted(Genre genre, boolean actived, boolean executed);
 
 
 }

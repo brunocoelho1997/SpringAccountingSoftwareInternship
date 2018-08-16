@@ -212,6 +212,7 @@ public class FinancialProjectionService {
         financialProjection.setGenre(transaction.getGenre());
         financialProjection.setType(transaction.getType());
         financialProjection.setExecuted(true);
+        financialProjection.setInstallments(transaction.getInstallments());
 
 
         return financialProjection;
