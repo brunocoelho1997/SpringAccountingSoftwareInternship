@@ -1,5 +1,6 @@
 package hello.Home;
 
+import hello.Currency.CurrencyService;
 import hello.Enums.Genre;
 import hello.Home.Resources.ChartResourceStatics;
 import hello.Home.Resources.FinancialChartResource;
@@ -38,6 +39,8 @@ public class HomeController {
     private ProjectTransactionService projectTransactionService;
     @Autowired
     private SaleTransactionService saleTransactionService;
+    @Autowired
+    CurrencyService currencyService;
 
     @GetMapping("/")
     public ModelAndView index(@RequestParam("pageSize") Optional<Integer> pageSize)
@@ -73,6 +76,12 @@ public class HomeController {
 
         modelAndView.addObject("listEntities", pageTransactions);
         modelAndView.addObject("yearsToSelect", homeService.getAllYears());
+
+        modelAndView.addObject("financialProjectionRevenue", homeService.financialProjection(Genre.REVENUE));
+        modelAndView.addObject("financialProjectionCost", homeService.financialProjection(Genre.COST));
+
+
+        modelAndView.addObject("currency", currencyService.getCurrentCurrencySelected());
 
 
         modelAndView.addObject("selectedPageSize", evalPageSize);

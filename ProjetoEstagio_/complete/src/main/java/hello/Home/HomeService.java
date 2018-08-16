@@ -18,6 +18,7 @@ import hello.SheetTransaction.SheetTransactionRepository;
 import hello.SupplierTransaction.SupplierTransaction;
 import hello.SupplierTransaction.SupplierTransactionRepository;
 import hello.Transaction.Transaction;
+import hello.Transaction.TransactionRepository;
 import hello.Type.Type;
 import hello.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,8 @@ public class HomeService {
     CurrencyRepository currencyRepository;
     @Autowired
     ComissionTransactionRepository comissionTransactionRepository;
-
+    @Autowired
+    TransactionRepository transactionRepository;
 
     private double getTotal(List<Transaction> listTransactions){
 
@@ -321,5 +323,23 @@ public class HomeService {
         financialChartResource.setSelectedCurrency(currencyRepository.findBySelected(true).getSymbol());
 
         return  financialChartResource;
+    }
+
+    public List<Transaction> financialProjection(Genre genre) {
+
+        List<Transaction> last5Transactions = new ArrayList<>();
+        LocalDate dateNow = LocalDate.now();
+
+
+        List<Transaction> allTransactions;
+        if(genre.equals(Genre.REVENUE))
+            allTransactions = transactionRepository.findAllByGenreAndExecutedAndActivedAndDateAfterOrderByDateAsc(Genre.REVENUE,false,true,dateNow);
+        else
+            allTransactions = transactionRepository.findAllByGenreAndExecutedAndActivedAndDateAfterOrderByDateAsc(Genre.COST,false,true,dateNow);
+
+        int n = allTransactions.size() > 5 ? 5: allTransactions.size();
+        last5Transactions.addAll(allTransactions.subList(0,n));
+
+        return last5Transactions;
     }
 }

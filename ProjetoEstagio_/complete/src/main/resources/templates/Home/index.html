@@ -82,7 +82,7 @@
                                         <!-- /.panel-body -->
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-md-1">
+                                        <div class="form-group col-md-2">
                                             <select class="form-control pagination" id="pageSizeSelect">
                                                 <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
                                                         th:selected="${pageSize} == ${selectedPageSize}"></option>
@@ -107,31 +107,69 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" th:text="#{Home.LasRevenues}"></div>
+                                    <div class="panel-heading" th:text="#{Home.FinancialProjectionRevenues}"></div>
                                     <div class="content">
-                                        Futuras receitas
-                                        <div id="#"></div>
-
-
-
-
-
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th th:text="#{Transactions.Date}"></th>
+                                                <th th:text="#{Transactions.Name}"></th>
+                                                <th th:text="#{Transactions.Type}"></th>
+                                                <th th:text="#{Transactions.SubType}"></th>
+                                                <th th:text="#{Transactions.Value}"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="r : ${financialProjectionRevenue}">
+                                                <td th:text="${r.getDate()}"></td>
+                                                <td th:text="${r.getName()}">1</td>
+                                                <td th:text="${r.getType().getName()}">1</td>
+                                                <td th:if="${r.getType().getSubTypeList()!=null}">
+                                                    <div th:each="subtype : ${r.getType().getSubTypeList()}" style="display:inline">
+                                                        <p th:text="${subtype.getName()}" style="display:inline"></p>;
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label class="inline" th:text="${r.getValue()}"> </label>
+                                                    <label class="inline" th:text="${currency.symbol}"> </label>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" th:text="#{Chart.Total.CostsVsRevenuesYear}"></div>
+                                    <div class="panel-heading" th:text="#{Home.FinancialProjectionCosts}"></div>
                                     <div class="content">
-                                        Futuras despesas
-                                        <div id="#"></div>
-
-
-
-
-
-
-
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th th:text="#{Transactions.Date}"></th>
+                                                <th th:text="#{Transactions.Name}"></th>
+                                                <th th:text="#{Transactions.Type}"></th>
+                                                <th th:text="#{Transactions.SubType}"></th>
+                                                <th th:text="#{Transactions.Value}"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="r : ${financialProjectionCost}">
+                                                <td th:text="${r.getDate()}"></td>
+                                                <td th:text="${r.getName()}">1</td>
+                                                <td th:text="${r.getType().getName()}">1</td>
+                                                <td th:if="${r.getType().getSubTypeList()!=null}">
+                                                    <div th:each="subtype : ${r.getType().getSubTypeList()}" style="display:inline">
+                                                        <p th:text="${subtype.getName()}" style="display:inline"></p>;
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label class="inline" th:text="${r.getValue()}"> </label>
+                                                    <label class="inline" th:text="${currency.symbol}"> </label>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
