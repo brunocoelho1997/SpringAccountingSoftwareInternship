@@ -21,6 +21,6 @@ public interface GeneralTransactionRepository extends JpaRepository<GeneralTrans
     Collection<GeneralTransaction> findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore, Boolean executed);
     List<GeneralTransaction> findAllByGenreAndActivedAndExecuted(Genre genre, boolean actived, boolean executed);
 
-    Page<GeneralTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
+    Page<GeneralTransaction> findAllByGenreAndExecutedAndActivedOrderByDateDesc(Pageable pageable, Genre genre, boolean executed, boolean actived);
 
 }

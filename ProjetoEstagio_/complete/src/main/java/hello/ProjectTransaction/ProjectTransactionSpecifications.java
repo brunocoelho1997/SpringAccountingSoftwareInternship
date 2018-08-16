@@ -54,6 +54,7 @@ public class ProjectTransactionSpecifications {
     public static Specification<ProjectTransaction> filterExecuted(Boolean executed) {
         return (root, query, cb) -> {
             Predicate predicateFinal = null;
+//            query.orderBy(cb.desc(root.get(Transaction_.date)));
             predicateFinal = cb.equal(root.get(Transaction_.executed), executed);
             return predicateFinal;
         };
@@ -180,7 +181,6 @@ public class ProjectTransactionSpecifications {
                     ; //ignore
                 }
             }
-
 
             return predicateFinal;
 

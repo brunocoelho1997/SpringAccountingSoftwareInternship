@@ -16,7 +16,7 @@ public interface SupplierTransactionRepository extends JpaRepository<SupplierTra
     Page<SupplierTransaction> findAll(Pageable pageable);
     Page<SupplierTransaction> findAllByGenre(Pageable pageable, Genre genre);
 
-    Page<SupplierTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
+    Page<SupplierTransaction> findAllByGenreAndExecutedAndActivedOrderByDateDesc(Pageable pageable, Genre genre, boolean executed, boolean actived);
 
     Collection<SupplierTransaction> findAllByGenreAndActivedAndDateAfterAndExecuted(Genre genre, boolean actived, LocalDate dateAfter, Boolean executed);
     Collection<SupplierTransaction> findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore, Boolean executed);

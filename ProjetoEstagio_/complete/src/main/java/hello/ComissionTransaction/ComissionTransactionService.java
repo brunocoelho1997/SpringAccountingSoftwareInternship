@@ -46,14 +46,14 @@ public class ComissionTransactionService {
         if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || projectId != null|| clientId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, projectId, clientId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
     }
 
     private Page<ComissionTransaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, Long projectId, Long clientId, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
         Page<ComissionTransaction> transactionsPage = null;
 
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && projectId == 0&& clientId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
 
         Project project= projectService.getProject(projectId);

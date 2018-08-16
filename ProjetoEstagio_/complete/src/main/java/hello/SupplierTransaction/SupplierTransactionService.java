@@ -60,7 +60,7 @@ public class SupplierTransactionService {
         if(value!= null || frequency!=null || typeValue != null || supplierId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, supplierId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
     }
 
@@ -69,7 +69,7 @@ public class SupplierTransactionService {
         Page<SupplierTransaction> transactionsPage = null;
 
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && supplierId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
         Supplier supplier = supplierService.getSupplier(supplierId);
 

@@ -36,7 +36,7 @@ public class GeneralTransactionService {
 
 
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
 
         Specification<GeneralTransaction> specFilter = null;
@@ -117,7 +117,7 @@ public class GeneralTransactionService {
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
 
         else
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
 
     }

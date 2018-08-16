@@ -102,7 +102,7 @@ public class ProjectTransactionService {
         if(value!= null || frequency!=null || typeValue != null || projectId != null|| dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, projectId, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
     }
 
@@ -116,7 +116,7 @@ public class ProjectTransactionService {
         Page<ProjectTransaction> transactionsPage = null;
 
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty() && projectId == 0 && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
         Project project = projectService.getProject(projectId);
 //        Specification<ProjectTransaction> specFilter = ProjectTransactionSpecifications.filter(value, frequency, typeValue, subTypeValue, project, dateSince, dateUntil,valueSince, valueUntil, genre);
@@ -192,7 +192,10 @@ public class ProjectTransactionService {
             specFilter = ProjectTransactionSpecifications.filterGenre(genre);
         else
             specFilter = specFilter.and(ProjectTransactionSpecifications.filterGenre(genre));
+
+
         transactionsPage = repository.findAll(specFilter, pageable);
+
 
 
         return transactionsPage;

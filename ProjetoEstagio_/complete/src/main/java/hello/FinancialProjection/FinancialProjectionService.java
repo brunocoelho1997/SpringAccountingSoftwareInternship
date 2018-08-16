@@ -88,7 +88,7 @@ public class FinancialProjectionService {
         if(value!= null || frequency!=null || typeValue != null || subTypeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return transactionRepository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
     }
 
     private Page<Transaction> filterTransactions(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
@@ -96,7 +96,7 @@ public class FinancialProjectionService {
         Page<Transaction> transactionsPage = null;
 
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty()&& deletedEntities==null)
-            return transactionRepository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return transactionRepository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
         Specification<Transaction> specFilter = null;
 

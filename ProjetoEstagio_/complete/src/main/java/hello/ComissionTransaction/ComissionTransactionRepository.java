@@ -15,7 +15,7 @@ public interface ComissionTransactionRepository extends JpaRepository<ComissionT
 
     ComissionTransaction findById(long id);
     Page<ComissionTransaction> findAll(Pageable pageable);
-    Page<ComissionTransaction> findAllByGenreAndExecutedAndActived(Pageable pageable, Genre genre, boolean executed, boolean actived);
+    Page<ComissionTransaction> findAllByGenreAndExecutedAndActivedOrderByDateDesc(Pageable pageable, Genre genre, boolean executed, boolean actived);
 
     Collection<ComissionTransaction> findAllByGenreAndActivedAndDateAfterAndExecuted(Genre genre, boolean actived, LocalDate dateAfter, boolean executed);
     Collection<ComissionTransaction> findAllByGenreAndActivedAndDateAfterAndDateBeforeAndExecuted(Genre genre, boolean actived, LocalDate dateAfter, LocalDate dateBefore,boolean executed);

@@ -1198,7 +1198,45 @@ public class DbLoader implements CommandLineRunner {
             comissionTransactionRepository.save(comissionTransaction);
 
 
+            type = new Type();
+            type.setName("Desenvolvimento");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
 
+//            about sale transactiosn
+            SaleTransaction saleTransaction = new SaleTransaction();
+            saleTransaction.setDate(date5);
+            saleTransaction.setName("Licença Software");
+            saleTransaction.setFrequency(Frequency.DAILY);
+            saleTransaction.setValue((float)5002.3);
+            saleTransaction.setGenre(Genre.REVENUE);
+            saleTransaction.setType(type);
+            saleTransaction.setExecuted(false);
+            saleTransaction.setCurrency(brlCurrency);
+            saleTransactionRepository.save(saleTransaction);
+
+            type = new Type();
+            type.setName("Desenvolvimento");
+            type.setCategory(Category.PROJECTS);
+            typeRepository.save(type);
+
+            type.setSubTypeList(new ArrayList<>());
+            type.getSubTypeList().add(subType2);
+            type.getSubTypeList().add(subType3);
+            typeRepository.save(type);
+
+            ProjectTransaction projectTransaction = new ProjectTransaction();
+            projectTransaction.setDate(date5);
+            projectTransaction.setName("Pagamento de desenvolvimento");
+            projectTransaction.setFrequency(Frequency.DAILY);
+            projectTransaction.setValue((float)2424.3);
+            projectTransaction.setProject(project1);
+            projectTransaction.setGenre(Genre.REVENUE);
+            projectTransaction.setInstallments(5);
+            projectTransaction.setType(type);
+            projectTransaction.setExecuted(false);
+            projectTransaction.setCurrency(brlCurrency);
+            projectTransactionRepository.save(projectTransaction);
             /*
             -
             -

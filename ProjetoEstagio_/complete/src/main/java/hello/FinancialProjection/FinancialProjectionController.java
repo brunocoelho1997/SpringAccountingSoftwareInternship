@@ -123,7 +123,10 @@ public class FinancialProjectionController {
 
         financialProjectionService.aproveTransaction(financialProjectionValidated);
 
-        return "redirect:/financial_projection/costs";
+        if(financialProjectionValidated.getGenre().equals(Genre.REVENUE))
+            return "redirect:/financial_projection/revenues";
+        else
+            return "redirect:/financial_projection/costs";
 
     }
 
@@ -262,9 +265,9 @@ public class FinancialProjectionController {
         financialProjectionService.editTransaction(transaction);
 
         if(transaction.getGenre().equals(Genre.REVENUE))
-            return "redirect:/financial_projection/revenue";
+            return "redirect:/financial_projection/revenues";
         else
-            return "redirect:/financial_projection/cost";
+            return "redirect:/financial_projection/costs";
 
     }
 

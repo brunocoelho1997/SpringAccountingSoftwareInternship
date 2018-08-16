@@ -1,6 +1,7 @@
 package hello.FinancialProjection.Resources;
 
 import hello.Employee.Employee;
+import hello.Enums.Genre;
 import hello.SheetTransaction.Resources.HoursPerProject;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,6 +19,8 @@ public class FinancialProjectionValidated {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
+    private Genre genre;
 
     public Long getId() {
         return id;
@@ -49,6 +52,14 @@ public class FinancialProjectionValidated {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     @Override

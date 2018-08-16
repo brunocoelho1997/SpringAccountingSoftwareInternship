@@ -35,7 +35,7 @@ public class SaleTransactionService {
         Page<SaleTransaction> transactionsPage = null;
 
         if(value.isEmpty() && frequency.isEmpty() && typeValue.isEmpty()&& subTypeValue.isEmpty() && dateSince.isEmpty()&& dateUntil.isEmpty()&& valueSince.isEmpty() && valueUntil.isEmpty() && deletedEntities==null)
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
 
         Specification<SaleTransaction> specFilter = null;
@@ -119,7 +119,7 @@ public class SaleTransactionService {
         if(value!= null || frequency!=null || typeValue != null || dateSince != null|| dateUntil != null|| valueSince != null|| valueUntil != null || deletedEntities != null)
             return filterTransactions(pageable, value, frequency, typeValue, subTypeValue, dateSince, dateUntil, valueSince, valueUntil, deletedEntities, genre, executed);
         else
-            return repository.findAllByGenreAndExecutedAndActived(pageable, genre, executed, true);
+            return repository.findAllByGenreAndExecutedAndActivedOrderByDateDesc(pageable, genre, executed, true);
 
 
     }
