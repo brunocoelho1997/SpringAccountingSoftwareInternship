@@ -77,3 +77,14 @@ $('#addContact').click(function() {
     numberContacts++;
     return false;
 });
+
+//Remove contact
+$(document).on('click', '#removeContact', function() {
+    if (numberContacts > 1)
+    {
+        $('#listContacts>tr:last-child').before().remove();
+        $('#listContacts>tr:last-child').remove();
+        numberContacts--;
+    }
+    return false;
+});
