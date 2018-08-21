@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header" th:if="${supplier !=null}">
-                    <h1 th:text="#{Client.Info.Header}" th:remove="tag" />
+                    <h1 th:text="#{Supplier.Info.Header}" th:remove="tag" />
                     <label th:text="${supplier.getName()}"/>
                 </h1>
                 <h1 class="page-header" th:unless="${supplier!=null}"> <label th:text="#{Supplier.NotFound}"/></h1>

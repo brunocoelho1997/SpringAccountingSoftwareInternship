@@ -41,6 +41,10 @@
                                 <span th:text="${employee.getEmail()}"></span>
                             </div>
                             <div>
+                                <span th:text="#{Person.NumberPhone}">title</span>:
+                                <span th:text="${employee.getNumberPhone()}"></span>
+                            </div>
+                            <div>
                                 <span th:text="#{Employee.Post}">title</span>:
                                 <span th:text="${employee.getPostEmployee().getName()}"></span>
                             </div>

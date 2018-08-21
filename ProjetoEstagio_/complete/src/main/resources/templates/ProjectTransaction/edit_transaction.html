@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header" th:if="${transaction !=null}">
-                    <h1 th:text="#{Transactions.Revenue.Edit}" th:remove="tag" />
+                    <h1 th:text="${transaction.getGenre() == T(hello.Enums.Genre).REVENUE} ? #{Transactions.Projects.Revenue.Header} : #{Transactions.Projects.Cost.Header}" th:remove="tag" />
                     <label th:text="${transaction.getName()}"/>
                 </h1>
                 <h1 class="page-header" th:unless="${transaction!=null}"> <label th:text="#{Transactions.NotFound}"/></h1>
@@ -19,7 +19,7 @@
         <div class="row" th:if="${transaction != null}">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" th:text="#{Transactions.Revenue.Edit}"> Adicionar
+                    <div class="panel-heading" th:text="${transaction.getGenre() == T(hello.Enums.Genre).REVENUE} ? #{Transactions.Revenue.Add} : #{Transactions.Cost.Add}"> Adicionar
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
