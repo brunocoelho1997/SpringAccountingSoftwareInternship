@@ -217,6 +217,11 @@ public class HomeService {
             if(!years.contains(stringYear))
                 years.add(stringYear);
         }
+        for(Transaction transaction : listCosts){
+            String stringYear = String.valueOf(transaction.getDate().getYear());
+            if(!years.contains(stringYear))
+                years.add(stringYear);
+        }
 
         return years;
     }

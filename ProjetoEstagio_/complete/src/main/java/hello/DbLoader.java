@@ -101,7 +101,17 @@ public class DbLoader implements CommandLineRunner {
     @Autowired
     CurrencyRepository currencyRepository;
 
-    @Override
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+
+        @Override
     public void run(String... args) throws Exception {
 
         if(typeRepository.findAll().isEmpty() && subTypeRepository.findAll().isEmpty())
@@ -196,6 +206,12 @@ public class DbLoader implements CommandLineRunner {
             type = new Type();
             type.setCategory(Category.PROJECTS);
             type.setName("COMISSÃO");
+            type.setManuallyCreated(true);
+            typeRepository.save(type);
+
+            type = new Type();
+            type.setCategory(Category.PROJECTS);
+            type.setName("LICENÇA");
             type.setManuallyCreated(true);
             typeRepository.save(type);
 
@@ -391,17 +407,11 @@ public class DbLoader implements CommandLineRunner {
             project1.setContact(contact1);
             project1.setDescription("Descrição1");
             project1.setName("COMPSIS");
+            
 
 
-
-            Random rand = new Random();
-            LocalDate randomDate1 = LocalDate.of(2017,rand.nextInt(11),rand.nextInt(25));
-            LocalDate randomDate2 = LocalDate.of(2017,rand.nextInt(11),rand.nextInt(25));
-
-
-
-            project1.setInitialDate(LocalDate.of(2017,4,rand.nextInt(25)));
-            project1.setFinalDate(LocalDate.of(2018,6,rand.nextInt(25)));
+            project1.setInitialDate(LocalDate.of(2017,getRandomNumberInRange(1,12),getRandomNumberInRange(1,25)));
+            project1.setFinalDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             project1.setScope("Scope1");
             project1.setCostCenter(costCenter1);
 
@@ -414,8 +424,8 @@ public class DbLoader implements CommandLineRunner {
             project2.setName("IMAGEM");
 
 
-            project2.setInitialDate(LocalDate.of(2017,rand.nextInt(11),rand.nextInt(25)));
-            project2.setFinalDate(LocalDate.of(2018,rand.nextInt(11),rand.nextInt(25)));
+            project2.setInitialDate(LocalDate.of(2017,getRandomNumberInRange(1,12),getRandomNumberInRange(1,25)));
+            project2.setFinalDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             project2.setScope("Scope1");
             project2.setCostCenter(costCenter1);
 
@@ -438,7 +448,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type14);
 
             ProjectTransaction projectTransaction1 = new ProjectTransaction();
-            projectTransaction1.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            projectTransaction1.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             projectTransaction1.setName("Manutenção Serviço XPTO");
             projectTransaction1.setFrequency(Frequency.DAILY);
             projectTransaction1.setValue((float)25850.3);
@@ -455,7 +465,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type15);
 
             ProjectTransaction projectTransaction2 = new ProjectTransaction();
-            projectTransaction2.setDate(randomDate1);
+            projectTransaction2.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             projectTransaction2.setName("Aluguer de base de dados 10GB.");
             projectTransaction2.setFrequency(Frequency.MONTHLY);
             projectTransaction2.setValue((float)2135.3);
@@ -474,7 +484,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type14);
 
             ProjectTransaction projectTransaction3 = new ProjectTransaction();
-            projectTransaction3.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            projectTransaction3.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             projectTransaction3.setName("Correção de Erros");
             projectTransaction3.setDescription("Correção de alguns erros - Projeto ainda em garantia.");
             projectTransaction3.setFrequency(Frequency.DAILY);
@@ -496,7 +506,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type17);
 
             ProjectTransaction projectTransaction4 = new ProjectTransaction();
-            projectTransaction4.setDate(randomDate1);
+            projectTransaction4.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             projectTransaction4.setName("APP Android XPTO.");
             projectTransaction4.setFrequency(Frequency.DAILY);
             projectTransaction4.setValue((float)9461.9);
@@ -518,7 +528,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type18);
 
             ProjectTransaction projectTransaction5 = new ProjectTransaction();
-            projectTransaction5.setDate(randomDate1);
+            projectTransaction5.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             projectTransaction5.setName("REST Service");
             projectTransaction5.setFrequency(Frequency.DAILY);
             projectTransaction5.setValue((float)15000.2);
@@ -540,7 +550,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type19);
 
             ProjectTransaction projectTransaction6 = new ProjectTransaction();
-            projectTransaction6.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            projectTransaction6.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             projectTransaction6.setName("Alteração Estrutura");
             projectTransaction6.setDescription("Alteração base do projeto. Tinha problemas de eficiência.");
             projectTransaction6.setFrequency(Frequency.DAILY);
@@ -562,7 +572,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             ProjectTransaction projectTransaction7 = new ProjectTransaction();
-            projectTransaction7.setDate(randomDate1);
+            projectTransaction7.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             projectTransaction7.setName("Alteração na base de dados");
             projectTransaction7.setDescription("Pequena alteração na base de dados. Convenções estavam incorretas.");
             projectTransaction7.setFrequency(Frequency.DAILY);
@@ -780,7 +790,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             EmployeeTransaction employeeTransaction1 = new EmployeeTransaction();
-            employeeTransaction1.setDate(randomDate1);
+            employeeTransaction1.setDate(LocalDate.of(2017,getRandomNumberInRange(8,12),getRandomNumberInRange(1,25)));
             employeeTransaction1.setName("RETIRADA XPTO");
             employeeTransaction1.setFrequency(Frequency.DAILY);
             employeeTransaction1.setValue((float)244.1);
@@ -797,7 +807,7 @@ public class DbLoader implements CommandLineRunner {
 
 
             EmployeeTransaction employeeTransaction2 = new EmployeeTransaction();
-            employeeTransaction2.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            employeeTransaction2.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             employeeTransaction2.setName("CONVÊNIO");
             employeeTransaction2.setFrequency(Frequency.DAILY);
             employeeTransaction2.setValue((float)1104.3);
@@ -822,7 +832,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             EmployeeTransaction employeeTransaction3 = new EmployeeTransaction();
-            employeeTransaction3.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            employeeTransaction3.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             employeeTransaction3.setName("SEGURO POR MOTIVO X");
             employeeTransaction3.setDescription("SEGURO POR MOTIVO X. CAIO se magoou.");
             employeeTransaction3.setFrequency(Frequency.DAILY);
@@ -859,21 +869,16 @@ public class DbLoader implements CommandLineRunner {
 
 
             Type type20 = new Type();
-            type20.setName("DESENVOLVIMENTO");
+            type20.setName("LICENÇA");
             type20.setCategory(Category.PROJECTS);
-            typeRepository.save(type20);
-
-            type20.setSubTypeList(new ArrayList<>());
-            type20.getSubTypeList().add(subType2);
-            type20.getSubTypeList().add(subType3);
             typeRepository.save(type20);
 
 //            about sale transactiosn
             SaleTransaction saleTransaction1 = new SaleTransaction();
-            saleTransaction1.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
-            saleTransaction1.setName("Receita de Venda 1");
-            saleTransaction1.setFrequency(Frequency.DAILY);
-            saleTransaction1.setValue((float)20.3);
+            saleTransaction1.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
+            saleTransaction1.setName("Licença mensal");
+            saleTransaction1.setFrequency(Frequency.MONTHLY);
+            saleTransaction1.setValue((float)120.3);
             saleTransaction1.setGenre(Genre.REVENUE);
             saleTransaction1.setType(type20);
             saleTransaction1.setExecuted(true);
@@ -887,8 +892,8 @@ public class DbLoader implements CommandLineRunner {
 
 
             SaleTransaction saleTransaction2 = new SaleTransaction();
-            saleTransaction2.setDate(randomDate1);
-            saleTransaction2.setName("Receita de Venda 2");
+            saleTransaction2.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
+            saleTransaction2.setName("Manutenção em software");
             saleTransaction2.setFrequency(Frequency.MONTHLY);
             saleTransaction2.setValue((float)110.3);
             saleTransaction2.setGenre(Genre.REVENUE);
@@ -899,29 +904,29 @@ public class DbLoader implements CommandLineRunner {
 //            saleTransaction2.getType().setSubType(subType2);
 
 
-            Type type22 = new Type();
-            type22.setName("DESENVOLVIMENTO");
-            type22.setCategory(Category.PROJECTS);
-            typeRepository.save(type22);
-
-            type22.setSubTypeList(new ArrayList<>());
-            type22.getSubTypeList().add(subType2);
-            typeRepository.save(type22);
-
-            SaleTransaction saleTransaction3 = new SaleTransaction();
-            saleTransaction3.setDate(randomDate1);
-            saleTransaction3.setName("Receita de Venda 3");
-            saleTransaction3.setFrequency(Frequency.DAILY);
-            saleTransaction3.setValue((float)10.1);
-            saleTransaction3.setGenre(Genre.REVENUE);
-            saleTransaction3.setType(type22);
-            saleTransaction3.setExecuted(true);
-            saleTransaction3.setCurrency(brlCurrency);
+//            Type type22 = new Type();
+//            type22.setName("DESENVOLVIMENTO");
+//            type22.setCategory(Category.PROJECTS);
+//            typeRepository.save(type22);
+//
+//            type22.setSubTypeList(new ArrayList<>());
+//            type22.getSubTypeList().add(subType2);
+//            typeRepository.save(type22);
+//
+//            SaleTransaction saleTransaction3 = new SaleTransaction();
+//            saleTransaction3.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
+//            saleTransaction3.setName("Receita de Venda 3");
+//            saleTransaction3.setFrequency(Frequency.DAILY);
+//            saleTransaction3.setValue((float)10.1);
+//            saleTransaction3.setGenre(Genre.REVENUE);
+//            saleTransaction3.setType(type22);
+//            saleTransaction3.setExecuted(true);
+//            saleTransaction3.setCurrency(brlCurrency);
 
 
             saleTransactionRepository.save(saleTransaction1);
             saleTransactionRepository.save(saleTransaction2);
-            saleTransactionRepository.save(saleTransaction3);
+//            saleTransactionRepository.save(saleTransaction3);
 
 
 
@@ -932,7 +937,7 @@ public class DbLoader implements CommandLineRunner {
 
 //            about general transactiosn
             GeneralTransaction generalTransaction1 = new GeneralTransaction();
-            generalTransaction1.setDate(randomDate1);
+            generalTransaction1.setDate(LocalDate.of(2017,getRandomNumberInRange(8,12),getRandomNumberInRange(1,25)));
             generalTransaction1.setName("ISS SP PDQ");
             generalTransaction1.setFrequency(Frequency.DAILY);
             generalTransaction1.setValue((float)1096.3);
@@ -948,7 +953,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             GeneralTransaction generalTransaction2 = new GeneralTransaction();
-            generalTransaction2.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            generalTransaction2.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             generalTransaction2.setName("CHURRASCO");
             generalTransaction2.setFrequency(Frequency.MONTHLY);
             generalTransaction2.setValue((float)110.3);
@@ -965,7 +970,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             GeneralTransaction generalTransaction3 = new GeneralTransaction();
-            generalTransaction3.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            generalTransaction3.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             generalTransaction3.setName("DAS MURALIS");
             generalTransaction3.setFrequency(Frequency.DAILY);
             generalTransaction3.setValue((float)2381.1);
@@ -987,10 +992,10 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             SheetTransaction sheetTransaction1 = new SheetTransaction();
-            sheetTransaction1.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            sheetTransaction1.setDate(LocalDate.of(2017,getRandomNumberInRange(8,12),getRandomNumberInRange(1,25)));
             sheetTransaction1.setName("SINDICATO");
             sheetTransaction1.setFrequency(Frequency.DAILY);
-            sheetTransaction1.setValue((float)17.1);
+            sheetTransaction1.setValue((float)87.1);
             sheetTransaction1.setGenre(Genre.COST);
             sheetTransaction1.setType(type);
             sheetTransaction1.setEmployee(employee1);
@@ -1005,10 +1010,10 @@ public class DbLoader implements CommandLineRunner {
 
 
             SheetTransaction sheetTransaction2 = new SheetTransaction();
-            sheetTransaction2.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            sheetTransaction2.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             sheetTransaction2.setName("IR");
             sheetTransaction2.setFrequency(Frequency.DAILY);
-            sheetTransaction2.setValue((float)10.1);
+            sheetTransaction2.setValue((float)30.1);
             sheetTransaction2.setGenre(Genre.COST);
             sheetTransaction2.setType(type);
             sheetTransaction2.setEmployee(employee2);
@@ -1029,10 +1034,10 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             SheetTransaction sheetTransaction3 = new SheetTransaction();
-            sheetTransaction3.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            sheetTransaction3.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             sheetTransaction3.setName("SALÁRIO DE NAKASATO");
             sheetTransaction3.setFrequency(Frequency.DAILY);
-            sheetTransaction3.setValue((float)110.1);
+            sheetTransaction3.setValue((float)1010.1);
             sheetTransaction3.setGenre(Genre.COST);
             sheetTransaction3.setType(type);
 //            sheetTransaction3.getType().setSubType(subType1);
@@ -1072,7 +1077,7 @@ public class DbLoader implements CommandLineRunner {
 
 
             SheetTransaction sheetTransaction4 = new SheetTransaction();
-            sheetTransaction4.setDate(LocalDate.now().plusDays(1));
+            sheetTransaction4.setDate(LocalDate.now().plusDays(5));
             sheetTransaction4.setName("CAIO");
             sheetTransaction4.setFrequency(Frequency.MONTHLY);
             sheetTransaction4.setValue((float)3300.1);
@@ -1098,7 +1103,8 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             SheetTransaction sheetTransaction5 = new SheetTransaction();
-            sheetTransaction5.setDate(LocalDate.of(2018,8,23));
+            sheetTransaction5.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
+
             sheetTransaction5.setName("Premio Outubro NASAKO");
             sheetTransaction5.setFrequency(Frequency.SEMESTER);
             sheetTransaction5.setValue((float)211.1);
@@ -1123,7 +1129,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             GeneralTransaction generalTransaction4 = new GeneralTransaction();
-            generalTransaction4.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            generalTransaction4.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             generalTransaction4.setName("ISSP SP PDQ");
             generalTransaction4.setFrequency(Frequency.MONTHLY);
             generalTransaction4.setValue((float)1069.1);
@@ -1152,7 +1158,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type10);
 
             EmployeeTransaction employeeTransaction4 = new EmployeeTransaction();
-            employeeTransaction4.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            employeeTransaction4.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             employeeTransaction4.setName("SPOTIFY");
             employeeTransaction4.setFrequency(Frequency.DAILY);
             employeeTransaction4.setValue((float)68.3);
@@ -1195,7 +1201,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type11);
 
             ProjectTransaction projectTransaction9 = new ProjectTransaction();
-            projectTransaction9.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            projectTransaction9.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             projectTransaction9.setName("Aluguer Base Dados");
             projectTransaction9.setFrequency(Frequency.DAILY);
             projectTransaction9.setValue((float)2424.3);
@@ -1211,7 +1217,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             ProjectTransaction projectTransaction8 = new ProjectTransaction();
-            projectTransaction8.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            projectTransaction8.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             projectTransaction8.setName("Futura manutenção - Garantia");
             projectTransaction8.setFrequency(Frequency.DAILY);
             projectTransaction8.setValue((float)110.1);
@@ -1232,7 +1238,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             SupplierTransaction supplierTransaction = new SupplierTransaction();
-            supplierTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            supplierTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             supplierTransaction.setName("Serviço E-mail");
             supplierTransaction.setFrequency(Frequency.DAILY);
             supplierTransaction.setValue((float)528.3);
@@ -1252,7 +1258,7 @@ public class DbLoader implements CommandLineRunner {
 
 
             ComissionTransaction comissionTransaction= new ComissionTransaction();
-            comissionTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            comissionTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             comissionTransaction.setName("PARA KALL-COMPSIS");
             comissionTransaction.setFrequency(Frequency.DAILY);
             comissionTransaction.setValue((float)2025.4);
@@ -1278,7 +1284,7 @@ public class DbLoader implements CommandLineRunner {
 
 //            about sale transactiosn
             SaleTransaction saleTransaction = new SaleTransaction();
-            saleTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            saleTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             saleTransaction.setName("Licença Software");
             saleTransaction.setFrequency(Frequency.DAILY);
             saleTransaction.setValue((float)5002.3);
@@ -1300,7 +1306,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             ProjectTransaction projectTransaction = new ProjectTransaction();
-            projectTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            projectTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(LocalDate.now().getMonthValue(), 12),getRandomNumberInRange(1,25)));
             projectTransaction.setName("Pagamento de desenvolvimento");
             projectTransaction.setFrequency(Frequency.DAILY);
             projectTransaction.setValue((float)2424.3);
@@ -1349,7 +1355,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             supplierTransaction = new SupplierTransaction();
-            supplierTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            supplierTransaction.setDate(LocalDate.of(2017,getRandomNumberInRange(5,12),getRandomNumberInRange(1,25)));
             supplierTransaction.setName("HD E CASE ZÉ");
             supplierTransaction.setFrequency(Frequency.DAILY);
             supplierTransaction.setValue((float)285.32);
@@ -1359,6 +1365,23 @@ public class DbLoader implements CommandLineRunner {
             supplierTransaction.setExecuted(true);
             supplierTransaction.setCurrency(brlCurrency);
             supplierTransactionRepository.save(supplierTransaction);
+
+            type.setSubTypeList(new ArrayList<>());
+            type.getSubTypeList().add(subType2);
+            typeRepository.save(type);
+
+            supplierTransaction = new SupplierTransaction();
+            supplierTransaction.setDate(LocalDate.of(2017,getRandomNumberInRange(5,12),getRandomNumberInRange(1,25)));
+            supplierTransaction.setName("HD E CASE CAIO");
+            supplierTransaction.setFrequency(Frequency.DAILY);
+            supplierTransaction.setValue((float)285.32);
+            supplierTransaction.setSupplier(supplier3);
+            supplierTransaction.setGenre(Genre.COST);
+            supplierTransaction.setType(type);
+            supplierTransaction.setExecuted(true);
+            supplierTransaction.setCurrency(brlCurrency);
+            supplierTransactionRepository.save(supplierTransaction);
+
 
             type = new Type();
             type.setName("INVESTIMENTO");
@@ -1371,7 +1394,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             supplierTransaction = new SupplierTransaction();
-            supplierTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            supplierTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             supplierTransaction.setName("LIXEIRA COZINHA");
             supplierTransaction.setFrequency(Frequency.DAILY);
             supplierTransaction.setValue((float)148.3);
@@ -1388,7 +1411,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             supplierTransaction = new SupplierTransaction();
-            supplierTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            supplierTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             supplierTransaction.setName("TELEFONE");
             supplierTransaction.setFrequency(Frequency.MONTHLY);
             supplierTransaction.setValue((float)82.3);
@@ -1422,7 +1445,7 @@ public class DbLoader implements CommandLineRunner {
             typeRepository.save(type);
 
             comissionTransaction= new ComissionTransaction();
-            comissionTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            comissionTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             comissionTransaction.setName("PARA KALL-COMPSIS");
             comissionTransaction.setFrequency(Frequency.DAILY);
             comissionTransaction.setValue((float)2025.4);
@@ -1439,9 +1462,9 @@ public class DbLoader implements CommandLineRunner {
             type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
-
+            
             comissionTransaction= new ComissionTransaction();
-            comissionTransaction.setDate(LocalDate.of(2018,2,rand.nextInt(25)));
+            comissionTransaction.setDate(LocalDate.of(2018,getRandomNumberInRange(1,LocalDate.now().getMonthValue()),getRandomNumberInRange(1,25)));
             comissionTransaction.setName("PARA KALL-IMAGEM");
             comissionTransaction.setFrequency(Frequency.DAILY);
             comissionTransaction.setValue((float)1971.25);
