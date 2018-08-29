@@ -68,4 +68,15 @@ public class TypeSpecifications {
 
         };
     }
+
+    public static Specification<Type> filterManuallyCreated(Boolean manuallyCreated) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Type_.manuallyCreated), manuallyCreated);
+
+            return predicateFinal;
+
+        };
+    }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 public class Type_ {
 
     public static volatile SingularAttribute<Type, String> name;
+    public static volatile SingularAttribute<Type, Boolean> manuallyCreated;
+
     public static volatile SingularAttribute<Type, List<SubType>> subTypeList;
 
 }

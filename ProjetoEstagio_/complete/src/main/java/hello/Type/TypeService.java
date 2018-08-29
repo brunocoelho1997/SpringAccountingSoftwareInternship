@@ -148,6 +148,11 @@ public class TypeService {
             specFilter = specFilter.and(TypeSpecifications.filterDeleletedEntities(deletedEntities));
 
 
+        if(specFilter==null)
+            specFilter = TypeSpecifications.filterManuallyCreated(true);
+        else
+            specFilter = specFilter.and(TypeSpecifications.filterManuallyCreated(true));
+
         page = repository.findAll(specFilter, pageable);
 
         return page;
