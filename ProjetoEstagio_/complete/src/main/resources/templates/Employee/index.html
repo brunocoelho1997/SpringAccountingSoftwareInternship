@@ -23,7 +23,14 @@
                             <span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>
                         </div>
                     </div>
-                    <div class="col-sm-8"></div>
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-1">
+                        <label> Eliminados</label>
+                        <label class="switch">
+                            <input type="checkbox" name = "switch_deleted_entities" th:checked="${switch_deleted_entities}" onclick="$(form).submit()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -58,7 +65,8 @@
                                         <td href="#" th:text="${e.getName()}"></td>
                                         <td th:text="${e.getEmail()}">1</td>
                                         <td class="center">
-                                            <a class="btn btn-default trash pull-right" th:employee-id="${e.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default trash pull-right" th:if="${e.actived==true}" th:entity-id="${e.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default recovery pull-right" th:if="${e.actived==false}" th:entity-id="${e.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/employee/edit_employee(id=${e.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/employee/info_employee(id=${e.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                         </td>
@@ -86,7 +94,7 @@
 
             var opt = {
                 type: 'GET',
-                url: '/employee/remove_employee?id=' + $(this).attr('employee-id')
+                url: '/employee/remove_employee?id=' + $(this).attr('entity-id')
             }
 
             // alert(JSON.stringify(opt));
@@ -101,19 +109,51 @@
 
     });
 
+    $('a.recovery').click(function (e) {
+
+        var opt = {
+            type: 'GET',
+            url: '/employee/recovery_entity?id=' + $(this).attr('entity-id')
+        }
+
+        // alert(JSON.stringify(opt));
+
+        $.ajax(opt).done(function (result) {
+            $('#modal-content').html(result);
+            $('#recovery-modal').modal();
+        }).fail(function (jqXHR, textStatus) {
+            alert(textStatus);
+        });
+    });
+
     function deleteEntity(id) {
         $.ajax({
             type: 'DELETE',
             url: '/employee/remove_employee?id=' + id
 
         }).done(function (result) {
-            $('a[employee-id=' + id + ']').closest('tr').remove();
+            $('a[entity-id=' + id + ']').closest('tr').remove();
 
         }).fail(function (jqXHR, textStatus) {
             alert("erro");
         });
 
     }
+
+    function recoveryEntity(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/employee/recovery_entity?id=' + id
+
+        }).done(function (result) {
+            $('a[entity-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+
+    }
+
 </script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>

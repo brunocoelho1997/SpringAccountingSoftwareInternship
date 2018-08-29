@@ -110,12 +110,12 @@ public class TypeService {
 
     public List<Type> getTypesActived(){ return repository.findAllByActived(true); }
 
-    public Page<Type> findAllPageable(Pageable pageable, String value, String category) {
+    public Page<Type> findAllPageable(Pageable pageable, String value, Boolean deletedEntities) {
 
 
         //could receive params to filter de list
-        if(category != null)
-            return filterTypes(pageable, value, category);
+        if(value != null|| deletedEntities != null)
+            return filterTypes(pageable, value, deletedEntities);
 
         else
             return repository.findAllByActivedAndManuallyCreated(pageable, true, true);
@@ -126,16 +126,27 @@ public class TypeService {
 
     }
 
-    public Page<Type> filterTypes(Pageable pageable, String value, String category) {
+    public Page<Type> filterTypes(Pageable pageable, String value, Boolean deletedEntities) {
 
         Page<Type> page = null;
 
-        if(category.isEmpty())
+        if(value.isEmpty()&& deletedEntities==null)
             return repository.findAllByActivedAndManuallyCreated(pageable, true, true);
 
 
-        Specification<Type> specFilter;
-        specFilter= TypeSpecifications.filter(value, category);
+        Specification<Type> specFilter = null;
+
+        if(!value.isEmpty())
+            specFilter= TypeSpecifications.filter(value);
+
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
+
+        if(specFilter==null)
+            specFilter = TypeSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(TypeSpecifications.filterDeleletedEntities(deletedEntities));
+
 
         page = repository.findAll(specFilter, pageable);
 
@@ -295,5 +306,11 @@ public class TypeService {
             }
         }
         return typeList;
+    }
+
+    public void recoveryEntity(Long id) {
+        Type entity = getType(id);
+        entity.setActived(true);
+        repository.save(entity);
     }
 }

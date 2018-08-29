@@ -25,26 +25,37 @@ public class SupplierService {
         return repository.findAllByActived(true);
     }
 
-    public Page<Supplier> findAllPageable(Pageable pageable, String value) {
+    public Page<Supplier> findAllPageable(Pageable pageable, String value, Boolean deletedEntities) {
 
 
         //could receive params to filter de list
-        if(value!= null)
-            return filterEntities(pageable, value);
+        if(value!= null || deletedEntities != null)
+            return filterEntities(pageable, value, deletedEntities);
 
         else
             return repository.findAllByActived(pageable, true);
 
     }
-    public Page<Supplier> filterEntities(Pageable pageable, String value) {
+    public Page<Supplier> filterEntities(Pageable pageable, String value, Boolean deletedEntities) {
 
         Page<Supplier> page = null;
 
-        if(value.isEmpty())
+        if(value.isEmpty() && deletedEntities==null)
             return repository.findAllByActived(pageable, true);
 
-        Specification<Supplier> specFilter;
-        specFilter= SupplierSpecifications.filter(value);
+        Specification<Supplier> specFilter = null;
+
+        if(!value.isEmpty())
+            specFilter= SupplierSpecifications.filter(value);
+
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
+
+        if(specFilter==null)
+            specFilter = SupplierSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(SupplierSpecifications.filterDeleletedEntities(deletedEntities));
+
 
         page = repository.findAll(specFilter, pageable);
 
@@ -74,5 +85,11 @@ public class SupplierService {
         Supplier supplier = getSupplier(id);
         supplier.setActived(false);
         repository.save(supplier);
+    }
+
+    public void recoveryEntity(Long id) {
+        Supplier entity = getSupplier(id);
+        entity.setActived(true);
+        repository.save(entity);
     }
 }

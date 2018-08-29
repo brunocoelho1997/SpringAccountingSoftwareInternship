@@ -68,7 +68,22 @@
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
-                    <a class="col-sm-6" align="right"onclick="$(form).submit()"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
+
+                    <div class="col-sm-5"></div>
+
+                    <div class="col-sm-1">
+                        <label> Eliminados</label>
+                        <label class="switch">
+                            <input type="checkbox" name = "switch_deleted_entities" th:checked="${switch_deleted_entities}">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12" align="right" >
+                        <a  align="right"onclick="$(form).submit()"><button class="btn btn-info" th:text="#{System.Filter}"></button></a>
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -92,7 +107,9 @@
                                         <td href="#" th:text="${p.getFinalDate()}"></td>
                                         <td href="#" th:text="${p.getClient().getName()}"></td>
                                         <td class="center">
-                                            <a class="btn btn-default trash pull-right" th:project-id="${p.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+
+                                            <a class="btn btn-default trash pull-right" th:if="${p.actived==true}" th:entity-id="${p.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default recovery pull-right" th:if="${p.actived==false}" th:entity-id="${p.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/project/edit_project(id=${p.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/project/info_project(id=${p.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                         </td>
@@ -121,7 +138,7 @@
 
             var opt = {
                 type: 'GET',
-                url: '/project/remove_project?id=' + $(this).attr('project-id')
+                url: '/project/remove_project?id=' + $(this).attr('entity-id')
             }
 
             // alert(JSON.stringify(opt));
@@ -136,13 +153,44 @@
 
     });
 
+    $('a.recovery').click(function (e) {
+
+        var opt = {
+            type: 'GET',
+            url: '/project/recovery_entity?id=' + $(this).attr('entity-id')
+        }
+
+        // alert(JSON.stringify(opt));
+
+        $.ajax(opt).done(function (result) {
+            $('#modal-content').html(result);
+            $('#recovery-modal').modal();
+        }).fail(function (jqXHR, textStatus) {
+            alert(textStatus);
+        });
+    });
+
     function deleteEntity(id) {
         $.ajax({
             type: 'DELETE',
             url: '/project/remove_project?id=' + id
 
         }).done(function (result) {
-            $('a[project-id=' + id + ']').closest('tr').remove();
+            $('a[entity-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+
+    }
+
+    function recoveryEntity(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/project/recovery_entity?id=' + id
+
+        }).done(function (result) {
+            $('a[entity-id=' + id + ']').closest('tr').remove();
 
         }).fail(function (jqXHR, textStatus) {
             alert("erro");

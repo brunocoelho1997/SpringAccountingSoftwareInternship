@@ -47,4 +47,15 @@ public class EmployeeSpecifications {
 
         };
     }
+
+    public static Specification<Employee> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
+
+            return predicateFinal;
+
+        };
+    }
 }

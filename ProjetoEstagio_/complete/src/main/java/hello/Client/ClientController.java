@@ -41,7 +41,8 @@ public class ClientController implements WebMvcConfigurer {
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
                                         @RequestParam("page") Optional<Integer> page,
-                                        @RequestParam(name="value_filter", required=false) String value)
+                                        @RequestParam(name="value_filter", required=false) String value,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
     {
         ModelAndView modelAndView = new ModelAndView("Client/index");
 
@@ -55,7 +56,7 @@ public class ClientController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Client> clients= clientService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value);
+        Page<Client> clients= clientService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, deletedEntities);
 
         Pager pager = new Pager(clients.getTotalPages(), clients.getNumber(), BUTTONS_TO_SHOW);
 
@@ -63,6 +64,7 @@ public class ClientController implements WebMvcConfigurer {
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
 
         modelAndView.addObject("value_filter", value);
 
@@ -153,5 +155,19 @@ public class ClientController implements WebMvcConfigurer {
         Client client = clientService.getClient(id);
         model.addAttribute("listContacts", client.getContacts());
         return "Client/contacts_list :: options";
+    }
+
+    @RequestMapping("/recovery_entity")
+    public String recoveryEntity(@RequestParam("id") Long id, Model model) {
+
+        Client entity = clientService.getClient(id);
+        model.addAttribute("entity", entity);
+
+        return "Client/recovery_entity :: modal";
+    }
+    @PostMapping("/recovery_entity")
+    public @ResponseBody String recoveryEntity(@RequestParam("id") Long id) {
+        clientService.recoveryEntity(id);
+        return "redirect:/client/";
     }
 }

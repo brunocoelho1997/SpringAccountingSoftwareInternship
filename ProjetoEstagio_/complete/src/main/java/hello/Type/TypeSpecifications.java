@@ -18,7 +18,7 @@ public class TypeSpecifications {
 //        };
 //    }
 
-    public static Specification<Type> filter(String value, String category) {
+    public static Specification<Type> filter(String value) {
         return (root, query, cb) -> {
 
             Predicate predicateFinal = null;
@@ -55,6 +55,17 @@ public class TypeSpecifications {
             predicateFinal = cb.and(predicateFinal, predicateActived);
 
             return predicateFinal;
+        };
+    }
+
+    public static Specification<Type> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
+
+            return predicateFinal;
+
         };
     }
 }

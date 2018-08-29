@@ -2,6 +2,7 @@ package hello.Client;
 
 import hello.Adress.Adress;
 import hello.Contact.Contact;
+import hello.Employee.EmployeeSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,12 +29,12 @@ public class ClientService {
         return repository.findAllByActived(true);
     }
 
-    public Page<Client> findAllPageable(Pageable pageable, String value) {
+    public Page<Client> findAllPageable(Pageable pageable, String value, Boolean deletedEntities) {
 
 
         //could receive params to filter de list
-        if(value!= null)
-            return filterClients(pageable, value);
+        if(value!= null|| deletedEntities != null)
+            return filterClients(pageable, value, deletedEntities);
 
         else
             return repository.findAllByActived(pageable, true);
@@ -82,19 +83,38 @@ public class ClientService {
         return null;
     }
 
-    public Page<Client> filterClients(Pageable pageable, String value) {
+    public Page<Client> filterClients(Pageable pageable, String value, Boolean deletedEntities) {
 
         Page<Client> page = null;
 
 
-        if(value.isEmpty())
+        if(value.isEmpty() && deletedEntities==null)
             return repository.findAllByActived(pageable, true);
 
-        Specification<Client> specFilter;
-        specFilter= ClientSpecifications.filter(value);
+
+        Specification<Client> specFilter = null;
+
+        if(!value.isEmpty())
+            specFilter= ClientSpecifications.filter(value);
+
+
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
+
+        if(specFilter==null)
+            specFilter = ClientSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(ClientSpecifications.filterDeleletedEntities(deletedEntities));
+
 
         page = repository.findAll(specFilter, pageable);
 
         return page;
+    }
+
+    public void recoveryEntity(Long id) {
+        Client entity = getClient(id);
+        entity.setActived(true);
+        repository.save(entity);
     }
 }

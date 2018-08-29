@@ -25,14 +25,26 @@
                             <span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>
                         </div>
                     </div>
-                    <div class="col-sm-8" align="right">
+
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-1">
+                        <label> Eliminados</label>
+                        <label class="switch">
+                            <input type="checkbox" name = "switch_deleted_entities" th:checked="${switch_deleted_entities}" onclick="$(form).submit()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12" align="right" >
+                        <br>
                         <a th:href="@{/type/add_type}">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal">
                                 <span class="glyphicon glyphicon-plus"></span> <span th:text="#{Type.Add}"></span>
                             </button>
                         </a>
                     </div>
-
                 </div>
                 <br>
                 <div class="row">
@@ -64,7 +76,8 @@
 
 
                                         <td class="center">
-                                            <a class="btn btn-default trash pull-right" th:type-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default trash pull-right" th:if="${c.actived==true}" th:entity-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default recovery pull-right" th:if="${c.actived==false}" th:entity-id="${c.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/type/edit_type(id=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/type/info_type(id=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                         </td>
@@ -94,7 +107,7 @@
 
             var opt = {
                 type: 'GET',
-                url: '/type/remove_type?id=' + $(this).attr('type-id')
+                url: '/type/remove_type?id=' + $(this).attr('entity-id')
             }
 
             // alert(JSON.stringify(opt));
@@ -109,19 +122,50 @@
 
     });
 
+    $('a.recovery').click(function (e) {
+
+        var opt = {
+            type: 'GET',
+            url: '/type/recovery_entity?id=' + $(this).attr('entity-id')
+        }
+
+        // alert(JSON.stringify(opt));
+
+        $.ajax(opt).done(function (result) {
+            $('#modal-content').html(result);
+            $('#recovery-modal').modal();
+        }).fail(function (jqXHR, textStatus) {
+            alert(textStatus);
+        });
+    });
+
     function deleteEntity(id) {
         $.ajax({
             type: 'DELETE',
             url: '/type/remove_type?id=' + id
 
         }).done(function (result) {
-            $('a[type-id=' + id + ']').closest('tr').remove();
+            $('a[entity-id=' + id + ']').closest('tr').remove();
 
         }).fail(function (jqXHR, textStatus) {
             alert("erro");
         });
 
     }
+
+    function recoveryEntity(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/type/recovery_entity?id=' + id
+
+        }).done(function (result) {
+            $('a[entity-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+    }
+
 </script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>

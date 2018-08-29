@@ -84,8 +84,7 @@ public class TypeController implements WebMvcConfigurer {
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
                                         @RequestParam("page") Optional<Integer> page,
                                         @RequestParam(name="value_filter", required=false) String value,
-                                        @RequestParam(name="category", required=false) String category
-    )
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
     {
         ModelAndView modelAndView = new ModelAndView("Type/index");
 
@@ -99,7 +98,7 @@ public class TypeController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Type> subTypes= typeService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, category);
+        Page<Type> subTypes= typeService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, deletedEntities);
 
         Pager pager = new Pager(subTypes.getTotalPages(), subTypes.getNumber(), BUTTONS_TO_SHOW);
 
@@ -107,6 +106,8 @@ public class TypeController implements WebMvcConfigurer {
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
+
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
 
         modelAndView.addObject("value_filter", value);
 
@@ -178,6 +179,18 @@ public class TypeController implements WebMvcConfigurer {
         typeService.removeType(id);
         return "redirect:/type/";
     }
+    @RequestMapping("/recovery_entity")
+    public String recoveryEntity(@RequestParam("id") Long id, Model model) {
 
+        Type entity = typeService.getType(id);
+        model.addAttribute("entity", entity);
+
+        return "Supplier/recovery_entity :: modal";
+    }
+    @PostMapping("/recovery_entity")
+    public @ResponseBody String recoveryEntity(@RequestParam("id") Long id) {
+        typeService.recoveryEntity(id);
+        return "redirect:/supplier/";
+    }
 
 }

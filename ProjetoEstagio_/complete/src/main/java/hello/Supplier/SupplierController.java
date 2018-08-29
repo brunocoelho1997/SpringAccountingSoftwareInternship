@@ -30,7 +30,9 @@ public class SupplierController {
     @GetMapping("/")
     public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
                                         @RequestParam("page") Optional<Integer> page,
-                                        @RequestParam(name="value_filter", required=false) String value)
+                                        @RequestParam(name="value_filter", required=false) String value,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
+
     {
         ModelAndView modelAndView = new ModelAndView("Supplier/index");
 
@@ -44,7 +46,7 @@ public class SupplierController {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Supplier> persons= supplierService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value);
+        Page<Supplier> persons= supplierService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, deletedEntities);
 
         Pager pager = new Pager(persons.getTotalPages(), persons.getNumber(), BUTTONS_TO_SHOW);
 
@@ -52,6 +54,8 @@ public class SupplierController {
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
+
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
 
         modelAndView.addObject("value_filter", value);
 
@@ -123,6 +127,20 @@ public class SupplierController {
     @DeleteMapping("/remove_supplier")
     public @ResponseBody String removeSupplier(@RequestParam("id") Long id) {
         supplierService.removeSupplier(id);
+        return "redirect:/supplier/";
+    }
+
+    @RequestMapping("/recovery_entity")
+    public String recoveryEntity(@RequestParam("id") Long id, Model model) {
+
+        Supplier entity = supplierService.getSupplier(id);
+        model.addAttribute("entity", entity);
+
+        return "Supplier/recovery_entity :: modal";
+    }
+    @PostMapping("/recovery_entity")
+    public @ResponseBody String recoveryEntity(@RequestParam("id") Long id) {
+        supplierService.recoveryEntity(id);
         return "redirect:/supplier/";
     }
 }

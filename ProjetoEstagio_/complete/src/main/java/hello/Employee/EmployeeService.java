@@ -1,5 +1,6 @@
 package hello.Employee;
 
+import hello.Supplier.SupplierSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,27 +15,38 @@ public class EmployeeService{
     @Autowired
     EmployeeRepository repository;
 
-    public Page<Employee> findAllPageable(Pageable pageable, String value) {
+    public Page<Employee> findAllPageable(Pageable pageable, String value, Boolean deletedEntities) {
 
 
         //could receive params to filter de list
-        if(value!= null)
-            return filterEmployees(pageable, value);
+        if(value!= null || deletedEntities != null)
+            return filterEmployees(pageable, value, deletedEntities);
 
         else
             return repository.findAllByActived(pageable, true);
 
     }
-    public Page<Employee> filterEmployees(Pageable pageable, String value) {
+    public Page<Employee> filterEmployees(Pageable pageable, String value, Boolean deletedEntities) {
 
         Page<Employee> page = null;
 
 
-        if(value.isEmpty())
+        if(value.isEmpty() && deletedEntities==null)
             return repository.findAllByActived(pageable, true);
 
-        Specification<Employee> specFilter;
-        specFilter= EmployeeSpecifications.filter(value);
+        Specification<Employee> specFilter = null;
+
+        if(!value.isEmpty())
+            specFilter= EmployeeSpecifications.filter(value);
+
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
+
+        if(specFilter==null)
+            specFilter = EmployeeSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(EmployeeSpecifications.filterDeleletedEntities(deletedEntities));
+
 
         page = repository.findAll(specFilter, pageable);
 
@@ -77,4 +89,9 @@ public class EmployeeService{
         return repository.findAllByActived(true);
     }
 
+    public void recoveryEntity(Long id) {
+        Employee entity = getEmployee(id);
+        entity.setActived(true);
+        repository.save(entity);
+    }
 }

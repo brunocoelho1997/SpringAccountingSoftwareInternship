@@ -52,7 +52,8 @@ public class ProjectController implements WebMvcConfigurer {
                                         @RequestParam(name="value_filter", required=false) String value,
                                         @RequestParam(name="date_since", required=false) String dateSince,
                                         @RequestParam(name="date_until", required=false) String dateUntil,
-                                        @RequestParam(name="client_id", required=false) Long clientId)
+                                        @RequestParam(name="client_id", required=false) Long clientId,
+                                        @RequestParam(name="switch_deleted_entities", required=false) Boolean deletedEntities)
     {
         ModelAndView modelAndView = new ModelAndView("Project/index");
 
@@ -66,7 +67,7 @@ public class ProjectController implements WebMvcConfigurer {
         // param. decreased by 1.
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Project> projects= projectService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, dateSince, dateUntil,clientId);
+        Page<Project> projects= projectService.findAllPageable(PageRequest.of(evalPage, evalPageSize), value, dateSince, dateUntil,clientId, deletedEntities);
 
         Pager pager = new Pager(projects.getTotalPages(), projects.getNumber(), BUTTONS_TO_SHOW);
 
@@ -75,7 +76,7 @@ public class ProjectController implements WebMvcConfigurer {
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pager);
-
+        modelAndView.addObject("switch_deleted_entities", deletedEntities);
         modelAndView.addObject("value_filter", value);
         modelAndView.addObject("date_since", dateSince);
         modelAndView.addObject("date_until", dateUntil);
@@ -175,4 +176,17 @@ public class ProjectController implements WebMvcConfigurer {
         return "Project/options_project :: options";
     }
 
+    @RequestMapping("/recovery_entity")
+    public String recoveryEntity(@RequestParam("id") Long id, Model model) {
+
+        Project entity = projectService.getProject(id);
+        model.addAttribute("entity", entity);
+
+        return "Project/recovery_entity :: modal";
+    }
+    @PostMapping("/recovery_entity")
+    public @ResponseBody String recoveryEntity(@RequestParam("id") Long id) {
+        projectService.recoveryEntity(id);
+        return "redirect:/project/";
+    }
 }

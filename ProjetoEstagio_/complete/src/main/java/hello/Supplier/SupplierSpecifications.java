@@ -1,6 +1,7 @@
 package hello.Supplier;
 
 import hello.Employee.Employee;
+import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.EntityPackage.Entity_;
 import hello.Person.Person_;
 import org.springframework.data.jpa.domain.Specification;
@@ -42,6 +43,17 @@ public class SupplierSpecifications {
             predicateActived = cb.equal(root.get(Entity_.actived), true);
             predicateFinal = cb.and(predicateFinal, predicateActived);
 
+
+            return predicateFinal;
+
+        };
+    }
+
+    public static Specification<Supplier> filterDeleletedEntities(Boolean deletedEntities) {
+        return (root, query, cb) -> {
+            Predicate predicateFinal = null;
+
+            predicateFinal = cb.equal(root.get(Entity_.actived), !(deletedEntities));
 
             return predicateFinal;
 

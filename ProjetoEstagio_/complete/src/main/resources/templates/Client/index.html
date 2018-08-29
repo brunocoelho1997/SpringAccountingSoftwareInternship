@@ -25,14 +25,26 @@
                             <span class="input-group-addon"><a onclick="$(form).submit()"><i class="glyphicon glyphicon-search"></i></a></span>
                         </div>
                     </div>
-                    <div class="col-sm-8" align="right">
+                    <div class="col-sm-7"></div>
+
+                    <div class="col-sm-1">
+                        <label> Eliminados</label>
+                        <label class="switch">
+                            <input type="checkbox" name = "switch_deleted_entities" th:checked="${switch_deleted_entities}" onclick="$(form).submit()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12" align="right" >
+                        <br>
                         <a th:href="@{/client/add_client}">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal">
                                 <span class="glyphicon glyphicon-plus"></span> <span th:text="#{Client.Add}"></span>
                             </button>
                         </a>
                     </div>
-
                 </div>
                 <br>
                 <div class="row">
@@ -56,7 +68,8 @@
                                         <td href="#" th:text="${c.getRegistrationCode()}"></td>
                                         <td th:text="${c.name}">1</td>
                                         <td class="center">
-                                            <a class="btn btn-default trash pull-right" th:client-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default trash pull-right" th:if="${c.actived==true}" th:entity-id="${c.getId()}" ><i class="glyphicon glyphicon-remove"></i></a>
+                                            <a class="btn btn-default recovery pull-right" th:if="${c.actived==false}" th:entity-id="${c.getId()}" ><i class="glyphicon glyphicon-repeat"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/client/edit_client(id=${c.getId()})}"><i class="fa fa-gear fa-fw"></i></a>
                                             <a class="btn btn-default pull-right" th:href="@{/client/info_client(id=${c.getId()})}"><i class="glyphicon glyphicon-info-sign"></i></a>
                                         </td>
@@ -86,7 +99,7 @@
 
             var opt = {
                 type: 'GET',
-                url: '/client/remove_client?id=' + $(this).attr('client-id')
+                url: '/client/remove_client?id=' + $(this).attr('entity-id')
             }
 
             // alert(JSON.stringify(opt));
@@ -100,6 +113,22 @@
         });
 
     });
+    $('a.recovery').click(function (e) {
+
+        var opt = {
+            type: 'GET',
+            url: '/client/recovery_entity?id=' + $(this).attr('entity-id')
+        }
+
+        // alert(JSON.stringify(opt));
+
+        $.ajax(opt).done(function (result) {
+            $('#modal-content').html(result);
+            $('#recovery-modal').modal();
+        }).fail(function (jqXHR, textStatus) {
+            alert(textStatus);
+        });
+    });
 
     function deleteEntity(id) {
         $.ajax({
@@ -107,13 +136,28 @@
             url: '/client/remove_client?id=' + id
 
         }).done(function (result) {
-            $('a[client-id=' + id + ']').closest('tr').remove();
+            $('a[entity-id=' + id + ']').closest('tr').remove();
 
         }).fail(function (jqXHR, textStatus) {
             alert("erro");
         });
 
     }
+
+    function recoveryEntity(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/client/recovery_entity?id=' + id
+
+        }).done(function (result) {
+            $('a[entity-id=' + id + ']').closest('tr').remove();
+
+        }).fail(function (jqXHR, textStatus) {
+            alert("erro");
+        });
+
+    }
+
 </script>
 <div th:replace="fragments/footer :: copy"></div>
 </body>

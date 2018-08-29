@@ -58,13 +58,13 @@ public class ProjectService {
     }
 
 
-    public Page<Project> findAllPageable(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
+    public Page<Project> findAllPageable(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId, Boolean deletedEntities) {
 
 
         //could receive params to filter de list
-        if(value!= null || dateSince !=null || dateUntil != null || clientId != null)
+        if(value!= null || dateSince !=null || dateUntil != null || clientId != null|| deletedEntities != null)
         {
-            return filterProjects(pageable, value, dateSince, dateUntil, clientId);
+            return filterProjects(pageable, value, dateSince, dateUntil, clientId, deletedEntities);
         }
 
         else
@@ -253,24 +253,38 @@ public class ProjectService {
         }
     }
 
-    public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId) {
+    public Page<Project> filterProjects(Pageable pageable, String value, String dateSince, String dateUntil, Long clientId, Boolean deletedEntities) {
 
         Page<Project> projectPage = null;
 
 
-        if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0){
+        if(value.isEmpty() && dateSince.isEmpty() && dateUntil.isEmpty() && clientId==0&& deletedEntities==null)
             return projectRepository.findAllByActived(pageable, true);
-        }
 
-        Specification<Project> specFilter;
+
+        Specification<Project> specFilter= null;
 
         Client client = clientService.getClient(clientId);
 
-        specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, client);
+        if(!value.isEmpty())
+            specFilter= ProjectSpecifications.filter(value, dateSince, dateUntil, client);
 
+        //deleted entities
+        deletedEntities = (deletedEntities == null ? false : true);
+
+        if(specFilter==null)
+            specFilter = ProjectSpecifications.filterDeleletedEntities(deletedEntities);
+        else
+            specFilter = specFilter.and(ProjectSpecifications.filterDeleletedEntities(deletedEntities));
 
         projectPage = projectRepository.findAll(specFilter, pageable);
 
         return projectPage;
+    }
+
+    public void recoveryEntity(Long id) {
+        Project entity = getProject(id);
+        entity.setActived(true);
+        projectRepository.save(entity);
     }
 }
