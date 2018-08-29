@@ -2,7 +2,6 @@ package hello.EmployeeTransaction;
 
 import hello.Employee.Employee;
 import hello.Employee.EmployeeService;
-import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.Project.ProjectService;
@@ -44,7 +43,6 @@ public class EmployeeTransactionService {
 
 
         Type typeAux = new Type(employeeTransaction.getType().getName());
-        typeAux.setCategory(Category.SUPPLIERS);
         typeRepository.save(typeAux);
 
         typeAux.setSubTypeList(new ArrayList<>());

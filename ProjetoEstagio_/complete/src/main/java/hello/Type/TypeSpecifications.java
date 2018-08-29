@@ -1,7 +1,6 @@
 package hello.Type;
 
 import hello.EntityPackage.Entity_;
-import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.SubType.SubType;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,35 +31,14 @@ public class TypeSpecifications {
 
             if(!value.isEmpty())
             {
-                try{
-
-                    predicateValue = cb.equal(root.get(Type_.category), Category.valueOf(value));
-                    if(predicateFinal!=null)
-                        predicateFinal = cb.and(predicateFinal, predicateValue);
-                    else
-                        predicateFinal = predicateValue;
-                    return predicateFinal;
-
-                }catch (IllegalArgumentException ex){
-                    if(!category.isEmpty())
-                    {
-                        predicateCategory = cb.equal(root.get(Type_.category), Category.valueOf(category));
-                        if(predicateFinal!=null)
-                            predicateFinal = cb.and(predicateFinal, predicateCategory);
-                        else
-                            predicateFinal = predicateCategory;
-                    }
-                }
-            }
-
-            if (!category.isEmpty())
-            {
-                predicateCategory = cb.equal(root.get(Type_.category), Category.valueOf(category));
+                predicateValue = cb.equal(root.get(Type_.name), value);
                 if(predicateFinal!=null)
-                    predicateFinal = cb.and(predicateFinal, predicateCategory);
+                    predicateFinal = cb.and(predicateFinal, predicateValue);
                 else
-                    predicateFinal = predicateCategory;
+                    predicateFinal = predicateValue;
             }
+
+
 
 //            if(subType != null)
 //            {

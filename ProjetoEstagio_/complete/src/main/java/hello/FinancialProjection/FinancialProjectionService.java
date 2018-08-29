@@ -9,7 +9,6 @@ import hello.Employee.Employee;
 import hello.Employee.EmployeeRepository;
 import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.EmployeeTransaction.EmployeeTransactionRepository;
-import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.FinancialProjection.Resources.FinancialProjection;
 import hello.FinancialProjection.Resources.FinancialProjectionValidated;
@@ -367,7 +366,6 @@ public class FinancialProjectionService {
 
 
         Type typeAux = new Type(projection.getType().getName());
-        typeAux.setCategory(Category.SUPPLIERS);
         typeRepository.save(typeAux);
 
         typeAux.setSubTypeList(new ArrayList<>());

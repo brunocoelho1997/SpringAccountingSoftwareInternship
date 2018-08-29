@@ -1,6 +1,5 @@
 package hello.SupplierTransaction;
 
-import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
@@ -39,7 +38,6 @@ public class SupplierTransactionService {
         transaction.setSupplier(supplier);
 
         Type typeAux = new Type(transaction.getType().getName());
-        typeAux.setCategory(Category.SUPPLIERS);
         typeRepository.save(typeAux);
 
         typeAux.setSubTypeList(new ArrayList<>());

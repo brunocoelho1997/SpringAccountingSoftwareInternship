@@ -3,7 +3,6 @@ package hello.SheetTransaction;
 import hello.Employee.Employee;
 import hello.Employee.EmployeeService;
 import hello.EmployeeTransaction.EmployeeTransaction;
-import hello.Enums.Category;
 import hello.Enums.Genre;
 import hello.Project.Project;
 import hello.Project.ProjectService;
@@ -52,7 +51,6 @@ public class SheetTransactionService {
         }
 
         Type typeAux = new Type(transaction.getType().getName());
-        typeAux.setCategory(Category.SUPPLIERS);
         typeRepository.save(typeAux);
 
         typeAux.setSubTypeList(new ArrayList<>());

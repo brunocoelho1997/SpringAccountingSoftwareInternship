@@ -44,7 +44,6 @@
                                 <table width="100%" class="table table-striped table-hover" id="dataTables-example">
                                     <thead>
                                     <tr>
-                                        <th th:text="#{Type.Category}"></th>
                                         <th th:text="#{Type.Type}"></th>
                                         <th th:text="#{Subtype.Subtype}"></th>
                                         <th></th>
@@ -53,7 +52,6 @@
                                     <tbody>
                                     <tr th:if="${listEntities==null}"><td>Null</td></tr>
                                     <tr th:unless="${listEntities==null}" th:each="c : ${listEntities}">
-                                        <td href="#" th:text="#{Category.+ ${c.category}}"></td>
                                         <td th:text="${c.name}">1</td>
                                         <td></td>
 

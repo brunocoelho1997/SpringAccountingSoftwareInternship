@@ -16,7 +16,6 @@ import hello.EmployeeTransaction.EmployeeTransaction;
 import hello.EmployeeTransaction.EmployeeTransactionRepository;
 import hello.Enums.Frequency;
 import hello.Enums.Genre;
-import hello.Enums.Category;
 import hello.GeneralTransaction.GeneralTransaction;
 import hello.GeneralTransaction.GeneralTransactionRepository;
 import hello.PostContact.PostContact;
@@ -147,70 +146,59 @@ public class DbLoader implements CommandLineRunner {
 
 //      add types
             Type type1 = new Type();
-            type1.setCategory(Category.PROJECTS);
             type1.setName("MANUTENÇÃO");
             type1.setManuallyCreated(true);
             type1 = typeRepository.save(type1);
 
             Type type2 = new Type();
-            type2.setCategory(Category.PROJECTS);
             type2.setName("DESENVOLVIMENTO");
             type2.setManuallyCreated(true);
             type2 = typeRepository.save(type2);
 
             Type type3 = new Type();
-            type3.setCategory(Category.SHEET);
             type3.setName("SALÁRIO");
             type3.setManuallyCreated(true);
             type3 = typeRepository.save(type3);
 
 
             Type type5 = new Type();
-            type5.setCategory(Category.PROJECTS);
             type5.setName("INFRA");
             type5.setManuallyCreated(true);
             type5 = typeRepository.save(type5);
 
             Type type6 = new Type();
-            type6.setCategory(Category.PROJECTS);
             type6.setName("ENCARGOS");
             type6.setManuallyCreated(true);
             type6 = typeRepository.save(type6);
 
 
             Type type7 = new Type();
-            type7.setCategory(Category.PROJECTS);
             type7.setName("BENEFICIOS");
             type7.setManuallyCreated(true);
             type7 = typeRepository.save(type7);
 
 
             Type type = new Type();
-            type.setCategory(Category.PROJECTS);
             type.setName("RETIRADA");
             type.setManuallyCreated(true);
             typeRepository.save(type);
 
             type = new Type();
-            type.setCategory(Category.PROJECTS);
             type.setName("IMPOSTOS");
             type.setManuallyCreated(true);
             typeRepository.save(type);
 
             type = new Type();
-            type.setCategory(Category.PROJECTS);
             type.setName("OUTROS");
             type.setManuallyCreated(true);
             typeRepository.save(type);
 
             type = new Type();
-            type.setCategory(Category.PROJECTS);
             type.setName("COMISSÃO");
             type.setManuallyCreated(true);
             typeRepository.save(type);
 
             type = new Type();
-            type.setCategory(Category.PROJECTS);
             type.setName("LICENÇA");
             type.setManuallyCreated(true);
             typeRepository.save(type);
@@ -441,7 +429,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type14 = new Type();
             type14.setName("MANUTENÇÃO");
-            type14.setCategory(Category.PROJECTS);
             typeRepository.save(type14);
             type14.setSubTypeList(new ArrayList<>());
             type14.getSubTypeList().add(subType4);
@@ -461,7 +448,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type15 = new Type();
             type15.setName("DESENVOLVIMENTO");
-            type15.setCategory(Category.PROJECTS);
             typeRepository.save(type15);
 
             ProjectTransaction projectTransaction2 = new ProjectTransaction();
@@ -477,7 +463,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type16 = new Type();
             type16.setName("MANUTENÇÃO");
-            type16.setCategory(Category.PROJECTS);
             typeRepository.save(type16);
             type14.setSubTypeList(new ArrayList<>());
             type14.getSubTypeList().add(subType5);
@@ -499,7 +484,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type17 = new Type();
             type17.setName("DESENVOLVIMENTO");
-            type17.setCategory(Category.PROJECTS);
             typeRepository.save(type17);
             type17.setSubTypeList(new ArrayList<>());
             type17.getSubTypeList().add(subType4);
@@ -520,7 +504,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type18 = new Type();
             type18.setName("DESENVOLVIMENTO");
-            type18.setCategory(Category.PROJECTS);
             typeRepository.save(type18);
             type18.setSubTypeList(new ArrayList<>());
             type18.getSubTypeList().add(subType3);
@@ -543,7 +526,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type19 = new Type();
             type19.setName("DESENVOLVIMENTO");
-            type19.setCategory(Category.PROJECTS);
             typeRepository.save(type19);
             type19.setSubTypeList(new ArrayList<>());
             type19.getSubTypeList().add(subType2);
@@ -565,7 +547,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("MANUTENÇÃO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
             type.setSubTypeList(new ArrayList<>());
             type.getSubTypeList().add(subType1);
@@ -784,7 +765,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("RETIRADA");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type7);
             type.setSubTypeList(new ArrayList<>());
             typeRepository.save(type);
@@ -802,7 +782,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("BENEFICIOS");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
 
@@ -824,7 +803,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("BENEFICIOS");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             type.setSubTypeList(new ArrayList<>());
@@ -870,7 +848,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type20 = new Type();
             type20.setName("LICENÇA");
-            type20.setCategory(Category.PROJECTS);
             typeRepository.save(type20);
 
 //            about sale transactiosn
@@ -887,7 +864,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type21 = new Type();
             type21.setName("MANUTENÇÃO");
-            type21.setCategory(Category.PROJECTS);
             typeRepository.save(type21);
 
 
@@ -932,7 +908,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("IMPOSTOS");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
 //            about general transactiosn
@@ -949,7 +924,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("OUTROS");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             GeneralTransaction generalTransaction2 = new GeneralTransaction();
@@ -966,7 +940,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("IMPOSTOS");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             GeneralTransaction generalTransaction3 = new GeneralTransaction();
@@ -988,7 +961,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("ENCARGOS");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             SheetTransaction sheetTransaction1 = new SheetTransaction();
@@ -1005,7 +977,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("ENCARGOS");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
 
@@ -1025,7 +996,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("SALÁRIO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             type.setSubTypeList(new ArrayList<>());
@@ -1067,7 +1037,6 @@ public class DbLoader implements CommandLineRunner {
              */
             type = new Type();
             type.setName("SALÁRIO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             type.setSubTypeList(new ArrayList<>());
@@ -1099,7 +1068,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("SALÁRIO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             SheetTransaction sheetTransaction5 = new SheetTransaction();
@@ -1125,7 +1093,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("IMPOSTO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             GeneralTransaction generalTransaction4 = new GeneralTransaction();
@@ -1140,7 +1107,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type9 = new Type();
             type9.setName("DESENVOLVIMENTO");
-            type9.setCategory(Category.PROJECTS);
             typeRepository.save(type9);
             type9.setSubTypeList(new ArrayList<>());
             type9.getSubTypeList().add(subType1);
@@ -1152,7 +1118,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type10 = new Type();
             type10.setName("BENEFICIOS");
-            type10.setCategory(Category.PROJECTS);
             typeRepository.save(type10);
             type10.setSubTypeList(new ArrayList<>());
             typeRepository.save(type10);
@@ -1194,7 +1159,6 @@ public class DbLoader implements CommandLineRunner {
 
             Type type11 = new Type();
             type11.setName("DESENVOLVIMENTO");
-            type11.setCategory(Category.PROJECTS);
             typeRepository.save(type11);
             type11.setSubTypeList(new ArrayList<>());
             type11.getSubTypeList().add(subType1);
@@ -1213,7 +1177,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("MANUTENÇÃO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             ProjectTransaction projectTransaction8 = new ProjectTransaction();
@@ -1234,7 +1197,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("INFRA");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             SupplierTransaction supplierTransaction = new SupplierTransaction();
@@ -1252,7 +1214,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("COMISSÃO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
 
@@ -1272,14 +1233,12 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("COMISSÃO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
             comissionTransactionRepository.save(comissionTransaction);
 
 
             type = new Type();
             type.setName("DESENVOLVIMENTO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
 //            about sale transactiosn
@@ -1297,7 +1256,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("DESENVOLVIMENTO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             type.setSubTypeList(new ArrayList<>());
@@ -1321,7 +1279,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("DESENVOLVIMENTO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             projectTransaction = new ProjectTransaction();
@@ -1347,7 +1304,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("INVESTIMENTO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             type.setSubTypeList(new ArrayList<>());
@@ -1385,7 +1341,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("INVESTIMENTO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             type.setSubTypeList(new ArrayList<>());
@@ -1407,7 +1362,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("INFRA");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             supplierTransaction = new SupplierTransaction();
@@ -1441,7 +1395,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("COMISSÃO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             comissionTransaction= new ComissionTransaction();
@@ -1459,7 +1412,6 @@ public class DbLoader implements CommandLineRunner {
 
             type = new Type();
             type.setName("COMISSÃO");
-            type.setCategory(Category.PROJECTS);
             typeRepository.save(type);
 
             

@@ -162,7 +162,6 @@ public class TypeService {
         for(Type typeAux : listAux)
         {
             typeAux.setName(editedType.getName());
-            typeAux.setCategory(editedType.getCategory());
             repository.save(typeAux);
         }
 

@@ -1,7 +1,6 @@
 package hello.Type;
 
 import hello.EntityPackage.Entity;
-import hello.Enums.Category;
 import hello.SubType.SubType;
 import org.hibernate.validator.constraints.Length;
 
@@ -16,11 +15,6 @@ public class Type extends Entity {
 
 
     public static final int MAX_NAME_LENGHT = 20;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Category category;
 
     @NotNull
     @Length(min = 1, max = MAX_NAME_LENGHT)
@@ -41,15 +35,6 @@ public class Type extends Entity {
     }
     public Type() {
         this.subTypeList = new ArrayList<>();
-    }
-
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public String getName() {
@@ -79,7 +64,6 @@ public class Type extends Entity {
     @Override
     public String toString() {
         return "Type{" +
-                "category=" + category +
                 ", name='" + name + '\'' +
                 ", subTypeList=" + subTypeList +
                 '}';
