@@ -27,7 +27,10 @@ import hello.SheetTransaction.SheetTransaction;
 import hello.SheetTransaction.SheetTransactionRepository;
 import hello.SubType.SubType;
 import hello.SubType.SubTypeService;
+import hello.Supplier.Supplier;
+import hello.Supplier.SupplierRepository;
 import hello.SupplierTransaction.SupplierTransaction;
+import hello.SupplierTransaction.SupplierTransactionRepository;
 import hello.Transaction.Transaction;
 import hello.Transaction.TransactionRepository;
 import hello.Transaction.TransactionSpecifications;
@@ -80,6 +83,10 @@ public class FinancialProjectionService {
     GeneralTransactionRepository generalTransactionRepository;
     @Autowired
     ComissionTransactionRepository comissionTransactionRepository;
+    @Autowired
+    SupplierRepository supplierRepository;
+    @Autowired
+    SupplierTransactionRepository supplierTransactionRepository;
 
     public Page<Transaction> findAllPageableByGenre(PageRequest pageable, String value, String frequency, String typeValue, String subTypeValue, String dateSince, String dateUntil, String valueSince, String valueUntil, Boolean deletedEntities, Genre genre, boolean executed) {
 
@@ -349,9 +356,20 @@ public class FinancialProjectionService {
                 ((EmployeeTransaction)transaction).setEmployee(employee);
             }
         }
-
+        else if(projection.getSupplier() != null)
+        {
+            transaction = new SupplierTransaction();
+            Supplier supplier = supplierRepository.findById((long)projection.getSupplier().getId());
+            ((SupplierTransaction)transaction).setSupplier(supplier);
+        }
         else
-            transaction = new GeneralTransaction();
+        {
+            if(projection.getGenre().equals(Genre.COST))
+                transaction = new GeneralTransaction();
+            else
+                transaction = new SaleTransaction();
+
+        }
 
 
         transaction.setInstallments(projection.getInstallments());
@@ -388,6 +406,8 @@ public class FinancialProjectionService {
             sheetTransactionRepository.save((SheetTransaction) transaction);
         else if(transaction instanceof ComissionTransaction)
             comissionTransactionRepository.save((ComissionTransaction) transaction);
+        else if(transaction instanceof SupplierTransaction)
+            supplierTransactionRepository.save((SupplierTransaction) transaction);
 
 
 //        transactionRepository.save(transaction);

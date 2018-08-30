@@ -102,12 +102,14 @@
                                     <label class="control-label col-sm-3"  th:text="#{Transactions.Type}"></label>
                                     <div class="col-sm-6">
                                         <select id="transaction_type" class="form-control">
-                                            <option value="1" th:text="#{Transactions.General.General}"></option>
-                                            <option value="2" th:text="#{Transactions.Employee.Employee}"></option>
-                                            <option value="3" th:text="#{Transactions.Sheet.Cost.Header}"></option>
-                                            <option value="4" th:text="#{Transactions.Supplier.Supplier}"></option>
+                                            <option value="7" th:text="#{Transactions.Sales.Sales}" th:if="${transaction.getGenre() == T(hello.Enums.Genre).REVENUE}" ></option>
+                                            <option value="1" th:text="#{Transactions.General.General}" th:if="${transaction.getGenre() == T(hello.Enums.Genre).COST}"></option>
+                                            <option value="2" th:text="#{Transactions.Employee.Employee}" th:if="${transaction.getGenre() == T(hello.Enums.Genre).COST}"></option>
+                                            <option value="3" th:text="#{Transactions.Sheet.Cost.Header}" th:if="${transaction.getGenre() == T(hello.Enums.Genre).COST}"></option>
+                                            <option value="4" th:text="#{Transactions.Supplier.Supplier}" th:if="${transaction.getGenre() == T(hello.Enums.Genre).COST}"></option>
                                             <option value="5" th:text="#{Transactions.Projects.Project}"></option>
-                                            <option value="6" th:text="#{Transactions.Comission.Comission}"></option>
+                                            <option value="6" th:text="#{Transactions.Comission.Comission}" th:if="${transaction.getGenre() == T(hello.Enums.Genre).COST}" ></option>
+
                                         </select>
                                     </div>
                                     <div class="col-sm-3"></div>
